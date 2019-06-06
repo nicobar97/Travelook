@@ -8,7 +8,7 @@ import  io.travelook.model.Recensione;
 
 public class Utente {
    
-	private String id;
+	private int idUtente;
 	private String email; 
 	private String nome;
 	private String cognome;
@@ -20,24 +20,40 @@ public class Utente {
 	private List<Recensione> recensioni;
 	
 	//Per creazione utente
-	public Utente(String id, String email, String nome, String cognome, Date dataNascita, String immagineProfilo) {
-		super();
-		this.id = id;
+	public Utente(int idUtente, String email, String nome, String cognome, Date dataNascita, String immagineProfilo) 
+			throws IllegalArgumentException {
+		if(idUtente < 0 || email == null || nome == null || cognome == null || dataNascita == null)
+			throw new IllegalArgumentException();
+		this.idUtente = idUtente;
 		this.email = email;
 		this.nome = nome;
 		this.cognome = cognome;
 		this.dataNascita = dataNascita;
 		this.immagineProfilo = immagineProfilo;
-		this.storico = new Storico(id);
+		this.storico = new Storico(idUtente);
 		this.interessi = new ArrayList<Interessi>();
 		this.recensioni = new ArrayList<Recensione>();
 	}
-	
-	public String getId() {
-		return id;
+	public Utente(int idUtente, String email, String nome, String cognome, Date dataNascita, String immagineProfilo, 
+					Storico storico, List<Recensione> recensioni, List<Interessi> interessi) throws IllegalArgumentException {
+		if(idUtente < 0 || email == null || nome == null || cognome == null || dataNascita == null)
+			throw new IllegalArgumentException();
+		this.idUtente = idUtente;
+		this.email = email;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.dataNascita = dataNascita;
+		this.immagineProfilo = immagineProfilo;
+		this.storico = storico;
+		this.interessi = interessi;
+		this.recensioni = recensioni;
 	}
-	public void setId(String id) {
-		this.id = id;
+	
+	public int getId() {
+		return idUtente;
+	}
+	public void setId(int idUtente) {
+		this.idUtente = idUtente;
 	}
 	public String getEmail() {
 		return email;

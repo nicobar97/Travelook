@@ -4,37 +4,42 @@ import java.util.Date;
 
 public class Viaggio {
 
-	private int id;
+	private int idViaggio;
+	private int idCreatore;
 	private String titolo ;
 	private String destinazione;
 	private int numeropartecipanti;
-	private String lingua ; 
+	private String lingua; 
 	private int budget ;
 	private String descrizione;
-	private String luogopartenza ;
-	private Date datainizio;
-	private Date datafine;
+	private String luogoPartenza;
+	private Date dataInizio;
+	private Date dataFine;
+	private Stato stato;
 	   
-	public Viaggio(int id, String titolo, String destinazione, int numeropartecipanti, String lingua, int budget, 
-			String descrizione, String luogopartenza, Date datainizio, Date datafine) {
-		super();
-		this.id = id;
+	public Viaggio(int idViaggio, String titolo, String destinazione, String lingua, int budget, 
+			String descrizione, String luogoPartenza, Date dataInizio, Date dataFine) throws IllegalArgumentException {
+		if(idViaggio < 0 || titolo == null || destinazione == null || lingua == null || budget < 0 || 
+				budget < 5 || descrizione == null || dataInizio == null)
+			throw new IllegalArgumentException();
+		this.idViaggio = idViaggio;
 		this.titolo = titolo;
 		this.destinazione = destinazione;
-		this.numeropartecipanti = numeropartecipanti;
+		this.numeropartecipanti = 1;
 		this.lingua = lingua;
 		this.budget = budget;
 		this.descrizione = descrizione;
-		this.luogopartenza = luogopartenza;
-		this.datainizio = datainizio;
-		this.datafine = datafine;
+		this.luogoPartenza = luogoPartenza;
+		this.dataInizio = dataInizio;
+		this.dataFine = dataFine;
+		this.setStato(Stato.INIZIO);
 	}
 	
-	public int getId() {
-		return id;
+	public int getIdViaggio() {
+		return idViaggio;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setIdViaggio(int idViaggio) {
+		this.idViaggio = idViaggio;
 	}
 	public String getTitolo() {
 		return titolo;
@@ -73,21 +78,37 @@ public class Viaggio {
 		this.descrizione = descrizione;
 	}
 	public String getLuogopartenza() {
-		return luogopartenza;
+		return luogoPartenza;
 	}
-	public void setLuogopartenza(String luogopartenza) {
-		this.luogopartenza = luogopartenza;
+	public void setLuogopartenza(String luogoPartenza) {
+		this.luogoPartenza = luogoPartenza;
 	}
 	public Date getDatainizio() {
-		return datainizio;
+		return dataInizio;
 	}
-	public void setDatainizio(Date datainizio) {
-		this.datainizio = datainizio;
+	public void setDatainizio(Date dataInizio) {
+		this.dataInizio = dataInizio;
 	}
 	public Date getDatafine() {
-		return datafine;
+		return dataFine;
 	}
-	public void setDatafine(Date datafine) {
-		this.datafine = datafine;
+	public void setDatafine(Date dataFine) {
+		this.dataFine = dataFine;
+	}
+
+	public Stato getStato() {
+		return stato;
+	}
+
+	public void setStato(Stato stato) {
+		this.stato = stato;
+	}
+
+	public int getIdCreatore() {
+		return idCreatore;
+	}
+
+	public void setIdCreatore(int idCreatore) {
+		this.idCreatore = idCreatore;
 	}
 }

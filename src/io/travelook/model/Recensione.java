@@ -1,24 +1,38 @@
 package io.travelook.model;
 
 public class Recensione {
-
-	private int voto ; 
+	
+	private int idUtenteRecensito; //che sarebbe idUtenteRisposta
+	private int voto;
 	private String titolo;
 	private String corpo;
 	private String foto;
 	private String risposta;
-	private int idutenterisposta;
-   
-	public Recensione(int voto, String titolo, String corpo, String foto, String risposta, int idutenterisposta) {
-		super();
+	private int idUtenteRecensitore; //relazione
+	
+	public Recensione(int idUtenteRecensito, int voto, String titolo, String corpo, int idUtenteRecensitore)
+			throws IllegalArgumentException {
+		if(idUtenteRecensito < 0 || voto < 0 || voto > 5 || corpo == null || idUtenteRecensitore < 0)
+			throw new IllegalArgumentException();
+		this.idUtenteRecensito = idUtenteRecensito;
 		this.voto = voto;
 		this.titolo = titolo;
 		this.corpo = corpo;
-		this.foto = foto;
-		this.risposta = risposta;
-		this.idutenterisposta = idutenterisposta;
+		this.idUtenteRecensitore = idUtenteRecensitore;
 	}
-   
+
+	public int getIdUtenteRecensito() {
+		return idUtenteRecensito;
+	}
+	public void setIdUtenteRecensito(int idUtenteRecensito) {
+		this.idUtenteRecensito = idUtenteRecensito;
+	}
+	public int getIdUtenteRecensitore() {
+		return idUtenteRecensitore;
+	}
+	public void setIdUtenteRecensitore(int idUtenteRecensitore) {
+		this.idUtenteRecensitore = idUtenteRecensitore;
+	}
 	public int getVoto() {
 		return voto;
 	}
@@ -48,11 +62,5 @@ public class Recensione {
 	}
 	public void setRisposta(String risposta) {
 		this.risposta = risposta;
-	}
-	public int getIdutenterisposta() {
-		return idutenterisposta;
-	}
-	public void setIdutenterisposta(int idutenterisposta) {
-		this.idutenterisposta = idutenterisposta;
 	}
 }

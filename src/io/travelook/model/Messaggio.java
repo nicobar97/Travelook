@@ -4,11 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Messaggio {
-	private String idUtente;
+	private int idUtente;
 	private String messaggio;
 	private Date timestamp;
 	
-	public Messaggio(String idUtente, String messaggio) {
+	public Messaggio(int idUtente, String messaggio) throws IllegalArgumentException {
+		if(idUtente < 0 || messaggio == null || messaggio.trim().equals(""))
+			throw new IllegalArgumentException();
 		this.setIdUtente(idUtente);
 		this.setMessaggio(messaggio);
 		this.setTimestamp(new Date());
@@ -20,10 +22,10 @@ public class Messaggio {
 	public void setMessaggio(String messaggio) {
 		this.messaggio = messaggio;
 	}
-	public String getIdUtente() {
+	public int getIdUtente() {
 		return idUtente;
 	}
-	public void setIdUtente(String idUtente) {
+	public void setIdUtente(int idUtente) {
 		this.idUtente = idUtente;
 	}
 	public Date getTimestamp() {

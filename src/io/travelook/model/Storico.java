@@ -6,22 +6,26 @@ import java.util.List;
 import  io.travelook.model.Viaggio;
 
 public class Storico {
-	private String idUtente;
+	private int idUtente;
 	private List<Viaggio> viaggiPassati;
 	
-	public Storico(String idUtente) {
+	public Storico(int idUtente) throws IllegalArgumentException {
+		if(idUtente < 0)
+			throw new IllegalArgumentException();
 		this.idUtente = idUtente;
 		this.viaggiPassati = new ArrayList<Viaggio>();
 	}
-    public Storico(String idUtente, List<Viaggio> viaggiPassati) {
+    public Storico(int idUtente, List<Viaggio> viaggiPassati) throws IllegalArgumentException {
+    	if(idUtente < 0 || viaggiPassati == null)
+			throw new IllegalArgumentException();
     	this.idUtente = idUtente;
 		this.viaggiPassati = viaggiPassati;
 	}
     
-    public String getIdUtente() {
+    public int getIdUtente() {
 		return idUtente;
 	}
-	public void setIdUtente(String idUtente) {
+	public void setIdUtente(int idUtente) {
 		this.idUtente = idUtente;
 	}
 	public List<Viaggio> getStorico() {

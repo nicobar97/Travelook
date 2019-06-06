@@ -6,10 +6,13 @@ public class Segnalazione {
 	private int idViaggio;
 	private int idSegnalato;
 	private int idSegnalante;
-	private String messaggio;
+	private Messaggio messaggio;
   
-  	public Segnalazione(int idSegnalazione, int idViaggio, int idSegnalato, int idSegnalante, String messaggio) {
+  	public Segnalazione(int idSegnalazione, int idViaggio, int idSegnalato, int idSegnalante,
+  			Messaggio messaggio) throws IllegalArgumentException {
 		super();
+		if(idSegnalazione < 0 || idSegnalato< 0 || idSegnalante < 0 || messaggio == null)
+			throw new IllegalArgumentException();
 		this.idSegnalazione = idSegnalazione;
 		this.idViaggio = idViaggio;
 		this.idSegnalato = idSegnalato;
@@ -41,10 +44,10 @@ public class Segnalazione {
 	public void setIdSegnalante(int idSegnalante) {
 		this.idSegnalante = idSegnalante;
 	}
-	public String getMessaggio() {
+	public Messaggio getMessaggio() {
 		return messaggio;
 	}
-	public void setMessaggio(String messaggio) {
+	public void setMessaggio(Messaggio messaggio) {
 		this.messaggio = messaggio;
 	}
 }
