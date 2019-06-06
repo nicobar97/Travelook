@@ -16,5 +16,5 @@ public class Logs { //DA RIMUOVERE
 	public void setLogs(List<Entry> logs) {
 		this.logs = logs;
 	}
-	
+
 }
