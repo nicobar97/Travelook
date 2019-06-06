@@ -1,4 +1,4 @@
-package model;
+package io.travelook.model;
 
 public class Viaggio {
 		public static void main(String args[]) {
