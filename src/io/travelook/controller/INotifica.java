@@ -1,5 +1,7 @@
 package io.travelook.controller;
 
-public interface INotifica {
+import io.travelook.model.Utente;
 
+public interface INotifica {
+	void inviaNotifica(Utente utente, String messaggio);
 }

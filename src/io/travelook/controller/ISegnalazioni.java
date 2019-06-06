@@ -1,5 +1,9 @@
 package io.travelook.controller;
 
-public interface ISegnalazioni {
+import io.travelook.model.Segnalazione;
 
+public interface ISegnalazioni {
+	void segnalaUtente(Segnalazione s);
+	Segnalazione[] getSegnalazioni();
+	Segnalazione[] getSegnalazioniUtente(int idUtente);
 }
