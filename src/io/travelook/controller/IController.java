@@ -10,4 +10,4 @@ public interface IController {
 	public Writer openWriterLog(Path logPath);
 	public void scriviOperazioneLog(Entry entryLog);
 	public Connection getDbConnection();
-} 
+}
