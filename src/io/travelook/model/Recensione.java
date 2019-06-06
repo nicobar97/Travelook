@@ -20,6 +20,18 @@ public class Recensione {
 		this.corpo = corpo;
 		this.idUtenteRecensitore = idUtenteRecensitore;
 	}
+	public Recensione(int idUtenteRecensito, int voto, String titolo, String corpo, int idUtenteRecensitore, String risposta)
+			throws IllegalArgumentException {
+		if(idUtenteRecensito < 0 || voto < 0 || voto > 5 || corpo == null || idUtenteRecensitore < 0 || 
+				risposta == null || risposta.trim().equals(risposta) || titolo == null || titolo.trim().equals(""))
+			throw new IllegalArgumentException();
+		this.idUtenteRecensito = idUtenteRecensito;
+		this.voto = voto;
+		this.titolo = titolo;
+		this.corpo = corpo;
+		this.idUtenteRecensitore = idUtenteRecensitore;
+		this.risposta = risposta;
+	}
 
 	public int getIdUtenteRecensito() {
 		return idUtenteRecensito;
