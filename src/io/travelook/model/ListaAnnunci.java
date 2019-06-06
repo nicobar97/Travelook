@@ -3,7 +3,7 @@ package io.travelook.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaAnnunci {
+public class ListaAnnunci { //DA RIMUOVERE
 	private List<Viaggio> annunci = new ArrayList<Viaggio>();
 
 	public ListaAnnunci(List<Viaggio> annunci) {

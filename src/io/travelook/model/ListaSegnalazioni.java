@@ -4,7 +4,7 @@ import java.util.List;
 
 import  io.travelook.model.Segnalazione;
 
-public class ListaSegnalazioni {
+public class ListaSegnalazioni { //DA RIMUOVERE
 	
 	private List<Segnalazione> segnalazioni;
 	
