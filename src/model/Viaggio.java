@@ -1,3 +1,4 @@
+package model;
 
 public class Viaggio {
 		public static void main(String args[]) {
