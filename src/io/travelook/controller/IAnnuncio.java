@@ -9,4 +9,4 @@ public interface IAnnuncio {
 	public boolean modificaAnnuncio(Viaggio modificaato);
 	public boolean lasciaRecensione(Recensione newRecensione);
 	public boolean abbandonaAnnuncio(Utente utente);
-}
+} 
