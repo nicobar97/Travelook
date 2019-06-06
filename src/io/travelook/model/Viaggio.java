@@ -4,31 +4,32 @@ import java.util.Date;
 
 public class Viaggio {
 
-	   private int id;
-	   private String titolo ;
-	   private String destinazione;
-	   private int numeropartecipanti;
-	   private String lingua ; 
-	   private int budget ;
-	   private String descrizione;
-	   private String luogopartenza ;
-	   private Date datainizio;
-	   private Date datafine;
+	private int id;
+	private String titolo ;
+	private String destinazione;
+	private int numeropartecipanti;
+	private String lingua ; 
+	private int budget ;
+	private String descrizione;
+	private String luogopartenza ;
+	private Date datainizio;
+	private Date datafine;
 	   
-	   public Viaggio(int id, String titolo, String destinazione, int numeropartecipanti, String lingua, int budget,
-				String descrizione, String luogopartenza, Date datainizio, Date datafine) {
-			super();
-			this.id = id;
-			this.titolo = titolo;
-			this.destinazione = destinazione;
-			this.numeropartecipanti = numeropartecipanti;
-			this.lingua = lingua;
-			this.budget = budget;
-			this.descrizione = descrizione;
-			this.luogopartenza = luogopartenza;
-			this.datainizio = datainizio;
-			this.datafine = datafine;
-		}
+	public Viaggio(int id, String titolo, String destinazione, int numeropartecipanti, String lingua, int budget, 
+			String descrizione, String luogopartenza, Date datainizio, Date datafine) {
+		super();
+		this.id = id;
+		this.titolo = titolo;
+		this.destinazione = destinazione;
+		this.numeropartecipanti = numeropartecipanti;
+		this.lingua = lingua;
+		this.budget = budget;
+		this.descrizione = descrizione;
+		this.luogopartenza = luogopartenza;
+		this.datainizio = datainizio;
+		this.datafine = datafine;
+	}
+	
 	public int getId() {
 		return id;
 	}
