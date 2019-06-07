@@ -1,16 +1,14 @@
 package io.travelook.controller;
 
-import java.util.Observable;
-import java.util.Observer;
-
+import io.travelook.model.Stato;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 
-public class NotificheVersoUtente implements Observer{
+public class NotificheVersoUtente extends NotificheVerso implements Observer {
 	private Utente utente;
 	private Viaggio viaggio;
 	private String messaggio;
-
+	private Stato stato;
 	
 	public NotificheVersoUtente(Utente utente, Viaggio viaggio) throws NullPointerException {
 		if(utente == null || viaggio == null)
@@ -27,10 +25,11 @@ public class NotificheVersoUtente implements Observer{
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update() {
 		INotifica notifica = new NotificheEmail();
-		String messaggio = "Nuova richiesta di partecipazione per " + this.viaggio.getTitolo() + "e da "
-				+ this.utente.getUsername() + "\nMessaggio:\n" + this.messaggio;
+		String messaggio = "Sei stato " + (stato.compareTo(Stato.ACCETTATA) == 0 ? "accettato" : "rifiutato") + 
+				" da "+ this.utente.getUsername() + " per il viaggio di titolo: " + this.viaggio.getTitolo() + 
+				"\nMessaggio:\n" + this.messaggio;
 		notifica.inviaNotifica(this.utente.getEmail(), messaggio);
 	}
 
@@ -45,5 +44,11 @@ public class NotificheVersoUtente implements Observer{
 	}
 	public void setMessaggio(String messaggio) {
 		this.messaggio = messaggio;
+	}
+	public Stato getStato() {
+		return stato;
+	}
+	public void setStato(Stato stato) {
+		this.stato = stato;
 	}
 }

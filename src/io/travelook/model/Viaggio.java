@@ -1,6 +1,8 @@
 package io.travelook.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Viaggio {
 
@@ -8,7 +10,7 @@ public class Viaggio {
 	private int idCreatore;
 	private String titolo ;
 	private String destinazione;
-	private int numeropartecipanti;
+	private List<Utente> partecipanti;
 	private String lingua; 
 	private int budget ;
 	private String descrizione;
@@ -17,22 +19,22 @@ public class Viaggio {
 	private Date dataFine;
 	private Stato stato;
 	   
-	public Viaggio(int idViaggio, String titolo, String destinazione, String lingua, int budget, 
-			String descrizione, String luogoPartenza, Date dataInizio, Date dataFine) throws IllegalArgumentException {
+	public Viaggio(int idViaggio, String titolo, String destinazione, String lingua, int budget, ArrayList<Utente> partecipanti,
+			String descrizione, String luogoPartenza, Date dataInizio, Date dataFine, Stato stato) throws IllegalArgumentException {
 		if(idViaggio < 0 || titolo == null || destinazione == null || lingua == null || budget < 0 || 
 				budget < 5 || descrizione == null || dataInizio == null)
 			throw new IllegalArgumentException();
 		this.idViaggio = idViaggio;
 		this.titolo = titolo;
 		this.destinazione = destinazione;
-		this.numeropartecipanti = 1;
+		this.setPartecipanti(partecipanti);
 		this.lingua = lingua;
 		this.budget = budget;
 		this.descrizione = descrizione;
 		this.luogoPartenza = luogoPartenza;
 		this.dataInizio = dataInizio;
 		this.dataFine = dataFine;
-		this.setStato(Stato.INIZIO);
+		this.setStato(stato);
 	}
 	
 	public int getIdViaggio() {
@@ -52,12 +54,6 @@ public class Viaggio {
 	}
 	public void setDestinazione(String destinazione) {
 		this.destinazione = destinazione;
-	}
-	public int getNumeropartecipanti() {
-		return numeropartecipanti;
-	}
-	public void setNumeropartecipanti(int numeropartecipanti) {
-		this.numeropartecipanti = numeropartecipanti;
 	}
 	public String getLingua() {
 		return lingua;
@@ -107,8 +103,18 @@ public class Viaggio {
 	public int getIdCreatore() {
 		return idCreatore;
 	}
-
+	public void addPartecipante(Utente u) {
+		this.partecipanti.add(u);
+	}
 	public void setIdCreatore(int idCreatore) {
 		this.idCreatore = idCreatore;
+	}
+
+	public List<Utente> getPartecipanti() {
+		return partecipanti;
+	}
+
+	public void setPartecipanti(List<Utente> partecipanti) {
+		this.partecipanti = partecipanti;
 	}
 }

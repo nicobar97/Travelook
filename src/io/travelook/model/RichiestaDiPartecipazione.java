@@ -1,36 +1,36 @@
 package io.travelook.model;
 
 public class RichiestaDiPartecipazione {
-	private int idUtente;
-	private int idViaggio;
+	private Utente utente;
+	private Viaggio viaggio;
 	private String messaggioRichiesta;
 	private String messaggioRisposta;
 	private Stato stato;
 	
-	public RichiestaDiPartecipazione(int idUtente, int idViaggio, String messaggioRichiesta) throws IllegalArgumentException {
-		if(idUtente < 0 || idViaggio < 0 || messaggioRichiesta == null || messaggioRichiesta.trim().equals(""))
+	public RichiestaDiPartecipazione(Utente utente, Viaggio viaggio, String messaggioRichiesta) throws IllegalArgumentException {
+		if(utente == null || viaggio == null || messaggioRichiesta == null || messaggioRichiesta.trim().equals(""))
 			throw new IllegalArgumentException();
 		this.messaggioRichiesta = messaggioRichiesta;
-		this.idUtente = idUtente;
-		this.idViaggio = idViaggio;
+		this.utente = utente;
+		this.viaggio = viaggio;
 		this.stato = Stato.NONVISTA;
 	}
-	public RichiestaDiPartecipazione(int idUtente, int idViaggio, String messaggioRichiesta, String messaggioRisposta,
+	public RichiestaDiPartecipazione(Utente utente, Viaggio viaggio, String messaggioRichiesta, String messaggioRisposta,
 			Stato stato) throws IllegalArgumentException {
-		if(idUtente < 0 || idViaggio < 0 || messaggioRichiesta == null || messaggioRichiesta.trim().equals("") ||
+		if(utente == null || viaggio == null || messaggioRichiesta == null || messaggioRichiesta.trim().equals("") ||
 				messaggioRisposta == null || messaggioRisposta.trim().equals("") || stato == null)
 			throw new IllegalArgumentException();
 		this.messaggioRichiesta = messaggioRichiesta;
 		this.messaggioRisposta = messaggioRisposta;
-		this.idUtente = idUtente;
-		this.idViaggio = idViaggio;
+		this.utente = utente;
+		this.viaggio = viaggio;
 		this.stato = stato;
 	}
-	public int getIdUtente() {
-		return idUtente;
+	public Utente getUtente() {
+		return utente;
 	}
-	public int getIdViaggio() {
-		return idViaggio;
+	public Viaggio getViaggio() {
+		return viaggio;
 	}
 	public String getMessaggioRichiesta() {
 		return messaggioRichiesta;
@@ -41,7 +41,8 @@ public class RichiestaDiPartecipazione {
 	public String getMessaggioRisposta() {
 		return messaggioRisposta;
 	}
-	public void setMessaggioRisposta(String messaggioRisposta) {
+	public void setRisposta(Stato stato, String messaggioRisposta) {
+		this.stato = stato;
 		this.messaggioRisposta = messaggioRisposta;
 	}
 	public Stato getStato() {
