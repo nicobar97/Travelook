@@ -43,7 +43,7 @@ public class ListaAnnunciController {
 		}
 		else {
 			for(Viaggio v : annunci) {
-				if(v.getId()==idannuncio) {
+				if(v.getIdViaggio()==idannuncio) {
 					annunci.remove(v);
 					res=true;
 				}
@@ -73,7 +73,7 @@ public class ListaAnnunciController {
 	public Viaggio visualizzaAnnuncio(int id) {
 		Viaggio res=null; 
 		for(Viaggio v:annunci ) {
-			if(v.getId()==id) {
+			if(v.getIdViaggio()==id) {
 				res=v;
 			}
 		}
