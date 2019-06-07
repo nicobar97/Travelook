@@ -9,7 +9,7 @@ import io.travelook.model.Stato;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 
-public class RichiesteObservableController extends Observable {
+public class RichiesteObservableController extends Observable implements IGestioneRichieste {
 	private List<RichiestaDiPartecipazione> listaRichieste;
 	public RichiesteObservableController() {
 		super();

@@ -3,7 +3,6 @@ package io.travelook.controller;
 import io.travelook.model.RichiestaDiPartecipazione;
 
 public interface IGestioneRichieste {
-//	public boolean inviaRichiesta(RichiestaDiPartecipazione richiesta);
-//	public boolean accettaRichiesta(RichiestaDiPartecipazione richiesta);
-//	public boolean rifiutaRichiesta(RichiestaDiPartecipazione richiesta);
+	public abstract boolean nuovaRichiesta(RichiestaDiPartecipazione richiesta);
+    public abstract boolean rispondiRichiesta(RichiestaDiPartecipazione richiesta);
 }
