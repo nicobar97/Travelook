@@ -9,6 +9,7 @@ import  io.travelook.model.Recensione;
 public class Utente {
    
 	private int idUtente;
+	private String username;
 	private String email; 
 	private String nome;
 	private String cognome;
@@ -108,6 +109,12 @@ public class Utente {
 	}
 	public void setImmaginiAggiuntive(String[] immaginiAggiuntive) {
 		this.immaginiAggiuntive = immaginiAggiuntive;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 	
