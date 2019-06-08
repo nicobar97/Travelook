@@ -2,7 +2,6 @@ package io.travelook.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observer;
 
 import io.travelook.model.RichiestaDiPartecipazione;
 import io.travelook.model.Stato;
@@ -11,12 +10,12 @@ import io.travelook.model.Viaggio;
 
 public class RichiesteObservableController extends Controller implements IGestioneRichieste {
 	private List<RichiestaDiPartecipazione> listaRichieste;
-	private List<Observer> observers;
+	private List<NotificheVerso> observers;
 	
 	public RichiesteObservableController() {
 		super();
 		this.listaRichieste = new ArrayList<RichiestaDiPartecipazione>();
-		this.observers = new ArrayList<Observer>();
+		this.observers = new ArrayList<NotificheVerso>();
 		//CARICA DA DATABASE LE RICHIESTE DI PARTECIPAZIONE
 	}
 	public RichiesteObservableController(List<RichiestaDiPartecipazione> listaRichieste) {
@@ -29,7 +28,8 @@ public class RichiesteObservableController extends Controller implements IGestio
 	@Override
 	public boolean nuovaRichiesta(RichiestaDiPartecipazione richiesta) {
 		addRichiesta(richiesta);
-		addObserver((Observer) new NotificheVersoUtente(richiesta.getUtente(), richiesta.getViaggio()));
+		addObserver((NotificheVerso) new NotificheVersoCreatore(richiesta.getViaggio().getCreatore(), richiesta.getViaggio()));
+		addObserver((NotificheVerso) new NotificheVersoUtente(richiesta.getUtente(), richiesta.getViaggio()));
 		notifyCreatore(richiesta.getViaggio(), richiesta.getMessaggioRichiesta());
 		return false;
 	}
@@ -47,30 +47,31 @@ public class RichiesteObservableController extends Controller implements IGestio
 		return false;
 	}
 	
-	public void addObserver(Observer observer) {
+	public void addObserver(NotificheVerso observer) {
         if (observer == null)
             throw new NullPointerException();
         if (!observers.contains(observer)) {
         	this.observers.add(observer);
         }
     }
-    public void removeObserver(Observer observer) {
+    public void removeObserver(NotificheVerso observer) {
         if (observer == null)
             throw new NullPointerException();
         if (observers.contains(observer)) {
         	this.observers.remove(observer);
         }
     }
-    public List<Observer> getListObserver() {
+    public List<NotificheVerso> getListObserver() {
     	return this.observers;
     }	
 	public void notifyCreatore(Viaggio viaggio, String messaggio) {
 		boolean trovato = false;
-		for(Observer o : getListObserver()) {
+		for(NotificheVerso o : getListObserver()) {
 			if(trovato == false) {
-				NotificheVerso n = (NotificheVerso) o;
-				if(n.getViaggio().getIdViaggio() == viaggio.getIdViaggio() && n.getUtente().getId() == viaggio.getIdCreatore()) {
+				NotificheVerso n = (NotificheVerso) o;		
+				if(n.getViaggio().getIdViaggio() == viaggio.getIdViaggio() && n.getUtente().getId() == viaggio.getCreatore().getId()) {
 					NotificheVersoCreatore nc = (NotificheVersoCreatore) n;
+					System.out.println("trovatoo");
 					nc.setMessaggio(messaggio);
 					nc.update();
 				}
@@ -80,7 +81,7 @@ public class RichiesteObservableController extends Controller implements IGestio
 	}
 	public void notifyUtente(Viaggio viaggio, String messaggio, Stato stato, Utente utente) {
 		boolean trovato = false;
-		for(Observer o : getListObserver()) {
+		for(NotificheVerso o : getListObserver()) {
 			if(trovato == false) {
 				NotificheVerso n = (NotificheVerso) o;
 				if(n.getViaggio().getIdViaggio() == viaggio.getIdViaggio() && viaggio.getPartecipanti().contains(utente)) {
@@ -92,8 +93,8 @@ public class RichiesteObservableController extends Controller implements IGestio
 			}
 		}
 	}
-	public Observer getObserver(int idUtente) {
-		for(Observer o : this.observers) {
+	public NotificheVerso getObserver(int idUtente) {
+		for(NotificheVerso o : this.observers) {
 			NotificheVerso n = (NotificheVerso) o;
 			if(n.getUtente().getId() == idUtente)
 				return o;
@@ -115,15 +116,15 @@ public class RichiesteObservableController extends Controller implements IGestio
 		return esito;
 	}
 	private void initObserver() {
-		this.observers = new ArrayList<Observer>();
+		this.observers = new ArrayList<NotificheVerso>();
 		for(RichiestaDiPartecipazione r : this.listaRichieste) {
 			if(r.getStato().compareTo(Stato.NONVISTA) == 0) {
-				addObserver((Observer) new NotificheVersoCreatore(r.getUtente(), r.getViaggio(), r.getMessaggioRichiesta()));
-				addObserver((Observer) new NotificheVersoUtente(r.getUtente(), r.getViaggio()));
+				addObserver((NotificheVerso) new NotificheVersoCreatore(r.getUtente(), r.getViaggio(), r.getMessaggioRichiesta()));
+				addObserver((NotificheVerso) new NotificheVersoUtente(r.getUtente(), r.getViaggio()));
 			}
 			else {
-				addObserver((Observer) new NotificheVersoCreatore(r.getUtente(), r.getViaggio(), r.getMessaggioRichiesta()));
-				addObserver((Observer) new NotificheVersoUtente(r.getUtente(), r.getViaggio(), r.getMessaggioRisposta(), r.getStato()));
+				addObserver((NotificheVerso) new NotificheVersoCreatore(r.getUtente(), r.getViaggio(), r.getMessaggioRichiesta()));
+				addObserver((NotificheVerso) new NotificheVersoUtente(r.getUtente(), r.getViaggio(), r.getMessaggioRisposta(), r.getStato()));
 			}
 		}
 	}

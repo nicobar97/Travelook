@@ -7,7 +7,7 @@ import java.util.List;
 public class Viaggio {
 
 	private int idViaggio;
-	private int idCreatore;
+	private Utente creatore;
 	private String titolo ;
 	private String destinazione;
 	private List<Utente> partecipanti;
@@ -19,12 +19,13 @@ public class Viaggio {
 	private Date dataFine;
 	private Stato stato;
 	   
-	public Viaggio(int idViaggio, String titolo, String destinazione, String lingua, int budget, ArrayList<Utente> partecipanti,
+	public Viaggio(int idViaggio, Utente creatore, String titolo, String destinazione, String lingua, int budget, ArrayList<Utente> partecipanti,
 			String descrizione, String luogoPartenza, Date dataInizio, Date dataFine, Stato stato) throws IllegalArgumentException {
 		if(idViaggio < 0 || titolo == null || destinazione == null || lingua == null || budget < 0 || 
-				budget < 5 || descrizione == null || dataInizio == null)
+				budget > 5 || descrizione == null || dataInizio == null || creatore == null)
 			throw new IllegalArgumentException();
 		this.idViaggio = idViaggio;
+		this.creatore = creatore;
 		this.titolo = titolo;
 		this.destinazione = destinazione;
 		this.setPartecipanti(partecipanti);
@@ -100,14 +101,14 @@ public class Viaggio {
 		this.stato = stato;
 	}
 
-	public int getIdCreatore() {
-		return idCreatore;
+	public Utente getCreatore() {
+		return creatore;
 	}
 	public void addPartecipante(Utente u) {
 		this.partecipanti.add(u);
 	}
-	public void setIdCreatore(int idCreatore) {
-		this.idCreatore = idCreatore;
+	public void setCreatore(Utente creatore) {
+		this.creatore = creatore;
 	}
 
 	public List<Utente> getPartecipanti() {

@@ -21,11 +21,12 @@ public class Utente {
 	private List<Recensione> recensioni;
 	
 	//Per creazione utente
-	public Utente(int idUtente, String email, String nome, String cognome, Date dataNascita, String immagineProfilo) 
+	public Utente(int idUtente, String username, String email, String nome, String cognome, Date dataNascita, String immagineProfilo) 
 			throws IllegalArgumentException {
 		if(idUtente < 0 || email == null || nome == null || cognome == null || dataNascita == null)
 			throw new IllegalArgumentException();
 		this.idUtente = idUtente;
+		this.username = username;
 		this.email = email;
 		this.nome = nome;
 		this.cognome = cognome;
@@ -35,11 +36,12 @@ public class Utente {
 		this.interessi = new ArrayList<Interessi>();
 		this.recensioni = new ArrayList<Recensione>();
 	}
-	public Utente(int idUtente, String email, String nome, String cognome, Date dataNascita, String immagineProfilo, 
+	public Utente(int idUtente, String username, String email, String nome, String cognome, Date dataNascita, String immagineProfilo, 
 					Storico storico, List<Recensione> recensioni, List<Interessi> interessi) throws IllegalArgumentException {
 		if(idUtente < 0 || email == null || nome == null || cognome == null || dataNascita == null)
 			throw new IllegalArgumentException();
 		this.idUtente = idUtente;
+		this.username = username;
 		this.email = email;
 		this.nome = nome;
 		this.cognome = cognome;
