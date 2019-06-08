@@ -23,6 +23,14 @@ public class NotificheVersoUtente extends NotificheVerso implements Observer {
 		this.viaggio = viaggio;
 		this.messaggio = messaggio;
 	}
+	public NotificheVersoUtente(Utente utente, Viaggio viaggio, String messaggio, Stato stato) throws NullPointerException {
+		if(utente == null || viaggio == null || messaggio.trim().equals("") || messaggio == null || stato == null)
+			throw new NullPointerException();
+		this.utente = utente;
+		this.viaggio = viaggio;
+		this.messaggio = messaggio;
+		this.stato = stato;
+	}
 
 	@Override
 	public void update() {
