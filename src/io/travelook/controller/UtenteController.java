@@ -1,5 +1,6 @@
 package io.travelook.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,9 @@ public class UtenteController implements IGestioneProfiloUtente {
 		 * ogni volta che ho bisogno di lavorare sul profilo di un utente mi creo un controller con l'id dell'utente,
 		 * se no non so come passarglielo, visto e considerato che l'utente è il campo principale
 		 */
+		
+		//utente mock per ora
+		utente = new Utente(idUtente, "asalvucci", "andrea@gmail.com", "Andrea", "Salvucci", new Date(1997,11,14) ,"C:/");
 	}
 
 	@Override

@@ -16,6 +16,7 @@ public class RegistrazioneController implements IRegistrazione {
 		
 		//qua occorre fare la query al database, l'esito sarà anche dato dal fatto che ci sia o meno
 		//un altro utente registrato con lo stesso username
+		//commento per commit
 		
 		
 		return esito;
