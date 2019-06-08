@@ -11,37 +11,67 @@ import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 
 public class UtenteController implements IGestioneProfiloUtente {
-	private Utente utente;
+	private List<Utente> listaUtenti;
 	
-	public UtenteController(int idUtente) {
+	public UtenteController() {
 		/**
 		 * Nel costruttore reperisco l'utente dal database, immmagino debba essere fatto in questo modo,
 		 * ogni volta che ho bisogno di lavorare sul profilo di un utente mi creo un controller con l'id dell'utente,
 		 * se no non so come passarglielo, visto e considerato che l'utente è il campo principale
 		 */
 		
-		//utente mock per ora
-		utente = new Utente(idUtente, "asalvucci", "andrea@gmail.com", "Andrea", "Salvucci", new Date(1997,11,14) ,"C:/");
+		listaUtenti = new ArrayList<Utente>();
+		
+		//utent mock per ora, bisogna caricare da db
+		Utente utente1 = new Utente(1, "asalvucci", "andrea@gmail.com", "Andrea", "Salvucci", new Date(1997,11,14) ,"C:/");
+		Utente utente2 = new Utente(2, "nbartelucci", "nicolo1@gmail.com", "Nicolo", "Bartelucci", new Date(1997,11,14) ,"C:/");
+		Utente utente3 = new Utente(3, "nsaccone", "nicolo2@gmail.com", "Nicolo", "Saccone", new Date(1997,11,14) ,"C:/");
+		listaUtenti.add(utente1);
+		listaUtenti.add(utente2);
+		listaUtenti.add(utente3);
 	}
 
 	@Override
-	public boolean aggiungiInteressi(Interessi interesse) {
+	public boolean aggiungiInteressi(Interessi interesse, Utente utente) {
 		// TODO Auto-generated method stub
+		
+		/**
+		 * prima trovo l'utente
+		 */
+		Utente trovatoUtente = null;
+		int idUtente = utente.getId();
+		
+		for(Utente u: listaUtenti) {
+			if(u.getId()==idUtente)
+				trovatoUtente = u;
+		}
+		
+		if(trovatoUtente==null) {
+			System.out.println("non ho trovato l'utente con id " + idUtente);
+			return false;
+			
+		}
+			
 		/**
 		 * cerco se ci sia già lo stesso interesse, in caso positivo non lo aggiungo
 		 */
-		boolean trovato=false;
-		for(Interessi i: utente.getInteressi()) {
+		boolean trovatoInteresse=false;
+		for(Interessi i: trovatoUtente.getInteressi()) {
 			if(i.equals(interesse)) {
-				trovato=true;
+				trovatoInteresse=true;
 				break;
 			}
 		}
-		if(!trovato) {
-			utente.getInteressi().add(interesse);
+		if(!trovatoInteresse) {
+			trovatoUtente.getInteressi().add(interesse);
+			System.out.println("aggiungo interesse " + interesse.toString()+ " all'utente " + trovatoUtente.getUsername());
 			return true;
 		}
-		else return false;
+		else {
+			System.out.println("Non posso aggiungere l'interesse "+interesse.toString()+ " all'utente "+ trovatoUtente.getUsername()+
+					" perché c'è già");
+			return false;
+		}
 	}
 
 	@Override

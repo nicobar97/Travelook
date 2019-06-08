@@ -9,7 +9,7 @@ import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 
 public interface IGestioneProfiloUtente {
-	boolean aggiungiInteressi(Interessi interesse);
+	boolean aggiungiInteressi(Interessi interesse, Utente utente);
 	Utente visualizzaProfilo();
 	Storico visualizzaStorico();
 	List<Recensione> visualizzaRecensioni();
