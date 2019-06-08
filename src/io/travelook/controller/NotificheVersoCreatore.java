@@ -3,7 +3,7 @@ package io.travelook.controller;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 
-public class NotificheVersoCreatore extends NotificheVerso {
+public class NotificheVersoCreatore extends NotificheVerso implements Observer {
 	private Utente utente;
 	private Viaggio viaggio;
 	private String messaggio;

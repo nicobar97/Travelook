@@ -10,12 +10,12 @@ import io.travelook.model.Viaggio;
 
 public class RichiesteObservableController extends Controller implements IGestioneRichieste {
 	private List<RichiestaDiPartecipazione> listaRichieste;
-	private List<NotificheVerso> observers;
+	private List<Observer> observers;
 	
 	public RichiesteObservableController() {
 		super();
 		this.listaRichieste = new ArrayList<RichiestaDiPartecipazione>();
-		this.observers = new ArrayList<NotificheVerso>();
+		this.observers = new ArrayList<Observer>();
 		//CARICA DA DATABASE LE RICHIESTE DI PARTECIPAZIONE
 	}
 	public RichiesteObservableController(List<RichiestaDiPartecipazione> listaRichieste) {
@@ -47,26 +47,26 @@ public class RichiesteObservableController extends Controller implements IGestio
 		return false;
 	}
 	
-	public void addObserver(NotificheVerso observer) {
+	public void addObserver(Observer observer) {
         if (observer == null)
             throw new NullPointerException();
         if (!observers.contains(observer)) {
         	this.observers.add(observer);
         }
     }
-    public void removeObserver(NotificheVerso observer) {
+    public void removeObserver(Observer observer) {
         if (observer == null)
             throw new NullPointerException();
         if (observers.contains(observer)) {
         	this.observers.remove(observer);
         }
     }
-    public List<NotificheVerso> getListObserver() {
+    public List<Observer> getListObserver() {
     	return this.observers;
     }	
 	public void notifyCreatore(Viaggio viaggio, String messaggio) {
 		boolean trovato = false;
-		for(NotificheVerso o : getListObserver()) {
+		for(Observer o : getListObserver()) {
 			if(trovato == false) {
 				NotificheVerso n = (NotificheVerso) o;		
 				if(n.getViaggio().getIdViaggio() == viaggio.getIdViaggio() && n.getUtente().getId() == viaggio.getCreatore().getId()) {
@@ -80,7 +80,7 @@ public class RichiesteObservableController extends Controller implements IGestio
 	}
 	public void notifyUtente(Viaggio viaggio, String messaggio, Stato stato, Utente utente) {
 		boolean trovato = false;
-		for(NotificheVerso o : getListObserver()) {
+		for(Observer o : getListObserver()) {
 			if(trovato == false) {
 				NotificheVerso n = (NotificheVerso) o;
 				if(n.getViaggio().getIdViaggio() == viaggio.getIdViaggio() && viaggio.getPartecipanti().contains(utente)) {
@@ -92,8 +92,8 @@ public class RichiesteObservableController extends Controller implements IGestio
 			}
 		}
 	}
-	public NotificheVerso getObserver(int idUtente) {
-		for(NotificheVerso o : this.observers) {
+	public Observer getObserver(int idUtente) {
+		for(Observer o : this.observers) {
 			NotificheVerso n = (NotificheVerso) o;
 			if(n.getUtente().getId() == idUtente)
 				return o;
@@ -115,15 +115,15 @@ public class RichiesteObservableController extends Controller implements IGestio
 		return esito;
 	}
 	private void initObserver() {
-		this.observers = new ArrayList<NotificheVerso>();
+		this.observers = new ArrayList<Observer>();
 		for(RichiestaDiPartecipazione r : this.listaRichieste) {
 			if(r.getStato().compareTo(Stato.NONVISTA) == 0) {
-				addObserver((NotificheVerso) new NotificheVersoCreatore(r.getUtente(), r.getViaggio(), r.getMessaggioRichiesta()));
-				addObserver((NotificheVerso) new NotificheVersoUtente(r.getUtente(), r.getViaggio()));
+				addObserver((Observer) new NotificheVersoCreatore(r.getUtente(), r.getViaggio(), r.getMessaggioRichiesta()));
+				addObserver((Observer) new NotificheVersoUtente(r.getUtente(), r.getViaggio()));
 			}
 			else {
-				addObserver((NotificheVerso) new NotificheVersoCreatore(r.getUtente(), r.getViaggio(), r.getMessaggioRichiesta()));
-				addObserver((NotificheVerso) new NotificheVersoUtente(r.getUtente(), r.getViaggio(), r.getMessaggioRisposta(), r.getStato()));
+				addObserver((Observer) new NotificheVersoCreatore(r.getUtente(), r.getViaggio(), r.getMessaggioRichiesta()));
+				addObserver((Observer) new NotificheVersoUtente(r.getUtente(), r.getViaggio(), r.getMessaggioRisposta(), r.getStato()));
 			}
 		}
 	}
