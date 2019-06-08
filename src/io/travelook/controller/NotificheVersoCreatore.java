@@ -26,7 +26,8 @@ public class NotificheVersoCreatore extends NotificheVerso implements Observer {
 		INotifica notifica = new NotificheEmail(); //usare pattern singleton per inotifica
 		String messaggio = "Nuova richiesta di partecipazione per " + this.viaggio.getTitolo() + " da "
 				+ this.utente.getUsername() + "\nMessaggio:\n" + this.messaggio;
-		notifica.inviaNotifica(this.utente.getEmail(), messaggio);
+		System.out.println("email:" + this.viaggio.getCreatore().getEmail());
+		notifica.inviaNotifica(this.viaggio.getCreatore().getEmail(), messaggio);
 	}
 	@Override
 	public Utente getUtente() {
