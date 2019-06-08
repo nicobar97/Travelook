@@ -71,7 +71,6 @@ public class RichiesteObservableController extends Controller implements IGestio
 				NotificheVerso n = (NotificheVerso) o;		
 				if(n.getViaggio().getIdViaggio() == viaggio.getIdViaggio() && n.getUtente().getId() == viaggio.getCreatore().getId()) {
 					NotificheVersoCreatore nc = (NotificheVersoCreatore) n;
-					System.out.println("trovatoo");
 					nc.setMessaggio(messaggio);
 					nc.update();
 				}
