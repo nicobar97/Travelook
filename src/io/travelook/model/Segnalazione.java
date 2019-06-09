@@ -3,20 +3,20 @@ package io.travelook.model;
 public class Segnalazione {
 
 	private int idSegnalazione;
-	private int idViaggio;
-	private int idSegnalato;
-	private int idSegnalante;
+	private Viaggio viaggio;
+	private Utente segnalato;
+	private Utente segnalante;
 	private Messaggio messaggio;
   
-  	public Segnalazione(int idSegnalazione, int idViaggio, int idSegnalato, int idSegnalante,
+  	public Segnalazione(int idSegnalazione, Viaggio viaggio, Utente segnalato, Utente segnalante,
   			Messaggio messaggio) throws IllegalArgumentException {
 		super();
-		if(idSegnalazione < 0 || idSegnalato< 0 || idSegnalante < 0 || messaggio == null)
+		if(idSegnalazione < 0 || segnalato== null || segnalante == null || messaggio == null)
 			throw new IllegalArgumentException();
 		this.idSegnalazione = idSegnalazione;
-		this.idViaggio = idViaggio;
-		this.idSegnalato = idSegnalato;
-		this.idSegnalante = idSegnalante;
+		this.viaggio = viaggio;
+		this.segnalato = segnalato;
+		this.segnalante = segnalante;
 		this.messaggio = messaggio;
 	}
   
@@ -26,23 +26,23 @@ public class Segnalazione {
 	public void setIdSegnalazione(int idSegnalazione) {
 		this.idSegnalazione = idSegnalazione;
 	}
-	public int getIdViaggio() {
-		return idViaggio;
+	public Viaggio getViaggio() {
+		return viaggio;
 	}
-	public void setIdViaggio(int idViaggio) {
-		this.idViaggio = idViaggio;
+	public void setViaggio(Viaggio viaggio) {
+		this.viaggio = viaggio;
 	}
-	public int getIdSegnalato() {
-		return idSegnalato;
+	public Utente getSegnalato() {
+		return segnalato;
 	}
-	public void setIdSegnalato(int idSegnalato) {
-		this.idSegnalato = idSegnalato;
+	public void setSegnalato(Utente segnalato) {
+		this.segnalato = segnalato;
 	}
-	public int getIdSegnalante() {
-		return idSegnalante;
+	public Utente getSegnalante() {
+		return segnalante;
 	}
-	public void setIdSegnalante(int idSegnalante) {
-		this.idSegnalante = idSegnalante;
+	public void setSegnalante(Utente segnalante) {
+		this.segnalante = segnalante;
 	}
 	public Messaggio getMessaggio() {
 		return messaggio;

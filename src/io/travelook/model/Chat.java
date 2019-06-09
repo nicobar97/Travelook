@@ -5,27 +5,27 @@ import java.util.Date;
 import java.util.List;
 
 public class Chat {
-	private int idViaggio;
+	private Viaggio viaggio;
 	private List<Messaggio> messaggi;
 	
-	public Chat(int idViaggio) throws IllegalArgumentException {
-		if(idViaggio < 0)
+	public Chat(Viaggio viaggio) throws IllegalArgumentException {
+		if(viaggio == null)
 			throw new IllegalArgumentException();
-		this.idViaggio = idViaggio;
+		this.viaggio = viaggio;
 		this.messaggi = new ArrayList<Messaggio>();
 	}
-	public Chat(int idViaggio, List<Messaggio> messaggi) throws IllegalArgumentException {
-		if(idViaggio < 0 || messaggi == null)
+	public Chat(Viaggio viaggio, List<Messaggio> messaggi) throws IllegalArgumentException {
+		if(viaggio == null || messaggi == null)
 			throw new IllegalArgumentException();
-		this.idViaggio = idViaggio;
+		this.viaggio = viaggio;
 		this.messaggi = messaggi;
 	}
 
-	public int getIdViaggio() {
-		return idViaggio;
+	public Viaggio getViaggio() {
+		return viaggio;
 	}
-	public void setIdViaggio(int idViaggio) {
-		this.idViaggio = idViaggio;
+	public void setViaggio(Viaggio viaggio) {
+		this.viaggio = viaggio;
 	}
 	public List<Messaggio> getChat() {
 		return messaggi;
@@ -40,7 +40,7 @@ public class Chat {
 	public List<Messaggio> filtraChat(int idUtente) {
 		List<Messaggio> result = new ArrayList<Messaggio>();
 		for(Messaggio m : messaggi)
-			if(m.getIdUtente() == idUtente)
+			if(m.getUtente().getId() == idUtente)
 				result.add(m);
 		return result;
 	}

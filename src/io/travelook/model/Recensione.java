@@ -8,28 +8,28 @@ public class Recensione {
 	private String corpo;
 	private String foto;
 	private String risposta;
-	private int idUtenteRecensitore; //relazione
+	private Utente utenteRecensitore; //relazione
 	
-	public Recensione(int idUtenteRecensito, int voto, String titolo, String corpo, int idUtenteRecensitore)
+	public Recensione(int idUtenteRecensito, int voto, String titolo, String corpo, Utente utenteRecensitore)
 			throws IllegalArgumentException {
-		if(idUtenteRecensito < 0 || voto < 0 || voto > 5 || corpo == null || idUtenteRecensitore < 0)
+		if(idUtenteRecensito < 0 || voto < 0 || voto > 5 || corpo == null || utenteRecensitore == null)
 			throw new IllegalArgumentException();
 		this.idUtenteRecensito = idUtenteRecensito;
 		this.voto = voto;
 		this.titolo = titolo;
 		this.corpo = corpo;
-		this.idUtenteRecensitore = idUtenteRecensitore;
+		this.utenteRecensitore = utenteRecensitore;
 	}
-	public Recensione(int idUtenteRecensito, int voto, String titolo, String corpo, int idUtenteRecensitore, String risposta)
+	public Recensione(int idUtenteRecensito, int voto, String titolo, String corpo, Utente utenteRecensitore, String risposta)
 			throws IllegalArgumentException {
-		if(idUtenteRecensito < 0 || voto < 0 || voto > 5 || corpo == null || idUtenteRecensitore < 0 || 
+		if(idUtenteRecensito < 0 || voto < 0 || voto > 5 || corpo == null || utenteRecensitore == null || 
 				risposta == null || risposta.trim().equals(risposta) || titolo == null || titolo.trim().equals(""))
 			throw new IllegalArgumentException();
 		this.idUtenteRecensito = idUtenteRecensito;
 		this.voto = voto;
 		this.titolo = titolo;
 		this.corpo = corpo;
-		this.idUtenteRecensitore = idUtenteRecensitore;
+		this.utenteRecensitore = utenteRecensitore;
 		this.risposta = risposta;
 	}
 
@@ -39,11 +39,11 @@ public class Recensione {
 	public void setIdUtenteRecensito(int idUtenteRecensito) {
 		this.idUtenteRecensito = idUtenteRecensito;
 	}
-	public int getIdUtenteRecensitore() {
-		return idUtenteRecensitore;
+	public Utente getIdUtenteRecensitore() {
+		return utenteRecensitore;
 	}
-	public void setIdUtenteRecensitore(int idUtenteRecensitore) {
-		this.idUtenteRecensitore = idUtenteRecensitore;
+	public void setIdUtenteRecensitore(Utente utenteRecensitore) {
+		this.utenteRecensitore = utenteRecensitore;
 	}
 	public int getVoto() {
 		return voto;

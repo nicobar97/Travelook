@@ -25,7 +25,7 @@ public class ListaSegnalazioni { //DA RIMUOVERE
 	public List<Segnalazione> getSegnalazioneByIdViaggio(int idviaggio){
 		List<Segnalazione> res=new ArrayList<Segnalazione>();
 		for(Segnalazione s : segnalazioni ) {
-			if(s.getIdViaggio() == idviaggio) {
+			if(s.getViaggio().getIdViaggio() == idviaggio) {
 				res.add(s);
 			}
 		}
@@ -34,7 +34,7 @@ public class ListaSegnalazioni { //DA RIMUOVERE
 	public List<Segnalazione> getSegnalazioniByIdSegnalato(int idsegnalato){
 		List<Segnalazione> res=new ArrayList<Segnalazione>();
 		for(Segnalazione s : segnalazioni ) {
-			if(s.getIdSegnalato() == idsegnalato) {
+			if(s.getSegnalato().getId() == idsegnalato) {
 				res.add(s);
 			}
 		}
@@ -43,7 +43,7 @@ public class ListaSegnalazioni { //DA RIMUOVERE
 	public List<Segnalazione> getSegnalazioniByIdSegnalante(int idsegnalante){
 		List<Segnalazione> res = new ArrayList<Segnalazione>();
 		for(Segnalazione s : segnalazioni ) {
-			if(s.getIdSegnalante() == idsegnalante) {
+			if(s.getSegnalante().getId() == idsegnalante) {
 				res.add(s);
 			}
 		}

@@ -32,9 +32,9 @@ public class Utente {
 		this.cognome = cognome;
 		this.dataNascita = dataNascita;
 		this.immagineProfilo = immagineProfilo;
-		this.storico = new Storico(idUtente);
 		this.interessi = new ArrayList<Interessi>();
 		this.recensioni = new ArrayList<Recensione>();
+		this.storico = new Storico(idUtente);
 	}
 	public Utente(int idUtente, String username, String email, String nome, String cognome, Date dataNascita, String immagineProfilo, 
 					Storico storico, List<Recensione> recensioni, List<Interessi> interessi) throws IllegalArgumentException {

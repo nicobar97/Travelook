@@ -19,7 +19,7 @@ public class SegnalazioniController {
     public List<Segnalazione> getSegnalazioniUtente (int id){
     	List<Segnalazione> res = new ArrayList<Segnalazione>();
     	for(Segnalazione s :segnalazioni) {
-    		if(s.getIdSegnalante()==id) {
+    		if(s.getSegnalante().getId()==id) {
     			res.add(s);
     		}
     	}
