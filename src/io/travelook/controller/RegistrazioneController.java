@@ -2,9 +2,9 @@ package io.travelook.controller;
 
 import java.util.Date;
 
-public class RegistrazioneController implements IRegistrazione {
+public class RegistrazioneController extends Controller implements IRegistrazione{
 
-	@Override
+	
 	public boolean registraUtente(String nome, String cognome, Date dataNascita, String username, String password) {
 		// TODO Auto-generated method stub
 		boolean esito = true;
