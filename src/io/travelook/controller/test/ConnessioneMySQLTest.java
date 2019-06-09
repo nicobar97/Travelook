@@ -11,6 +11,13 @@ import io.travelook.controller.RegistrazioneController;
 class ConnessioneMySQLTest {
 	Connection conn;
 	@Test
+	
+	void testStartConnection() {
+		RegistrazioneController rc = new RegistrazioneController();
+		conn = rc.startConnection("prova"); // la stringa qua non serve
+		assertNotNull(conn);
+		
+	}
 	void testGetConnection() {
 		RegistrazioneController rc = new RegistrazioneController(); // prendo un controller a caso
 		conn = rc.getDbConnection();
