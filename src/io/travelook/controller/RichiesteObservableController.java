@@ -23,13 +23,6 @@ public class RichiesteObservableController extends Controller implements IGestio
 		initObservers();
 	}
 	
-	public RichiesteObservableController(List<RichiestaDiPartecipazione> listaRichieste) {
-		super();
-		this.listaRichieste = listaRichieste;
-		initObservers(); //implementare agganciaObservers per caricare obs da richdipart
-		//CARICA DA DATABASE LE RICHIESTE DI PARTECIPAZIONE
-	}
-	
 	@Override
 	public boolean nuovaRichiesta(RichiestaDiPartecipazione richiesta) {
 		boolean continu = addRichiesta(richiesta);
