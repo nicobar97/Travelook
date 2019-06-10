@@ -33,7 +33,7 @@ public class HomeAnnuncio extends Application {
         	count = 0;
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(HomeAnnuncio.class.getResource("GUIs_folder/HomeAnnuncio.fxml"));
+            loader.setLocation(HomeAnnuncio.class.getResource("HomeAnnuncio.fxml"));
             rootLayout = (AnchorPane) loader.load();
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
