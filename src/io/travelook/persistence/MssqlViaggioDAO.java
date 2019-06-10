@@ -153,8 +153,17 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 
 	@Override
 	public boolean delete(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean res=false;
+		try {
+			PreparedStatement prep_stmt = conn.prepareStatement(MssqlViaggioDAO.delete);
+			prep_stmt.setInt(1,id);
+			prep_stmt.executeUpdate();
+			res = true;
+			prep_stmt.close();			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 	@Override
