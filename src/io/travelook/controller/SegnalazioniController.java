@@ -36,13 +36,13 @@ public class SegnalazioniController {
     }
     
     public void rimuoviSegnalazione(int segnalazioneid) {
-    	Segnalazione torem=null;
+    	Segnalazione daEliminare=null;
     	for(Segnalazione s:segnalazioni) {
     		if(s.getIdSegnalazione()==segnalazioneid) {
-    			torem=s;
+    			daEliminare=s;
     		}
     	}
-    	segnalazioni.remove(torem);
+    	segnalazioni.remove(daEliminare);
     }
 
 	public List<Segnalazione> getTutteSegnalazioni() {

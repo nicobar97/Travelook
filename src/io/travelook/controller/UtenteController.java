@@ -61,7 +61,7 @@ public class UtenteController implements IGestioneProfiloUtente {
 		}
 		else {
 			System.out.println("Non posso aggiungere l'interesse "+interesse.toString()+ " all'utente "+ trovatoUtente.getUsername()+
-					" perch� c'� gi�");
+					" perche' c'e' gia'");
 			return false;
 		}
 	}
