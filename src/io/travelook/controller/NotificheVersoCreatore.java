@@ -24,10 +24,10 @@ public class NotificheVersoCreatore extends NotificheVerso implements Observer {
 	@Override
 	public void update() {
 		INotifica notifica = new NotificheEmail(); //usare pattern singleton per inotifica
-		String messaggio = "Nuova richiesta di partecipazione per " + this.viaggio.getTitolo() + " da "
-				+ this.utente.getUsername() + "\nMessaggio:\n" + this.messaggio;
+		String messaggio = "L'utente " + this.utente.getUsername() + " vuole partecipare al tuo viaggio " + this.viaggio.getTitolo() + 
+				". Apri l'app per gestire le tue richieste di partecipazione in sospeso.";
 		System.out.println("email:" + this.viaggio.getCreatore().getEmail());
-		notifica.inviaNotifica(this.viaggio.getCreatore().getEmail(), messaggio);
+		notifica.inviaNotifica(this.viaggio.getCreatore().getEmail(), messaggio, "Travelook: Nuova richiesta di partecipazione");
 	}
 	@Override
 	public Utente getUtente() {

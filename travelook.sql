@@ -11,13 +11,16 @@ create table Messaggio (
 
 create table Utente (
      id int not null,
-     email char(20) not null,
+     nickname char(20) not null,
+     email char(40) not null,
      nome char(20) not null,
      cognome char(20) not null,
      dataNascita Date not null,
      imgProfilo char(100) not null,
+     idHobby int not null,
      primary key(id),
-     unique(id, email)
+     foreign key (idHobby) references Hobby(id),
+     unique(id, nickname)
      );
 
 create table Viaggio (
@@ -32,10 +35,8 @@ create table Viaggio (
      dataFine Date not null,
      immagineProfilo char(100) not null,
      immaginiAlternative char(100),
-     idHobby int not null,
      primary key(id),
      foreign key (idCreatore) references Utente(id),
-     foreign key (idHobby) references Hobby(id),
      unique(id, idCreatore)
     );
 

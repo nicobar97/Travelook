@@ -17,7 +17,7 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 			" VALUES (?,?,?,?,?,?)";
 			
 	static final String create = "create table " + table + " (" + 
-			"     id int not null AUTO_INCREMENT," + 
+			"     id int not null IDENTITY(1, 1)," + 
 			"     idUtente int not null," + 
 			"     idViaggio int not null," + 
 			"     idCreatore int not null," + 

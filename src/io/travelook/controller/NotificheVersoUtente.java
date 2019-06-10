@@ -38,7 +38,7 @@ public class NotificheVersoUtente extends NotificheVerso implements Observer {
 		String messaggio = "Sei stato " + (stato.compareTo(Stato.ACCETTATA) == 0 ? "accettato" : "rifiutato") + 
 				" da "+ this.utente.getUsername() + " per il viaggio di titolo: " + this.viaggio.getTitolo() + 
 				"\nMessaggio:\n" + this.messaggio;
-		notifica.inviaNotifica(this.utente.getEmail(), messaggio);
+		notifica.inviaNotifica(this.utente.getEmail(), messaggio, "Travelook: Esito richiesta di partecipazione");
 	}
 
 	public Utente getUtente() {
