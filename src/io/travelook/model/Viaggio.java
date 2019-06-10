@@ -1,10 +1,15 @@
 package io.travelook.model;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public class Viaggio {
+
+	public Viaggio() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	private int idViaggio;
 	private Utente creatore;
@@ -18,6 +23,8 @@ public class Viaggio {
 	private Date dataInizio;
 	private Date dataFine;
 	private Stato stato;
+	private String immaginiProfilo;
+	private String immaginiAlte;
 	   
 	public Viaggio(int idViaggio, Utente creatore, String titolo, String destinazione, String lingua, int budget, ArrayList<Utente> partecipanti,
 			String descrizione, String luogoPartenza, Date dataInizio, Date dataFine, Stato stato) throws IllegalArgumentException {
@@ -36,6 +43,27 @@ public class Viaggio {
 		this.dataInizio = dataInizio;
 		this.dataFine = dataFine;
 		this.setStato(stato);
+	}
+	
+	public Viaggio(int idViaggio, Utente creatore, String titolo, String destinazione, String lingua, int budget, ArrayList<Utente> partecipanti,
+			String descrizione, String luogoPartenza, Date dataInizio, Date dataFine, Stato stato,String imP,String imA) throws IllegalArgumentException {
+		if(idViaggio < 0 || titolo == null || destinazione == null || lingua == null || budget < 0 || 
+				budget > 5 || descrizione == null || dataInizio == null || creatore == null)
+			throw new IllegalArgumentException();
+		this.idViaggio = idViaggio;
+		this.creatore = creatore;
+		this.titolo = titolo;
+		this.destinazione = destinazione;
+		this.setPartecipanti(partecipanti);
+		this.lingua = lingua;
+		this.budget = budget;
+		this.descrizione = descrizione;
+		this.luogoPartenza = luogoPartenza;
+		this.dataInizio = dataInizio;
+		this.dataFine = dataFine;
+		this.setStato(stato);
+		this.immaginiProfilo=imP;
+		this.immaginiAlte=imA;		
 	}
 	
 	public int getIdViaggio() {
@@ -117,5 +145,21 @@ public class Viaggio {
 
 	public void setPartecipanti(List<Utente> partecipanti) {
 		this.partecipanti = partecipanti;
+	}
+
+	public String getImmaginiProfilo() {
+		return immaginiProfilo;
+	}
+
+	public void setImmaginiProfilo(String immaginiProfilo) {
+		this.immaginiProfilo = immaginiProfilo;
+	}
+
+	public String getImmaginiAlte() {
+		return immaginiAlte;
+	}
+
+	public void setImmaginiAlte(String immaginiAlte) {
+		this.immaginiAlte = immaginiAlte;
 	}
 }
