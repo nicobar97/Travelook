@@ -17,7 +17,7 @@ create table Utente (
      cognome char(20) not null,
      dataNascita Date not null,
      imgProfilo char(100) not null,
-     idHobby int not null,
+     idHobby int,
      primary key(id),
      foreign key (idHobby) references Hobby(id),
      unique(id, nickname)
@@ -26,6 +26,7 @@ create table Utente (
 create table Viaggio (
      id int not null,
      idCreatore int not null,
+     idPartecipante int,
      titolo char(20) not null,
      destinazione char(20) not null,
      descrizione char(200) not null,
@@ -33,11 +34,12 @@ create table Viaggio (
      budget int not null,
      dataPartenza Date not null,
      dataFine Date not null,
-     immagineProfilo char(100) not null,
+     immagineProfilo char(100),
      immaginiAlternative char(100),
      primary key(id),
      foreign key (idCreatore) references Utente(id),
-     unique(id, idCreatore)
+     foreign key(idPartecipante) references Utente(id),
+     unique(id, idCreatore, idPartecipante)
     );
 
 create table Hobby (
@@ -71,18 +73,17 @@ create table Recensione (
      );
 
 create table Richiesta_Di_Partecipazione (
-     id int not null,
+     id int not null IDENTITY PRIMAry KEY,
      idUtente int not null,
      idViaggio int not null,
      idCreatore int not null,
      messaggioRichiesta char(100) not null,
      messaggioRisposta char(100),
      stato int not null,
-     primary key(id),
      foreign key (idUtente) references Utente(id),
      foreign key (idViaggio) references Viaggio(id),
      foreign key (idCreatore) references Utente(id),
-     unique(id, idUtente, idViaggio, idCreatore)
+     unique(idUtente, idViaggio, idCreatore)
      );
      
 create table Utente_Viaggio ( --forse è inutile perche possiamo prendere tutto da richeista di partecipazione con stato accettato
