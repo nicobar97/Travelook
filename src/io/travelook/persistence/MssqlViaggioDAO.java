@@ -1,10 +1,13 @@
 package io.travelook.persistence;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
+import io.travelook.model.Stato;
+import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 import io.travelook.utils.StatoUtils;
 
@@ -29,9 +32,9 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 	
 	//Query per inserire un viaggio nel DB//
 	static final String insert = "INSERT INTO " + table + 
-			" (id,idCreatore,titolo,destinazione,descrizione,lingua,budget,dataPartenza,dataFine"+
+			" (id,idCreatore,titolo,destinazione,descrizione,lingua,budget,luogoPartenza,dataPartenza,dataFine"+
 			",immagineProfilo,immaginiAlternative"+
-			" VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+			" VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 	//Query per creare la table viaggio nel DB//
 	static final String create="create table " + table + " (" + 
 			"id int not null IDENTITY PRIMARY KEY," +
@@ -41,6 +44,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 		    "descrizione char(200) not null,"+
 			"lingua char(20) not null,"+
 			"budget int not null,"+
+			"luogoPartenza char(20) not null,"+
 			"dataPartenza Date not null,"+
 			"dataFine Date not null,"+
 			"immagineProfilo char(1000),"+
@@ -85,10 +89,11 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			prep_stmt.setString(5,viaggio.getDescrizione());
 			prep_stmt.setString(6,viaggio.getLingua());
 			prep_stmt.setInt(7,viaggio.getBudget());
-			prep_stmt.setDate(8,viaggio.getDatainizio());
-			prep_stmt.setDate(9,viaggio.getDatafine());
-			prep_stmt.setString(10,viaggio.getImmaginiProfilo());
-			prep_stmt.setString(11,viaggio.getImmaginiAlte());			
+			prep_stmt.setString(8,viaggio.getLuogopartenza());
+			prep_stmt.setDate(9,viaggio.getDatainizio());
+			prep_stmt.setDate(10,viaggio.getDatafine());
+			prep_stmt.setString(11,viaggio.getImmaginiProfilo());
+			prep_stmt.setString(12,viaggio.getImmaginiAlte());			
 			prep_stmt.executeUpdate();
 			prep_stmt.close();
 		}
@@ -100,6 +105,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 
 	@Override
 	public Viaggio read(int id) {
+		Viaggio res=null;
 		try {
 			/*" (id,idCreatore,titolo,destinazione,descrizione,lingua,budget,dataPartenza,dataFine"+
 			",immagineProfilo,immaginiAlternative"+*/
@@ -108,12 +114,26 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			ResultSet rs = prep_stmt.executeQuery();
 			if ( rs.next() ) {
 				Viaggio v = new Viaggio();
-				v.setIdViaggio(rs.getInt("v.id"));
-				int idU=rs.getInt("c.id");
-				String user=rs.getS
-				v.setCreatore(creatore);(rs.getInt(ID));
-				entry.setName(rs.getString(NAME));
-				result = entry;
+				v.setIdViaggio(rs.getInt(1));
+				int idU=rs.getInt(13);
+				String user=rs.getString("nickname");
+				String mail=rs.getString("email");
+				String nome=rs.getString("nome");
+				String cgnome=rs.getString("cognome");
+				Date datan=rs.getDate("dataNascita");
+				String imgP=rs.getString("imgProfilo");
+				Utente c = new Utente(idU,user,mail,nome,cgnome,datan,imgP);
+				v.setCreatore(c);
+				v.setTitolo(rs.getString("titolo"));
+				v.setDestinazione(rs.getString("destinazione"));
+				v.setDescrizione(rs.getString("descrizione"));
+				v.setLingua(rs.getString("lingua"));
+				v.setBudget(rs.getInt("budget"));
+				v.setLuogopartenza(rs.getString("luogoPartenza"));
+				v.setDatainizio(rs.getDate("dataPartenza"));
+				v.setDatafine(rs.getDate("dataFine"));
+				v.setStato(Stato.ACCETTATA);
+				res=v;
 			}
 			rs.close();
 			prep_stmt.close();
@@ -122,7 +142,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 		catch(Exception e) {
 			
 		}
-		return null;
+		return res;
 	}
 
 	@Override

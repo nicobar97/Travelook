@@ -35,6 +35,7 @@ create table Viaggio (
      descrizione char(200) not null,
      lingua char(20) not null,
      budget int not null,
+     luogoPartenza char(20) not null,
      dataPartenza Date not null,
      dataFine Date not null,
      immagineProfilo char(1000),
