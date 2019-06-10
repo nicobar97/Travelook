@@ -14,6 +14,7 @@ public class AnnuncioController implements IAnnuncio {
     	/* nel costruttore reperisco le info sul viaggio dal db */ 
     	
     }
+    /*diocane*/
 	@Override
 	public Utente[] visuallizzaUtentiPartecipanti(Integer idAnnuncio) {
 		Utente[] res;
