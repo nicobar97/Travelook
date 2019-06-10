@@ -14,7 +14,7 @@ class ConnessioneMSSQLTest {
 	
 	void testStartConnection() {
 		RegistrazioneController rc = new RegistrazioneController();
-		conn = rc.startConnection("prova"); // la stringa qua non serve
+		conn = rc.startConnection(); // la stringa qua non serve
 		assertNotNull(conn);
 		
 	}

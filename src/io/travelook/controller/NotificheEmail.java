@@ -7,7 +7,7 @@ import javax.mail.internet.MimeMessage;
 public class NotificheEmail implements INotifica{
 
 	@Override
-	public void inviaNotifica(String email, String messaggio) {
+	public void inviaNotifica(String email, String messaggio, String titolo) {
 	    String username = "travelook.infor@gmail.com";
 	    String password = "travelook2019";
 	  
@@ -32,7 +32,7 @@ public class NotificheEmail implements INotifica{
                     Message.RecipientType.TO,
                     InternetAddress.parse(email)
             );
-            message.setSubject("Testing Gmail TLS");
+            message.setSubject(titolo);
             message.setText(messaggio);
 
             Transport.send(message);
