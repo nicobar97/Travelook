@@ -1,6 +1,6 @@
 package io.travelook.model;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import io.travelook.model.Interessi;

@@ -1,14 +1,17 @@
 package io.travelook.controller.test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
 
 import org.junit.jupiter.api.Test;
 
+import io.travelook.controller.RegistrazioneController;
 import io.travelook.controller.UtenteController;
 import io.travelook.model.Interessi;
 import io.travelook.model.Utente;
+import io.travelook.persistence.MssqlUtenteDAO;
 
 class UtenteControllerTest {
 	UtenteController utenteController = new UtenteController();
@@ -29,6 +32,14 @@ class UtenteControllerTest {
 		utenteController.aggiungiInteressi(Interessi.CUCINA,utente2);
 		assertFalse(utenteController.aggiungiInteressi(Interessi.CINEMA,utente1));
 		assertTrue(utenteController.aggiungiInteressi(Interessi.MUSICA,utente1));
+	}
+	
+	void testInsertUtente() {
+		Utente utente1 = new Utente(1, "orcoddio", "andrea@gmail.com", "Andrea", "Salvucci", new Date(1997,14,11),"C:/");
+		RegistrazioneController rc = new RegistrazioneController();
+		MssqlUtenteDAO dao = new MssqlUtenteDAO(rc.getDbConnection());
+		dao.create(utente1);
+		
 	}
 
 }
