@@ -15,8 +15,7 @@ public abstract class Controller implements IController {
 			+ "user=travelook@travelook;password=travel_2019;encrypt=true;trustServerCertificate=false;"
 			+ "hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
 	@Override
-	public Connection startConnection(String conn) {
-		// TODO Auto-generated method stub
+	public Connection startConnection() {
 	        try {
 	            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 	            connessione = DriverManager.getConnection(JDBC_URL);
@@ -47,7 +46,6 @@ public abstract class Controller implements IController {
 	@Override
 	public Connection getDbConnection() {
 		return connessione;
-		// TODO Auto-generated method stub
 	}
 		
 

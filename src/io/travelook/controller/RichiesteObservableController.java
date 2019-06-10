@@ -1,5 +1,6 @@
 package io.travelook.controller;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,11 @@ public class RichiesteObservableController extends Controller implements IGestio
 		super();
 		this.listaRichieste = new ArrayList<RichiestaDiPartecipazione>();
 		this.observers = new ArrayList<Observer>();
-		//CARICA DA DATABASE LE RICHIESTE DI PARTECIPAZIONE
+		initRDP();
+	}
+	private void initRDP() {
+		Connection conn = super.getDbConnection();
+		
 	}
 	public RichiesteObservableController(List<RichiestaDiPartecipazione> listaRichieste) {
 		super();
