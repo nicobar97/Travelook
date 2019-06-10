@@ -17,12 +17,16 @@ create table Utente (
      cognome char(20) not null,
      dataNascita Date not null,
      imgProfilo char(100) not null,
-     idHobby int,
      primary key(id),
-     foreign key (idHobby) references Hobby(id),
      unique(id, nickname)
      );
-
+create table Utente_Hobby (
+	id int not null IDENTITY PRIMARY KEY,
+	idUtente int not null, 
+	idHobby int not null,
+	foreign key (idUtente) references Utente(id),
+	foreign key (idHobby) references Hobby(id)
+	);
 create table Viaggio (
      id int not null,
      idCreatore int not null,
