@@ -22,12 +22,20 @@ public class RichiesteObservableTest {
 				"descrizione", "roma", new Date(), new Date(), Stato.INIZIO );
 		System.out.println("nuova richiesta in invio");
 		//v.getPartecipanti().add(c);
-		
-		controller.nuovaRichiesta(new RichiestaDiPartecipazione(c, v, "Ora vado a vedere se ha caricato in db"));
+		RichiestaDiPartecipazione nic = new RichiestaDiPartecipazione(c, v, "Ora vado a vedere se ha caricato in db");
+		controller.nuovaRichiesta(nic);
 		v.getPartecipanti().add(c);
 		System.out.println("nuova richiesta in invio");
-		controller.nuovaRichiesta(new RichiestaDiPartecipazione(a, v, "Ora vado a vedere se ha caricato in db"));
+		RichiestaDiPartecipazione andre = new RichiestaDiPartecipazione(a, v, "Ora vado a vedere se ha caricato in db");
+		controller.nuovaRichiesta(andre);
 		v.getPartecipanti().add(a);
-		//controller.nuovaRichiesta(new RichiestaDiPartecipazione(u,v2, "Ora vado a vedere se ha caricato in db"));
+		
+		nic.setMessaggioRichiesta("Ti ho accettato");
+		nic.setStato(Stato.ACCETTATA);
+		controller.rispondiRichiesta(nic);
+		
+		andre.setMessaggioRichiesta("Ti ho rifiuto");
+		andre.setStato(Stato.NONACCETTATA);
+		controller.rispondiRichiesta(andre);
 	}
 }

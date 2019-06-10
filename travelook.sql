@@ -30,7 +30,6 @@ create table Utente_Hobby (
 create table Viaggio (
      id int not null IDENTITY PRIMARY KEY,
      idCreatore int not null,
-     idPartecipante int,
      titolo char(20) not null,
      destinazione char(20) not null,
      descrizione char(200) not null,
@@ -42,7 +41,6 @@ create table Viaggio (
      immaginiAlternative char(1000),
      primary key(id),
      foreign key (idCreatore) references Utente(id),
-     foreign key(idPartecipante) references Utente(id),
      unique(id, idCreatore, idPartecipante)
     );
 

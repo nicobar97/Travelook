@@ -2,6 +2,7 @@ package io.travelook.persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -15,9 +16,10 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 	static final String insert = "INSERT INTO " + table + 
 			" (idUtente,idViaggio,idCreatore,messaggioRichiesta,messaggioRisposta,stato)" +
 			" VALUES (?,?,?,?,?,?)";
+	static final String read = "SELECT * FROM " + table + "WHERE id=?";
 			
 	static final String create = "create table " + table + " (" + 
-			"     id int not null IDENTITY(1, 1)," + 
+			"     id int not null IDENTITY PRIMARY KEY," + 
 			"     idUtente int not null," + 
 			"     idViaggio int not null," + 
 			"     idCreatore int not null," + 
@@ -58,8 +60,36 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 
 	@Override
 	public RichiestaDiPartecipazione read(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		RichiestaDiPartecipazione result = null;
+		if ( id < 0 )  {
+			System.out.println("read(): cannot read an entry with a negative id");
+			return result;
+		}
+		try {
+			PreparedStatement prep_stmt = conn.prepareStatement(MssqlRichiestaDiPartecipazioneDAO.read);
+			prep_stmt.clearParameters();
+			prep_stmt.setInt(1, id);
+			ResultSet rs = prep_stmt.executeQuery();
+			if ( rs.next() ) {
+				RichiestaDiPartecipazione entry = new RichiestaDiPartecipazione();
+				int id = rs.getInt(ID);
+				StudentDAO sdb = new Db2StudentDAO();
+				entry.setStudent(sdb.read(rs.getInt(IDSTUDENT)));
+				CourseDAO cdb = new Db2CourseDAO();
+				entry.setCourse(cdb.read(rs.getInt(IDCOURSE)));
+				result = entry;
+			}
+			rs.close();
+			prep_stmt.close();
+		}
+		catch (Exception e) {
+			logger.warning("read(): failed to retrieve entry with id = " + id+": "+e.getMessage());
+			e.printStackTrace();
+		}
+		finally {
+			Db2DAOFactory.closeConnection(conn);
+		}
+		return result;
 	}
 
 	@Override
