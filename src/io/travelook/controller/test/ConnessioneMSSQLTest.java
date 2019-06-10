@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import io.travelook.controller.RegistrazioneController;
 
-class ConnessioneMySQLTest {
+class ConnessioneMSSQLTest {
 	Connection conn;
 	@Test
 	
