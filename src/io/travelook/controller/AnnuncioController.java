@@ -14,7 +14,6 @@ public class AnnuncioController implements IAnnuncio {
     	/* nel costruttore reperisco le info sul viaggio dal db */ 
     	
     }
-    /*diocane*/
 	@Override
 	public Utente[] visuallizzaUtentiPartecipanti(Integer idAnnuncio) {
 		Utente[] res;
@@ -27,7 +26,7 @@ public class AnnuncioController implements IAnnuncio {
 
 	@Override
 	public boolean modificaAnnuncio(Viaggio modificaato) {
-		/* questo metodo tramite un insert a livello db andrà a modificare i dati del viaggio passato come argomento */
+		/* questo metodo tramite un insert a livello db andrï¿½ a modificare i dati del viaggio passato come argomento */
 		return false;
 	}
 
