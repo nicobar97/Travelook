@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.List;
 
 import io.travelook.model.Stato;
@@ -168,14 +169,22 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 
 	@Override
 	public List<Viaggio> readViaggiListFromDb() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public boolean createTable() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean res=false;
+		try {
+			Statement stmt = conn.createStatement();
+			stmt.execute(MssqlViaggioDAO.create);
+			res = true;
+			stmt.close();	
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 	@Override
