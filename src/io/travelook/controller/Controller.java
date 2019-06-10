@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 import io.travelook.model.Entry;
 
 public abstract class Controller implements IController {
-
+//PORCODIO
 	private Connection connessione;
 	public String JDBC_URL = "jdbc:sqlserver://travelook.database.windows.net:1433;database=travelook;"
 			+ "user=travelook@travelook;password=travel_2019;encrypt=true;trustServerCertificate=false;"
