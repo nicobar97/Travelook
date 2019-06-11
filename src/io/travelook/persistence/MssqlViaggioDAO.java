@@ -70,6 +70,13 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 				"FROM " + table + " " +
 				"WHERE " + ID + " = ? "
 			;
+		// UPDATE  a Table 
+		static String update = 
+				"UPDATE " + table + " " +
+					"SET "  
+						 +IDC+ " = ?, " +
+					"WHERE " + ID + " = ? "
+				;
 
 	public MssqlViaggioDAO(Connection conn) {
 		this.conn = conn;
@@ -77,6 +84,9 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 	
 	@Override //inserisce un viaggio nel db // 
 	public void create(Viaggio viaggio) {
+		if(viaggio==null) {
+			System.out.println( "insert(): failed to insert a null entry");
+			}
 		// TODO Auto-generated method stub
 		/*" (id,idCreatore,titolo,destinazione,descrizione,lingua,budget,dataPartenza,dataFine"+
 		",immagineProfilo,immaginiAlternative"+*/
@@ -148,8 +158,28 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 
 	@Override
 	public boolean update(Viaggio viaggio) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		if ( viaggio == null )  {
+			System.out.println( "update(): failed to update a null entry");
+			return result;
+		}
+		try {
+			/*PreparedStatement prep_stmt = conn.prepareStatement(Db2CourseDAO.update);
+			prep_stmt.clearParameters();
+			prep_stmt.setInt(1, course.getId());
+			prep_stmt.setString(2, course.getName());
+			prep_stmt.executeUpdate();
+			result = true;
+			prep_stmt.close();*/
+		}
+		catch (Exception e) {
+			System.out.println("insert(): failed to update entry: "+e.getMessage());
+			e.printStackTrace();
+		}
+		finally {
+			//Db2DAOFactory.closeConnection(conn);
+		}
+		return result;
 	}
 
 	@Override

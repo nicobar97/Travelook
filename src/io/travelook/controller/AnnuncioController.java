@@ -6,13 +6,17 @@ import java.util.List;
 import io.travelook.model.Recensione;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
+import io.travelook.persistence.MssqlViaggioDAO;
 
-public class AnnuncioController implements IAnnuncio {
+public class AnnuncioController extends Controller implements IAnnuncio {
     private Viaggio viaggio;
+    private MssqlViaggioDAO viagdao=new MssqlViaggioDAO(super.getDbConnection());
+    
     
     public AnnuncioController() {
     	/* nel costruttore reperisco le info sul viaggio dal db */ 
-    	
+    	this.viaggio=viagdao.read(viaggio.getIdViaggio());
+    	    	
     }
 	@Override
 	public Utente[] visuallizzaUtentiPartecipanti(Integer idAnnuncio) {
@@ -56,6 +60,18 @@ public class AnnuncioController implements IAnnuncio {
 			res=true;
 		}
 		return res;
+	}
+	public Viaggio getViaggio() {
+		return viaggio;
+	}
+	public void setViaggio(Viaggio viaggio) {
+		this.viaggio = viaggio;
+	}
+	public MssqlViaggioDAO getViagdao() {
+		return viagdao;
+	}
+	public void setViagdao(MssqlViaggioDAO viagdao) {
+		this.viagdao = viagdao;
 	}
 
 }
