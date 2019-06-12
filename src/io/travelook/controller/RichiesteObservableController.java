@@ -143,4 +143,7 @@ public class RichiesteObservableController extends Controller implements IGestio
 			}
 		}
 	}
+	public void getRichiestaDiPartecipazione(int id) {
+		
+	}
 }

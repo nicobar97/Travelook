@@ -52,6 +52,9 @@ public class Utente {
 		this.recensioni = recensioni;
 	}
 	
+	public Utente() {
+		// TODO Auto-generated constructor stub
+	}
 	public int getId() {
 		return idUtente;
 	}

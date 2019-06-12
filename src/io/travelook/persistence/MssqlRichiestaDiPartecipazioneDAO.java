@@ -8,6 +8,9 @@ import java.sql.Statement;
 import java.util.List;
 
 import io.travelook.model.RichiestaDiPartecipazione;
+import io.travelook.model.Stato;
+import io.travelook.model.Utente;
+import io.travelook.model.Viaggio;
 import io.travelook.utils.StatoUtils;
 
 public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazioneDAO {
@@ -16,7 +19,14 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 	static final String insert = "INSERT INTO " + table + 
 			" (idUtente,idViaggio,idCreatore,messaggioRichiesta,messaggioRisposta,stato)" +
 			" VALUES (?,?,?,?,?,?)";
-	static final String read = "SELECT * FROM " + table + "WHERE id=?";
+	static final String read = "SELECT 	rdp.id, rdp.messaggioRichiesta, rdp.messaggioRisposta, rdp.stato, \n" + 
+			"		rdp.idCreatore, c.nickname, c.email, c.nome, c.cognome, c.dataNascita, c.imgProfilo,\n" + 
+			"		rdp.idUtente, u.nickname, u.email, u.nome, u.cognome, u.dataNascita, u.imgProfilo,\n" + 
+			"		rdp.idViaggio, v.titolo, v.destinazione, v.descrizione, v.budget, v.luogoPartenza, v.dataPartenza, v.dataFine, v.immagineProfilo  FROM Richiesta_Di_Partecipazione AS rdp\n" + 
+			"INNER JOIN Utente AS c ON c.id = rdp.idCreatore\n" + 
+			"INNER JOIN Viaggio AS v ON v.id = rdp.idViaggio\n" + 
+			"INNER JOIN Utente AS u ON u.id = rdp.idUtente\n" + 
+			"WHERE rdp.id=1\n";
 			
 	static final String create = "create table " + table + " (" + 
 			"     id int not null IDENTITY PRIMARY KEY," + 
@@ -69,25 +79,66 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 			PreparedStatement prep_stmt = conn.prepareStatement(MssqlRichiestaDiPartecipazioneDAO.read);
 			prep_stmt.clearParameters();
 			prep_stmt.setInt(1, id);
+			/*
+			 * 	rdp.id, rdp.messaggioRichiesta, rdp.messaggioRisposta, rdp.stato, \n" + 
+			"	rdp.idCreatore, c.nickname, c.email, c.nome, c.cognome, c.dataNascita, c.imgProfilo,\n" + 
+			"	rdp.idUtente, u.nickname, u.email, u.nome, u.cognome, u.dataNascita, u.imgProfilo,\n" + 
+			"	rdp.idViaggio, v.titolo, v.destinazione, v.descrizione, v.budget, v.luogoPartenza, 
+				v.dataPartenza, v.dataFine, v.immagineProfilo 
+			 */
 			ResultSet rs = prep_stmt.executeQuery();
 			if ( rs.next() ) {
-				RichiestaDiPartecipazione entry = new RichiestaDiPartecipazione();
-				int id = rs.getInt(ID);
-				StudentDAO sdb = new Db2StudentDAO();
-				entry.setStudent(sdb.read(rs.getInt(IDSTUDENT)));
-				CourseDAO cdb = new Db2CourseDAO();
-				entry.setCourse(cdb.read(rs.getInt(IDCOURSE)));
-				result = entry;
+				RichiestaDiPartecipazione rdp = new RichiestaDiPartecipazione();
+				int i=1;
+				rdp.setId(rs.getInt(i++));
+				rdp.setMessaggioRichiesta(rs.getString(i++));
+				rdp.setRisposta(rs.getString(i++));
+				rdp.setStato(Stato.values()[rs.getInt(i++)]);
+				Utente c = new Utente();
+				c.setId(rs.getInt(i++));
+				c.setUsername(rs.getString(i++));
+				c.setEmail(rs.getString(i++));
+				c.setNome(rs.getString(i++));
+				c.setCognome(rs.getString(i++));
+				c.setDataNascita(rs.getDate(i++));
+				c.setImmagineProfilo(rs.getString(i++));
+				Utente u = new Utente();
+				u.setId(rs.getInt(i++));
+				u.setUsername(rs.getString(i++));
+				u.setEmail(rs.getString(i++));
+				u.setNome(rs.getString(i++));
+				u.setCognome(rs.getString(i++));
+				u.setDataNascita(rs.getDate(i++));
+				u.setImmagineProfilo(rs.getString(i++));
+				rdp.setUtente(u);
+				Viaggio v = new Viaggio();
+				v.setIdViaggio(rs.getInt(i++));
+				v.setTitolo(rs.getString(i++));
+				v.setDestinazione(rs.getString(i++));
+				v.setDescrizione(rs.getString(i++));
+				v.setBudget(rs.getInt(i++));
+				v.setLuogopartenza(rs.getString(i++));
+				v.setDatainizio(rs.getDate(i++));
+				v.setDatafine(rs.getDate(i++));
+				v.setImmaginiProfilo(rs.getString(i++));
+				v.setCreatore(c);
+				rdp.setViaggio(v);
+				result = rdp;
 			}
 			rs.close();
 			prep_stmt.close();
 		}
 		catch (Exception e) {
-			logger.warning("read(): failed to retrieve entry with id = " + id+": "+e.getMessage());
+			System.out.println("read(): failed to retrieve entry with id = " + id+": "+e.getMessage());
 			e.printStackTrace();
 		}
 		finally {
-			Db2DAOFactory.closeConnection(conn);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
