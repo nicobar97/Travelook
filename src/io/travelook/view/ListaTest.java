@@ -2,10 +2,16 @@ package io.travelook.view;
 
 import java.io.IOException;
 
+import io.travelook.controller.UtenteController;
+import io.travelook.model.Utente;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
@@ -14,7 +20,7 @@ import javafx.stage.Stage;
 public class ListaTest extends Application {
 	private Stage primaryStage;
     private FlowPane rootLayout;
-    private TextField textField;
+    private ListView<Utente> listView;
     private Button button;
     private int count;
 	@Override
@@ -39,11 +45,15 @@ public class ListaTest extends Application {
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
-            /*textField = (TextField) scene.lookup("#textField");
-            button = (Button) scene.lookup("#button");
+            listView = null;
+            listView = (ListView<Utente>) scene.lookup("#lista");
+            UtenteController controller = new UtenteController();
+            ObservableList<Utente> items = FXCollections.observableArrayList(controller.getListaUtenti());
+            listView.setItems(items);
+            listView.setCellFactory(userCell -> new TestCell());
+            /*button = (Button) scene.lookup("#button1");
             button.setOnAction(event -> {
-            	count++;
-            	textField.setText("Hello World! N.Pressed: " + count);
+            	
             });*/
             primaryStage.show();
         } catch (IOException e) {
@@ -54,3 +64,4 @@ public class ListaTest extends Application {
         return primaryStage;
     }
 }
+

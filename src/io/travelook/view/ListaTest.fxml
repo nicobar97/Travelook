@@ -5,7 +5,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane prefHeight="37.0" prefWidth="600.0">
@@ -15,13 +14,13 @@
       </Pane>
       <Pane prefHeight="363.0" prefWidth="505.0">
          <children>
-            <ListView layoutY="1.0" prefHeight="363.0" prefWidth="505.0" />
+            <ListView fx:id="lista" layoutY="1.0" prefHeight="363.0" prefWidth="505.0" />
          </children>
       </Pane>
       <Pane prefHeight="363.0" prefWidth="94.0">
          <children>
-            <Button layoutX="18.0" layoutY="21.0" mnemonicParsing="false" text="Refresh" />
-            <Button layoutX="18.0" layoutY="63.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="66.0" text="Aggiungi Utente" textAlignment="CENTER" wrapText="true">
+            <Button fx:id="button1" layoutX="18.0" layoutY="21.0" mnemonicParsing="false" text="Refresh" />
+            <Button fx:id="button2" layoutX="18.0" layoutY="63.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="66.0" text="Aggiungi Utente" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="10.0" />
                </font>
