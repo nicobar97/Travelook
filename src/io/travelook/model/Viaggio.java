@@ -1,7 +1,7 @@
 package io.travelook.model;
 
 import java.util.ArrayList;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 public class Viaggio {
@@ -44,7 +44,23 @@ public class Viaggio {
 		this.dataFine = dataFine;
 		this.setStato(stato);
 	}
-	
+	public Viaggio(int idViaggio, Utente creatore, String titolo, String destinazione, String lingua, int budget,
+			String descrizione, String luogoPartenza, Date dataInizio, Date dataFine, Stato stato) throws IllegalArgumentException {
+		if(idViaggio < 0 || titolo == null || destinazione == null || lingua == null || budget < 0 || 
+				budget > 5 || descrizione == null || dataInizio == null || creatore == null)
+			throw new IllegalArgumentException();
+		this.idViaggio = idViaggio;
+		this.creatore = creatore;
+		this.titolo = titolo;
+		this.destinazione = destinazione;
+		this.lingua = lingua;
+		this.budget = budget;
+		this.descrizione = descrizione;
+		this.luogoPartenza = luogoPartenza;
+		this.dataInizio = dataInizio;
+		this.dataFine = dataFine;
+		this.setStato(stato);
+	}
 	public Viaggio(int idViaggio, Utente creatore, String titolo, String destinazione, String lingua, int budget, ArrayList<Utente> partecipanti,
 			String descrizione, String luogoPartenza, Date dataInizio, Date dataFine, Stato stato,String imP,String imA) throws IllegalArgumentException {
 		if(idViaggio < 0 || titolo == null || destinazione == null || lingua == null || budget < 0 || 
