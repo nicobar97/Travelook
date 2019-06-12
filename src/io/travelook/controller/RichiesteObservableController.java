@@ -16,7 +16,7 @@ public class RichiesteObservableController extends Controller implements IGestio
 	public RichiesteObservableController() {
 		super();
 		this.observers = new ArrayList<Observer>();
-		this.db = new MssqlRichiestaDiPartecipazioneDAO(super.startConnection());
+		this.db = new MssqlRichiestaDiPartecipazioneDAO(super.getDbConnection());
 		this.listaRichieste = db.readRDPListFromDb();
 		if(this.listaRichieste == null)
 			this.listaRichieste = new ArrayList<RichiestaDiPartecipazione>();

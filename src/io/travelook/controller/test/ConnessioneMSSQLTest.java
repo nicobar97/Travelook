@@ -7,20 +7,22 @@ import java.sql.Connection;
 import org.junit.jupiter.api.Test;
 
 import io.travelook.controller.RegistrazioneController;
+import io.travelook.controller.RichiesteObservableController;
 
 class ConnessioneMSSQLTest {
 	Connection conn;
-	@Test
 	
 	void testStartConnection() {
 		RegistrazioneController rc = new RegistrazioneController();
-		conn = rc.startConnection(); // la stringa qua non serve
+		conn = rc.getDbConnection(); // la stringa qua non serve
 		assertNotNull(conn);
 		
 	}
+	@Test
 	void testGetConnection() {
-		RegistrazioneController rc = new RegistrazioneController(); // prendo un controller a caso
+		RichiesteObservableController rc = new RichiesteObservableController(); // prendo un controller a caso
 		conn = rc.getDbConnection();
+		System.out.println(conn == null ? "PORCODIO": "bella");
 		assertNotNull(conn);
 	}
 

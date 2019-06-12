@@ -7,10 +7,11 @@ import io.travelook.model.Recensione;
 import io.travelook.model.Storico;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
+import io.travelook.persistence.MssqlUtenteDAO;
 
-public class UtenteController implements IGestioneProfiloUtente {
+public class UtenteController extends Controller implements IGestioneProfiloUtente {
 	private List<Utente> listaUtenti;
-	
+	private MssqlUtenteDAO db;
 	public UtenteController() {
 		/**
 		 * Nel costruttore reperisco l'utente dal database, immmagino debba essere fatto in questo modo,
@@ -18,8 +19,11 @@ public class UtenteController implements IGestioneProfiloUtente {
 		 * se no non so come passarglielo, visto e considerato che l'utente � il campo principale
 		 */
 		
-		listaUtenti = new ArrayList<Utente>();
-		
+		// = new ArrayList<Utente>();
+		db = new MssqlUtenteDAO(super.getDbConnection());
+		listaUtenti = db.readUtentiFromDB();
+		if(listaUtenti == null)
+			listaUtenti = new ArrayList<Utente>();
 		
 	}
 
@@ -115,21 +119,24 @@ public class UtenteController implements IGestioneProfiloUtente {
 
 	@Override
 	public boolean eliminaUtente(Utente utente) {
-		// TODO Auto-generated method stub
-		
-		boolean esito= true;
-		
-		/**
-		 * query
-		 */
-		return esito;
+		boolean ok = true;
+		if(this.listaUtenti.contains(utente))
+			this.listaUtenti.remove(utente);
+		else
+			return ok = false;
+		return ok;
 	}
 	public boolean aggiungiUtente(Utente u) {
 		boolean ok = true;
 		if(this.listaUtenti.contains(u))
-			ok = false;
+			ok = false;//se lo contiene aggiornalo
 		else
 			this.listaUtenti.add(u);
 		return ok;
+	}
+	public List<Utente> getListaUtenti() {
+		db = new MssqlUtenteDAO(super.getDbConnection());
+		listaUtenti = db.readUtentiFromDB();
+		return this.listaUtenti;
 	}
 }

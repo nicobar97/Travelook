@@ -6,7 +6,6 @@ import java.sql.Connection;
 import io.travelook.model.Entry;
 
 public interface IController {
-	public Connection startConnection();
 	public Writer openWriterLog(Path logPath);
 	public void scriviOperazioneLog(Entry entryLog);
 	public Connection getDbConnection();
