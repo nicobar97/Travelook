@@ -36,6 +36,6 @@ public class RichiesteObservableTest {
 		
 		andre.setMessaggioRichiesta("Ti ho rifiuto");
 		andre.setStato(Stato.NONACCETTATA);
-		controller.rispondiRichiesta(andre);s
+		controller.rispondiRichiesta(andre);
 	}
 }
