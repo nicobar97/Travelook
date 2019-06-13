@@ -5,12 +5,12 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.travelook.model.Stato;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
-import io.travelook.utils.StatoUtils;
 
 public class MssqlViaggioDAO implements ViaggioDAO {
 	Connection conn;
@@ -200,7 +200,9 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 	@Override
 	public List<Viaggio> readViaggiListFromDb() {
 		
-		return null;
+		List<Viaggio> listaViaggi = new ArrayList<Viaggio>();
+		
+		return listaViaggi;
 	}
 
 	@Override

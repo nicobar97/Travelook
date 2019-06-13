@@ -85,6 +85,7 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 	@Override
 	public List<Recensione> visualizzaRecensioni() {
 		// TODO Auto-generated method stub
+		List<Recensione> lista = new ArrayList<Recensione>();
 		return null;
 	}
 

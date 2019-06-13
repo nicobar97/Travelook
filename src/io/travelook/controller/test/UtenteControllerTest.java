@@ -12,12 +12,17 @@ import org.junit.jupiter.api.Test;
 import io.travelook.controller.RegistrazioneController;
 import io.travelook.controller.UtenteController;
 import io.travelook.model.Interessi;
+import io.travelook.model.Recensione;
 import io.travelook.model.Utente;
+import io.travelook.persistence.MssqlRecensioniDAO;
 import io.travelook.persistence.MssqlUtenteDAO;
 
 class UtenteControllerTest {
 	UtenteController utenteController = new UtenteController();
+	
+	
 	@SuppressWarnings("deprecation")
+	/*
 	@Test
 	void testAggiungiInteressi() {
 		
@@ -70,6 +75,34 @@ class UtenteControllerTest {
 		MssqlUtenteDAO dao = new MssqlUtenteDAO(conn);
 		assertEquals(dao.getIdUtenteByUsername("nicobartelucci"),3);
 		
+	}
+	*/
+	
+	@Test
+	void testLasciaRecensione() {
+		Recensione rSbagliata = new Recensione(1,5,"TUTTO BENE","E' filata tutta liscia",2);
+		Recensione rGiusta = new Recensione(1,5,"TUTTO BENE","E' filata tutta liscia",17);
+		UtenteController uc = new UtenteController();
+		MssqlRecensioniDAO rd = new MssqlRecensioniDAO(uc.getDbConnection());
+		assertFalse(rd.create(rSbagliata));
+		assertTrue(rd.create(rGiusta));
+	}
+	@Test
+	void testEliminaRecensione() {
+		Recensione rGiusta = new Recensione(1,5,"TUTTO BENE","E' filata tutta liscia",17);
+		Recensione rSbagliata = new Recensione(1,5,"TUTTO BENE","E' filata tutta liscia",2);
+		UtenteController uc = new UtenteController();
+		MssqlRecensioniDAO rd = new MssqlRecensioniDAO(uc.getDbConnection());
+		assertTrue(rd.delete(rGiusta));
+		assertFalse(rd.delete(rSbagliata));
+		
+	}
+	@Test
+	void testGetRecensioniUtente() {
+		Utente utente1 = new Utente(1, "asalvucci", "andrea@gmail.com", "Andrea", "Salvucci", new Date(1997,11,14) ,"C:/");
+		UtenteController uc = new UtenteController();
+		MssqlRecensioniDAO rd = new MssqlRecensioniDAO(uc.getDbConnection());
+		assertEquals(1, rd.readRecensioniUtente(utente1).size());
 	}
 
 }
