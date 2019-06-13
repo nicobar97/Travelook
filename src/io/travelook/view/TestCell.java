@@ -42,8 +42,9 @@ protected void updateItem(Utente user, boolean empty) {
                 alert.setContentText("error");
             }
         }
-        lblTitle.setText(user.getNome() + " " + user.getCognome());
-        lblTitle.setStyle("-fx-font-size 24pt;");
+        lblTitle.setText(user.getNome() + "" + user.getCognome());
+        
+        lblTitle.setStyle("-fx-font: 20 arial;");
         lblOverview.setText("nickname: " + user.getUsername() + " + email: " + user.getEmail());
         poster.setImage(new Image("test.png"));
         setText(null);
