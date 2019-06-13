@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -201,6 +202,44 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 	public List<Viaggio> readViaggiListFromDb() {
 		
 		List<Viaggio> listaViaggi = new ArrayList<Viaggio>();
+		String leggituttiviaggi= "SELECT * FROM Viaggio";
+		
+		try {
+			PreparedStatement prep_stmt = conn.prepareStatement(leggituttiviaggi);
+			ResultSet rs = prep_stmt.executeQuery();
+			while(rs.next()) {
+				Viaggio v = new Viaggio();
+				int idViaggio;
+				MssqlUtenteDAO ud = new MssqlUtenteDAO(conn);
+				idViaggio=rs.getInt("id");
+				Utente creatore = ud.read(rs.getInt("idCreatore"));
+				v.setCreatore(creatore);
+				v.setBudget(rs.getInt("budget"));
+				v.setDatafine(rs.getDate("dataFine"));
+				v.setDatainizio(rs.getDate("dataPartenza"));
+				v.setImmaginiAlte(rs.getString("immaginiAlternative"));
+				v.setIdViaggio(rs.getInt("id"));
+				v.setLingua(rs.getString("lingua"));
+				v.setLuogopartenza(rs.getString("luogoPartenza"));
+				v.setStato(Stato.valueOf(rs.getString("stato")));
+				v.setDescrizione(rs.getString("descrizione"));
+				v.setTitolo(rs.getString("titolo"));
+				v.setImmaginiProfilo(rs.getString("immaginiProfilo"));
+				List<Utente> listaPartecipanti = new ArrayList<Utente>();
+				
+				String queryinnestata = "SELECT rdp.idUtente FROM Richiesta_Di_Partecipazione AS rdp WHERE idViaggio=? and stato=0";
+				PreparedStatement prep_stmt2 = conn.prepareStatement(queryinnestata);
+				prep_stmt2.setInt(1, idViaggio);
+				ResultSet rs2=prep_stmt2.executeQuery();
+				while(rs2.next()) {
+					listaPartecipanti.add(ud.read(rs.getInt("rdp.idUtente")));
+				}
+				v.setPartecipanti(listaPartecipanti);
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
 		
 		return listaViaggi;
 	}
