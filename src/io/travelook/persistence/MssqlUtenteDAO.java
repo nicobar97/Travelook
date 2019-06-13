@@ -27,7 +27,10 @@ public class MssqlUtenteDAO implements UtenteDAO {
 	static final String getlist = "select id,nickname,email,nome,cognome,dataNascita,imgProfilo from Utente";
 	
 	static final String delete = "delete from Utente where id=?";
-	static final String deletePartecipante = "delete from Viaggio where idPartecipante=?";
+	//static final String deletePartecipante = "delete from Viaggio where idPartecipante=?";
+	
+	static final String update = "UPDATE Utente SET nickname=?, email=?, nome=?, cognome=?,dataNascita=?,"
+			+ "imgProfilo=? WHERE id=?";
 	
 
 	public MssqlUtenteDAO(Connection dbConnection) {
@@ -118,8 +121,38 @@ public class MssqlUtenteDAO implements UtenteDAO {
 	}
 
 	@Override
-	public void update(Utente u) {
-		// TODO Auto-generated method stub
+	public boolean update(Utente u) {
+		int utenteId=u.getId();
+		if(u==null) {
+			System.out.println("utente is null");
+			return false;
+		}
+		try {
+			/**
+			 * update = "UPDATE Utente SET nickname=?, email=?, nome=?, cognome=?,dataNascita=?,"
+			+ "imgProfilo=? WHERE id=?";
+			 */
+			PreparedStatement prep_stmt = conn.prepareStatement(update);
+			prep_stmt.setString(1, u.getUsername());
+			prep_stmt.setString(2, u.getEmail());
+			prep_stmt.setString(3, u.getNome());
+			prep_stmt.setString(4, u.getCognome());
+			prep_stmt.setDate(5, u.getDataNascita());
+			prep_stmt.setString(6, u.getImmagineProfilo());
+			prep_stmt.setInt(7, u.getId());
+			if(prep_stmt.executeUpdate()>0) {
+				System.out.println("Aggiornato utente con id " + u.getId());
+				return true;
+			}
+			else {
+				System.out.println("Non ho potuto aggiornare utente con id " + u.getId());
+				return false;
+			}
+		}
+		catch(SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		return false;
 
 	}
 

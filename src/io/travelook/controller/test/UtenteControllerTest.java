@@ -34,13 +34,14 @@ class UtenteControllerTest {
 		assertFalse(utenteController.aggiungiInteressi(Interessi.CINEMA,utente1));
 		assertTrue(utenteController.aggiungiInteressi(Interessi.MUSICA,utente1));
 	}
-	/*void testInsertUtente() {
-		Utente utente1 = new Utente(1, "orcoddio", "andrea@gmail.com", "Andrea", "Salvucci", new Date(1997,14,11),"C:/");
+	@Test
+	void testInsertUtente() {
+		Utente utente1 = new Utente(1, "orcoddio", "andrea@gmail.com", "Andrea", "Salvucci", Date.valueOf("1997-11-14"),"C:/");
 		RegistrazioneController rc = new RegistrazioneController();
 		MssqlUtenteDAO dao = new MssqlUtenteDAO(rc.getDbConnection());
 		dao.create(utente1);
 		
-	}*/
+	}
 	@Test
 	void testDeleteUtente() {
 		int idEsistente = 5;
@@ -50,6 +51,15 @@ class UtenteControllerTest {
 		MssqlUtenteDAO dao = new MssqlUtenteDAO(conn);
 		assertTrue(dao.delete(idEsistente));
 		assertFalse(dao.delete(idNonEsistente));
+	}
+	
+	@Test
+	void testUpdateUtente() {
+		Utente daAggiornare = new Utente(1,"nicobartelucci","nicobart@elucci.com", "Nicolo", "Bartelucci", Date.valueOf("1997-1-1"), "C:/");
+		UtenteController uc = new UtenteController();
+		Connection conn = uc.getDbConnection();	
+		MssqlUtenteDAO dao = new MssqlUtenteDAO(conn);
+		assertTrue(dao.update(daAggiornare));
 	}
 
 }

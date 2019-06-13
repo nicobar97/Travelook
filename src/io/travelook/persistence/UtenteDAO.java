@@ -9,7 +9,7 @@ public interface UtenteDAO {
 	
 	public Utente read(int id);
 	
-	public void update(Utente u);
+	public boolean update(Utente u);
 	
 	public boolean delete(int id);
 	
