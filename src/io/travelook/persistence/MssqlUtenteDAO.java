@@ -32,6 +32,8 @@ public class MssqlUtenteDAO implements UtenteDAO {
 	static final String update = "UPDATE Utente SET nickname=?, email=?, nome=?, cognome=?,dataNascita=?,"
 			+ "imgProfilo=? WHERE id=?";
 	
+	static final String getIdUtente = "SELECT id FROM Utente WHERE nickname=?";
+	
 
 	public MssqlUtenteDAO(Connection dbConnection) {
 		conn = dbConnection;
@@ -180,6 +182,29 @@ public class MssqlUtenteDAO implements UtenteDAO {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	public int getIdUtenteByUsername(String username) {
+		System.out.println("cerco id dell'utente "+username);
+		int id=-1;
+		if(username.equals("")) {
+			System.out.println("Username is empty");
+			return -1;
+		}
+	   
+	   try {
+		   PreparedStatement prep_stmt = conn.prepareStatement(MssqlUtenteDAO.getIdUtente);
+		   prep_stmt.setString(1, username);
+		   ResultSet rs = prep_stmt.executeQuery();
+		   id=rs.getInt("id");
+		   prep_stmt.close();
+	   }
+	   catch(SQLException sqle) {
+		   sqle.printStackTrace();
+	   }
+		
+		return id;
+		
 	}
 
 	@Override

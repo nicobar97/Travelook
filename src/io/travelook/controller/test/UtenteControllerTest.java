@@ -1,5 +1,6 @@
 package io.travelook.controller.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -60,6 +61,15 @@ class UtenteControllerTest {
 		Connection conn = uc.getDbConnection();	
 		MssqlUtenteDAO dao = new MssqlUtenteDAO(conn);
 		assertTrue(dao.update(daAggiornare));
+	}
+	
+	@Test
+	void testGetIdByUsername() {
+		UtenteController uc = new UtenteController();
+		Connection conn = uc.getDbConnection();	
+		MssqlUtenteDAO dao = new MssqlUtenteDAO(conn);
+		assertEquals(dao.getIdUtenteByUsername("nicobartelucci"),3);
+		
 	}
 
 }
