@@ -26,6 +26,9 @@ public class MssqlUtenteDAO implements UtenteDAO {
 			+ "VALUES(?,?)";
 	static final String getlist = "select id,nickname,email,nome,cognome,dataNascita,imgProfilo from Utente";
 	
+	static final String delete = "delete from Utente where id=?";
+	static final String deletePartecipante = "delete from Viaggio where idPartecipante=?";
+	
 
 	public MssqlUtenteDAO(Connection dbConnection) {
 		conn = dbConnection;
@@ -122,8 +125,28 @@ public class MssqlUtenteDAO implements UtenteDAO {
 
 	@Override
 	public boolean delete(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		if(id<0) {
+			System.out.println("delete(): cannot delete an entry with negative id");
+			return false;
+		}
+		
+		try {
+			PreparedStatement prep_stmt = conn.prepareStatement(delete);
+			prep_stmt.setInt(1, id);
+			if(prep_stmt.executeUpdate()>0) {
+			prep_stmt.close();
+			System.out.println("Ho eliminato id " +id);
+			return true;
+			}
+			else {
+				System.out.println("Non ho eliminato id "+id);
+				return false;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
