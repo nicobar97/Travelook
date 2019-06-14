@@ -124,11 +124,8 @@ public class MssqlUtenteDAO implements UtenteDAO {
 
 	@Override
 	public boolean update(Utente u) {
-		int utenteId=u.getId();
-		if(u==null) {
-			System.out.println("utente is null");
+		if(u == null)
 			return false;
-		}
 		try {
 			/**
 			 * update = "UPDATE Utente SET nickname=?, email=?, nome=?, cognome=?,dataNascita=?,"
@@ -153,6 +150,14 @@ public class MssqlUtenteDAO implements UtenteDAO {
 		}
 		catch(SQLException sqle) {
 			sqle.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return false;
 
@@ -182,6 +187,14 @@ public class MssqlUtenteDAO implements UtenteDAO {
 			e.printStackTrace();
 			return false;
 		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public int getIdUtenteByUsername(String username) {
@@ -202,7 +215,14 @@ public class MssqlUtenteDAO implements UtenteDAO {
 	   catch(SQLException sqle) {
 		   sqle.printStackTrace();
 	   }
-		
+	   finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return id;
 		
 	}
