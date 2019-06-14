@@ -4,18 +4,24 @@ import java.util.List;
 
 import io.travelook.controller.Filtro;
 import io.travelook.model.Viaggio;
+import io.travelook.persistence.MssqlViaggioDAO;
 
-public class ListaAnnunciController {
+public class ListaAnnunciController extends Controller {
 	private Filtro f;
 	private List<Viaggio> annunci;
+	private MssqlViaggioDAO db;
+	
 	public ListaAnnunciController() {
 		super();
 		annunci = new ArrayList<Viaggio>();
+		db = new MssqlViaggioDAO(super.getDbConnection());
 	}
 
 	
 	
 	public List<Viaggio> getAnnunci() {
+		//db.setConn(super.getDbConnection());
+		this.annunci = db.readViaggiListFromDb();
 		return annunci;
 	}
 
@@ -29,6 +35,8 @@ public class ListaAnnunciController {
 			res=false;
 			System.out.println("viaggio nullo !");
 		}else {
+			db.setConn(super.getDbConnection());
+			db.create(v);
 			annunci.add(v);
 			res=true;
 		}
@@ -44,6 +52,8 @@ public class ListaAnnunciController {
 		else {
 			for(Viaggio v : annunci) {
 				if(v.getIdViaggio()==idannuncio) {
+					db.setConn(super.getDbConnection());
+					db.delete(v.getIdViaggio());
 					annunci.remove(v);
 					res=true;
 				}
@@ -52,7 +62,7 @@ public class ListaAnnunciController {
 		return res;
 	}
 	
-	public List<Viaggio> convertToViaggi(List<Object> oggetti){
+	/*public List<Viaggio> convertToViaggi(List<Object> oggetti){
 		List<Viaggio> res= new ArrayList<Viaggio>();
 		for(Object o :oggetti) {
 			Viaggio v=(Viaggio)o;
@@ -67,7 +77,7 @@ public class ListaAnnunciController {
 	        res.add(v);
 		}
 		return res;
-   }
+   }*/
 
 
 	public Viaggio visualizzaAnnuncio(int id) {

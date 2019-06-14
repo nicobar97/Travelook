@@ -14,7 +14,8 @@ import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 
 public class MssqlViaggioDAO implements ViaggioDAO {
-	Connection conn;
+	
+
 	// campi interni alla table Viaggio // 
 	static final String ID = "id";
 	static final String IDC = "idCreatore";
@@ -237,6 +238,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 		
 		try {
 			PreparedStatement prep_stmt = conn.prepareStatement(MssqlViaggioDAO.read_all);
+			prep_stmt.clearParameters();
 			ResultSet rs = prep_stmt.executeQuery();
 			while(rs.next()) {
 				
@@ -264,6 +266,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 				v.setCreatore(c);
 				List<Utente> listaPartecipanti = new ArrayList<Utente>();
 				PreparedStatement prep_stmt2 = conn.prepareStatement(MssqlViaggioDAO.list_user_viaggio);
+				prep_stmt2.clearParameters();
 				ResultSet rs2=prep_stmt2.executeQuery();
 				int k=0;
 				while(rs.next()) {
@@ -281,6 +284,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 				prep_stmt2.close();
 				rs2.close();
 				v.setPartecipanti(listaPartecipanti);
+				listaViaggi.add(v);
 			}
 			prep_stmt.close();
 			rs.close();
@@ -320,5 +324,18 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	private Connection conn;
+	public Connection getConn() {
+		return conn;
+	}
 
+	public void setConn(Connection conn) {
+		try {
+			this.conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.conn = conn;
+	}
 }
