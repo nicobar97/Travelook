@@ -55,7 +55,10 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			"foreign key(idPartecipante) references Utente(id),"+
 			"unique(id, idCreatore, idPartecipante)"+
 			")";
-	
+	static String read_all = "select 	v.id, v.titolo, v.destinazione, v.descrizione, v.budget, v.luogoPartenza, \r\n" + 
+			"		v.dataPartenza, v.dataFine, v.lingua, v.stato, v.immagineProfilo, v.idCreatore, c.nickname,\r\n" + 
+			"		c.email, c.nome, c.cognome, c.dataNascita, c.imgProfilo from Viaggio v\r\n" + 
+			"inner join Utente AS c on c.id = v.idCreatore";
 	
 	// SELECT * FROM table WHERE idcolumn = ?;
 	static String read_by_id = 
@@ -63,7 +66,9 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			"FROM " + table + " v " +
 			"inner join UTENTE AS C ON v."+IDC+"=c.id" 
 		;
-	
+	static String list_user_viaggio = "select rdp.idUtente, u.nickname, u.email, u.nome, u.cognome, u.dataNascita, u.imgProfilo from Richiesta_Di_Partecipazione rdp\r\n" + 
+			"inner join Utente as u on u.id = rdp.idUtente\r\n" + 
+			"where stato = 0;";
 	// DELETE FROM table WHERE idcolumn = ?;
 		static String delete = 
 			"DELETE " +
@@ -111,6 +116,14 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			System.out.println("create(): failed to insert entry: " + e.getMessage());
 			e.printStackTrace();
 		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
@@ -142,7 +155,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 				v.setLuogopartenza(rs.getString("luogoPartenza"));
 				v.setDatainizio(rs.getDate("dataPartenza"));
 				v.setDatafine(rs.getDate("dataFine"));
-				v.setStato(Stato.ACCETTATA);
+				v.setStato(Stato.values()[rs.getInt("stato")]);
 				res=v;
 			}
 			rs.close();
@@ -151,6 +164,14 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 		}
 		catch(Exception e) {
 			
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return res;
 	}
@@ -176,7 +197,12 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			e.printStackTrace();
 		}
 		finally {
-			//Db2DAOFactory.closeConnection(conn);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
@@ -193,6 +219,14 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return res;
 	}
 
@@ -200,43 +234,68 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 	public List<Viaggio> readViaggiListFromDb() {
 		
 		List<Viaggio> listaViaggi = new ArrayList<Viaggio>();
-		String leggituttiviaggi= "SELECT * FROM Viaggio";
 		
 		try {
-			PreparedStatement prep_stmt = conn.prepareStatement(leggituttiviaggi);
+			PreparedStatement prep_stmt = conn.prepareStatement(MssqlViaggioDAO.read_all);
 			ResultSet rs = prep_stmt.executeQuery();
 			while(rs.next()) {
-				Viaggio v = new Viaggio();
-				int idViaggio;
-				MssqlUtenteDAO ud = new MssqlUtenteDAO(conn);
-				idViaggio=rs.getInt("id");
-				Utente creatore = ud.read(rs.getInt("idCreatore"));
-				v.setCreatore(creatore);
-				v.setBudget(rs.getInt("budget"));
-				v.setDatafine(rs.getDate("dataFine"));
-				v.setDatainizio(rs.getDate("dataPartenza"));
-
-				v.setIdViaggio(rs.getInt("id"));
-				v.setLingua(rs.getString("lingua"));
-				v.setLuogopartenza(rs.getString("luogoPartenza"));
-				v.setStato(Stato.valueOf(rs.getString("stato")));
-				v.setDescrizione(rs.getString("descrizione"));
-				v.setTitolo(rs.getString("titolo"));
-				v.setImmaginiProfilo(rs.getString("immaginiProfilo"));
-				List<Utente> listaPartecipanti = new ArrayList<Utente>();
 				
-				String queryinnestata = "SELECT rdp.idUtente FROM Richiesta_Di_Partecipazione AS rdp WHERE idViaggio=? and stato=0";
-				PreparedStatement prep_stmt2 = conn.prepareStatement(queryinnestata);
-				prep_stmt2.setInt(1, idViaggio);
+				int i=1;
+				Viaggio v = new Viaggio();
+				v.setIdViaggio(rs.getInt(i++));
+				v.setTitolo(rs.getString(i++));
+				v.setDestinazione(rs.getString(i++));
+				v.setDescrizione(rs.getString(i++));
+				v.setBudget(rs.getInt(i++));
+				v.setLuogopartenza(rs.getString(i++));
+				v.setDatainizio(rs.getDate(i++));
+				v.setDatafine(rs.getDate(i++));
+				v.setLingua(rs.getString(i++));
+				v.setStato(Stato.values()[rs.getInt(i++)]);
+				v.setImmaginiProfilo(rs.getString(i++));
+				Utente c = new Utente();
+				c.setId(rs.getInt(i++));
+				c.setUsername(rs.getString(i++));
+				c.setEmail(rs.getString(i++));
+				c.setNome(rs.getString(i++));
+				c.setCognome(rs.getString(i++));
+				c.setDataNascita(rs.getDate(i++));
+				c.setImmagineProfilo(rs.getString(i++));
+				v.setCreatore(c);
+				List<Utente> listaPartecipanti = new ArrayList<Utente>();
+				PreparedStatement prep_stmt2 = conn.prepareStatement(MssqlViaggioDAO.list_user_viaggio);
 				ResultSet rs2=prep_stmt2.executeQuery();
-				while(rs2.next()) {
-					listaPartecipanti.add(ud.read(rs.getInt("rdp.idUtente")));
+				int k=0;
+				while(rs.next()) {
+					Utente u = new Utente();
+					k=1;
+					u.setId(rs.getInt(k++));
+					u.setUsername(rs.getString(k++));
+					u.setEmail(rs.getString(k++));
+					u.setNome(rs.getString(k++));
+					u.setCognome(rs.getString(k++));
+					u.setDataNascita(rs.getDate(k++));
+					u.setImmagineProfilo(rs.getString(k++));
+					listaPartecipanti.add(u);
 				}
+				prep_stmt2.close();
+				rs2.close();
 				v.setPartecipanti(listaPartecipanti);
 			}
+			prep_stmt.close();
+			rs.close();
+			
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return listaViaggi;
