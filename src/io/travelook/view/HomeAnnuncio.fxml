@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
+<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="284.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-  <!-- TODO Add Nodes -->
-  <children>
-    <Button fx:id="button" layoutX="140.0" layoutY="104.0" mnemonicParsing="false" text="PressMe!" />
-    <TextField fx:id="textField" editable="false" layoutX="74.0" layoutY="152.0" prefWidth="200.0" />
-  </children>
-</AnchorPane>
+<FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="809.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane prefHeight="54.0" prefWidth="809.0">
+         <children>
+            <Label layoutX="75.0" layoutY="5.0" prefHeight="43.0" prefWidth="333.0" text="Travelook - Annuncio">
+               <font>
+                  <Font name="Arial" size="25.0" />
+               </font></Label>
+            <ImageView fitHeight="72.0" fitWidth="70.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image fx:id="logo" url="@../../../logo.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="back" layoutX="749.0" layoutY="9.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="50.0" text="Back" />
+         </children>
+      </Pane>
+      <Pane prefHeight="506.0" prefWidth="530.0" />
+      <Pane prefHeight="505.0" prefWidth="279.0">
+         <children>
+            <Pane layoutX="-1.0" prefHeight="249.0" prefWidth="279.0" />
+            <Pane layoutY="247.0" prefHeight="259.0" prefWidth="279.0">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="259.0" layoutY="-5.0" stroke="BLACK" strokeType="INSIDE" width="273.0" />
+                  <ListView layoutX="6.0" layoutY="3.0" prefHeight="209.0" prefWidth="262.0" />
+                  <TextField layoutX="6.0" layoutY="219.0" prefHeight="27.0" prefWidth="228.0" />
+                  <Button layoutX="238.0" layoutY="218.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="23.0" text="&gt;" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </children>
+</FlowPane>

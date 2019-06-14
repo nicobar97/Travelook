@@ -17,6 +17,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
@@ -55,10 +56,16 @@ public class HomeListaAnnunci extends Application {
             if(listView == null) {
             	
             }
+            
             ListaAnnunciController controller = new ListaAnnunciController();
             ObservableList<Viaggio> items = FXCollections.observableArrayList(controller.getAnnunci());
             listView.setItems(items);
             listView.setCellFactory(userCell -> new ViaggioCell());
+            listView.setOnMouseClicked(event -> { 
+            	MouseEvent me = (MouseEvent) event;
+            	if(me.getClickCount() == 2)
+            		new HomeAnnuncio().start(primaryStage);
+            });
             /*button = (Button) scene.lookup("#button1");
             button.setOnAction(event -> {
             	
