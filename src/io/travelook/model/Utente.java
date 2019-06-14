@@ -15,7 +15,6 @@ public class Utente {
 	private String cognome;
 	private Date dataNascita;
 	private String immagineProfilo;
-	private String[] immaginiAggiuntive;
 	private Storico storico;
 	private List<Interessi> interessi;
 	private List<Recensione> recensioni;
@@ -108,12 +107,6 @@ public class Utente {
 	}
 	public void setRecensioni(List<Recensione> recensioni) {
 		this.recensioni = recensioni;
-	}
-	public String[] getImmaginiAggiuntive() {
-		return immaginiAggiuntive;
-	}
-	public void setImmaginiAggiuntive(String[] immaginiAggiuntive) {
-		this.immaginiAggiuntive = immaginiAggiuntive;
 	}
 	public String getUsername() {
 		return username;

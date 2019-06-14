@@ -35,7 +35,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 	//Query per inserire un viaggio nel DB//
 	static final String insert = "INSERT INTO " + table + 
 			" (id,idCreatore,titolo,destinazione,descrizione,lingua,budget,luogoPartenza,dataPartenza,dataFine"+
-			",immagineProfilo,immaginiAlternative"+
+			",immagineProfilo)"+
 			" VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 	//Query per creare la table viaggio nel DB//
 	static final String create="create table " + table + " (" + 
@@ -50,7 +50,6 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			"dataPartenza Date not null,"+
 			"dataFine Date not null,"+
 			"immagineProfilo char(1000),"+
-			"immaginiAlternative char(1000),"+
 			"primary key(id),"+
 			"foreign key (idCreatore) references Utente(id),"+
 			"foreign key(idPartecipante) references Utente(id),"+
@@ -104,8 +103,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			prep_stmt.setString(8,viaggio.getLuogopartenza());
 			prep_stmt.setDate(9,viaggio.getDatainizio());
 			prep_stmt.setDate(10,viaggio.getDatafine());
-			prep_stmt.setString(11,viaggio.getImmaginiProfilo());
-			prep_stmt.setString(12,viaggio.getImmaginiAlte());			
+			prep_stmt.setString(11,viaggio.getImmaginiProfilo());		
 			prep_stmt.executeUpdate();
 			prep_stmt.close();
 		}
@@ -217,7 +215,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 				v.setBudget(rs.getInt("budget"));
 				v.setDatafine(rs.getDate("dataFine"));
 				v.setDatainizio(rs.getDate("dataPartenza"));
-				v.setImmaginiAlte(rs.getString("immaginiAlternative"));
+
 				v.setIdViaggio(rs.getInt("id"));
 				v.setLingua(rs.getString("lingua"));
 				v.setLuogopartenza(rs.getString("luogoPartenza"));
