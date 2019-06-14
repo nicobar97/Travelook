@@ -64,7 +64,7 @@ public class HomeListaAnnunci extends Application {
             listView.setOnMouseClicked(event -> { 
             	MouseEvent me = (MouseEvent) event;
             	if(me.getClickCount() == 2)
-            		new HomeAnnuncio().start(primaryStage);
+            		new HomeAnnuncio(listView.getSelectionModel().getSelectedItem()).start(primaryStage);
             });
             /*button = (Button) scene.lookup("#button1");
             button.setOnAction(event -> {
