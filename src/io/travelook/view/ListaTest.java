@@ -2,7 +2,7 @@ package io.travelook.view;
 
 import java.io.IOException;
 
-import io.travelook.controller.UtenteController;
+import io.travelook.controller.utente.UtenteController;
 import io.travelook.model.Utente;
 import javafx.application.Application;
 import javafx.collections.FXCollections;

@@ -1,7 +1,9 @@
-package io.travelook.controller;
+package io.travelook.controller.utente;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.travelook.controller.Controller;
 import io.travelook.model.Interessi;
 import io.travelook.model.Recensione;
 import io.travelook.model.Storico;

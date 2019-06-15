@@ -3,9 +3,9 @@ package io.travelook.persistence;
 import java.sql.Connection;
 import java.util.List;
 
-import io.travelook.controller.AnnuncioController;
-import io.travelook.controller.RichiesteObservableController;
-import io.travelook.controller.UtenteController;
+import io.travelook.controller.annuncio.AnnuncioController;
+import io.travelook.controller.rdp.RichiesteObservableController;
+import io.travelook.controller.utente.UtenteController;
 import io.travelook.model.Stato;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;

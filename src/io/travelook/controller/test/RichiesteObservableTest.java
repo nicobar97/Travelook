@@ -3,7 +3,7 @@ package io.travelook.controller.test;
 import java.util.ArrayList;
 import java.sql.Date;
 
-import io.travelook.controller.RichiesteObservableController;
+import io.travelook.controller.rdp.RichiesteObservableController;
 import io.travelook.model.RichiestaDiPartecipazione;
 import io.travelook.model.Stato;
 import io.travelook.model.Utente;

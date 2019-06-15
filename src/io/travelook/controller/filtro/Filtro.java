@@ -1,4 +1,4 @@
-package io.travelook.controller;
+package io.travelook.controller.filtro;
 import java.util.List;
 
 public interface Filtro {

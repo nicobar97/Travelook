@@ -1,4 +1,4 @@
-package io.travelook.controller;
+package io.travelook.controller.segnalazioni;
 import java.util.ArrayList;
 import java.util.List;
 

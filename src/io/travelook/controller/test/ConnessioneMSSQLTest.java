@@ -6,8 +6,8 @@ import java.sql.Connection;
 
 import org.junit.jupiter.api.Test;
 
-import io.travelook.controller.RegistrazioneController;
-import io.travelook.controller.RichiesteObservableController;
+import io.travelook.controller.rdp.RegistrazioneController;
+import io.travelook.controller.rdp.RichiesteObservableController;
 
 class ConnessioneMSSQLTest {
 	Connection conn;

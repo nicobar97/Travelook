@@ -2,8 +2,8 @@ package io.travelook.view;
 
 import java.io.IOException;
 
-import io.travelook.controller.ListaAnnunciController;
-import io.travelook.controller.UtenteController;
+import io.travelook.controller.annuncio.ListaAnnunciController;
+import io.travelook.controller.utente.UtenteController;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 import javafx.application.Application;

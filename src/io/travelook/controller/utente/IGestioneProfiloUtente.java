@@ -1,4 +1,4 @@
-package io.travelook.controller;
+package io.travelook.controller.utente;
 
 import java.util.List;
 

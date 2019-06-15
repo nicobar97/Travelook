@@ -1,4 +1,4 @@
-package io.travelook.controller;
+package io.travelook.controller.autenticazione;
 
 import java.util.Date;
 

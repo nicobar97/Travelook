@@ -1,4 +1,4 @@
-package io.travelook.controller;
+package io.travelook.controller.autenticazione;
 
 public interface ILogin {
 	public String verificaCredenziali(String username, String password);

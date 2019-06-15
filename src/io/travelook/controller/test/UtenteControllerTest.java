@@ -9,8 +9,8 @@ import java.sql.Date;
 
 import org.junit.jupiter.api.Test;
 
-import io.travelook.controller.RegistrazioneController;
-import io.travelook.controller.UtenteController;
+import io.travelook.controller.rdp.RegistrazioneController;
+import io.travelook.controller.utente.UtenteController;
 import io.travelook.model.Interessi;
 import io.travelook.model.Recensione;
 import io.travelook.model.Utente;

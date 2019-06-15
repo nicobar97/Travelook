@@ -1,4 +1,4 @@
-package io.travelook.controller;
+package io.travelook.controller.annuncio;
 
 import io.travelook.model.Recensione;
 import io.travelook.model.Utente;

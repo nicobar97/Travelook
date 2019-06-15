@@ -1,4 +1,4 @@
-package io.travelook.controller;
+package io.travelook.controller.annuncio;
 
 public interface ICreazioneViaggi {
 	 public boolean creaAnnuncio();

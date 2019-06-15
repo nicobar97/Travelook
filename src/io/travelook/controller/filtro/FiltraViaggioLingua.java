@@ -1,12 +1,13 @@
-package io.travelook.controller;
-
+package io.travelook.controller.filtro;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.travelook.controller.filtro.Filtro;
 import io.travelook.model.Viaggio;
 
-public class FiltraViaggioBudget implements Filtro  {
-    public FiltraViaggioBudget() {
+public class FiltraViaggioLingua implements Filtro  {
+	
+    public FiltraViaggioLingua() {
 		super();
 	}
 	
@@ -32,14 +33,14 @@ public class FiltraViaggioBudget implements Filtro  {
 	@Override
 	public List<Object> filtra(Object[] ogg,List<Object> viaggi) {
 	    List<Object> viaggif= new ArrayList<Object>();
-	    List<Integer> filtri=new ArrayList<Integer>();
+	    List<String> filtri=new ArrayList<String>();
 	    for(Object o : ogg) {
-	    	filtri.add(Integer.parseInt(String.valueOf(o)));
+	    	filtri.add(String.valueOf(o));
 	    }
 	    for(Object o :viaggi) {
 	    	Viaggio v =(Viaggio)o;
-	    	for(Integer s:filtri) {
-	    		if(v.getBudget()==s) {
+	    	for(String s:filtri) {
+	    		if(v.getLingua().equals(s)) {
 	    			Object ob=(Object)v;
 	    			viaggif.add(ob);
 	    		}
@@ -47,4 +48,5 @@ public class FiltraViaggioBudget implements Filtro  {
 	    }
 		return viaggif;
 	}
+
 }

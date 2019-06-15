@@ -2,8 +2,8 @@ package io.travelook.controller.test;
 
 import java.sql.Date;
 
-import io.travelook.controller.AnnuncioController;
-import io.travelook.controller.ListaAnnunciController;
+import io.travelook.controller.annuncio.AnnuncioController;
+import io.travelook.controller.annuncio.ListaAnnunciController;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 

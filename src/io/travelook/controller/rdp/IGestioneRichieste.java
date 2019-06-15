@@ -1,4 +1,4 @@
-package io.travelook.controller;
+package io.travelook.controller.rdp;
 
 import io.travelook.model.RichiestaDiPartecipazione;
 

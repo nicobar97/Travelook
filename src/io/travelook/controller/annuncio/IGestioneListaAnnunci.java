@@ -1,7 +1,8 @@
-package io.travelook.controller;
+package io.travelook.controller.annuncio;
 
 import java.util.List;
 
+import io.travelook.controller.filtro.Filtro;
 import io.travelook.model.Viaggio;
 
 public interface IGestioneListaAnnunci {

@@ -1,14 +1,12 @@
-package io.travelook.controller;
+package io.travelook.controller.filtro;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import io.travelook.model.Viaggio;
 
-public class FiltraViaggioData implements Filtro {
-    public FiltraViaggioData() {
+public class FiltraViaggioBudget implements Filtro  {
+    public FiltraViaggioBudget() {
 		super();
 	}
 	
@@ -34,16 +32,14 @@ public class FiltraViaggioData implements Filtro {
 	@Override
 	public List<Object> filtra(Object[] ogg,List<Object> viaggi) {
 	    List<Object> viaggif= new ArrayList<Object>();
-	    List<Date> filtri=new ArrayList<Date>();
+	    List<Integer> filtri=new ArrayList<Integer>();
 	    for(Object o : ogg) {
-	    	Calendar c1 = Calendar.getInstance();
-	    	c1.setTime((Date)o);
-	    	filtri.add(c1.getTime());
+	    	filtri.add(Integer.parseInt(String.valueOf(o)));
 	    }
 	    for(Object o :viaggi) {
 	    	Viaggio v =(Viaggio)o;
-	    	for(Date s:filtri) {
-	    		if(v.getDatainizio().before(s) && v.getDatafine().after(s)) {
+	    	for(Integer s:filtri) {
+	    		if(v.getBudget()==s) {
 	    			Object ob=(Object)v;
 	    			viaggif.add(ob);
 	    		}

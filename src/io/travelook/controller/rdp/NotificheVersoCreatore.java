@@ -1,5 +1,7 @@
-package io.travelook.controller;
+package io.travelook.controller.rdp;
 
+import io.travelook.controller.notifica.INotifica;
+import io.travelook.controller.notifica.NotificheEmail;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 

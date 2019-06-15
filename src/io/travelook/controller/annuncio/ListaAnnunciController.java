@@ -1,8 +1,9 @@
-package io.travelook.controller;
+package io.travelook.controller.annuncio;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.travelook.controller.Filtro;
+import io.travelook.controller.Controller;
+import io.travelook.controller.filtro.Filtro;
 import io.travelook.model.Viaggio;
 import io.travelook.persistence.MssqlViaggioDAO;
 

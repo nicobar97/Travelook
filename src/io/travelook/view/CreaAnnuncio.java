@@ -8,7 +8,7 @@ import java.sql.Date;
 
 import javax.swing.text.DateFormatter;
 
-import io.travelook.controller.ListaAnnunciController;
+import io.travelook.controller.annuncio.ListaAnnunciController;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 import javafx.application.Application;

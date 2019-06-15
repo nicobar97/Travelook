@@ -1,4 +1,4 @@
-package io.travelook.controller;
+package io.travelook.controller.notifica;
 import java.util.Properties;
 
 import javax.mail.*;

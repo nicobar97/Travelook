@@ -1,8 +1,9 @@
-package io.travelook.controller;
+package io.travelook.controller.rdp;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.travelook.controller.Controller;
 import io.travelook.model.RichiestaDiPartecipazione;
 import io.travelook.model.Stato;
 import io.travelook.model.Utente;
