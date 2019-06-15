@@ -71,7 +71,10 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 			return false;
 		}
 	}
-
+	public int getIdUtenteFromUsername(String username) {
+		db.setConn(super.getDbConnection());
+		return db.getIdUtenteByUsername(username);
+	}
 	@Override
 	public Utente visualizzaProfilo() {
 		// TODO Auto-generated method stub
@@ -129,11 +132,7 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 			return ok = false;
 		return ok;
 	}
-	public boolean aggiungiUtente(Utente u) {
-		boolean ok = true;
-		this.listaUtenti.add(u);
-		return ok;
-	}
+
 	public List<Utente> getListaUtenti() {
 		db = new MssqlUtenteDAO(super.getDbConnection());
 		listaUtenti = db.readUtentiFromDB();

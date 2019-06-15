@@ -110,7 +110,7 @@ public class HomeAnnuncio extends Application {
         			new CreaAnnuncio(viaggio, 0, user).start(primaryStage);
             });
             backButton.setOnMouseClicked(event -> {
-            		new HomeListaAnnunci().start(primaryStage);
+            		new HomeListaAnnunci(user).start(primaryStage);
             });
             sendButton.setOnMouseClicked(event -> {
             	Messaggio m = new Messaggio();

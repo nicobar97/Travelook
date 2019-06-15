@@ -12,10 +12,10 @@ public class LoginController extends Controller implements ILogin {
 		this.loginDao = new MssqlLoginDAO(super.getDbConnection());
 	}
 	@Override
-	public boolean verificaCredenziali(String username, String password) {		
-		String hashLetto = loginDao.read(username);
+	public boolean verificaCredenziali(String username, byte[] password) {		
+		byte[] hashLetto = loginDao.read(username);
 		
-		return BCrypt.checkpw(password, hashLetto);
+		return hashLetto == password;
 		
 	}
 

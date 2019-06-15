@@ -18,19 +18,19 @@ public class MssqlLoginDAO extends Controller implements LoginDAO {
 			+ "user=travelook@travelook;password=travel_2019;encrypt=true;trustServerCertificate=false;"
 			+ "hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
 	public static String insert = "INSERT INTO Credenziali(Username, Hash) VALUES(?,?)";
-	public static String read_hash = "select Hash from Credenziali where username = '?'";
+	public static String read_hash = "select Hash from Credenziali where Username = ?";
 	public MssqlLoginDAO(Connection c) {
 		this.db=c;
 		dbCredenziali = getDbConnection();
 	}
 	@Override
-	public boolean create(String username, String hash) {
+	public boolean create(String username, byte[] hash) {
 		
 		try {
 			PreparedStatement prep_stmt = dbCredenziali.prepareStatement(MssqlLoginDAO.insert);
 			prep_stmt.clearParameters();
 			prep_stmt.setString(1, username);
-			prep_stmt.setString(2, hash);
+			prep_stmt.setBytes(2, hash);
 			int esito = prep_stmt.executeUpdate();
 			prep_stmt.close();
 			if(esito>0) return true;
@@ -49,8 +49,8 @@ public class MssqlLoginDAO extends Controller implements LoginDAO {
 		}
 	}
 	@Override
-	public String read(String username) {
-		String result = null;
+	public byte[] read(String username) {
+		byte[] result = null;
 		if ( username.trim().equals("") )  {
 			System.out.println("read(): cannot read an entry with a negative id");
 			return result;
@@ -59,19 +59,15 @@ public class MssqlLoginDAO extends Controller implements LoginDAO {
 			PreparedStatement prep_stmt = dbCredenziali.prepareStatement(MssqlLoginDAO.read_hash);
 			prep_stmt.clearParameters();
 			prep_stmt.setString(1, username);
-			/*
-			select id,nickname,email,nome,cognome,dataNascita,"
-			+ "imgProfilo from Utente where id=? 
-			 */
 			ResultSet rs = prep_stmt.executeQuery();
 			if ( rs.next() ) {
-				result = rs.getString(1);
+				result = rs.getBytes(1);
 			}
 			rs.close();
 			prep_stmt.close();
 		}
 		catch (Exception e) {
-			System.out.println("read(): failed to retrieve entry with id = " + username+": "+e.getMessage());
+			System.out.println("read(): niente de bono = " + username+": "+e.getMessage());
 			e.printStackTrace();
 		}
 		finally {
@@ -110,5 +106,4 @@ public class MssqlLoginDAO extends Controller implements LoginDAO {
         }
 		return dbCredenziali;
 	}
-
 }

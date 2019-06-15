@@ -16,15 +16,16 @@ public class RegistrazioneController extends Controller implements IRegistrazion
 		db = new MssqlLoginDAO(super.getDbConnection());
 	}
 	
-	public boolean registraUtente(Utente u, String hash ) {
+	public boolean registraUtente(Utente u, byte[] hash ) {
 		// TODO Auto-generated method stub
 		boolean esito = false;
 		boolean esito2 = false;
 		if(u.getUsername().length() > 6 && !u.getEmail().trim().equals("") /*&& altri controlli*/ ) {
 			esito=db.create(u.getUsername(), hash);/*controlli da fare client side*/
-			esito2=ud.create(u);
+			if(esito)
+				esito2=ud.create(u);
 		}
-		return esito && esito2;
+		return esito2;
 	}
 
 }

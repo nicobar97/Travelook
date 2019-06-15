@@ -35,6 +35,20 @@ public class Utente {
 		this.recensioni = new ArrayList<Recensione>();
 		this.storico = new Storico(idUtente);
 	}
+	public Utente(String username, String email, String nome, String cognome, Date dataNascita, String immagineProfilo) 
+			throws IllegalArgumentException {
+		if(email == null || nome == null || cognome == null || dataNascita == null)
+			throw new IllegalArgumentException();
+		this.username = username;
+		this.email = email;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.dataNascita = dataNascita;
+		this.immagineProfilo = immagineProfilo;
+		this.interessi = new ArrayList<Interessi>();
+		this.recensioni = new ArrayList<Recensione>();
+		this.storico = new Storico(idUtente);
+	}
 	public Utente(int idUtente, String username, String email, String nome, String cognome, Date dataNascita, String immagineProfilo, 
 					Storico storico, List<Recensione> recensioni, List<Interessi> interessi) throws IllegalArgumentException {
 		if(idUtente < 0 || email == null || nome == null || cognome == null || dataNascita == null)

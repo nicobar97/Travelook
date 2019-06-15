@@ -14,7 +14,7 @@ public class MssqlUtenteDAO implements UtenteDAO {
 	
 	private static String read = "select id,nickname,email,nome,cognome,dataNascita,"
 			+ "imgProfilo from Utente where id=?";
-	Connection conn;
+	private Connection conn;
 	static final String table = "Utente";
 	
 	static final String insert = "INSERT INTO " + table + "(nickname, email, nome,"
@@ -35,6 +35,14 @@ public class MssqlUtenteDAO implements UtenteDAO {
 
 	public MssqlUtenteDAO(Connection dbConnection) {
 		conn = dbConnection;
+	}
+
+	public Connection getConn() {
+		return conn;
+	}
+
+	public void setConn(Connection conn) {
+		this.conn = conn;
 	}
 
 	@SuppressWarnings("finally")

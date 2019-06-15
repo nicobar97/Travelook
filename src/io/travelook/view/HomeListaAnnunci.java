@@ -31,6 +31,15 @@ public class HomeListaAnnunci extends Application {
     private Button creaAnnuncio;
     private Utente user;
     private int count;
+    private UtenteController controlleru;
+	public HomeListaAnnunci(String username) {
+		controlleru = new UtenteController();
+		int iduser = controlleru.getIdUtenteFromUsername(username);
+        this.user = controlleru.getUtenteById(iduser);
+	}
+	public HomeListaAnnunci(Utente user) {
+        this.user = user;
+	}
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -54,8 +63,7 @@ public class HomeListaAnnunci extends Application {
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
-            UtenteController controlleru = new UtenteController();
-            this.user = controlleru.getUtenteById(1);
+            
             listView = (ListView<Viaggio>) scene.lookup("#lista");
 
             ListaAnnunciController controller = new ListaAnnunciController();

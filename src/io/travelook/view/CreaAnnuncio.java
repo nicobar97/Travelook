@@ -125,7 +125,7 @@ public class CreaAnnuncio extends Application {
             		if(type==0)
             			new HomeAnnuncio(viaggio, user).start(primaryStage);
             		else
-            			new HomeListaAnnunci().start(primaryStage);
+            			new HomeListaAnnunci(user).start(primaryStage);
             });
            
             saveButton.setOnMouseClicked(event -> {
@@ -159,19 +159,19 @@ public class CreaAnnuncio extends Application {
 				if(type==0)
         			new HomeAnnuncio(nv, user).start(primaryStage);
         		else
-        			new HomeListaAnnunci().start(primaryStage);
+        			new HomeListaAnnunci(user).start(primaryStage);
             });
             annullaButton.setOnMouseClicked(event -> {
             	if(type==0)
         			new HomeAnnuncio(viaggio, user).start(primaryStage);
         		else
-        			new HomeListaAnnunci().start(primaryStage);
+        			new HomeListaAnnunci(user).start(primaryStage);
             });
             backButton.setOnMouseClicked(event -> {
             	if(type==0)
         			new HomeAnnuncio(viaggio, user).start(primaryStage);
         		else
-        			new HomeListaAnnunci().start(primaryStage);
+        			new HomeListaAnnunci(user).start(primaryStage);
             });
             primaryStage.show();
         } catch (IOException e) {
