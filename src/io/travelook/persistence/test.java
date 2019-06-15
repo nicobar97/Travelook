@@ -28,7 +28,7 @@ public class test {
 		for(Viaggio v: list) {
 			System.out.println(v.getImmaginiProfilo());
 		}*/
-		Timestamp ts = new Timestamp(System.currentTimeMillis());
+		/*Timestamp ts = new Timestamp(System.currentTimeMillis());
 		Messaggio m = new Messaggio();
 		Utente u = new Utente();
 		u.setId(3);
@@ -40,7 +40,8 @@ public class test {
 		v.setIdViaggio(2);
 		c.inviaMessaggio(m, v);
 		Chat chatte = c.getChat(v);
-		System.out.println(chatte.getChat().size());
+		System.out.println(chatte.getChat().size());*/
+		System.out.println(new MssqlUtenteDAO(new UtenteController().getDbConnection()).getIdUtenteByUsername("andresalv"));
 	}
 
 

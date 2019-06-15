@@ -52,9 +52,14 @@ class RegistrazioneTest {
 		md.update(salt);
 		String psw = "porcodio97";
 		byte[] hashedPassword = md.digest(psw.getBytes(StandardCharsets.UTF_8));
-		/*boolean result  = rc.registraUtente(utente1, hashedPassword);*/
-		
-		boolean result  = lc.verificaCredenziali("nicobar", hashedPassword );
+		boolean result  = rc.registraUtente(utente1, hashedPassword);
+		result = hashedPassword == hashedPassword;
+		if(result)
+			System.out.println("DIOCAN");
+		else
+			System.out.println("DIOmerd");
+	
+		result  = lc.verificaCredenziali("nicobar", hashedPassword );
 		if(result)
 			System.out.println("DIOCAN");
 		else

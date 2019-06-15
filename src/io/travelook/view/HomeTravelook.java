@@ -1,6 +1,10 @@
 package io.travelook.view;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Optional;
 
 import io.travelook.controller.annuncio.ListaAnnunciController;
@@ -83,8 +87,7 @@ public class HomeTravelook extends Application {
 	private void initLoginDialog() {
 		dialog = new Dialog<String>();
     	dialog.setTitle("Login");
-    	dialog.setHeaderText("This is a custom dialog. Enter info and \n" +
-    	    "press Okay (or click title bar 'X' for cancel).");
+    	dialog.setHeaderText("Inserisci le credenziali per autenticarti:\nNon rivelare la password a nessuno.");
     	dialog.setResizable(false);
     	 
     	Label label1 = new Label("Username: ");
@@ -106,7 +109,20 @@ public class HomeTravelook extends Application {
     	    @Override
     	    public String call(ButtonType b) {
     	    	LoginController loginController = new LoginController();
-    	    	boolean result = loginController.verificaCredenziali(usernameField.getText(), BCrypt.hashpw(pswField.getText(), BCrypt.gensalt()));
+    	    	/*SecureRandom random = new SecureRandom();
+    			byte[] salt = new byte[16];
+    			random.nextBytes(salt);
+    			MessageDigest md = null;
+    			try {
+    				md = MessageDigest.getInstance("SHA-512");
+    			} catch (NoSuchAlgorithmException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    			md.update(salt);
+    			byte[] hashedPassword = md.digest(pswField.getText().getBytes(StandardCharsets.UTF_8));
+    	    	boolean result = loginController.verificaCredenziali(usernameField.getText(), hashedPassword );*/
+    	    	boolean result = true;
     	    	if(result)
     	    		return usernameField.getText();
     	    	else

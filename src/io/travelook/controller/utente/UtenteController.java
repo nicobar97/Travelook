@@ -139,6 +139,7 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		return this.listaUtenti;
 	}
 	public Utente getUtenteById(int id ) {
+		db.setConn(super.getDbConnection());
 		return db.read(id);
 	}
 }

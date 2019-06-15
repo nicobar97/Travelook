@@ -15,22 +15,22 @@ public class MssqlUtenteDAO implements UtenteDAO {
 	private static String read = "select id,nickname,email,nome,cognome,dataNascita,"
 			+ "imgProfilo from Utente where id=?";
 	private Connection conn;
-	static final String table = "Utente";
+	static String table = "Utente";
 	
-	static final String insert = "INSERT INTO " + table + "(nickname, email, nome,"
+	static String insert = "INSERT INTO " + table + "(nickname, email, nome,"
 			+ " cognome, dataNascita, imgProfilo) " + "VALUES(?,?,?,?,?,?)";
 	
-	static final String inserisci_hobby="INSERT INTO Utente_Hobby" + "(idUtente,idHobby) "
+	static String inserisci_hobby="INSERT INTO Utente_Hobby" + "(idUtente,idHobby) "
 			+ "VALUES(?,?)";
-	static final String getlist = "select id,nickname,email,nome,cognome,dataNascita,imgProfilo from Utente";
+	static String getlist = "select id,nickname,email,nome,cognome,dataNascita,imgProfilo from Utente";
 	
-	static final String delete = "delete from Utente where id=?";
+	static String delete = "delete from Utente where id=?";
 	//static final String deletePartecipante = "delete from Viaggio where idPartecipante=?";
 	
-	static final String update = "UPDATE Utente SET nickname=?, email=?, nome=?, cognome=?,dataNascita=?,"
+	static String update = "UPDATE Utente SET nickname=?, email=?, nome=?, cognome=?,dataNascita=?,"
 			+ "imgProfilo=? WHERE id=?";
 	
-	static final String getIdUtente = "SELECT id FROM Utente WHERE nickname=?";
+	static String getIdUtente = "SELECT * FROM Utente WHERE nickname=?";
 	
 
 	public MssqlUtenteDAO(Connection dbConnection) {
@@ -210,16 +210,14 @@ public class MssqlUtenteDAO implements UtenteDAO {
 	public int getIdUtenteByUsername(String username) {
 		System.out.println("cerco id dell'utente "+username);
 		int id=-1;
-		if(username.equals("")) {
-			System.out.println("Username is empty");
-			return -1;
-		}
 	   
 	   try {
 		   PreparedStatement prep_stmt = conn.prepareStatement(MssqlUtenteDAO.getIdUtente);
+		   prep_stmt.clearParameters();
 		   prep_stmt.setString(1, username);
 		   ResultSet rs = prep_stmt.executeQuery();
-		   id=rs.getInt("id");
+		   if(rs.next())
+			   id=rs.getInt(1);
 		   prep_stmt.close();
 	   }
 	   catch(SQLException sqle) {
