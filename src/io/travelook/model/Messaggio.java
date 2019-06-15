@@ -1,9 +1,7 @@
 package io.travelook.model;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Messaggio {

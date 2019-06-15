@@ -2,6 +2,7 @@ package io.travelook.view;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 import javax.swing.text.DateFormatter;
@@ -45,6 +46,7 @@ public class HomeAnnuncio extends Application {
     private Button sendButton;
     private Button modificaAnnuncio;
     private Text descrizione;
+    private ChatController chatCont;
     private int count;
     private Viaggio viaggio;
     private SimpleDateFormat formatter;
@@ -64,7 +66,7 @@ public class HomeAnnuncio extends Application {
 		this.viaggio = viaggio;
 		this.user= user;
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void initRootLayout() {
         try {
         	count = 0;
@@ -75,15 +77,14 @@ public class HomeAnnuncio extends Application {
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
+            chatCont = new ChatController();
             chatView = (ListView) scene.lookup("#chatView");
-            ChatController chatCont = new ChatController();
+            newMessage = (TextField) scene.lookup("#messageBox");
+            sendButton = (Button) scene.lookup("#send");
+            
             formatter = new SimpleDateFormat("yyyy-mm-dd");
-            Chat chat = chatCont.getChat(viaggio);
-            ObservableList<Messaggio> messaggi = FXCollections.observableArrayList(chat.getChat());
-            if(!chat.getChat().isEmpty() && messaggi != null) {
-            	chatView.setItems(messaggi);
-            	chatView.setCellFactory(userCell -> new ChatCell(user));
-            }
+            
+            refreshChat();
             titolo = (Text) scene.lookup("#titolo");
             immagine = (ImageView) scene.lookup("#immagine");
            	if(viaggio.getImmaginiProfilo() != null && new File("src/"+viaggio.getImmaginiProfilo().trim()).exists())
@@ -111,11 +112,36 @@ public class HomeAnnuncio extends Application {
             backButton.setOnMouseClicked(event -> {
             		new HomeListaAnnunci().start(primaryStage);
             });
+            sendButton.setOnMouseClicked(event -> {
+            	Messaggio m = new Messaggio();
+            	m.setMessaggio(newMessage.getText());
+            	m.setTimestamp(new Timestamp(System.currentTimeMillis()));
+            	m.setUtente(user);
+            	chatCont.inviaMessaggio(m, viaggio);
+            	refreshChat();
+            	newMessage.setText("");
+            });
+            newMessage.setOnKeyReleased(event -> {
+            	if(newMessage.getText().trim().equals(""))
+            		sendButton.setDisable(true);
+            	else
+            		sendButton.setDisable(false);
+            });
+            sendButton.setDisable(true);
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+	private void refreshChat() {
+		Chat chat = chatCont.getChat(viaggio);
+        ObservableList<Messaggio> messaggi = FXCollections.observableArrayList(chat.getChat());
+        if(!chat.getChat().isEmpty() && messaggi != null) {
+        	chatView.setItems(messaggi);
+        	chatView.setCellFactory(userCell -> new ChatCell(user));
+        	chatView.scrollTo(chat.getChat().size());
+        }
+	}
 	public Stage getPrimaryStage() {
         return primaryStage;
     }
