@@ -1,5 +1,6 @@
 package io.travelook.view;
 
+import java.io.File;
 import java.io.IOException;
 
 import io.travelook.model.Utente;
@@ -50,7 +51,8 @@ protected void updateItem(Viaggio v, boolean empty) {
         lblTitle.setStyle("-fx-font: 20 arial;");
         lblOverview.setText("Destinazione: " + v.getDestinazione() + "\tLingua: " + v.getLingua() + 
         					"\n" + v.getDescrizione());
-        poster.setImage(new Image(logo.trim()));
+        if(logo != null && new File("src/"+logo.trim()).exists())
+        		poster.setImage(new Image(logo.trim()));
         setText(null);
         setGraphic(gridPane);
     }

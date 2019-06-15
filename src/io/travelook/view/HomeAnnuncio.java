@@ -5,12 +5,14 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.text.DateFormatter;
 
+import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -33,9 +35,11 @@ public class HomeAnnuncio extends Application {
     private Button backButton;
     private Button sendButton;
     private Button modificaAnnuncio;
+    private TextArea descrizione;
     private int count;
     private Viaggio viaggio;
     private SimpleDateFormat formatter;
+    private Utente user;
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -47,8 +51,9 @@ public class HomeAnnuncio extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-	public HomeAnnuncio(Viaggio viaggio) {
+	public HomeAnnuncio(Viaggio viaggio, Utente user) {
 		this.viaggio = viaggio;
+		this.user= user;
 	}
 	public void initRootLayout() {
         try {
@@ -60,22 +65,28 @@ public class HomeAnnuncio extends Application {
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
-            formatter = new SimpleDateFormat("dd-mm-yyyy");
+            formatter = new SimpleDateFormat("yyyy-mm-dd");
             titolo = (Text) scene.lookup("#titolo");
-            titolo.setText(viaggio.getTitolo());
+            titolo.setText(viaggio.getTitolo().trim());
             destinazione = (Text) scene.lookup("#destinazione");
-            destinazione.setText(viaggio.getDestinazione());
+            destinazione.setText(viaggio.getDestinazione().trim());
             lingua = (Text) scene.lookup("#lingua");
-            lingua.setText(viaggio.getLingua());
+            lingua.setText(viaggio.getLingua().trim());
             dataInizio = (Text) scene.lookup("#datainizio");
             dataInizio.setText(formatter.format(viaggio.getDatainizio()));
             dataFine = (Text) scene.lookup("#datafine");
             dataFine.setText(formatter.format(viaggio.getDatafine()));
             luogoPartenza = (Text) scene.lookup("#luogopartenza");
-            luogoPartenza.setText(viaggio.getLuogopartenza());
+            luogoPartenza.setText(viaggio.getLuogopartenza().trim());
             budget = (Text) scene.lookup("#budget");
             budget.setText(budgetFormat(viaggio.getBudget()));
+            descrizione = (TextArea) scene.lookup("#descrizione");
+            descrizione.setText(viaggio.getDescrizione().trim());
             backButton = (Button) scene.lookup("#back");
+            modificaAnnuncio = (Button) scene.lookup("#modifica");
+            modificaAnnuncio.setOnMouseClicked(event -> {
+        			new CreaAnnuncio(viaggio, 0, user).start(primaryStage);
+            });
             backButton.setOnMouseClicked(event -> {
             		new HomeListaAnnunci().start(primaryStage);
             });
