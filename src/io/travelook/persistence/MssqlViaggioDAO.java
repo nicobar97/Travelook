@@ -35,9 +35,9 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 	
 	//Query per inserire un viaggio nel DB//
 	static final String insert = "INSERT INTO " + table + 
-			" (id,idCreatore,titolo,destinazione,descrizione,lingua,budget,luogoPartenza,dataPartenza,dataFine"+
+			" (idCreatore,titolo,destinazione,descrizione,lingua,budget,luogoPartenza,dataPartenza,dataFine"+
 			",immagineProfilo)"+
-			" VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+			" VALUES (?,?,?,?,?,?,?,?,?,?)";
 	//Query per creare la table viaggio nel DB//
 	static final String create="create table " + table + " (" + 
 			"id int not null IDENTITY PRIMARY KEY," +
@@ -99,17 +99,18 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 		try {
 			PreparedStatement prep_stmt = conn.prepareStatement(MssqlViaggioDAO.insert);
 			prep_stmt.clearParameters();
-			prep_stmt.setInt(1,viaggio.getIdViaggio());
-			prep_stmt.setInt(2,viaggio.getCreatore().getId());
-			prep_stmt.setString(3,viaggio.getTitolo());
-			prep_stmt.setString(4,viaggio.getDestinazione());
-			prep_stmt.setString(5,viaggio.getDescrizione());
-			prep_stmt.setString(6,viaggio.getLingua());
-			prep_stmt.setInt(7,viaggio.getBudget());
-			prep_stmt.setString(8,viaggio.getLuogopartenza());
-			prep_stmt.setDate(9,viaggio.getDatainizio());
-			prep_stmt.setDate(10,viaggio.getDatafine());
-			prep_stmt.setString(11,viaggio.getImmaginiProfilo());		
+			//prep_stmt.setInt(1,viaggio.getIdViaggio());
+			int i=1;
+			prep_stmt.setInt(i++,viaggio.getCreatore().getId());
+			prep_stmt.setString(i++,viaggio.getTitolo());
+			prep_stmt.setString(i++,viaggio.getDestinazione());
+			prep_stmt.setString(i++,viaggio.getDescrizione());
+			prep_stmt.setString(i++,viaggio.getLingua());
+			prep_stmt.setInt(i++,viaggio.getBudget());
+			prep_stmt.setString(i++,viaggio.getLuogopartenza());
+			prep_stmt.setDate(i++,viaggio.getDatainizio());
+			prep_stmt.setDate(i++,viaggio.getDatafine());
+			prep_stmt.setString(i++,viaggio.getImmaginiProfilo());		
 			prep_stmt.executeUpdate();
 			prep_stmt.close();
 		}
@@ -268,17 +269,17 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 				PreparedStatement prep_stmt2 = conn.prepareStatement(MssqlViaggioDAO.list_user_viaggio);
 				prep_stmt2.clearParameters();
 				ResultSet rs2=prep_stmt2.executeQuery();
-				int k=0;
-				while(rs.next()) {
+				int k=1;
+				while(rs2.next()) {
 					Utente u = new Utente();
 					k=1;
-					u.setId(rs.getInt(k++));
-					u.setUsername(rs.getString(k++));
-					u.setEmail(rs.getString(k++));
-					u.setNome(rs.getString(k++));
-					u.setCognome(rs.getString(k++));
-					u.setDataNascita(rs.getDate(k++));
-					u.setImmagineProfilo(rs.getString(k++));
+					u.setId(rs2.getInt(k++));
+					u.setUsername(rs2.getString(k++));
+					u.setEmail(rs2.getString(k++));
+					u.setNome(rs2.getString(k++));
+					u.setCognome(rs2.getString(k++));
+					u.setDataNascita(rs2.getDate(k++));
+					u.setImmagineProfilo(rs2.getString(k++));
 					listaPartecipanti.add(u);
 				}
 				prep_stmt2.close();
