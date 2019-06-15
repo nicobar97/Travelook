@@ -6,9 +6,14 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.text.DateFormatter;
 
+import io.travelook.controller.chat.ChatController;
+import io.travelook.model.Chat;
+import io.travelook.model.Messaggio;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -59,6 +64,7 @@ public class HomeAnnuncio extends Application {
 		this.viaggio = viaggio;
 		this.user= user;
 	}
+	@SuppressWarnings("unchecked")
 	public void initRootLayout() {
         try {
         	count = 0;
@@ -69,7 +75,15 @@ public class HomeAnnuncio extends Application {
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
+            chatView = (ListView) scene.lookup("#chatView");
+            ChatController chatCont = new ChatController();
             formatter = new SimpleDateFormat("yyyy-mm-dd");
+            Chat chat = chatCont.getChat(viaggio);
+            ObservableList<Messaggio> messaggi = FXCollections.observableArrayList(chat.getChat());
+            if(!chat.getChat().isEmpty() && messaggi != null) {
+            	chatView.setItems(messaggi);
+            	chatView.setCellFactory(userCell -> new ChatCell(user));
+            }
             titolo = (Text) scene.lookup("#titolo");
             immagine = (ImageView) scene.lookup("#immagine");
            	if(viaggio.getImmaginiProfilo() != null && new File("src/"+viaggio.getImmaginiProfilo().trim()).exists())

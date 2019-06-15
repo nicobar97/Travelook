@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.travelook.model.Chat;
-import io.travelook.model.Interessi;
 import io.travelook.model.Messaggio;
 import io.travelook.model.Stato;
 import io.travelook.model.Utente;
@@ -17,7 +17,7 @@ import io.travelook.model.Viaggio;
 public class MssqlMessaggioDAO implements MessaggioDAO {
 	private Connection conn = null;
 	public static String insert = "insert into Messaggio (idUtente, idViaggio, timestamp, body) values (?,?,?,?)";
-	public static String readChatForViaggio = "select * from Messaggio where idViaggio=?";
+	public static String readChatForViaggio = "select m.id, m.body, m.timestamp,  m.idUtente, u.nickname, u.email, u.nome, u.cognome, u.dataNascita, u.imgProfilo from Messaggio m inner join Utente as u on u.id = m.idUtente where idViaggio=?";
 	public static String readAll = " select m.id, m.body, m.timestamp,  m.idUtente, u.nickname, u.email, u.nome, u.cognome, u.dataNascita, u.imgProfilo,\n" + 
 			"    m.idViaggio,   v.titolo, v.destinazione, v.descrizione, v.budget, v.luogoPartenza, v.dataPartenza, v.dataFine, v.lingua, v.stato, v.immagineProfilo\n" + 
 			"    from Messaggio m \n" + 
@@ -40,7 +40,7 @@ public class MssqlMessaggioDAO implements MessaggioDAO {
 			prep_stmt.clearParameters();
 			prep_stmt.setInt(1, m.getUtente().getId());
 			prep_stmt.setInt(2, idViaggio);
-			prep_stmt.setDate(3, m.getTimestamp());
+			prep_stmt.setString(3, m.getTimestamp().toString());
 			prep_stmt.setString(4, m.getMessaggio());
 			prep_stmt.executeUpdate();
 			prep_stmt.close();
@@ -74,7 +74,8 @@ public class MssqlMessaggioDAO implements MessaggioDAO {
 				Messaggio m = new Messaggio();
 				m.setId(rs.getInt(i++));
 				m.setMessaggio(rs.getString(i++));
-				m.setTimestamp(rs.getDate(i++));
+				Timestamp ts = Timestamp.valueOf(rs.getString(i++).trim());
+				m.setTimestamp(ts);
 				Utente u = new Utente();
 				u.setId(rs.getInt(i++));
 				u.setUsername(rs.getString(i++));
@@ -122,7 +123,8 @@ public class MssqlMessaggioDAO implements MessaggioDAO {
 				Messaggio m = new Messaggio();
 				m.setId(rs.getInt(i++));
 				m.setMessaggio(rs.getString(i++));
-				m.setTimestamp(rs.getDate(i++));
+				Timestamp ts = Timestamp.valueOf(rs.getString(i++).trim());
+				m.setTimestamp(ts);
 				Utente u = new Utente();
 				u.setId(rs.getInt(i++));
 				u.setUsername(rs.getString(i++));
