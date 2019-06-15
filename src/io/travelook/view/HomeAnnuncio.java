@@ -39,7 +39,7 @@ public class HomeAnnuncio extends Application {
     private Button backButton;
     private Button sendButton;
     private Button modificaAnnuncio;
-    private TextArea descrizione;
+    private Text descrizione;
     private int count;
     private Viaggio viaggio;
     private SimpleDateFormat formatter;
@@ -87,7 +87,7 @@ public class HomeAnnuncio extends Application {
             luogoPartenza.setText(viaggio.getLuogopartenza().trim());
             budget = (Text) scene.lookup("#budget");
             budget.setText(budgetFormat(viaggio.getBudget()));
-            descrizione = (TextArea) scene.lookup("#descrizione");
+            descrizione = (Text) scene.lookup("#descrizione");
             descrizione.setText(viaggio.getDescrizione().trim());
             backButton = (Button) scene.lookup("#back");
             modificaAnnuncio = (Button) scene.lookup("#modifica");

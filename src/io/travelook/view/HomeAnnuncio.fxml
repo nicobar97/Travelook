@@ -91,13 +91,17 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <TextArea fx:id="descrizione" disable="true" layoutX="16.0" layoutY="263.0" opacity="0.0" prefHeight="232.0" prefWidth="496.0" />
             <Label layoutX="17.0" layoutY="235.0" prefHeight="27.0" prefWidth="117.0" text="Descrizione:">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
             <ImageView fx:id="immagine" fitHeight="150.0" fitWidth="200.0" layoutX="304.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true" />
+            <Text fx:id="descrizione" layoutX="17.0" layoutY="277.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="500.2060546875">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
          </children></Pane>
       <Pane prefHeight="505.0" prefWidth="279.0">
          <children>
