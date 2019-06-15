@@ -10,9 +10,9 @@ public class AnnuncioController extends Controller implements IAnnuncio {
     private MssqlViaggioDAO db;
     
     
-    public AnnuncioController() {
+    public AnnuncioController(Viaggio v) {
     	/* nel costruttore reperisco le info sul viaggio dal db */ 
-    	
+    	viaggio = v;
     	this.viaggio=db.read(viaggio.getIdViaggio());
     }
 	@Override
@@ -26,9 +26,13 @@ public class AnnuncioController extends Controller implements IAnnuncio {
 	}
 
 	@Override
-	public boolean modificaAnnuncio(Viaggio modificaato) {
+	public boolean modificaAnnuncio(Viaggio modificato) {
 		/* questo metodo tramite un insert a livello db andr� a modificare i dati del viaggio passato come argomento */
-		return false;
+		if(db.update(modificato)) {
+			viaggio=modificato;
+			return true;
+		}
+		else return false;
 	}
 
 	@Override

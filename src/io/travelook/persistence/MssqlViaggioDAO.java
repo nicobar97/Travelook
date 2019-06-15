@@ -190,13 +190,37 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			return result;
 		}
 		try {
-			/*PreparedStatement prep_stmt = conn.prepareStatement(Db2CourseDAO.update);
+			String query = "UPDATE " + table + " SET idCreatore=?, titolo=?, destinazione=?, descrizione=?, lingua=?, "
+					+ "budget=?, dataPartenza=?, dataFine=?, "
+					+ "immagineProfilo=?, immaginiAlternative=?, luogoPartenza=?, stato=? "
+					+ " WHERE id=?";
+			PreparedStatement prep_stmt = conn.prepareStatement(query);
 			prep_stmt.clearParameters();
-			prep_stmt.setInt(1, course.getId());
-			prep_stmt.setString(2, course.getName());
-			prep_stmt.executeUpdate();
-			result = true;
-			prep_stmt.close();*/
+			prep_stmt.setInt(1, viaggio.getCreatore().getId());
+			prep_stmt.setString(2, viaggio.getTitolo());
+			prep_stmt.setString(3, viaggio.getDestinazione());
+			prep_stmt.setString(4, viaggio.getDescrizione());
+			prep_stmt.setString(5, viaggio.getLingua());
+			prep_stmt.setInt(6, viaggio.getBudget());
+			prep_stmt.setDate(7, viaggio.getDatainizio());
+			prep_stmt.setDate(8, viaggio.getDatafine());
+			prep_stmt.setString(9, viaggio.getImmaginiProfilo());
+			prep_stmt.setString(10, ""); // nella classe viaggio non c'è immagini alternative?
+			prep_stmt.setString(11, viaggio.getLuogopartenza());
+			prep_stmt.setInt(12, viaggio.getStato().ordinal());
+			prep_stmt.setInt(13, viaggio.getIdViaggio());
+			int esito;
+			esito=prep_stmt.executeUpdate();
+			prep_stmt.close();
+			if(esito>=0) {
+				System.out.println("Ho aggiornato il viaggio con id "+ viaggio.getIdViaggio());
+				return true;
+			}
+			else {
+				System.out.println("ERRORE: non ho potuto aggiornare il viaggio con id "+ viaggio.getIdViaggio());
+				return false;
+			}
+			
 		}
 		catch (Exception e) {
 			System.out.println("insert(): failed to update entry: "+e.getMessage());
