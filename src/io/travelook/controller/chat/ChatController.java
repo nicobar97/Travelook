@@ -8,7 +8,7 @@ import io.travelook.model.Messaggio;
 import io.travelook.model.Viaggio;
 
 public class ChatController extends Controller implements IChat{
-	List<Messaggio> chat = null;
+	List<Chat> chats = null;
 	
 	public ChatController() {
 		

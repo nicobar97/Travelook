@@ -21,6 +21,9 @@ public class Chat {
 		this.messaggi = messaggi;
 	}
 
+	public Chat() {
+		// TODO Auto-generated constructor stub
+	}
 	public Viaggio getViaggio() {
 		return viaggio;
 	}

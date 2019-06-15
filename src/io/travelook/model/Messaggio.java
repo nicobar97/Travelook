@@ -1,9 +1,10 @@
 package io.travelook.model;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 
 public class Messaggio {
+	private int id;
 	private Utente utente;
 	private String messaggio;
 	private Date timestamp;
@@ -13,7 +14,11 @@ public class Messaggio {
 			throw new IllegalArgumentException();
 		this.setUtente(utente);
 		this.setMessaggio(messaggio);
-		this.setTimestamp(new Date());
+		this.setTimestamp(null);
+	}
+
+	public Messaggio() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getMessaggio() {
@@ -43,5 +48,13 @@ public class Messaggio {
 	}
 	public String getTimeStr() {
 		return new SimpleDateFormat("HH:mm:ss").format(this.timestamp);
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }
