@@ -40,7 +40,8 @@ public class MssqlUtenteDAO implements UtenteDAO {
 	}
 
 	@Override
-	public void create(Utente u) {
+	public boolean create(Utente u) {
+		boolean esito = false;
 		try {
 			PreparedStatement prep_stmt = conn.prepareStatement(MssqlUtenteDAO.insert);
 			prep_stmt.clearParameters();
@@ -50,7 +51,7 @@ public class MssqlUtenteDAO implements UtenteDAO {
 			prep_stmt.setString(4, u.getCognome());
 			prep_stmt.setDate(5, u.getDataNascita());
 			prep_stmt.setString(6, u.getImmagineProfilo());
-			prep_stmt.executeUpdate();
+			if(prep_stmt.executeUpdate()>0) esito=true;
 			prep_stmt.close();
 			
 			for(Interessi i : u.getInteressi()) {
@@ -69,9 +70,11 @@ public class MssqlUtenteDAO implements UtenteDAO {
 		finally {
 			try {
 				conn.close();
+				return esito;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 			}
 		}
 	}

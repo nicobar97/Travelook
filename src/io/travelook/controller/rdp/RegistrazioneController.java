@@ -31,9 +31,9 @@ public class RegistrazioneController extends Controller implements IRegistrazion
 		//commento per commit
 		
 		esito=db.create(u.getUsername(), hash);
-		ud.create(u);
+		boolean esito2=ud.create(u);
 		
-		return esito;
+		return esito & esito2;
 	}
 
 

@@ -5,7 +5,7 @@ import java.util.List;
 import io.travelook.model.Utente;
 
 public interface UtenteDAO {
-	public void create(Utente u);
+	public boolean create(Utente u);
 	
 	public Utente read(int id);
 	
