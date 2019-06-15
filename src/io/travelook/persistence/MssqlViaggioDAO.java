@@ -88,6 +88,10 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 		this.conn = conn;
 	}
 	
+	public MssqlViaggioDAO() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override //inserisce un viaggio nel db // 
 	public void create(Viaggio viaggio) {
 		if(viaggio==null) {
@@ -331,12 +335,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 	}
 
 	public void setConn(Connection conn) {
-		try {
-			this.conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		this.conn = conn;
 	}
 }

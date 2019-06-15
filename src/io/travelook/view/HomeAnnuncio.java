@@ -1,5 +1,6 @@
 package io.travelook.view;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
@@ -14,6 +15,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
@@ -32,6 +35,7 @@ public class HomeAnnuncio extends Application {
     private Text titolo;
     private ListView chatView;
     private TextField newMessage;
+    private ImageView immagine;
     private Button backButton;
     private Button sendButton;
     private Button modificaAnnuncio;
@@ -67,6 +71,9 @@ public class HomeAnnuncio extends Application {
             primaryStage.setScene(scene);
             formatter = new SimpleDateFormat("yyyy-mm-dd");
             titolo = (Text) scene.lookup("#titolo");
+            immagine = (ImageView) scene.lookup("#immagine");
+           	if(viaggio.getImmaginiProfilo() != null && new File("src/"+viaggio.getImmaginiProfilo().trim()).exists())
+            	immagine.setImage(new Image(viaggio.getImmaginiProfilo().trim()));
             titolo.setText(viaggio.getTitolo().trim());
             destinazione = (Text) scene.lookup("#destinazione");
             destinazione.setText(viaggio.getDestinazione().trim());

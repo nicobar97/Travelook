@@ -15,6 +15,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -33,6 +34,7 @@ public class CreaAnnuncio extends Application {
     private TextField lingua;
     private TextField dataInizio;
     private TextField dataFine;
+    private Label windowtitle;
     private TextField luogoPartenza;
     private TextField budget;
     private TextField titolo;
@@ -50,8 +52,10 @@ public class CreaAnnuncio extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Modifica Annuncio");
-
+        if(type == 0)
+        	this.primaryStage.setTitle("Modifica Annuncio");
+        else
+        	this.primaryStage.setTitle("Crea Annuncio");
         initRootLayout();
 	}
 
@@ -59,7 +63,10 @@ public class CreaAnnuncio extends Application {
 		launch(args);
 	}
 	public CreaAnnuncio(Viaggio viaggio, int type, Utente user) {
-		this.viaggio = viaggio;
+		if(viaggio != null)
+			this.viaggio = viaggio;
+		else
+			this.viaggio = new Viaggio();
 		this.type = type;
 		this.user = user;
 	}
@@ -68,47 +75,58 @@ public class CreaAnnuncio extends Application {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(CreaAnnuncio.class.getResource("CreaAnnuncio.fxml"));
+            
             rootLayout = (FlowPane) loader.load();
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             formatter = new SimpleDateFormat("yyyy-mm-dd");
-            titolo = (TextField) scene.lookup("#titolo");
-            titolo.setText(viaggio.getTitolo().trim());
+            titolo = (TextField) scene.lookup("#titolo");          
+            windowtitle = (Label) scene.lookup("#windowtitle");         
             destinazione = (TextField) scene.lookup("#destinazione");
-            destinazione.setText(viaggio.getDestinazione().trim());
             lingua = (TextField) scene.lookup("#lingua");
-            lingua.setText(viaggio.getLingua().trim());
             dataInizio = (TextField) scene.lookup("#datainizio");
             dataFine = (TextField) scene.lookup("#datafine");
-            if(type == 0) {
-            	dataInizio.setText(formatter.format(viaggio.getDatainizio()));
-            	dataFine.setText(formatter.format(viaggio.getDatafine()));
-            }
             luogoPartenza = (TextField) scene.lookup("#luogopartenza");
-            luogoPartenza.setText(viaggio.getLuogopartenza().trim());
             budget = (TextField) scene.lookup("#budget");
-            if(type == 1)
-            	budget.setText("$..$");
-            else
-            	budget.setText(budgetFormat(viaggio.getBudget()));
             backButton = (Button) scene.lookup("#back");
             descrizione = (TextArea) scene.lookup("#descrizione");
-            descrizione.setText(viaggio.getDescrizione());
-            immagine = (ImageView) scene.lookup("#immagine");
-            if(type == 0)
-            	if(viaggio.getImmaginiProfilo() != null && new File("src/"+viaggio.getImmaginiProfilo().trim()).exists())
-            		immagine.setImage(new Image(viaggio.getImmaginiProfilo()));
+            immagine = (ImageView) scene.lookup("#immagine");	
             saveButton = (Button) scene.lookup("#salva");
             annullaButton = (Button) scene.lookup("#annulla");
+            if(type == 0) {
+            	titolo.setText(viaggio.getTitolo().trim());
+            	destinazione.setText(viaggio.getDestinazione().trim());
+            	dataInizio.setText(formatter.format(viaggio.getDatainizio()));
+            	dataFine.setText(formatter.format(viaggio.getDatafine()));
+            	luogoPartenza.setText(viaggio.getLuogopartenza().trim());
+            	budget.setText(budgetFormat(viaggio.getBudget()));
+            	descrizione.setText(viaggio.getDescrizione().trim());
+                lingua.setText(viaggio.getLingua().trim());
+            	if(viaggio.getImmaginiProfilo() != null && new File("src/"+viaggio.getImmaginiProfilo().trim()).exists())
+            		immagine.setImage(new Image(viaggio.getImmaginiProfilo().trim()));
+            }
+            if(type == 1) {
+            	windowtitle.setText("Travelook - Crea Annuncio");
+            	budget.setText("$..$");
+            	titolo.setText("");
+            	destinazione.setText("");
+            	dataInizio.setText("");
+            	dataFine.setText("");
+            	luogoPartenza.setText("");
+            	budget.setText("");
+            	descrizione.setText("");
+                lingua.setText("");
+            }   
+            controller = new ListaAnnunciController();
+            Viaggio nv = new Viaggio();
             backButton.setOnMouseClicked(event -> {
             		if(type==0)
             			new HomeAnnuncio(viaggio, user).start(primaryStage);
             		else
             			new HomeListaAnnunci().start(primaryStage);
             });
-            controller = new ListaAnnunciController();
-            Viaggio nv = new Viaggio();
+           
             saveButton.setOnMouseClicked(event -> {
             	nv.setTitolo(titolo.getText());
 				nv.setDestinazione(destinazione.getText());
@@ -116,7 +134,7 @@ public class CreaAnnuncio extends Application {
 				nv.setBudget(budget.getText().length());
 				nv.setLuogopartenza(luogoPartenza.getText());
 				nv.setLingua(lingua.getText());
-				//nv.setImmaginiProfilo(immagine.getImage().toString() == null ? "" : immagine.getImage().toString());
+				nv.setImmaginiProfilo(immagine.getImage().toString() == null ? "" : immagine.getImage().toString().trim());
 				try {
 					nv.setDatainizio(new Date(formatter.parse(dataInizio.getText()).getTime()));
 					nv.setDatafine(new Date(formatter.parse(dataFine.getText()).getTime()));
@@ -139,7 +157,13 @@ public class CreaAnnuncio extends Application {
             });
             annullaButton.setOnMouseClicked(event -> {
             	if(type==0)
-        			new HomeAnnuncio(nv, user).start(primaryStage);
+        			new HomeAnnuncio(viaggio, user).start(primaryStage);
+        		else
+        			new HomeListaAnnunci().start(primaryStage);
+            });
+            backButton.setOnMouseClicked(event -> {
+            	if(type==0)
+        			new HomeAnnuncio(viaggio, user).start(primaryStage);
         		else
         			new HomeListaAnnunci().start(primaryStage);
             });

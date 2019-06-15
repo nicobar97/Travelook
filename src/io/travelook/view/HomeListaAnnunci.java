@@ -27,7 +27,7 @@ public class HomeListaAnnunci extends Application {
     private FlowPane rootLayout;
     private ListView<Viaggio> listView;
     private ImageView logo;
-    private Button button;
+    private Button refresh;
     private Button creaAnnuncio;
     private Utente user;
     private int count;
@@ -69,7 +69,12 @@ public class HomeListaAnnunci extends Application {
             });
             creaAnnuncio = (Button) scene.lookup("#crea");
             creaAnnuncio.setOnAction(event -> {
-            	new CreaAnnuncio(new Viaggio(), 1, user).start(primaryStage);
+            	new CreaAnnuncio(null, 1, user).start(primaryStage);
+            });
+            refresh = (Button) scene.lookup("#refresh");
+            refresh.setOnAction(event -> {
+            	ObservableList<Viaggio> refresh = FXCollections.observableArrayList(controller.getAnnunci());
+                listView.setItems(refresh);
             });
             primaryStage.show();
         } catch (IOException e) {

@@ -10,12 +10,12 @@ import io.travelook.model.Entry;
 
 public abstract class Controller implements IController {
 
-	private Connection connessione;
+	private Connection connessione = null;
 	public String JDBC_URL = "jdbc:sqlserver://travelook.database.windows.net:1433;database=travelook;"
 			+ "user=travelook@travelook;password=travel_2019;encrypt=true;trustServerCertificate=false;"
 			+ "hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
 	public Controller() {
-		try {
+		/*try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connessione = DriverManager.getConnection(JDBC_URL);
             if(connessione != null) {
@@ -25,13 +25,13 @@ public abstract class Controller implements IController {
         } 
         catch(Exception sqlException) {
             sqlException.printStackTrace();
-    }
+    }*/
 	}
 	@Override
 	public Connection getDbConnection() {
 		try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            if(connessione != null && !connessione.isClosed())
+            if(connessione != null && connessione.isValid(0))
             	return connessione;
             connessione = DriverManager.getConnection(JDBC_URL);
             if(connessione != null) {

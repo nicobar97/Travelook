@@ -97,6 +97,7 @@
                   <Font size="15.0" />
                </font>
             </Label>
+            <ImageView fx:id="immagine" fitHeight="150.0" fitWidth="200.0" layoutX="304.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true" />
          </children></Pane>
       <Pane prefHeight="505.0" prefWidth="279.0">
          <children>
