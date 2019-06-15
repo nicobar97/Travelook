@@ -1,7 +1,6 @@
 package io.travelook.persistence;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.travelook.model.Interessi;
-import io.travelook.model.RichiestaDiPartecipazione;
 import io.travelook.model.Utente;
 
 public class MssqlUtenteDAO implements UtenteDAO {
@@ -39,6 +37,7 @@ public class MssqlUtenteDAO implements UtenteDAO {
 		conn = dbConnection;
 	}
 
+	@SuppressWarnings("finally")
 	@Override
 	public boolean create(Utente u) {
 		boolean esito = false;
@@ -62,7 +61,7 @@ public class MssqlUtenteDAO implements UtenteDAO {
 				prep_stmt2.close();
 			}
 			
-			
+			esito = true;
 		}
 		catch(Exception e) {
 			e.printStackTrace();

@@ -7,7 +7,7 @@ import java.sql.Date;
 import org.junit.Test;
 
 import io.travelook.controller.autenticazione.LoginController;
-import io.travelook.controller.rdp.RegistrazioneController;
+import io.travelook.controller.autenticazione.RegistrazioneController;
 import io.travelook.model.Utente;
 import io.travelook.utils.BCrypt;
 

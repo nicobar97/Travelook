@@ -131,10 +131,7 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 	}
 	public boolean aggiungiUtente(Utente u) {
 		boolean ok = true;
-		if(this.listaUtenti.contains(u))
-			ok = false;//se lo contiene aggiornalo
-		else
-			this.listaUtenti.add(u);
+		this.listaUtenti.add(u);
 		return ok;
 	}
 	public List<Utente> getListaUtenti() {
