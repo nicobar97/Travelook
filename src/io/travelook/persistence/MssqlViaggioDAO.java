@@ -362,4 +362,26 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 		
 		this.conn = conn;
 	}
+	
+	public boolean utenteAbbandonaAnnuncio(Utente u, Viaggio v) {
+		boolean esito=false;
+		String query = "DELETE FROM Richiesta_Di_Partecipazione "
+				+ "WHERE idUtente=? AND idViaggio=? and stato = "+ Stato.ACCETTATA.ordinal();
+		
+		try {
+			PreparedStatement prep_stmt = conn.prepareStatement(query);
+			prep_stmt.clearParameters();
+			prep_stmt.setInt(1, u.getId());
+			prep_stmt.setInt(2, v.getIdViaggio());
+			if(prep_stmt.executeUpdate()>0) {
+				esito=true;
+			}
+			else esito=false;
+			
+		}
+		catch(SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		return esito;
+	}
 }

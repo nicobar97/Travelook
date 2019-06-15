@@ -41,10 +41,6 @@ public class AnnuncioController extends Controller implements IAnnuncio {
 		if(newRecensione==null) {
 			rec=false;
 		}else {
-			/*query che inserisce la recensione nell'apposito db 
-			 * se non ci sono errori nell'inserimento si aggiorna la variabile boolean a true 
-			 * e si inserisce il valore 
-			 */
 			rec=true;
 		}
 		return rec;
@@ -58,6 +54,7 @@ public class AnnuncioController extends Controller implements IAnnuncio {
 			throw new IllegalArgumentException();
 		}else {
 			viaggio.getPartecipanti().remove(utente);
+			db.utenteAbbandonaAnnuncio(utente, this.viaggio);
 			res=true;
 		}
 		return res;
