@@ -28,8 +28,8 @@
       </Pane>
       <Pane prefHeight="500.0" prefWidth="99.0">
          <children>
-            <Button fx:id="button1" layoutX="15.0" layoutY="74.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="72.0" text="Refresh" />
-            <Button fx:id="button2" layoutX="14.0" layoutY="-4.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="72.0" text="Crea Annuncio" textAlignment="CENTER" wrapText="true">
+            <Button fx:id="refresh" layoutX="15.0" layoutY="74.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="72.0" text="Refresh" />
+            <Button fx:id="crea" layoutX="14.0" layoutY="-4.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="72.0" text="Crea Annuncio" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="12.0" />
                </font>

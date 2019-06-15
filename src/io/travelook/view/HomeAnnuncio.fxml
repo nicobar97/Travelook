@@ -31,32 +31,32 @@
                   <Font size="30.0" />
                </font>
             </Text>
-            <Text fx:id="destinazione" layoutX="120.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="123.0">
+            <Text fx:id="destinazione" layoutX="121.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="123.0">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Label layoutX="17.0" layoutY="64.0" prefHeight="27.0" prefWidth="111.0" text="Destinazione:">
+            <Label layoutX="16.0" layoutY="67.0" prefHeight="27.0" prefWidth="111.0" text="Destinazione:">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label layoutX="17.0" layoutY="118.0" prefHeight="27.0" prefWidth="117.0" text="Luogo Partenza:">
+            <Label layoutX="17.0" layoutY="200.0" prefHeight="27.0" prefWidth="117.0" text="Luogo Partenza:">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label layoutX="17.0" layoutY="91.0" prefHeight="27.0" prefWidth="111.0" text="Data Inizio:">
+            <Label layoutX="16.0" layoutY="101.0" prefHeight="27.0" prefWidth="111.0" text="Data Inizio:">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label layoutX="245.0" layoutY="91.0" prefHeight="27.0" prefWidth="111.0" text="Data fine:">
+            <Label layoutX="16.0" layoutY="136.0" prefHeight="27.0" prefWidth="111.0" text="Data fine:">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label layoutX="245.0" layoutY="64.0" prefHeight="27.0" prefWidth="111.0" text="Lingua:">
+            <Label layoutX="17.0" layoutY="169.0" prefHeight="27.0" prefWidth="111.0" text="Lingua:">
                <font>
                   <Font size="15.0" />
                </font>
@@ -66,22 +66,22 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text fx:id="datafine" layoutX="322.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="111.0">
+            <Text fx:id="datafine" layoutX="156.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="111.0">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text fx:id="datainizio" layoutX="104.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="133.0">
+            <Text fx:id="datainizio" layoutX="105.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="133.0">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text fx:id="lingua" layoutX="306.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="190.0">
+            <Text fx:id="lingua" layoutX="104.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="190.0">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text fx:id="luogopartenza" layoutX="148.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="123.0">
+            <Text fx:id="luogopartenza" layoutX="109.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="123.0">
                <font>
                   <Font size="15.0" />
                </font>
@@ -91,10 +91,19 @@
                   <Font size="22.0" />
                </font>
             </Text>
+            <TextArea fx:id="descrizione" disable="true" layoutX="16.0" layoutY="263.0" opacity="0.0" prefHeight="232.0" prefWidth="496.0" />
+            <Label layoutX="17.0" layoutY="235.0" prefHeight="27.0" prefWidth="117.0" text="Descrizione:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
          </children></Pane>
       <Pane prefHeight="505.0" prefWidth="279.0">
          <children>
-            <Pane layoutX="-1.0" prefHeight="249.0" prefWidth="279.0" />
+            <Pane layoutX="-1.0" prefHeight="249.0" prefWidth="279.0">
+               <children>
+                  <Button fx:id="modifica" layoutX="32.0" layoutY="1.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="216.0" text="Modifica Annuncio" />
+               </children></Pane>
             <Pane layoutY="247.0" prefHeight="259.0" prefWidth="279.0">
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="259.0" layoutY="-5.0" stroke="BLACK" strokeType="INSIDE" width="273.0" />

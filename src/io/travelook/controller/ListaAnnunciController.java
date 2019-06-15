@@ -20,6 +20,7 @@ public class ListaAnnunciController extends Controller {
 	
 	
 	public List<Viaggio> getAnnunci() {
+		
 		//db.setConn(super.getDbConnection());
 		this.annunci = db.readViaggiListFromDb();
 		return annunci;
@@ -35,7 +36,7 @@ public class ListaAnnunciController extends Controller {
 			res=false;
 			System.out.println("viaggio nullo !");
 		}else {
-			db.setConn(super.getDbConnection());
+			//db.setConn(super.getDbConnection());
 			db.create(v);
 			annunci.add(v);
 			res=true;
@@ -52,7 +53,7 @@ public class ListaAnnunciController extends Controller {
 		else {
 			for(Viaggio v : annunci) {
 				if(v.getIdViaggio()==idannuncio) {
-					db.setConn(super.getDbConnection());
+					//db.setConn(super.getDbConnection());
 					db.delete(v.getIdViaggio());
 					annunci.remove(v);
 					res=true;

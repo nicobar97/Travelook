@@ -28,6 +28,8 @@ public class HomeListaAnnunci extends Application {
     private ListView<Viaggio> listView;
     private ImageView logo;
     private Button button;
+    private Button creaAnnuncio;
+    private Utente user;
     private int count;
 	@Override
 	public void start(Stage primaryStage) {
@@ -41,6 +43,7 @@ public class HomeListaAnnunci extends Application {
 		launch(args);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void initRootLayout() {
         try {
         	count = 0;
@@ -51,12 +54,10 @@ public class HomeListaAnnunci extends Application {
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
-            
+            UtenteController controlleru = new UtenteController();
+            this.user = controlleru.getUtenteById(1);
             listView = (ListView<Viaggio>) scene.lookup("#lista");
-            if(listView == null) {
-            	
-            }
-            
+
             ListaAnnunciController controller = new ListaAnnunciController();
             ObservableList<Viaggio> items = FXCollections.observableArrayList(controller.getAnnunci());
             listView.setItems(items);
@@ -64,12 +65,12 @@ public class HomeListaAnnunci extends Application {
             listView.setOnMouseClicked(event -> { 
             	MouseEvent me = (MouseEvent) event;
             	if(me.getClickCount() == 2)
-            		new HomeAnnuncio(listView.getSelectionModel().getSelectedItem()).start(primaryStage);
+            		new HomeAnnuncio(listView.getSelectionModel().getSelectedItem(), user).start(primaryStage);
             });
-            /*button = (Button) scene.lookup("#button1");
-            button.setOnAction(event -> {
-            	
-            });*/
+            creaAnnuncio = (Button) scene.lookup("#crea");
+            creaAnnuncio.setOnAction(event -> {
+            	new CreaAnnuncio(new Viaggio(), 1, user).start(primaryStage);
+            });
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
