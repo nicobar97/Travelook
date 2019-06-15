@@ -4,16 +4,25 @@ import java.util.Date;
 
 import io.travelook.controller.Controller;
 import io.travelook.controller.autenticazione.IRegistrazione;
+import io.travelook.model.Utente;
+import io.travelook.persistence.MssqlRegistrazioneDAO;
+import io.travelook.persistence.MssqlUtenteDAO;
+import io.travelook.utils.BCrypt;
 
 public class RegistrazioneController extends Controller implements IRegistrazione{
+	
+	MssqlRegistrazioneDAO db;
+	MssqlUtenteDAO ud = new MssqlUtenteDAO(super.getDbConnection());
+	public RegistrazioneController() {
+		db = new MssqlRegistrazioneDAO(super.getDbConnection());
+	}
+
 
 	
-	public boolean registraUtente(String nome, String cognome, Date dataNascita, String username, String password) {
+	public boolean registraUtente(Utente u, String hash ) {
 		// TODO Auto-generated method stub
 		boolean esito = true;
 		
-		if(nome.isEmpty() || cognome.isEmpty() || username.length()<6 || password.isEmpty())
-			return false;
 		//controllo che i campi siano quantomeno inizializzati, per ora ho fissato la lunghezza minima
 		// dello username a 6
 		
@@ -21,8 +30,11 @@ public class RegistrazioneController extends Controller implements IRegistrazion
 		//un altro utente registrato con lo stesso username
 		//commento per commit
 		
+		esito=db.create(u.getUsername(), hash);
+		ud.create(u);
 		
 		return esito;
 	}
+
 
 }
