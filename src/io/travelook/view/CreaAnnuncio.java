@@ -8,6 +8,7 @@ import java.sql.Date;
 
 import javax.swing.text.DateFormatter;
 
+import io.travelook.controller.annuncio.AnnuncioController;
 import io.travelook.controller.annuncio.ListaAnnunciController;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
@@ -145,11 +146,16 @@ public class CreaAnnuncio extends Application {
 					controller.eliminaAnnuncio(viaggio.getIdViaggio());
 				}
 				nv.setIdViaggio(viaggio.getIdViaggio());
-				if(type == 0)
+				if(type == 0) {
 					nv.setCreatore(viaggio.getCreatore());
-				else 
+					AnnuncioController ac = new AnnuncioController();
+					ac.modificaAnnuncio(nv);
+				}
+				else {
 					nv.setCreatore(user);
-				controller.creaAnnuncio(nv);
+					controller.creaAnnuncio(nv);
+				}
+				
 				if(type==0)
         			new HomeAnnuncio(nv, user).start(primaryStage);
         		else

@@ -13,8 +13,11 @@ public class AnnuncioController extends Controller implements IAnnuncio {
     public AnnuncioController(Viaggio v) {
     	/* nel costruttore reperisco le info sul viaggio dal db */ 
     	viaggio = v;
-    	this.viaggio=db.read(viaggio.getIdViaggio());
+    	this.db = new MssqlViaggioDAO();
     }
+	public AnnuncioController() {
+		// TODO Auto-generated constructor stub
+	}
 	@Override
 	public Utente[] visuallizzaUtentiPartecipanti(Integer idAnnuncio) {
 		Utente[] res;
@@ -28,6 +31,7 @@ public class AnnuncioController extends Controller implements IAnnuncio {
 	@Override
 	public boolean modificaAnnuncio(Viaggio modificato) {
 		/* questo metodo tramite un insert a livello db andr� a modificare i dati del viaggio passato come argomento */
+		db.setConn(super.getDbConnection());
 		if(db.update(modificato)) {
 			viaggio=modificato;
 			return true;
@@ -54,6 +58,7 @@ public class AnnuncioController extends Controller implements IAnnuncio {
 			throw new IllegalArgumentException();
 		}else {
 			viaggio.getPartecipanti().remove(utente);
+			db.setConn(super.getDbConnection());
 			db.utenteAbbandonaAnnuncio(utente, this.viaggio);
 			res=true;
 		}
