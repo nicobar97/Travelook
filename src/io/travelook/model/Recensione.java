@@ -2,6 +2,10 @@ package io.travelook.model;
 
 public class Recensione {
 	
+	public Recensione() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	private int idUtenteRecensito; //che sarebbe idUtenteRisposta
 	private int voto;
 	private String titolo;
@@ -9,6 +13,7 @@ public class Recensione {
 	private String foto;
 	private String risposta;
 	private int idUtenteRecensore; //relazione
+	private int id;
 	
 	public Recensione(int idUtenteRecensito, int voto, String titolo, String corpo, int utenteRecensitore)
 			throws IllegalArgumentException {
@@ -74,5 +79,11 @@ public class Recensione {
 	}
 	public void setRisposta(String risposta) {
 		this.risposta = risposta;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }
