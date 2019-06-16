@@ -13,6 +13,7 @@ import io.travelook.controller.utente.UtenteController;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 import io.travelook.utils.BCrypt;
+import io.travelook.utils.SHA256;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -108,22 +109,7 @@ public class HomeTravelook extends Application {
     	dialog.setResultConverter(new Callback<ButtonType, String>() {
     	    @Override
     	    public String call(ButtonType b) {
-    	    	LoginController loginController = new LoginController();
-    	    	/*SecureRandom random = new SecureRandom();
-    			byte[] salt = new byte[16];
-    			random.nextBytes(salt);
-    			MessageDigest md = null;
-    			try {
-    				md = MessageDigest.getInstance("SHA-512");
-    			} catch (NoSuchAlgorithmException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			}
-    			md.update(salt);
-    			byte[] hashedPassword = md.digest(pswField.getText().getBytes(StandardCharsets.UTF_8));
-    	    	boolean result = loginController.verificaCredenziali(usernameField.getText(), hashedPassword );*/
-    	    	boolean result = true;
-    	    	if(result)
+    	    	if(new LoginController().verificaCredenziali(usernameField.getText(), SHA256.encrypt(pswField.getText())))
     	    		return usernameField.getText();
     	    	else
     	    		return "";
