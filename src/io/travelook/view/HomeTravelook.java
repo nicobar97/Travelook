@@ -15,7 +15,6 @@ import io.travelook.controller.autenticazione.RegistrazioneController;
 import io.travelook.controller.utente.UtenteController;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
-import io.travelook.utils.BCrypt;
 import io.travelook.utils.SHA256;
 import javafx.application.Application;
 import javafx.collections.FXCollections;

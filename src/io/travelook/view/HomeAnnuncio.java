@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.text.DateFormatter;
 
@@ -26,6 +28,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -39,7 +42,7 @@ public class HomeAnnuncio extends Application {
     private Text luogoPartenza;
     private Text budget;
     private Text titolo;
-    private ListView chatView;
+    private ListView<Messaggio> chatView;
     private TextField newMessage;
     private ImageView immagine;
     private Button backButton;
@@ -47,9 +50,9 @@ public class HomeAnnuncio extends Application {
     private Button modificaAnnuncio;
     private Text descrizione;
     private ChatController chatCont;
-    private int count;
     private Viaggio viaggio;
     private SimpleDateFormat formatter;
+    private Rectangle chatShape;
     private Utente user;
 	@Override
 	public void start(Stage primaryStage) {
@@ -69,24 +72,19 @@ public class HomeAnnuncio extends Application {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void initRootLayout() {
         try {
-        	count = 0;
-            // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(HomeAnnuncio.class.getResource("HomeAnnuncio.fxml"));
             rootLayout = (FlowPane) loader.load();
-            // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
-            chatCont = new ChatController();
+            formatter = new SimpleDateFormat("yyyy-mm-dd");
             chatView = (ListView) scene.lookup("#chatView");
             newMessage = (TextField) scene.lookup("#messageBox");
             sendButton = (Button) scene.lookup("#send");
             
-            formatter = new SimpleDateFormat("yyyy-mm-dd");
-            
-            refreshChat();
             titolo = (Text) scene.lookup("#titolo");
             immagine = (ImageView) scene.lookup("#immagine");
+            chatShape = (Rectangle) scene.lookup("#chatShape");
            	if(viaggio.getImmaginiProfilo() != null && !viaggio.getImmaginiProfilo().trim().equals("") && new File("src/"+viaggio.getImmaginiProfilo().trim()).exists())
             	immagine.setImage(new Image(viaggio.getImmaginiProfilo().trim()));
             titolo.setText(viaggio.getTitolo().trim());
@@ -105,29 +103,52 @@ public class HomeAnnuncio extends Application {
             descrizione = (Text) scene.lookup("#descrizione");
             descrizione.setText(viaggio.getDescrizione().trim());
             backButton = (Button) scene.lookup("#back");
-            modificaAnnuncio = (Button) scene.lookup("#modifica");
-            modificaAnnuncio.setOnMouseClicked(event -> {
-        			new CreaAnnuncio(viaggio, 0, user).start(primaryStage);
-            });
+            
             backButton.setOnMouseClicked(event -> {
-            		new HomeListaAnnunci(user).start(primaryStage);
+        		new HomeListaAnnunci(user).start(primaryStage);
             });
-            sendButton.setOnMouseClicked(event -> {
-            	Messaggio m = new Messaggio();
-            	m.setMessaggio(newMessage.getText());
-            	m.setTimestamp(new Timestamp(System.currentTimeMillis()));
-            	m.setUtente(user);
-            	chatCont.inviaMessaggio(m, viaggio);
-            	refreshChat();
-            	newMessage.setText("");
-            });
-            newMessage.setOnKeyReleased(event -> {
-            	if(newMessage.getText().trim().equals(""))
-            		sendButton.setDisable(true);
-            	else
-            		sendButton.setDisable(false);
-            });
-            sendButton.setDisable(true);
+            if(user.getId() == viaggio.getCreatore().getId() && false) {
+            	//CREATORE
+                modificaAnnuncio = (Button) scene.lookup("#modifica");
+                modificaAnnuncio.setOnMouseClicked(event -> {
+            			new CreaAnnuncio(viaggio, 0, user).start(primaryStage);
+                });
+            }
+            else {
+            	List<Utente> listUserViaggio = new ArrayList<Utente>();
+            	boolean trovato = false;/*
+            	for(Utente u : listUserViaggio)
+            		if(u.getId() == user.getId())
+            			trovato = true;*/
+            	if(trovato) {
+            		//PARTECIPANTE
+            		//CHAT
+                    chatCont = new ChatController();
+                    refreshChat();
+                    sendButton.setOnMouseClicked(event -> {
+                    	Messaggio m = new Messaggio();
+                    	m.setMessaggio(newMessage.getText());
+                    	m.setTimestamp(new Timestamp(System.currentTimeMillis()));
+                    	m.setUtente(user);
+                    	chatCont.inviaMessaggio(m, viaggio);
+                    	refreshChat();
+                    	newMessage.setText("");
+                    });
+                    newMessage.setOnKeyReleased(event -> {
+                    	if(newMessage.getText().trim().equals(""))
+                    		sendButton.setDisable(true);
+                    	else
+                    		sendButton.setDisable(false);
+                    });
+                    sendButton.setDisable(true);
+            	}
+            	else {
+            		//GUEST
+            		chatView.setVisible(false);
+            		sendButton.setVisible(false);
+            		newMessage.setVisible(false);
+            	}
+            }
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();

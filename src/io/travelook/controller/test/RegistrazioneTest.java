@@ -13,7 +13,6 @@ import org.junit.Test;
 import io.travelook.controller.autenticazione.LoginController;
 import io.travelook.controller.autenticazione.RegistrazioneController;
 import io.travelook.model.Utente;
-import io.travelook.utils.BCrypt;
 
 class RegistrazioneTest {
 	
@@ -70,9 +69,8 @@ class RegistrazioneTest {
 	@Test 
 	public static void main() {
 		String password = "ciao";
-		String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
+		String hashed;
 		
-		System.out.println(hashed);
 	}
 
 }

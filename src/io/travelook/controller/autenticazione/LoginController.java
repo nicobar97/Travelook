@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import io.travelook.controller.Controller;
 import io.travelook.persistence.MssqlLoginDAO;
-import io.travelook.utils.BCrypt;
 
 public class LoginController extends Controller implements ILogin {
 

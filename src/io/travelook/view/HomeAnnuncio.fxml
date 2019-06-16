@@ -111,7 +111,7 @@
                </children></Pane>
             <Pane layoutY="247.0" prefHeight="259.0" prefWidth="279.0">
                <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="259.0" layoutY="-5.0" stroke="BLACK" strokeType="INSIDE" width="273.0" />
+                  <Rectangle fx:id="chatShape" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="259.0" layoutY="-5.0" stroke="BLACK" strokeType="INSIDE" width="273.0" />
                   <ListView fx:id="chatView" layoutX="6.0" layoutY="3.0" prefHeight="209.0" prefWidth="262.0" />
                   <TextField fx:id="messageBox" layoutX="6.0" layoutY="219.0" prefHeight="27.0" prefWidth="228.0" />
                   <Button fx:id="send" layoutX="238.0" layoutY="218.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="23.0" text="&gt;" />

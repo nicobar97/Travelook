@@ -14,7 +14,7 @@ import io.travelook.model.Viaggio;
 import io.travelook.utils.StatoUtils;
 
 public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazioneDAO {
-	Connection conn;
+	private Connection conn;
 	static final String table = "Richiesta_Di_Partecipazione";
 	static final String insert = "INSERT INTO " + table + 
 			" (idUtente,idViaggio,idCreatore,messaggioRichiesta,messaggioRisposta,stato)" +
@@ -42,7 +42,7 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 			"     foreign key (idCreatore) references Utente(id)," + 
 			"     unique(id, idUtente, idViaggio, idCreatore)" + 
 			"     );";
-	
+	static final String delete = "delete from table Richiesta_Di_Partecipazione where id=?";
 	static final String update = "UPDATE TABLE Richiesta_Di_Partecipazione SET idUtente=?, idViaggio=?,"
 			+ "idCreatore=?, messaggioRichiesta=?, messaggioRisposta=?, stato=? WHERE id=?";
 	
@@ -193,8 +193,25 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 
 	@Override
 	public boolean delete(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean res=false;
+		try {
+			PreparedStatement prep_stmt = conn.prepareStatement(MssqlRichiestaDiPartecipazioneDAO.delete);
+			prep_stmt.setInt(1,id);
+			int resint=prep_stmt.executeUpdate();
+			res = (resint > 0) ? true : false;
+			prep_stmt.close();			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return res;
 	}
 
 	@Override
@@ -241,6 +258,14 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 			}
 		}
 		return result;
+	}
+
+	public Connection getConn() {
+		return conn;
+	}
+
+	public void setConn(Connection conn) {
+		this.conn = conn;
 	}
 	
 }

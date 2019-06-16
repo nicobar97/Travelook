@@ -6,7 +6,6 @@ import io.travelook.controller.Controller;
 import io.travelook.model.Utente;
 import io.travelook.persistence.MssqlLoginDAO;
 import io.travelook.persistence.MssqlUtenteDAO;
-import io.travelook.utils.BCrypt;
 
 public class RegistrazioneController extends Controller implements IRegistrazione{
 	

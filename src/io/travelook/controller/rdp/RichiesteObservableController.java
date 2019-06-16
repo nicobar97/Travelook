@@ -40,8 +40,7 @@ public class RichiesteObservableController extends Controller implements IGestio
 		for(RichiestaDiPartecipazione r : this.listaRichieste) {
 			if(r.getUtente().getId() == richiestaRisposta.getUtente().getId() &&
 				r.getViaggio().getIdViaggio() == richiestaRisposta.getViaggio().getIdViaggio()) {
-				removeRichiesta(r);
-				addRichiesta(richiestaRisposta);
+				updateRichiesta(richiestaRisposta);
 				notifyUtente(richiestaRisposta.getViaggio(), richiestaRisposta.getMessaggioRisposta(), 
 						richiestaRisposta.getStato(), richiestaRisposta.getUtente());
 			}
@@ -66,11 +65,19 @@ public class RichiesteObservableController extends Controller implements IGestio
     public void removeObserver(Observer observer) {
         if (observer == null)
             throw new NullPointerException();
-        if (observers.contains(observer)) {
+        boolean trovato = false;
+        for(Observer o : observers) {
+        	NotificheVerso n = (NotificheVerso) o;
+        	NotificheVerso del = (NotificheVerso) observer;
+        	if(n.getUtente().getId() == del.getUtente().getId())
+        		trovato = true;
+        }
+        if (trovato) {
         	this.observers.remove(observer);
         }
     }
     public List<Observer> getListObserver() {
+    	initObservers();
     	return this.observers;
     }	
 	public void notifyCreatore(Viaggio viaggio, String messaggio, Utente sender) {
@@ -119,16 +126,41 @@ public class RichiesteObservableController extends Controller implements IGestio
 	}
 	private boolean addRichiesta(RichiestaDiPartecipazione richiesta) {
 		this.listaRichieste.add(richiesta);
-		this.db.create(richiesta);
+		boolean esito = true;
+		for(int i=0; i<listaRichieste.size(); i++)
+			if(listaRichieste.get(i).getId()== richiesta.getId())
+				esito = false;
+		if(esito) {
+			this.db.setConn(super.getDbConnection());
+			this.db.create(richiesta);
+		}
 		return true;
 	}
 	private boolean removeRichiesta(RichiestaDiPartecipazione richiesta) {
 		boolean esito = false;
-		if(this.listaRichieste.contains(richiesta)) {
-			this.listaRichieste.remove(richiesta);
-			esito = true;
+		for(int i=0; i<listaRichieste.size(); i++) {
+			if(listaRichieste.get(i).getId()== richiesta.getId()) {
+				listaRichieste.remove(i);
+				esito = true;
+			}
 		}
-		//SINCRONIZZAZIONE SU DB
+		if(esito) {
+			this.db.setConn(super.getDbConnection());
+			this.db.delete(richiesta.getId());
+		}
+		return esito;
+	}
+	private boolean updateRichiesta(RichiestaDiPartecipazione richiesta) {
+		boolean esito = false;
+		for(int i=0; i<listaRichieste.size(); i++) {
+			if(listaRichieste.get(i).getId()== richiesta.getId()) {
+				listaRichieste.remove(i);
+				listaRichieste.add(richiesta);
+				esito = true;
+			}
+		}
+		this.db.setConn(super.getDbConnection());
+		this.db.update(richiesta);
 		return esito;
 	}
 	private void initObservers() {
@@ -143,8 +175,5 @@ public class RichiesteObservableController extends Controller implements IGestio
 				addObserver((Observer) new NotificheVersoUtente(r.getUtente(), r.getViaggio(), r.getMessaggioRisposta(), r.getStato()));
 			}
 		}
-	}
-	public void getRichiestaDiPartecipazione(int id) {
-		
 	}
 }
