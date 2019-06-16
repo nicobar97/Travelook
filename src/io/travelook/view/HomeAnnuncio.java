@@ -10,16 +10,21 @@ import java.util.List;
 import javax.swing.text.DateFormatter;
 
 import io.travelook.controller.chat.ChatController;
+import io.travelook.controller.rdp.RichiesteObservableController;
 import io.travelook.model.Chat;
 import io.travelook.model.Messaggio;
+import io.travelook.model.RichiestaDiPartecipazione;
+import io.travelook.model.Stato;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -53,7 +58,16 @@ public class HomeAnnuncio extends Application {
     private Viaggio viaggio;
     private SimpleDateFormat formatter;
     private Rectangle chatShape;
+    private RichiesteObservableController rdpc;
+    private Button rdpbutton;
+    private ListView<RichiestaDiPartecipazione> rdpview;
     private Utente user;
+
+    private Button sendrdp;
+    private Button cancrdp;
+    private TextArea textrdp;
+    private Text rdplabel;
+    private ListView<Utente> utentiView;
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -103,25 +117,58 @@ public class HomeAnnuncio extends Application {
             descrizione = (Text) scene.lookup("#descrizione");
             descrizione.setText(viaggio.getDescrizione().trim());
             backButton = (Button) scene.lookup("#back");
-            
+            modificaAnnuncio = (Button) scene.lookup("#modifica");
+            rdpbutton = (Button) scene.lookup("#rdpbutton");
+            rdpview = (ListView) scene.lookup("#rdpview");
+            sendrdp = (Button) scene.lookup("#sendrdp");
+            cancrdp = (Button) scene.lookup("#cancrdp");
+            textrdp = (TextArea) scene.lookup("#textrdp");
+            rdplabel = (Text) scene.lookup("#labelrdp");
+            utentiView = (ListView) scene.lookup("#utentiView");
+            rdpc = new RichiesteObservableController();
             backButton.setOnMouseClicked(event -> {
         		new HomeListaAnnunci(user).start(primaryStage);
             });
-            if(user.getId() == viaggio.getCreatore().getId() && false) {
+            if(/*user.getId() == viaggio.getCreatore().getId() */ false) {
             	//CREATORE
-                modificaAnnuncio = (Button) scene.lookup("#modifica");
+            	chatView.setVisible(true);
+        		sendButton.setVisible(true);
+        		newMessage.setVisible(true);
+        		chatShape.setVisible(true);
+        		sendrdp.setVisible(false);
+        		cancrdp.setVisible(false);
+        		textrdp.setVisible(false);
+        		rdplabel.setVisible(false);
+        		utentiView.setVisible(true);
+        		modificaAnnuncio.setVisible(true);
+        		rdpview.setVisible(true);
+        		rdpbutton.setVisible(true);
+                
                 modificaAnnuncio.setOnMouseClicked(event -> {
             			new CreaAnnuncio(viaggio, 0, user).start(primaryStage);
                 });
             }
             else {
             	List<Utente> listUserViaggio = new ArrayList<Utente>();
+            	//System.out.println();
             	boolean trovato = false;/*
             	for(Utente u : listUserViaggio)
             		if(u.getId() == user.getId())
             			trovato = true;*/
             	if(trovato) {
             		//PARTECIPANTE
+            		chatView.setVisible(true);
+            		sendButton.setVisible(true);
+            		newMessage.setVisible(true);
+            		chatShape.setVisible(true);
+            		sendrdp.setVisible(false);
+            		cancrdp.setVisible(false);
+            		textrdp.setVisible(false);
+            		rdplabel.setVisible(false);
+            		utentiView.setVisible(true);
+            		rdpview.setVisible(false);
+            		rdpbutton.setVisible(false);
+            		modificaAnnuncio.setVisible(false);
             		//CHAT
                     chatCont = new ChatController();
                     refreshChat();
@@ -147,6 +194,22 @@ public class HomeAnnuncio extends Application {
             		chatView.setVisible(false);
             		sendButton.setVisible(false);
             		newMessage.setVisible(false);
+            		chatShape.setVisible(false);
+            		sendrdp.setVisible(true);
+            		cancrdp.setVisible(true);
+            		textrdp.setVisible(true);
+            		rdplabel.setVisible(true);
+            		utentiView.setVisible(false);
+            		modificaAnnuncio.setVisible(false);
+            		rdpview.setVisible(false);
+            		rdpbutton.setVisible(false);
+            		rdplabel.setText(rdplabel.getText()+ " " + viaggio.getCreatore().getId());
+            		cancrdp.setOnMouseClicked(event -> {
+            			textrdp.setText("");
+            		});
+            		sendrdp.setOnMouseClicked(event -> {
+            			rdpc.nuovaRichiesta(new RichiestaDiPartecipazione(user, viaggio, textrdp.getText(), null, Stato.NONVISTA));
+            		});
             	}
             }
             primaryStage.show();
@@ -162,6 +225,15 @@ public class HomeAnnuncio extends Application {
         	chatView.setCellFactory(userCell -> new ChatCell(user));
         	chatView.scrollTo(chat.getChat().size());
         }
+	}
+	private void refreshRdp() {
+		//List<RichiestaDiPartecipazione> rdpList = rdpc
+        /*ObservableList<Messaggio> messaggi = FXCollections.observableArrayList(chat.getChat());
+        if(!chat.getChat().isEmpty() && messaggi != null) {
+        	chatView.setItems(messaggi);
+        	chatView.setCellFactory(userCell -> new ChatCell(user));
+        	chatView.scrollTo(chat.getChat().size());
+        }*/
 	}
 	public Stage getPrimaryStage() {
         return primaryStage;
