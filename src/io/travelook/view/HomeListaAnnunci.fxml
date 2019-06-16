@@ -23,7 +23,7 @@
       </Pane>
       <Pane prefHeight="526.0" prefWidth="710.0">
          <children>
-            <ListView fx:id="lista" layoutY="-5.0" prefHeight="517.0" prefWidth="710.0" />
+            <ListView fx:id="lista" layoutY="-4.0" prefHeight="510.0" prefWidth="710.0" />
          </children>
       </Pane>
       <Pane prefHeight="500.0" prefWidth="99.0">

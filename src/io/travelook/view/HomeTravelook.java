@@ -19,6 +19,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
@@ -72,8 +74,11 @@ public class HomeTravelook extends Application {
             
             login.setOnMouseClicked(event -> {
             	Optional<String> username = dialog.showAndWait();
-            	if(!username.get().equals("")) {
+            	if(username.isPresent()) {
             		new HomeListaAnnunci(username.get()).start(primaryStage);
+            	}
+            	else {
+            		new Alert(AlertType.ERROR, "Username o password errati").showAndWait();
             	}
             });
 
@@ -112,7 +117,7 @@ public class HomeTravelook extends Application {
     	    	if(new LoginController().verificaCredenziali(usernameField.getText(), SHA256.encrypt(pswField.getText())))
     	    		return usernameField.getText();
     	    	else
-    	    		return "";
+    	    		return null;
     	    }
     	});
 	}

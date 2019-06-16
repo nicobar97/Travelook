@@ -68,12 +68,11 @@ class RegistrazioneTestDue {
 	
 	@Test
 	void registraEAutentica() {
-		Utente utente1 = new Utente("socciavez", "socciavez@regaz.it", "Soccia", "Vez", new Date(1997, 03, 02) ,"user1.png");
-		String password="nicoooo";
+		Utente utente1 = new Utente("nicobar", "nicobar97@gmail.com", "nicolò", "bartelucci", new Date(1997, 03, 02) ,"user1.png");
 		LoginController lc = new LoginController();
 		RegistrazioneController rc = new RegistrazioneController();
-		assertTrue(rc.registraUtente(utente1, SHA256.encrypt(password)));
-		assertTrue(lc.verificaCredenziali(utente1.getUsername(), SHA256.encrypt(password)));
+		assertTrue(rc.registraUtente(utente1, SHA256.encrypt("porcodio97")));
+		assertTrue(lc.verificaCredenziali(utente1.getUsername(), SHA256.encrypt("porcodio97")));
 	}
 
 }

@@ -47,6 +47,7 @@ protected void updateItem(Messaggio mex, boolean empty) {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("title");
                 alert.setContentText("error");
+                alert.show();
             }
         }
         
