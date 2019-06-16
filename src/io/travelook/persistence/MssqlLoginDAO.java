@@ -24,13 +24,13 @@ public class MssqlLoginDAO extends Controller implements LoginDAO {
 		dbCredenziali = getDbConnection();
 	}
 	@Override
-	public boolean create(String username, byte[] hash) {
+	public boolean create(String username, String hash) {
 		
 		try {
 			PreparedStatement prep_stmt = dbCredenziali.prepareStatement(MssqlLoginDAO.insert);
 			prep_stmt.clearParameters();
 			prep_stmt.setString(1, username);
-			prep_stmt.setBytes(2, hash);
+			prep_stmt.setString(2, hash);
 			int esito = prep_stmt.executeUpdate();
 			prep_stmt.close();
 			if(esito>0) return true;
@@ -49,8 +49,8 @@ public class MssqlLoginDAO extends Controller implements LoginDAO {
 		}
 	}
 	@Override
-	public byte[] read(String username) {
-		byte[] result = null;
+	public String read(String username) {
+		String result = null;
 		if ( username.trim().equals("") )  {
 			System.out.println("read(): cannot read an entry with a negative id");
 			return result;
@@ -61,7 +61,7 @@ public class MssqlLoginDAO extends Controller implements LoginDAO {
 			prep_stmt.setString(1, username);
 			ResultSet rs = prep_stmt.executeQuery();
 			if ( rs.next() ) {
-				result = rs.getBytes(1);
+				result = rs.getString(1);
 			}
 			rs.close();
 			prep_stmt.close();

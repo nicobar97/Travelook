@@ -30,7 +30,7 @@ class RegistrazioneTest {
 		
 	}*/
 	
-	
+	/*
 	public static void main(String args[]) {
 		RegistrazioneController rc = new RegistrazioneController();
 		LoginController lc = new LoginController();
@@ -65,6 +65,14 @@ class RegistrazioneTest {
 		else
 			System.out.println("DIOmerd");
 	}
+	*/
 	
+	@Test 
+	public static void main() {
+		String password = "ciao";
+		String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
+		
+		System.out.println(hashed);
+	}
 
 }
