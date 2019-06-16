@@ -2,16 +2,13 @@ package io.travelook.controller.test;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.sql.Date;
 
 import org.junit.jupiter.api.Test;
 
 import io.travelook.controller.autenticazione.LoginController;
-import io.travelook.controller.utente.UtenteController;
-import io.travelook.persistence.MssqlLoginDAO;
-import io.travelook.utils.BCrypt;
+import io.travelook.controller.autenticazione.RegistrazioneController;
+import io.travelook.model.Utente;
 import io.travelook.utils.SHA256;
 
 class RegistrazioneTestDue {
@@ -41,7 +38,7 @@ class RegistrazioneTestDue {
 		
 	}*/
 	
-	@Test
+	/*@Test
 	void testLogin() {
 		InputStreamReader in = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(in);
@@ -67,6 +64,16 @@ class RegistrazioneTestDue {
 		}
 		
 	}
+	*/
 	
+	@Test
+	void registraEAutentica() {
+		Utente utente1 = new Utente("socciavez", "socciavez@regaz.it", "Soccia", "Vez", new Date(1997, 03, 02) ,"user1.png");
+		String password="nicoooo";
+		LoginController lc = new LoginController();
+		RegistrazioneController rc = new RegistrazioneController();
+		assertTrue(rc.registraUtente(utente1, SHA256.encrypt(password)));
+		assertTrue(lc.verificaCredenziali(utente1.getUsername(), SHA256.encrypt(password)));
+	}
 
 }

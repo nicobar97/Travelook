@@ -16,7 +16,7 @@ public class RegistrazioneController extends Controller implements IRegistrazion
 		db = new MssqlLoginDAO(super.getDbConnection());
 	}
 	
-	public boolean registraUtente(Utente u, byte[] hash ) {
+	public boolean registraUtente(Utente u, String hash ) {
 		// TODO Auto-generated method stub
 		boolean esito = false;
 		boolean esito2 = false;
