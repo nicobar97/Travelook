@@ -10,10 +10,12 @@ import io.travelook.model.Storico;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 import io.travelook.persistence.MssqlUtenteDAO;
+import io.travelook.persistence.MssqlUtente_InteressiDAO;
 
 public class UtenteController extends Controller implements IGestioneProfiloUtente {
 	private List<Utente> listaUtenti;
 	private MssqlUtenteDAO db;
+	private MssqlUtente_InteressiDAO interessi;
 	public UtenteController() {
 		/**
 		 * Nel costruttore reperisco l'utente dal database, immmagino debba essere fatto in questo modo,
@@ -23,6 +25,7 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		
 		// = new ArrayList<Utente>();
 		db = new MssqlUtenteDAO(super.getDbConnection());
+		interessi = new MssqlUtente_InteressiDAO(super.getDbConnection());
 		//listaUtenti = db.readUtentiFromDB();
 		if(listaUtenti == null)
 			listaUtenti = new ArrayList<Utente>();
@@ -63,6 +66,7 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		if(!trovatoInteresse) {
 			trovatoUtente.getInteressi().add(interesse);
 			System.out.println("aggiungo interesse " + interesse.toString()+ " all'utente " + trovatoUtente.getUsername());
+			interessi.create(trovatoUtente, interesse);
 			return true;
 		}
 		else {
