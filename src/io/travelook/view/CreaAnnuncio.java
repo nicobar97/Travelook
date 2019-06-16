@@ -117,7 +117,7 @@ public class CreaAnnuncio extends Application {
             	budget.setText(budgetFormat(viaggio.getBudget()));
             	descrizione.setText(viaggio.getDescrizione().trim());
                 lingua.setText(viaggio.getLingua().trim());
-            	if(viaggio.getImmaginiProfilo() != null && !viaggio.getImmaginiProfilo().trim().equals("") && new File("src\\"+viaggio.getImmaginiProfilo().trim()).exists())
+            	if(viaggio.getImmaginiProfilo() != null && !viaggio.getImmaginiProfilo().trim().equals("") && new File("src/"+viaggio.getImmaginiProfilo().trim()).exists())
             		immagine.setImage(new Image(viaggio.getImmaginiProfilo().trim()));
             }
             if(type == 1) {
@@ -133,24 +133,11 @@ public class CreaAnnuncio extends Application {
                 lingua.setText("");
             }   
             controller = new ListaAnnunciController();
-            
             load.setOnMouseClicked(event -> {
             	newImg = imgChooser.showOpenDialog(primaryStage);
-            	try {
-            		if(new File("src\\"+newImg.getName()).exists()) {
-            			FileUtils.copyFile(newImg, new File("src\\tmp\\"));
-            			new File("src\\tmp\\"+newImg.getName()).renameTo(new File("src\\tmp\\"+viaggio.getIdViaggio()+"img"));
-            			FileUtils.copyFile(new File("src\\tmp\\"+viaggio.getIdViaggio()+"img"), new File("src\\"));
-            		}
-            		while(!new File("src\\"+newImg.getName()).exists()) {
-            			FileUtils.copyFile(newImg, new File("src\\"));
-            		}
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+            	//copyImage(newImg);
+            	//immagine.setImage(new Image("viaggio"+viaggio.getIdViaggio()+newImg.getName().substring(newImg.getName().length()-4, newImg.getName().length())));
             	immagine.setImage(new Image(newImg.getName()));
-            	
             });
             backButton.setOnMouseClicked(event -> {
             		if(type==0)
@@ -169,6 +156,7 @@ public class CreaAnnuncio extends Application {
 				nv.setStato(viaggio.getStato());
 				if(newImg != null) {
 					nv.setImmaginiProfilo(newImg.getName());
+					//nv.setImmaginiProfilo("viaggio"+viaggio.getIdViaggio()+newImg.getName().substring(newImg.getName().length()-4, newImg.getName().length()));
 				}
 				else
 					nv.setImmaginiProfilo(immagine.getImage() == null ? "" : immagine.getImage().toString().trim());
@@ -230,4 +218,16 @@ public class CreaAnnuncio extends Application {
 			return "$$$$";
 		return "";
 	}
+	private void copyImage(File newImg) {
+		try {
+    		if(new File("src/"+newImg.getName()).exists()) {
+    			FileUtils.copyFile(newImg, new File("src/viaggio"+viaggio.getIdViaggio()+newImg.getName().substring(newImg.getName().length()-4, newImg.getName().length())));
+    		}
+    		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

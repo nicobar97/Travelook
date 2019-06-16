@@ -41,7 +41,8 @@ public class test {
 		c.inviaMessaggio(m, v);
 		Chat chatte = c.getChat(v);
 		System.out.println(chatte.getChat().size());*/
-		System.out.println(new MssqlUtenteDAO(new UtenteController().getDbConnection()).getIdUtenteByUsername("andresalv"));
+		String test = "faadawdawdwa.jpg";
+		System.out.println("viaggio"+test.substring(test.length()-4, test.length()));
 	}
 
 
