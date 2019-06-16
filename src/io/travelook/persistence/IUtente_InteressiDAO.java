@@ -2,7 +2,7 @@ package io.travelook.persistence;
 
 import io.travelook.model.Interessi;
 import io.travelook.model.Utente;
-
+//
 public interface IUtente_InteressiDAO {
 	//CRUD
 	public boolean create(Utente u, Interessi i);

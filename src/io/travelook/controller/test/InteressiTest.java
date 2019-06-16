@@ -11,7 +11,7 @@ import io.travelook.persistence.MssqlUtenteDAO;
 import io.travelook.persistence.MssqlUtente_InteressiDAO;
 
 class InteressiTest {
-
+//
 	@Test
 	void testAggiungi() {
 		UtenteController uc = new UtenteController();
