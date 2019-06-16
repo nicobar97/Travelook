@@ -104,7 +104,7 @@ public class CreaAnnuncio extends Application {
             	budget.setText(budgetFormat(viaggio.getBudget()));
             	descrizione.setText(viaggio.getDescrizione().trim());
                 lingua.setText(viaggio.getLingua().trim());
-            	if(viaggio.getImmaginiProfilo() != null && new File("src/"+viaggio.getImmaginiProfilo().trim()).exists())
+            	if(viaggio.getImmaginiProfilo() != null && !viaggio.getImmaginiProfilo().trim().equals("") && new File("src/"+viaggio.getImmaginiProfilo().trim()).exists())
             		immagine.setImage(new Image(viaggio.getImmaginiProfilo().trim()));
             }
             if(type == 1) {
@@ -135,7 +135,8 @@ public class CreaAnnuncio extends Application {
 				nv.setBudget(budget.getText().length());
 				nv.setLuogopartenza(luogoPartenza.getText());
 				nv.setLingua(lingua.getText());
-				nv.setImmaginiProfilo(immagine.getImage().toString() == null ? "" : immagine.getImage().toString().trim());
+				nv.setStato(viaggio.getStato());
+				nv.setImmaginiProfilo(immagine.getImage() == null ? "" : immagine.getImage().toString().trim());
 				try {
 					nv.setDatainizio(new Date(formatter.parse(dataInizio.getText()).getTime()));
 					nv.setDatafine(new Date(formatter.parse(dataFine.getText()).getTime()));
@@ -148,7 +149,7 @@ public class CreaAnnuncio extends Application {
 				nv.setIdViaggio(viaggio.getIdViaggio());
 				if(type == 0) {
 					nv.setCreatore(viaggio.getCreatore());
-					AnnuncioController ac = new AnnuncioController();
+					AnnuncioController ac = new AnnuncioController(viaggio);
 					ac.modificaAnnuncio(nv);
 				}
 				else {

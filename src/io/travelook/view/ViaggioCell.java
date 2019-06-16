@@ -51,7 +51,7 @@ protected void updateItem(Viaggio v, boolean empty) {
         lblTitle.setStyle("-fx-font: 20 arial;");
         lblOverview.setText("Destinazione: " + v.getDestinazione() + "\tLingua: " + v.getLingua() + 
         					"\n" + v.getDescrizione());
-        if(logo != null && new File("src/"+logo.trim()).exists())
+        if(logo != null && !logo.trim().equals("") && new File("src/"+logo.trim()).exists())
         		poster.setImage(new Image(logo.trim()));
         setText(null);
         setGraphic(gridPane);

@@ -87,7 +87,7 @@ public class HomeAnnuncio extends Application {
             refreshChat();
             titolo = (Text) scene.lookup("#titolo");
             immagine = (ImageView) scene.lookup("#immagine");
-           	if(viaggio.getImmaginiProfilo() != null && new File("src/"+viaggio.getImmaginiProfilo().trim()).exists())
+           	if(viaggio.getImmaginiProfilo() != null && !viaggio.getImmaginiProfilo().trim().equals("") && new File("src/"+viaggio.getImmaginiProfilo().trim()).exists())
             	immagine.setImage(new Image(viaggio.getImmaginiProfilo().trim()));
             titolo.setText(viaggio.getTitolo().trim());
             destinazione = (Text) scene.lookup("#destinazione");
