@@ -43,6 +43,9 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 			"     unique(id, idUtente, idViaggio, idCreatore)" + 
 			"     );";
 	
+	static final String update = "UPDATE TABLE Richiesta_Di_Partecipazione SET idUtente=?, idViaggio=?,"
+			+ "idCreatore=?, messaggioRichiesta=?, messaggioRisposta=?, stato=? WHERE id=?";
+	
 	public MssqlRichiestaDiPartecipazioneDAO(Connection conn) {
 		this.conn = conn;
 	}
@@ -145,8 +148,47 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 
 	@Override
 	public boolean update(RichiestaDiPartecipazione rdp) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		if ( rdp == null )  {
+			System.out.println( "update(): failed to update a null entry");
+			return result;
+		}
+		try {
+			PreparedStatement prep_stmt = conn.prepareStatement(MssqlRichiestaDiPartecipazioneDAO.update);
+			prep_stmt.clearParameters();
+			prep_stmt.setInt(1, rdp.getUtente().getId());
+			prep_stmt.setInt(2, rdp.getViaggio().getIdViaggio());
+			prep_stmt.setInt(3, rdp.getViaggio().getCreatore().getId());
+			prep_stmt.setString(4, rdp.getMessaggioRichiesta());
+			prep_stmt.setString(5, rdp.getMessaggioRisposta());
+			prep_stmt.setInt(6, StatoUtils.getStatoId(rdp.getStato()));
+			prep_stmt.setInt(7, rdp.getId());
+			int esito;
+			esito=prep_stmt.executeUpdate();
+			prep_stmt.close();
+			if(esito>=0) {
+				System.out.println("Ho aggiornato il rdp con id "+ rdp.getId());
+				return true;
+			}
+			else {
+				System.out.println("ERRORE: non ho potuto aggiornare il rdp con id "+ rdp.getId());
+				return false;
+			}
+			
+		}
+		catch (Exception e) {
+			System.out.println("insert(): failed to update entry: "+e.getMessage());
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 
 	@Override

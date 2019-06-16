@@ -56,18 +56,18 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			"foreign key(idPartecipante) references Utente(id),"+
 			"unique(id, idCreatore, idPartecipante)"+
 			")";
-	static String read_all = "select 	v.id, v.titolo, v.destinazione, v.descrizione, v.budget, v.luogoPartenza, \r\n" + 
+	final static String read_all = "select 	v.id, v.titolo, v.destinazione, v.descrizione, v.budget, v.luogoPartenza, \r\n" + 
 			"		v.dataPartenza, v.dataFine, v.lingua, v.stato, v.immagineProfilo, v.idCreatore, c.nickname,\r\n" + 
 			"		c.email, c.nome, c.cognome, c.dataNascita, c.imgProfilo from Viaggio v\r\n" + 
 			"inner join Utente AS c on c.id = v.idCreatore";
 	
 	// SELECT * FROM table WHERE idcolumn = ?;
-	static String read_by_id = 
+	final static String read_by_id = 
 		"SELECT * " +
 			"FROM " + table + " v " +
 			"inner join UTENTE AS C ON v."+IDC+"=c.id" 
 		;
-	static String list_user_viaggio = "select rdp.idUtente, u.nickname, u.email, u.nome, u.cognome, u.dataNascita, u.imgProfilo from Richiesta_Di_Partecipazione rdp\r\n" + 
+	final static String list_user_viaggio = "select rdp.idUtente, u.nickname, u.email, u.nome, u.cognome, u.dataNascita, u.imgProfilo from Richiesta_Di_Partecipazione rdp\r\n" + 
 			"inner join Utente as u on u.id = rdp.idUtente\r\n" + 
 			"where stato = 0;";
 	// DELETE FROM table WHERE idcolumn = ?;
@@ -77,12 +77,10 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 				"WHERE " + ID + " = ? "
 			;
 		// UPDATE  a Table 
-		static String update = 
-				"UPDATE " + table + " " +
-					"SET "  
-						 +IDC+ " = ?, " +
-					"WHERE " + ID + " = ? "
-				;
+	final static String update = "UPDATE " + table + " SET idCreatore=?, titolo=?, destinazione=?, descrizione=?, lingua=?, "
+				+ "budget=?, dataPartenza=?, dataFine=?, "
+				+ "immagineProfilo=?, immaginiAlternative=?, luogoPartenza=?, stato=? "
+				+ " WHERE id=?";
 
 	public MssqlViaggioDAO(Connection conn) {
 		this.conn = conn;
@@ -205,7 +203,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			prep_stmt.setDate(7, viaggio.getDatainizio());
 			prep_stmt.setDate(8, viaggio.getDatafine());
 			prep_stmt.setString(9, viaggio.getImmaginiProfilo());
-			prep_stmt.setString(10, ""); // nella classe viaggio non c'è immagini alternative?
+			prep_stmt.setString(10, ""); // nella classe viaggio non c'ï¿½ immagini alternative?
 			prep_stmt.setString(11, viaggio.getLuogopartenza());
 			prep_stmt.setInt(12, viaggio.getStato().ordinal());
 			prep_stmt.setInt(13, viaggio.getIdViaggio());
