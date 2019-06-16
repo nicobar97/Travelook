@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import io.travelook.controller.Controller;
 import io.travelook.model.Utente;
@@ -13,14 +14,13 @@ import io.travelook.model.Utente;
 public class MssqlLoginDAO extends Controller implements LoginDAO {
 	
 	private Connection dbCredenziali;
-	private Connection db;
 	private final String JDBC_URL = "jdbc:sqlserver://travelook.database.windows.net:1433;database=tl_cred;"
 			+ "user=travelook@travelook;password=travel_2019;encrypt=true;trustServerCertificate=false;"
 			+ "hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
 	public static String insert = "INSERT INTO Credenziali(Username, Hash) VALUES(?,?)";
 	public static String read_hash = "select Hash from Credenziali where Username = ?";
-	public MssqlLoginDAO(Connection c) {
-		this.db=c;
+
+	public MssqlLoginDAO() {
 		dbCredenziali = getDbConnection();
 	}
 	@Override
@@ -49,8 +49,9 @@ public class MssqlLoginDAO extends Controller implements LoginDAO {
 		}
 	}
 	@Override
-	public String read(String username) {
-		String result = null;
+	public Optional<String> read(String username) {
+		Optional<String> result = null;
+		
 		if ( username.trim().equals("") )  {
 			System.out.println("read(): cannot read an entry with a negative id");
 			return result;
@@ -61,7 +62,7 @@ public class MssqlLoginDAO extends Controller implements LoginDAO {
 			prep_stmt.setString(1, username);
 			ResultSet rs = prep_stmt.executeQuery();
 			if ( rs.next() ) {
-				result = rs.getString(1);
+				result = Optional.of(rs.getString(1));
 			}
 			rs.close();
 			prep_stmt.close();
