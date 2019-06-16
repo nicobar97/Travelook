@@ -32,6 +32,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -115,8 +116,7 @@ public class HomeTravelook extends Application {
     	Label label1 = new Label("Username: ");
     	Label label2 = new Label("Password: ");
     	TextField usernameField = new TextField();
-    	TextField pswField = new TextField();
-    	         
+    	PasswordField pswField = new PasswordField();
     	GridPane grid = new GridPane();
     	grid.add(label1, 1, 1);
     	grid.add(usernameField, 2, 1);
@@ -130,28 +130,34 @@ public class HomeTravelook extends Application {
     	dialog.setResultConverter(new Callback<ButtonType, String>() {
     	    @Override
     	    public String call(ButtonType b) {
-    	    	if(new LoginController().verificaCredenziali(usernameField.getText(), SHA256.encrypt(pswField.getText())))
-    	    		return usernameField.getText();
-    	    	else
-    	    		return null;
+    	    	if(usernameField.getText() != null && !usernameField.getText().trim().contentEquals("") && 
+    	    			pswField.getText() != null && !pswField.getText().trim().contentEquals("")) {
+    	    		if(new LoginController().verificaCredenziali(usernameField.getText(), SHA256.encrypt(pswField.getText())))
+    	    			return usernameField.getText();
+    	    		else
+    	    			return null;
+    	    	}
+    	    	else return null;
     	    }
     	});
 	}
 	private void initRegisterDialog() {
 		dialogRegister = new Dialog<String>();
-    	dialogRegister.setTitle("Login");
-    	dialogRegister.setHeaderText("Inserisci le credenziali per autenticarti:\nNon rivelare la password a nessuno.");
+    	dialogRegister.setTitle("Registrazione");
+    	dialogRegister.setHeaderText("Username e password minimo 8 caratteri.\nNon riveleremo i tuoi dati a nessuno.");
     	dialogRegister.setResizable(false);
     	 
     	Label label1 = new Label("Username: ");
     	Label label2 = new Label("Password: ");
+    	Label label21 = new Label("Conferma psw: ");
     	Label label3 = new Label("Email: ");
     	Label label4 = new Label("Nome: ");
     	Label label5 = new Label("Cognome: ");
     	Label label6 = new Label("Data di nascita: ");
     	Label label7 = new Label("Immagine Profilo: ");
     	TextField usernameField = new TextField();
-    	TextField pswField = new TextField();
+    	PasswordField pswField = new PasswordField();
+    	PasswordField pswField2 = new PasswordField();
     	TextField emailField = new TextField();
     	TextField nomeField = new TextField();
     	TextField cognomeField = new TextField();
@@ -161,18 +167,20 @@ public class HomeTravelook extends Application {
     	GridPane grid = new GridPane();
     	grid.add(label1, 1, 1);
     	grid.add(label2, 1, 2);
-    	grid.add(label3, 1, 3);
-    	grid.add(label4, 1, 4);
-    	grid.add(label5, 1, 5);
-    	grid.add(label6, 1, 6);
-    	grid.add(label7, 1, 7);
+    	grid.add(label21, 1, 3);
+    	grid.add(label3, 1, 4);
+    	grid.add(label4, 1, 5);
+    	grid.add(label5, 1, 6);
+    	grid.add(label6, 1, 7);
+    	grid.add(label7, 1, 8);
     	grid.add(usernameField, 2, 1);
     	grid.add(pswField, 2, 2);
-    	grid.add(emailField, 2, 3);
-    	grid.add(nomeField, 2, 4);
-    	grid.add(cognomeField, 2, 5);
-    	grid.add(ddnPicker, 2, 6);
-    	grid.add(openChooser, 2, 7);
+    	grid.add(pswField2, 2, 3);
+    	grid.add(emailField, 2, 4);
+    	grid.add(nomeField, 2, 5);
+    	grid.add(cognomeField, 2, 6);
+    	grid.add(ddnPicker, 2, 7);
+    	grid.add(openChooser, 2, 8);
     	imgField.setSelectedExtensionFilter(new ExtensionFilter(".png", ".jpg"));
     	newimg = null;
     	openChooser.setOnMouseClicked(event -> {
@@ -192,7 +200,7 @@ public class HomeTravelook extends Application {
     	    		pswField.getText().trim().equals("") || pswField.getText().length() < 8 ||	
     	    		nomeField.getText().trim().equals("") || cognomeField.getText().trim().equals("") ||
     	    		emailField.getText().indexOf("@") == -1 || emailField.getText().indexOf(".") == -1 ||
-    	    		ddnPicker.getValue() == null || newimg == null) 
+    	    		ddnPicker.getValue() == null || newimg == null || !pswField.getText().equals(pswField2.getText())) 
     	    		return null;
     	    	else {
     	    		LocalDate tmp = ddnPicker.getValue();

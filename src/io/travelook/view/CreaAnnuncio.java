@@ -8,6 +8,8 @@ import java.sql.Date;
 
 import javax.swing.text.DateFormatter;
 
+import org.apache.commons.io.FileUtils;
+
 import io.travelook.controller.annuncio.AnnuncioController;
 import io.travelook.controller.annuncio.ListaAnnunciController;
 import io.travelook.model.Utente;
@@ -26,6 +28,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class CreaAnnuncio extends Application {
@@ -48,6 +52,9 @@ public class CreaAnnuncio extends Application {
     private SimpleDateFormat formatter;
     private ImageView immagine;
     private ListaAnnunciController controller;
+    private FileChooser imgChooser;
+    private File newImg = null;
+    private Button load;
     private int type;
     private Utente user;
 	@Override
@@ -95,6 +102,12 @@ public class CreaAnnuncio extends Application {
             immagine = (ImageView) scene.lookup("#immagine");	
             saveButton = (Button) scene.lookup("#salva");
             annullaButton = (Button) scene.lookup("#annulla");
+            load = (Button) scene.lookup("#load");
+            imgChooser = new FileChooser();
+            newImg = null;
+            Viaggio nv = new Viaggio();
+            load.setText("C\nA\nR\nI\nC\nA");
+            load.setTextAlignment(TextAlignment.CENTER);
             if(type == 0) {
             	titolo.setText(viaggio.getTitolo().trim());
             	destinazione.setText(viaggio.getDestinazione().trim());
@@ -104,7 +117,7 @@ public class CreaAnnuncio extends Application {
             	budget.setText(budgetFormat(viaggio.getBudget()));
             	descrizione.setText(viaggio.getDescrizione().trim());
                 lingua.setText(viaggio.getLingua().trim());
-            	if(viaggio.getImmaginiProfilo() != null && !viaggio.getImmaginiProfilo().trim().equals("") && new File("src/"+viaggio.getImmaginiProfilo().trim()).exists())
+            	if(viaggio.getImmaginiProfilo() != null && !viaggio.getImmaginiProfilo().trim().equals("") && new File("src\\"+viaggio.getImmaginiProfilo().trim()).exists())
             		immagine.setImage(new Image(viaggio.getImmaginiProfilo().trim()));
             }
             if(type == 1) {
@@ -120,7 +133,25 @@ public class CreaAnnuncio extends Application {
                 lingua.setText("");
             }   
             controller = new ListaAnnunciController();
-            Viaggio nv = new Viaggio();
+            
+            load.setOnMouseClicked(event -> {
+            	newImg = imgChooser.showOpenDialog(primaryStage);
+            	try {
+            		if(new File("src\\"+newImg.getName()).exists()) {
+            			FileUtils.copyFile(newImg, new File("src\\tmp\\"));
+            			new File("src\\tmp\\"+newImg.getName()).renameTo(new File("src\\tmp\\"+viaggio.getIdViaggio()+"img"));
+            			FileUtils.copyFile(new File("src\\tmp\\"+viaggio.getIdViaggio()+"img"), new File("src\\"));
+            		}
+            		while(!new File("src\\"+newImg.getName()).exists()) {
+            			FileUtils.copyFile(newImg, new File("src\\"));
+            		}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            	immagine.setImage(new Image(newImg.getName()));
+            	
+            });
             backButton.setOnMouseClicked(event -> {
             		if(type==0)
             			new HomeAnnuncio(viaggio, user).start(primaryStage);
@@ -136,7 +167,11 @@ public class CreaAnnuncio extends Application {
 				nv.setLuogopartenza(luogoPartenza.getText());
 				nv.setLingua(lingua.getText());
 				nv.setStato(viaggio.getStato());
-				nv.setImmaginiProfilo(immagine.getImage() == null ? "" : immagine.getImage().toString().trim());
+				if(newImg != null) {
+					nv.setImmaginiProfilo(newImg.getName());
+				}
+				else
+					nv.setImmaginiProfilo(immagine.getImage() == null ? "" : immagine.getImage().toString().trim());
 				try {
 					nv.setDatainizio(new Date(formatter.parse(dataInizio.getText()).getTime()));
 					nv.setDatafine(new Date(formatter.parse(dataFine.getText()).getTime()));

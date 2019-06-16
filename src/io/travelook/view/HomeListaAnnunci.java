@@ -1,5 +1,6 @@
 package io.travelook.view;
 
+import java.io.File;
 import java.io.IOException;
 
 import io.travelook.controller.annuncio.ListaAnnunciController;
@@ -11,6 +12,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -20,6 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class HomeListaAnnunci extends Application {
@@ -27,6 +31,10 @@ public class HomeListaAnnunci extends Application {
     private FlowPane rootLayout;
     private ListView<Viaggio> listView;
     private ImageView logo;
+    private Button logout;
+    private Button filtra;
+    private Text currentUser;
+    private ImageView userImg;
     private Button refresh;
     private Button creaAnnuncio;
     private Utente user;
@@ -66,7 +74,24 @@ public class HomeListaAnnunci extends Application {
             primaryStage.setScene(scene);
             
             listView = (ListView<Viaggio>) scene.lookup("#lista");
-
+            userImg = (ImageView) scene.lookup("#imgUtente");
+            logout = (Button) scene.lookup("#logout");
+            currentUser = (Text) scene.lookup("#currentUser");
+            if(user.getImmagineProfilo() != null && !user.getImmagineProfilo().trim().equals("") && new File("src/"+user.getImmagineProfilo().trim()).exists())
+        		userImg.setImage(new Image(user.getImmagineProfilo().trim()));
+            currentUser.setText("Current user: " + user.getUsername());
+            currentUser.setOnMouseClicked(event -> {
+            	//open profilo utente
+            	new Alert(AlertType.INFORMATION, "todo").show();
+            });
+            userImg.setOnMouseClicked(event -> {
+            	//open profilo utente
+            	new Alert(AlertType.INFORMATION, "todo").show();
+            });
+            logout.setOnMouseClicked(event -> {
+            	new HomeTravelook().start(primaryStage);
+            	new Alert(AlertType.INFORMATION, "Logout effettuato con successo").show();
+            });
             ListaAnnunciController controller = new ListaAnnunciController();
             ObservableList<Viaggio> items = FXCollections.observableArrayList(controller.getAnnunci());
             listView.setItems(items);

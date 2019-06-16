@@ -15,11 +15,17 @@ public class LoginController extends Controller implements ILogin {
 	}
 	@Override
 	public boolean verificaCredenziali(String username, String hashFromClient) {		
-		Optional<String> hashLetto = loginDao.read(username);
-		System.out.println("Hash inviato: "+hashFromClient);
+		Optional<String> hashLetto = null;
+		if(hashFromClient != null)
+			hashLetto = loginDao.read(username);
+		System.out.println("Hash inviato: " + hashFromClient);
 		System.out.println("Hash letto: " + hashLetto);
-		if(hashLetto.isPresent())
-			return hashLetto.get().equals(hashFromClient);
+		if(hashLetto != null && hashLetto.isPresent()) {
+			if(hashFromClient != null)
+				return hashLetto.get().equals(hashFromClient);
+			else
+				return false;
+		}
 		else
 			return false;
 		
