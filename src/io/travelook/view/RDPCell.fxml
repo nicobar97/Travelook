@@ -13,16 +13,16 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<FlowPane fx:id="flowPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="228.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<FlowPane fx:id="flowPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="241.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <FlowPane prefHeight="51.0" prefWidth="203.0">
+      <FlowPane prefHeight="35.0" prefWidth="218.0">
          <children>
-            <Text fx:id="user" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="200.27394104003906">
+            <Text fx:id="user" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="217.8278350830078">
                <font>
                   <Font size="12.0" />
                </font>
             </Text>
-            <Text fx:id="body" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="198.65309143066406">
+            <Text fx:id="body" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="217.7193145751953">
                <font>
                   <Font size="9.0" />
                </font>
@@ -34,7 +34,7 @@
             </Text>
          </children>
       </FlowPane>
-      <Pane prefHeight="59.0" prefWidth="23.0">
+      <Pane prefHeight="53.0" prefWidth="23.0">
          <children>
             <Button fx:id="reject" layoutX="3.0" layoutY="26.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="7.0" style="-fx-background-color: RED;" text="R" textFill="WHITE">
                <font>

@@ -62,7 +62,7 @@ public class HomeAnnuncio extends Application {
     private Button rdpbutton;
     private ListView<RichiestaDiPartecipazione> rdpview;
     private Utente user;
-
+    private boolean rdpon;
     private Button sendrdp;
     private Button cancrdp;
     private TextArea textrdp;
@@ -144,15 +144,17 @@ public class HomeAnnuncio extends Application {
         		rdpview.setVisible(false);
         		rdpbutton.setVisible(true);
                 refreshRdp();
-                boolean rdpon = false;
+                rdpon = false;
                 rdpbutton.setOnMouseClicked(event -> {
                 	if(rdpon) {
                 		rdpview.setVisible(false);
                 		utentiView.setVisible(true);
+                		rdpon = false;
                 	}
                 	else {
                 		rdpview.setVisible(true);
                 		utentiView.setVisible(false);
+                		rdpon = true;
                 	}
                 });
                 modificaAnnuncio.setOnMouseClicked(event -> {

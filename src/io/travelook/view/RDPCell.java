@@ -98,8 +98,6 @@ public class RDPCell extends ListCell<RichiestaDiPartecipazione> {
         ObservableList<RichiestaDiPartecipazione> obsrdp = FXCollections.observableArrayList(rdpList);
         if(!rdpList.isEmpty() && rdpList != null) {
         	rdpview.setItems(obsrdp);
-        	//rdpview.setCellFactory(userCell -> new RDPCell(rdpc, rdpview));
-        	//rdpview.scrollTo(chat.getChat().size());
         }
 	}
 }
