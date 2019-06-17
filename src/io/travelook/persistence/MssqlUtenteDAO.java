@@ -303,6 +303,32 @@ public class MssqlUtenteDAO implements UtenteDAO {
 		return null;
 	}
 
+	public List<Viaggio> readViaggiInAttesaDiConfermaUtente(Utente u) {
+		String query = "SELECT 	v.id " + 
+				"FROM Viaggio as v INNER JOIN Richiesta_Di_Partecipazione as rdp ON rdp.idViaggio=v.id " + 
+				"INNER JOIN Utente as u ON rdp.idUtente = u.id " + 
+				"WHERE rdp.stato=2 AND u.id=?";
+		try {
+			System.out.println("Utente con id "+u.getId());
+			List<Viaggio> listaViaggi = new ArrayList<Viaggio>();
+			MssqlViaggioDAO viaggidb = new MssqlViaggioDAO();
+			PreparedStatement prep_stmt = conn.prepareStatement(query);
+			prep_stmt.clearParameters();
+			prep_stmt.setInt(1, u.getId());
+			ResultSet rs = prep_stmt.executeQuery();
+			while(rs.next()) {
+				System.out.println("trovato viaggio a cui partecipa");
+				listaViaggi.add(readViaggio(rs.getInt("id")));
+				
+			}
+			return listaViaggi;
+		}
+		catch(SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		return null;
+	}
+	
 	
 	public Viaggio readViaggio(int id) {
 		Viaggio res=null;

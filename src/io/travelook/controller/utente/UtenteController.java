@@ -121,10 +121,10 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		// TODO Auto-generated method stub
 		List<Viaggio> viaggiInAttesaDiConferma = new ArrayList<Viaggio>();
 		
-		/**
-		 * query
+		viaggiInAttesaDiConferma = db.readViaggiInAttesaDiConfermaUtente(u);
+		/*
+		 * STESSO DISCORSO
 		 */
-		
 		return viaggiInAttesaDiConferma;
 	}
 
