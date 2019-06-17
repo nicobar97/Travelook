@@ -303,8 +303,8 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 		List<RichiestaDiPartecipazione> result = new ArrayList<RichiestaDiPartecipazione>();
 		try {
 			PreparedStatement prep_stmt = conn.prepareStatement(MssqlRichiestaDiPartecipazioneDAO.rdp_creatore);
-			prep_stmt.setInt(1, creatore.getId());
 			prep_stmt.clearParameters();
+			prep_stmt.setInt(1, creatore.getId());
 			ResultSet rs = prep_stmt.executeQuery();
 			while ( rs.next() ) {
 				RichiestaDiPartecipazione rdp = new RichiestaDiPartecipazione();

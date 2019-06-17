@@ -203,7 +203,7 @@ public class HomeAnnuncio extends Application {
             		modificaAnnuncio.setVisible(false);
             		rdpview.setVisible(false);
             		rdpbutton.setVisible(false);
-            		rdplabel.setText(rdplabel.getText()+ " " + viaggio.getCreatore().getId());
+            		rdplabel.setText(rdplabel.getText()+ " " + viaggio.getCreatore().getUsername());
             		cancrdp.setOnMouseClicked(event -> {
             			textrdp.setText("");
             		});

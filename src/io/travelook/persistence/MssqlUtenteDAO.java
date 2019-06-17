@@ -40,6 +40,10 @@ public class MssqlUtenteDAO implements UtenteDAO {
 		conn = dbConnection;
 	}
 
+	public MssqlUtenteDAO() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Connection getConn() {
 		return conn;
 	}

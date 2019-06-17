@@ -13,10 +13,10 @@ import io.travelook.persistence.MssqlUtenteDAO;
 import io.travelook.persistence.MssqlUtente_InteressiDAO;
 
 public class UtenteController extends Controller implements IGestioneProfiloUtente {
-	private List<Utente> listaUtenti;
+	private Utente u;
 	private MssqlUtenteDAO db;
 	private MssqlUtente_InteressiDAO interessi;
-	public UtenteController() {
+	public UtenteController(Utente u) {
 		/**
 		 * Nel costruttore reperisco l'utente dal database, immmagino debba essere fatto in questo modo,
 		 * ogni volta che ho bisogno di lavorare sul profilo di un utente mi creo un controller con l'id dell'utente,
@@ -24,53 +24,53 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		 */
 		
 		// = new ArrayList<Utente>();
-		db = new MssqlUtenteDAO(super.getDbConnection());
-		interessi = new MssqlUtente_InteressiDAO(super.getDbConnection());
+		db = new MssqlUtenteDAO();
+		interessi = new MssqlUtente_InteressiDAO();
 		//listaUtenti = db.readUtentiFromDB();
-		if(listaUtenti == null)
-			listaUtenti = new ArrayList<Utente>();
+		//((if(listaUtenti == null)
+		//	listaUtenti = new ArrayList<Utente>();
 		
 	}
 
 	@Override
-	public boolean aggiungiInteressi(Interessi interesse, Utente utente) {
+	public boolean aggiungiInteressi(Interessi interesse) {
 		// TODO Auto-generated method stub
 		//
 		/**
 		 * prima trovo l'utente
 		 */
-		Utente trovatoUtente = null;
-		int idUtente = utente.getId();
-		
-		for(Utente u: listaUtenti) {
-			if(u.getId()==idUtente)
-				trovatoUtente = u;
-		}
-		
-		if(trovatoUtente==null) {
-			System.out.println("non ho trovato l'utente con id " + idUtente);
-			return false;
-			
-		}
+//		Utente trovatoUtente = null;
+//		int idUtente = utente.getId();
+//		
+//		for(Utente u: listaUtenti) {
+//			if(u.getId()==idUtente)
+//				trovatoUtente = u;
+//		}
+//		
+//		if(trovatoUtente==null) {
+//			System.out.println("non ho trovato l'utente con id " + idUtente);
+//			return false;
+//			
+//		}
 			
 		/**
 		 * cerco se ci sia giï¿½ lo stesso interesse, in caso positivo non lo aggiungo
 		 */
 		boolean trovatoInteresse=false;
-		for(Interessi i: trovatoUtente.getInteressi()) {
+		for(Interessi i: u.getInteressi()) {
 			if(i.equals(interesse)) {
 				trovatoInteresse=true;
 				break;
 			}
 		}
 		if(!trovatoInteresse) {
-			trovatoUtente.getInteressi().add(interesse);
-			System.out.println("aggiungo interesse " + interesse.toString()+ " all'utente " + trovatoUtente.getUsername());
-			interessi.create(trovatoUtente, interesse);
+			u.getInteressi().add(interesse);
+			System.out.println("aggiungo interesse " + interesse.toString()+ " all'utente " + u.getUsername());
+			interessi.create(u, interesse);
 			return true;
 		}
 		else {
-			System.out.println("Non posso aggiungere l'interesse "+interesse.toString()+ " all'utente "+ trovatoUtente.getUsername()+
+			System.out.println("Non posso aggiungere l'interesse "+interesse.toString()+ " all'utente "+ u.getUsername()+
 					" perchï¿½ c'ï¿½ giï¿½");
 			return false;
 		}
@@ -107,10 +107,10 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 	@Override
 	public List<Viaggio> getViaggiInPartecipazione() {
 		List<Viaggio> listaViaggiPartecipante = new ArrayList<Viaggio>();
-		
+		db.setConn(super.getDbConnection());
 		listaViaggiPartecipante = db.readViaggiAttiviByUtente(u);
 		/* ATTENZIONE QUALE UTENTE????
-		 * nel controller c'è una LISTA DI UTENTI
+		 * nel controller c'ï¿½ una LISTA DI UTENTI
 		 */
 		
 		return listaViaggiPartecipante;
@@ -120,7 +120,7 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 	public List<Viaggio> getViaggiInAttesaDiConferma() {
 		// TODO Auto-generated method stub
 		List<Viaggio> viaggiInAttesaDiConferma = new ArrayList<Viaggio>();
-		
+		db.setConn(super.getDbConnection());
 		viaggiInAttesaDiConferma = db.readViaggiInAttesaDiConfermaUtente(u);
 		/*
 		 * STESSO DISCORSO!
@@ -129,19 +129,22 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 	}
 
 	@Override
-	public boolean eliminaUtente(Utente utente) {
-		boolean ok = true;
-		if(this.listaUtenti.contains(utente))
-			this.listaUtenti.remove(utente);
-		else
-			return ok = false;
+	public boolean eliminaUtente() {
+		boolean ok = false;
+		db.setConn(super.getDbConnection());
+		if(db.read(u.getId()) != null) {
+			db.setConn(super.getDbConnection());
+			db.delete(u.getId());
+			u = null;
+			ok = true;
+		}
 		return ok;
 	}
 
 	public List<Utente> getListaUtenti() {
-		db = new MssqlUtenteDAO(super.getDbConnection());
-		listaUtenti = db.readUtentiFromDB();
-		return this.listaUtenti;
+		db.setConn(super.getDbConnection());
+		List<Utente> listaUtenti = db.readUtentiFromDB();
+		return listaUtenti;
 	}
 	public Utente getUtenteById(int id ) {
 		db.setConn(super.getDbConnection());
