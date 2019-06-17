@@ -302,6 +302,7 @@ public class MssqlUtenteDAO implements UtenteDAO {
 			ResultSet rs = prep_stmt.executeQuery();
 			while(rs.next()) {
 				viaggiPassati.add(readViaggio(rs.getInt("id")));
+				//
 			}
 		}
 		catch(SQLException sqle) {
