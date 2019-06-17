@@ -6,10 +6,10 @@ public class Segnalazione {
 	private Viaggio viaggio;
 	private Utente segnalato;
 	private Utente segnalante;
-	private Messaggio messaggio;
+	private String messaggio;
   
   	public Segnalazione(int idSegnalazione, Viaggio viaggio, Utente segnalato, Utente segnalante,
-  			Messaggio messaggio) throws IllegalArgumentException {
+  			String messaggio) throws IllegalArgumentException {
 		super();
 		if(idSegnalazione < 0 || segnalato== null || segnalante == null || messaggio == null)
 			throw new IllegalArgumentException();
@@ -44,10 +44,10 @@ public class Segnalazione {
 	public void setSegnalante(Utente segnalante) {
 		this.segnalante = segnalante;
 	}
-	public Messaggio getMessaggio() {
+	public String getMessaggio() {
 		return messaggio;
 	}
-	public void setMessaggio(Messaggio messaggio) {
+	public void setMessaggio(String messaggio) {
 		this.messaggio = messaggio;
 	}
 }
