@@ -300,7 +300,7 @@ public class HomeAnnuncio extends Application {
 		if(budget == 4)
 			return "$$$$";
 		if(budget == 5)
-			return "$$$$";
+			return "$$$$$";
 		return "";
 	}
 }
