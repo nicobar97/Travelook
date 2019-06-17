@@ -35,7 +35,7 @@ public class NotificheEmail implements INotifica{
             message.setSubject(titolo);
             message.setText(messaggio);
 
-            Transport.send(message);
+            //Transport.send(message);
 
             System.out.println("Done");
 

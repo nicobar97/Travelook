@@ -71,6 +71,10 @@ public class RDPCell extends ListCell<RichiestaDiPartecipazione> {
 	        user.setText(rdp.getUtente().getUsername().trim());
 	        body.setText(rdp.getMessaggioRichiesta().trim());
 	        stato.setText(rdp.getStato().name());
+	        if(rdp.getStato().compareTo(Stato.NONVISTA) != 0) {
+	        	accept.setVisible(false);
+	        	reject.setVisible(false);
+	        }
 	        
 	        accept.setOnMouseClicked(event -> {
 	        	Optional<String> mexRisp = new TextInputDialog("Inserisci il messaggio di risposta:").showAndWait();
