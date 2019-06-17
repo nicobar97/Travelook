@@ -235,14 +235,75 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 		// TODO Auto-generated method stub
 		return null;
 	}
-	public List<RichiestaDiPartecipazione> readRDPForCreatoreViaggio() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public List<RichiestaDiPartecipazione> readRDPForCreatore() {
+	public List<RichiestaDiPartecipazione> readRDPForCreatoreViaggio(Utente creatore, Viaggio viaggio) {
 		List<RichiestaDiPartecipazione> result = new ArrayList<RichiestaDiPartecipazione>();
 		try {
 			PreparedStatement prep_stmt = conn.prepareStatement(MssqlRichiestaDiPartecipazioneDAO.rdp_creatore);
+			prep_stmt.clearParameters();
+			prep_stmt.setInt(1, creatore.getId());
+			prep_stmt.setInt(2, viaggio.getIdViaggio());
+			ResultSet rs = prep_stmt.executeQuery();
+			while ( rs.next() ) {
+				RichiestaDiPartecipazione rdp = new RichiestaDiPartecipazione();
+				int i=1;
+				rdp.setId(rs.getInt(i++));
+				rdp.setMessaggioRichiesta(rs.getString(i++));
+				rdp.setRisposta(rs.getString(i++));
+				rdp.setStato(Stato.values()[rs.getInt(i++)]);
+				Utente c = new Utente();
+				c.setId(rs.getInt(i++));
+				c.setUsername(rs.getString(i++));
+				c.setEmail(rs.getString(i++));
+				c.setNome(rs.getString(i++));
+				c.setCognome(rs.getString(i++));
+				c.setDataNascita(rs.getDate(i++));
+				c.setImmagineProfilo(rs.getString(i++));
+				Utente u = new Utente();
+				u.setId(rs.getInt(i++));
+				u.setUsername(rs.getString(i++));
+				u.setEmail(rs.getString(i++));
+				u.setNome(rs.getString(i++));
+				u.setCognome(rs.getString(i++));
+				u.setDataNascita(rs.getDate(i++));
+				u.setImmagineProfilo(rs.getString(i++));
+				rdp.setUtente(u);
+				Viaggio v = new Viaggio();
+				v.setIdViaggio(rs.getInt(i++));
+				v.setTitolo(rs.getString(i++));
+				v.setDestinazione(rs.getString(i++));
+				v.setDescrizione(rs.getString(i++));
+				v.setBudget(rs.getInt(i++));
+				v.setLuogopartenza(rs.getString(i++));
+				v.setDatainizio(rs.getDate(i++));
+				v.setDatafine(rs.getDate(i++));
+				v.setImmaginiProfilo(rs.getString(i++));
+				v.setCreatore(c);
+				rdp.setViaggio(v);
+				result.add( rdp );
+			}
+			rs.close();
+			prep_stmt.close();
+		}
+		catch (Exception e) {
+			System.out.println("find(): failed to retrieve entry " +e.getMessage());
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	public List<RichiestaDiPartecipazione> readRDPForCreatore(Utente creatore) {
+		List<RichiestaDiPartecipazione> result = new ArrayList<RichiestaDiPartecipazione>();
+		try {
+			PreparedStatement prep_stmt = conn.prepareStatement(MssqlRichiestaDiPartecipazioneDAO.rdp_creatore);
+			prep_stmt.setInt(1, creatore.getId());
 			prep_stmt.clearParameters();
 			ResultSet rs = prep_stmt.executeQuery();
 			while ( rs.next() ) {
