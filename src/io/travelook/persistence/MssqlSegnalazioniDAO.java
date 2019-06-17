@@ -77,6 +77,22 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 		return false;
 	}
 	
+	public boolean marcaSegnalazioneComeLetta(Segnalazione s) {
+		boolean esito=false;
+		String query ="UPDATE Segnalazione (stato='LETTA') WHERE id=?";
+		try {
+			PreparedStatement prep_stmt = conn.prepareStatement(query);
+			prep_stmt.setInt(1, s.getIdSegnalazione());
+			if(prep_stmt.executeUpdate()>0)
+				return true;
+			else return false;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	public Viaggio readViaggio(int id) {
 		Viaggio res=null;
 		try {

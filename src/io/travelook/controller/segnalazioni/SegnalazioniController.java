@@ -36,6 +36,7 @@ public class SegnalazioniController extends Controller {
     	for(Segnalazione s : segnalazioni) {
     		if(s.getIdSegnalazione()==segnalazioneid) {
     			res=s;
+    			db.marcaSegnalazioneComeLetta(s);
     		}
     	}
     	return res;
