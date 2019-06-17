@@ -13,7 +13,7 @@ public interface IGestioneProfiloUtente {
 	Utente visualizzaProfilo();
 	Storico visualizzaStorico();
 	List<Recensione> visualizzaRecensioni();
-	void modificaProfilo();
+	void modificaProfilo(Utente u);
 	List<Viaggio> getViaggiInPartecipazione();
 	List<Viaggio> getViaggiInAttesaDiConferma();
 	boolean eliminaUtente();

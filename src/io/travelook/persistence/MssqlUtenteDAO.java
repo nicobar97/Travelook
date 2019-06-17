@@ -1,15 +1,19 @@
 package io.travelook.persistence;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import io.travelook.model.Interessi;
 import io.travelook.model.Stato;
+import io.travelook.model.Storico;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 
@@ -278,6 +282,36 @@ public class MssqlUtenteDAO implements UtenteDAO {
 			}
 		}
 		return result;
+	}
+	
+	public Storico getStorico(Utente u){
+		Storico storico = null;
+		int idUtente = u.getId();
+		List<Viaggio> viaggiPassati = new ArrayList<Viaggio>();
+		storico.setIdUtente(idUtente);
+		String query = "SELECT 	v.id " + 
+				"FROM Viaggio as v INNER JOIN Richiesta_Di_Partecipazione as rdp ON rdp.idViaggio=v.id " + 
+				"INNER JOIN Utente as u ON rdp.idUtente = u.id " + 
+				"WHERE rdp.stato=0 AND u.id=? AND v.dataFine<=?";
+		java.sql.Date dataCorrente = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		try {
+			PreparedStatement prep_stmt = conn.prepareStatement(query);
+			prep_stmt.clearParameters();
+			prep_stmt.setInt(1, u.getId());
+			prep_stmt.setDate(2, dataCorrente);
+			ResultSet rs = prep_stmt.executeQuery();
+			while(rs.next()) {
+				viaggiPassati.add(readViaggio(rs.getInt("id")));
+			}
+		}
+		catch(SQLException sqle) {
+			return null;
+		}
+		
+		
+		storico.setStorico(viaggiPassati);
+		return storico;
+		
 	}
 
 	@Override

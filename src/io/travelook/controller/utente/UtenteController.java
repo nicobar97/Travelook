@@ -94,7 +94,7 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 	@Override
 	public Storico visualizzaStorico() {
 		// TODO Auto-generated method stub
-		return null;
+		return db.getStorico(u);
 	}
 
 	@Override
@@ -105,8 +105,10 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 	}
 
 	@Override
-	public void modificaProfilo() {
-		// TODO Auto-generated method stub
+	public void modificaProfilo(Utente u) {
+		if(u!=null) {
+			db.update(u);
+		}
 
 	}
 
