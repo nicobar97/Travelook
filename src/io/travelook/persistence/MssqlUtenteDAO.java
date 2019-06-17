@@ -321,6 +321,7 @@ public class MssqlUtenteDAO implements UtenteDAO {
 				listaViaggi.add(readViaggio(rs.getInt("id")));
 				
 			}
+			//
 			return listaViaggi;
 		}
 		catch(SQLException sqle) {

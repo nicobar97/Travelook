@@ -123,7 +123,7 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		
 		viaggiInAttesaDiConferma = db.readViaggiInAttesaDiConfermaUtente(u);
 		/*
-		 * STESSO DISCORSO
+		 * STESSO DISCORSO!
 		 */
 		return viaggiInAttesaDiConferma;
 	}
