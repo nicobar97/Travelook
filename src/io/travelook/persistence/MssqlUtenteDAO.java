@@ -1,6 +1,7 @@
 package io.travelook.persistence;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.travelook.model.Interessi;
+import io.travelook.model.Stato;
 import io.travelook.model.Utente;
+import io.travelook.model.Viaggio;
 
 public class MssqlUtenteDAO implements UtenteDAO {
 	
@@ -273,4 +276,72 @@ public class MssqlUtenteDAO implements UtenteDAO {
 		return result;
 	}
 
+	@Override
+	public List<Viaggio> readViaggiAttiviByUtente(Utente u) {
+		String query = "SELECT 	v.id " + 
+				"FROM Viaggio as v INNER JOIN Richiesta_Di_Partecipazione as rdp ON rdp.idViaggio=v.id " + 
+				"INNER JOIN Utente as u ON rdp.idUtente = u.id " + 
+				"WHERE rdp.stato=0 AND u.id=?";
+		try {
+			System.out.println("Utente con id "+u.getId());
+			List<Viaggio> listaViaggi = new ArrayList<Viaggio>();
+			MssqlViaggioDAO viaggidb = new MssqlViaggioDAO();
+			PreparedStatement prep_stmt = conn.prepareStatement(query);
+			prep_stmt.clearParameters();
+			prep_stmt.setInt(1, u.getId());
+			ResultSet rs = prep_stmt.executeQuery();
+			while(rs.next()) {
+				System.out.println("trovato viaggio a cui partecipa");
+				listaViaggi.add(readViaggio(rs.getInt("id")));
+				
+			}
+			return listaViaggi;
+		}
+		catch(SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		return null;
+	}
+
+	
+	public Viaggio readViaggio(int id) {
+		Viaggio res=null;
+		try {
+			/*" (id,idCreatore,titolo,destinazione,descrizione,lingua,budget,dataPartenza,dataFine"+
+			",immagineProfilo,immaginiAlternative"+*/
+			PreparedStatement prep_stmt = conn.prepareStatement(MssqlViaggioDAO.read_by_id);
+			prep_stmt.setInt(1,id);
+			ResultSet rs = prep_stmt.executeQuery();
+			if ( rs.next() ) {
+				Viaggio v = new Viaggio();
+				v.setIdViaggio(rs.getInt(1));
+				int idU=rs.getInt(13);
+				String user=rs.getString("nickname");
+				String mail=rs.getString("email");
+				String nome=rs.getString("nome");
+				String cgnome=rs.getString("cognome");
+				Date datan=rs.getDate("dataNascita");
+				String imgP=rs.getString("imgProfilo");
+				Utente c = new Utente(idU,user,mail,nome,cgnome,datan,imgP);
+				v.setCreatore(c);
+				v.setTitolo(rs.getString("titolo"));
+				v.setDestinazione(rs.getString("destinazione"));
+				v.setDescrizione(rs.getString("descrizione"));
+				v.setLingua(rs.getString("lingua"));
+				v.setBudget(rs.getInt("budget"));
+				v.setLuogopartenza(rs.getString("luogoPartenza"));
+				v.setDatainizio(rs.getDate("dataPartenza"));
+				v.setDatafine(rs.getDate("dataFine"));
+				v.setStato(Stato.values()[rs.getInt("stato")]);
+				res=v;
+			}
+			rs.close();
+			prep_stmt.close();
+		    
+		}
+		catch(Exception e) {
+			
+		}
+		return res;
+	}
 }

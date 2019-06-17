@@ -4,16 +4,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.sql.Connection;
 import java.sql.Date;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import io.travelook.controller.autenticazione.RegistrazioneController;
 import io.travelook.controller.utente.UtenteController;
-import io.travelook.model.Interessi;
 import io.travelook.model.Recensione;
 import io.travelook.model.Utente;
+import io.travelook.model.Viaggio;
 import io.travelook.persistence.MssqlRecensioniDAO;
 import io.travelook.persistence.MssqlUtenteDAO;
 
@@ -78,7 +77,7 @@ class UtenteControllerTest {
 	}
 	*/
 	
-	@Test
+/*	@Test
 	void testLasciaRecensione() {
 		Recensione rSbagliata = new Recensione(1,5,"TUTTO BENE","E' filata tutta liscia",2);
 		Recensione rGiusta = new Recensione(1,5,"TUTTO BENE","E' filata tutta liscia",17);
@@ -103,6 +102,16 @@ class UtenteControllerTest {
 		UtenteController uc = new UtenteController();
 		MssqlRecensioniDAO rd = new MssqlRecensioniDAO(uc.getDbConnection());
 		assertEquals(1, rd.readRecensioniUtente(utente1).size());
+	}
+	*/
+	@Test
+	void testGetViaggiAttivi(){
+		Utente utente1 = new Utente(17, "asalvucci", "andrea@gmail.com", "Andrea", "Salvucci", new Date(1997,11,14) ,"C:/");
+		UtenteController uc = new UtenteController();
+		MssqlUtenteDAO db = new MssqlUtenteDAO(uc.getDbConnection());
+		List<Viaggio> listaViaggi = db.readViaggiAttiviByUtente(utente1);
+		assertEquals(listaViaggi.size(),1);
+		
 	}
 
 }

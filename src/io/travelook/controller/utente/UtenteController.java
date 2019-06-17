@@ -108,8 +108,9 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 	public List<Viaggio> getViaggiInPartecipazione() {
 		List<Viaggio> listaViaggiPartecipante = new ArrayList<Viaggio>();
 		
-		/**
-		 * anche qui va fatta la query al database
+		listaViaggiPartecipante = db.readViaggiAttiviByUtente(u);
+		/* ATTENZIONE QUALE UTENTE????
+		 * nel controller c'è una LISTA DI UTENTI
 		 */
 		
 		return listaViaggiPartecipante;
