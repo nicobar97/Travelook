@@ -128,7 +128,10 @@ public class Utente {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
+	@Override
+	public String toString() {
+		return this.username.trim() + ": " + this.nome.trim() + " " + this.cognome.trim();
+	}
 	
 	
 }
