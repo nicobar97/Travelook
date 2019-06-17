@@ -52,6 +52,7 @@ public class HomeAnnuncio extends Application {
     private ImageView immagine;
     private Button backButton;
     private Button sendButton;
+    private List<Utente> listUserViaggio;
     private Button modificaAnnuncio;
     private Text descrizione;
     private ChatController chatCont;
@@ -66,6 +67,7 @@ public class HomeAnnuncio extends Application {
     private Button sendrdp;
     private Button cancrdp;
     private TextArea textrdp;
+    private boolean initUser = false;
     private Text rdplabel;
     private ListView<Utente> utentiView;
 	@Override
@@ -126,9 +128,11 @@ public class HomeAnnuncio extends Application {
             rdplabel = (Text) scene.lookup("#labelrdp");
             utentiView = (ListView) scene.lookup("#utentiView");
             rdpc = new RichiesteObservableController();
+            listUserViaggio = viaggio.getPartecipanti();
             backButton.setOnMouseClicked(event -> {
         		new HomeListaAnnunci(user).start(primaryStage);
             });
+            
             if(user.getId() == viaggio.getCreatore().getId()) {
             	//CREATORE
             	chatView.setVisible(true);
@@ -145,6 +149,7 @@ public class HomeAnnuncio extends Application {
         		rdpbutton.setVisible(true);
                 refreshRdp();
                 rdpon = false;
+                
                 rdpbutton.setOnMouseClicked(event -> {
                 	if(rdpon) {
                 		rdpview.setVisible(false);
@@ -179,15 +184,18 @@ public class HomeAnnuncio extends Application {
                 		sendButton.setDisable(false);
                 });
                 sendButton.setDisable(true);
+                refreshUser();
                 
             }
             else {
-            	List<Utente> listUserViaggio = new ArrayList<Utente>();
-            	//System.out.println();
+            	listUserViaggio = viaggio.getPartecipanti();
+            	
             	boolean trovato = false;
-            	for(Utente u : listUserViaggio)
+            	for(Utente u : listUserViaggio) {
+            		System.out.println(u.getId());
             		if(u.getId() == user.getId())
             			trovato = true;
+            	}
             	if(trovato) {
             		//PARTECIPANTE
             		chatView.setVisible(true);
@@ -221,6 +229,7 @@ public class HomeAnnuncio extends Application {
                     		sendButton.setDisable(false);
                     });
                     sendButton.setDisable(true);
+                    refreshUser();
             	}
             	else {
             		//GUEST
@@ -268,6 +277,16 @@ public class HomeAnnuncio extends Application {
         	//rdpview.scrollTo(chat.getChat().size());
         }
 	}
+	private void refreshUser() {
+		if(!initUser) {
+			listUserViaggio.add(viaggio.getCreatore());
+			initUser = true;
+		}
+		ObservableList<Utente> userPart = FXCollections.observableArrayList(listUserViaggio);
+        if(!userPart.isEmpty() && userPart != null) {
+        	utentiView.setItems(userPart);
+        }
+	}
 	public Stage getPrimaryStage() {
         return primaryStage;
     }
@@ -281,7 +300,7 @@ public class HomeAnnuncio extends Application {
 		if(budget == 4)
 			return "$$$$";
 		if(budget == 5)
-			return "$$$$";
+			return "$$$$$";
 		return "";
 	}
 }
