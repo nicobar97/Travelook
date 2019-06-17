@@ -2,18 +2,24 @@ package io.travelook.controller.segnalazioni;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.travelook.controller.Controller;
 import io.travelook.model.Segnalazione;
+import io.travelook.persistence.MssqlSegnalazioniDAO;
 
-public class SegnalazioniController {
+public class SegnalazioniController extends Controller {
+	private List<Segnalazione> segnalazioni= new ArrayList<Segnalazione>();
+	private MssqlSegnalazioniDAO db;
+    
     public SegnalazioniController() {
 		super();
 		// TODO Auto-generated constructor stub
+		db = new MssqlSegnalazioniDAO(super.getDbConnection());
 	}
 
-	private List<Segnalazione> segnalazioni= new ArrayList<Segnalazione>();
-    
+	
     public void segnalaUtente(Segnalazione s ) {
     	segnalazioni.add(s);
+    	db.create(s);
     }
     
     public List<Segnalazione> getSegnalazioniUtente (int id){
