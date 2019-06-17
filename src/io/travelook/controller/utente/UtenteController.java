@@ -93,7 +93,7 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 
 	@Override
 	public Storico visualizzaStorico() {
-		// TODO Auto-generated method stub
+		
 		return db.getStorico(u);
 	}
 
