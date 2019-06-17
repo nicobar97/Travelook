@@ -12,11 +12,12 @@ public class NotificheVersoUtente extends NotificheVerso implements Observer {
 	private String messaggio;
 	private Stato stato;
 	
-	public NotificheVersoUtente(Utente utente, Viaggio viaggio) throws NullPointerException {
+	public NotificheVersoUtente(Utente utente, Viaggio viaggio, Stato stato) throws NullPointerException {
 		if(utente == null || viaggio == null)
 			throw new NullPointerException();
 		this.utente = utente;
 		this.viaggio = viaggio;
+		this.stato = stato;
 	}
 	public NotificheVersoUtente(Utente utente, Viaggio viaggio, String messaggio) throws NullPointerException {
 		if(utente == null || viaggio == null || messaggio.trim().equals("") || messaggio == null)

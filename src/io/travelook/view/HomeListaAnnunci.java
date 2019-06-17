@@ -45,6 +45,7 @@ public class HomeListaAnnunci extends Application {
 		int iduser = controlleru.getIdUtenteFromUsername(username);
 		System.out.println("PORCODIO: " + username + "PORCODIO:" + iduser);
         this.user = controlleru.getUtenteById(iduser);
+        controlleru.setU(user);
 	}
 	public HomeListaAnnunci(Utente user) {
         this.user = user;

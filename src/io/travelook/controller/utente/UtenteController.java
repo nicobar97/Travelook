@@ -29,7 +29,13 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		//listaUtenti = db.readUtentiFromDB();
 		//((if(listaUtenti == null)
 		//	listaUtenti = new ArrayList<Utente>();
+		this.u=u;
 		
+	}
+
+	public UtenteController() {
+		db = new MssqlUtenteDAO();
+		interessi = new MssqlUtente_InteressiDAO();
 	}
 
 	@Override
@@ -150,4 +156,13 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		db.setConn(super.getDbConnection());
 		return db.read(id);
 	}
+
+	public Utente getU() {
+		return u;
+	}
+
+	public void setU(Utente u) {
+		this.u = u;
+	}
+	
 }

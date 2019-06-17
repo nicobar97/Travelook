@@ -129,7 +129,7 @@ public class HomeAnnuncio extends Application {
             backButton.setOnMouseClicked(event -> {
         		new HomeListaAnnunci(user).start(primaryStage);
             });
-            if(/*user.getId() == viaggio.getCreatore().getId() */ false) {
+            if(user.getId() == viaggio.getCreatore().getId()) {
             	//CREATORE
             	chatView.setVisible(true);
         		sendButton.setVisible(true);
@@ -141,20 +141,51 @@ public class HomeAnnuncio extends Application {
         		rdplabel.setVisible(false);
         		utentiView.setVisible(true);
         		modificaAnnuncio.setVisible(true);
-        		rdpview.setVisible(true);
+        		rdpview.setVisible(false);
         		rdpbutton.setVisible(true);
-                
+                refreshRdp();
+                boolean rdpon = false;
+                rdpbutton.setOnMouseClicked(event -> {
+                	if(rdpon) {
+                		rdpview.setVisible(false);
+                		utentiView.setVisible(true);
+                	}
+                	else {
+                		rdpview.setVisible(true);
+                		utentiView.setVisible(false);
+                	}
+                });
                 modificaAnnuncio.setOnMouseClicked(event -> {
             			new CreaAnnuncio(viaggio, 0, user).start(primaryStage);
                 });
+              //CHAT
+                chatCont = new ChatController();
+                refreshChat();
+                sendButton.setOnMouseClicked(event -> {
+                	Messaggio m = new Messaggio();
+                	m.setMessaggio(newMessage.getText());
+                	m.setTimestamp(new Timestamp(System.currentTimeMillis()));
+                	m.setUtente(user);
+                	chatCont.inviaMessaggio(m, viaggio);
+                	refreshChat();
+                	newMessage.setText("");
+                });
+                newMessage.setOnKeyReleased(event -> {
+                	if(newMessage.getText().trim().equals(""))
+                		sendButton.setDisable(true);
+                	else
+                		sendButton.setDisable(false);
+                });
+                sendButton.setDisable(true);
+                
             }
             else {
             	List<Utente> listUserViaggio = new ArrayList<Utente>();
             	//System.out.println();
-            	boolean trovato = false;/*
+            	boolean trovato = false;
             	for(Utente u : listUserViaggio)
             		if(u.getId() == user.getId())
-            			trovato = true;*/
+            			trovato = true;
             	if(trovato) {
             		//PARTECIPANTE
             		chatView.setVisible(true);
@@ -208,7 +239,7 @@ public class HomeAnnuncio extends Application {
             			textrdp.setText("");
             		});
             		sendrdp.setOnMouseClicked(event -> {
-            			rdpc.nuovaRichiesta(new RichiestaDiPartecipazione(user, viaggio, textrdp.getText(), null, Stato.NONVISTA));
+            			rdpc.nuovaRichiesta(new RichiestaDiPartecipazione(user, viaggio, textrdp.getText()));
             		});
             	}
             }
@@ -227,13 +258,13 @@ public class HomeAnnuncio extends Application {
         }
 	}
 	private void refreshRdp() {
-		//List<RichiestaDiPartecipazione> rdpList = rdpc
-        /*ObservableList<Messaggio> messaggi = FXCollections.observableArrayList(chat.getChat());
-        if(!chat.getChat().isEmpty() && messaggi != null) {
-        	chatView.setItems(messaggi);
-        	chatView.setCellFactory(userCell -> new ChatCell(user));
-        	chatView.scrollTo(chat.getChat().size());
-        }*/
+		List<RichiestaDiPartecipazione> rdpList = rdpc.getRichiesteForCreatoreViaggio(user, viaggio);
+        ObservableList<RichiestaDiPartecipazione> obsrdp = FXCollections.observableArrayList(rdpList);
+        if(!rdpList.isEmpty() && rdpList != null) {
+        	rdpview.setItems(obsrdp);
+        	rdpview.setCellFactory(userCell -> new RDPCell(rdpc, rdpview));
+        	//rdpview.scrollTo(chat.getChat().size());
+        }
 	}
 	public Stage getPrimaryStage() {
         return primaryStage;
