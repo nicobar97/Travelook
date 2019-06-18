@@ -30,7 +30,6 @@ public class HomeUtente extends Application {
 	private Stage primaryStage;
     private FlowPane rootLayout;
     private ListView<Viaggio> listView;
-    private ImageView logo;
     private Button logout;
     private Button filtra;
     private Text currentUser;
@@ -68,49 +67,17 @@ public class HomeUtente extends Application {
         	count = 0;
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(HomeUtente.class.getResource("HomeListaAnnunci.fxml"));
+            loader.setLocation(HomeUtente.class.getResource("HomeUtente.fxml"));
             rootLayout = (FlowPane) loader.load();
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             
-            listView = (ListView<Viaggio>) scene.lookup("#lista");
-            userImg = (ImageView) scene.lookup("#imgUtente");
-            logout = (Button) scene.lookup("#logout");
-            currentUser = (Text) scene.lookup("#currentUser");
-            if(user.getImmagineProfilo() != null && !user.getImmagineProfilo().trim().equals("") && new File("src/"+user.getImmagineProfilo().trim()).exists())
-        		userImg.setImage(new Image(user.getImmagineProfilo().trim()));
-            currentUser.setText("Current user: " + user.getUsername());
-            currentUser.setOnMouseClicked(event -> {
-            	//open profilo utente
-            	new Alert(AlertType.INFORMATION, "todo").show();
-            });
-            userImg.setOnMouseClicked(event -> {
-            	//open profilo utente
-            	new Alert(AlertType.INFORMATION, "todo").show();
-            });
-            logout.setOnMouseClicked(event -> {
-            	new HomeTravelook().start(primaryStage);
-            	new Alert(AlertType.INFORMATION, "Logout effettuato con successo").show();
-            });
-            ListaAnnunciController controller = new ListaAnnunciController();
-            ObservableList<Viaggio> items = FXCollections.observableArrayList(controller.getAnnunci());
-            listView.setItems(items);
-            listView.setCellFactory(userCell -> new ViaggioCell());
-            listView.setOnMouseClicked(event -> { 
-            	MouseEvent me = (MouseEvent) event;
-            	if(me.getClickCount() == 2)
-            		new HomeAnnuncio(listView.getSelectionModel().getSelectedItem(), user).start(primaryStage);
-            });
-            creaAnnuncio = (Button) scene.lookup("#crea");
-            creaAnnuncio.setOnAction(event -> {
-            	new CreaAnnuncio(null, 1, user).start(primaryStage);
-            });
-            refresh = (Button) scene.lookup("#refresh");
-            refresh.setOnAction(event -> {
-            	ObservableList<Viaggio> refresh = FXCollections.observableArrayList(controller.getAnnunci());
-                listView.setItems(refresh);
-            });
+            //listView = (ListView<Viaggio>) scene.lookup("#lista");
+            //userImg = (ImageView) scene.lookup("#imgUtente");
+         //   logout = (Button) scene.lookup("#logout");
+        
+       
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();

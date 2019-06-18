@@ -83,11 +83,13 @@ public class HomeListaAnnunci extends Application {
             currentUser.setText("Current user: " + user.getUsername());
             currentUser.setOnMouseClicked(event -> {
             	//open profilo utente
-            	new Alert(AlertType.INFORMATION, "todo").show();
+            	//new Alert(AlertType.INFORMATION, "todo").show();
+            	new HomeUtente(user).start(primaryStage);
             });
             userImg.setOnMouseClicked(event -> {
             	//open profilo utente
-            	new Alert(AlertType.INFORMATION, "todo").show();
+            	//new Alert(AlertType.INFORMATION, "todo").show();
+            	new HomeUtente(user).start(primaryStage);
             });
             logout.setOnMouseClicked(event -> {
             	new HomeTravelook().start(primaryStage);

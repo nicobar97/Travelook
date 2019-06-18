@@ -19,21 +19,17 @@
                </font></Label>
             <ImageView fitHeight="72.0" fitWidth="70.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image fx:fx:id="logo" url="@../../../logo.png" />
+                  <Image fx:id="logo" url="@../../../logo.png" />
                </image>
             </ImageView>
-            <Button fx:id="back" fx:fx:id="back" layoutX="750.0" layoutY="7.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="50.0" text="Back" />
-            <Button fx:id="modifica" fx:fx:id="modifica" layoutX="661.0" layoutY="8.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="78.0" text="Modifica" />
+            <Button fx:id="back" layoutX="750.0" layoutY="7.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="50.0" text="Back" />
+            <Button fx:id="modifica" layoutX="661.0" layoutY="8.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="78.0" text="Modifica" />
          </children>
       </Pane>
       <Pane prefHeight="508.0" prefWidth="377.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="390.0" layoutX="9.0" stroke="BLACK" strokeType="INSIDE" width="363.0" />
-            <ImageView fx:id="immagine" fitHeight="134.0" fitWidth="144.0" layoutX="210.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image/>
-               </image>
-            </ImageView>
+           
             <Text fx:id="username" layoutX="192.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\@nicobar" textAlignment="RIGHT" wrappingWidth="160.2060546875">
                <font>
                   <Font name="Arial" size="25.0" />
@@ -72,6 +68,11 @@
                   <Font size="17.0" />
                </font>
             </Text>
+            <ImageView fitHeight="151.0" fitWidth="160.0" layoutX="203.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../logo.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
       <Pane prefHeight="451.0" prefWidth="432.0">
