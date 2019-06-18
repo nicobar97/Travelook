@@ -75,7 +75,6 @@ public class HomeUtente extends Application {
     private Button creaAnnuncio;
     private Utente user;
     private UtenteController uc;
-    private RecensioneController rc;
     
 	public HomeUtente(String username) {
 		uc = new UtenteController();

@@ -166,9 +166,9 @@ public class CreaAnnuncio extends Application {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				if(type == 0) {
-					controller.eliminaAnnuncio(viaggio.getIdViaggio());
-				}
+//				if(type == 0) {
+//					controller.eliminaAnnuncio(viaggio.getIdViaggio());
+//				}
 				nv.setIdViaggio(viaggio.getIdViaggio());
 				if(type == 0) {
 					nv.setCreatore(viaggio.getCreatore());

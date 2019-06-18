@@ -195,7 +195,7 @@ public class HomeTravelook extends Application {
     	dialogRegister.setResultConverter(new Callback<ButtonType, String>() {
     	    @Override
     	    public String call(ButtonType b) {
-    	    	if(	usernameField.getText().trim().equals("") || usernameField.getText().length() < 8 ||
+    	    	if(	usernameField.getText().trim().equals("") || usernameField.getText().length() < 6 ||
     	    		pswField.getText().trim().equals("") || pswField.getText().length() < 8 ||	
     	    		nomeField.getText().trim().equals("") || cognomeField.getText().trim().equals("") ||
     	    		emailField.getText().indexOf("@") == -1 || emailField.getText().indexOf(".") == -1 ||
@@ -206,7 +206,7 @@ public class HomeTravelook extends Application {
     	    		RegistrazioneController reg = new RegistrazioneController();
     	    		reg.registraUtente(new Utente(usernameField.getText(), emailField.getText(), nomeField.getText(), 
     	    				cognomeField.getText(),new java.sql.Date(tmp.getYear(), tmp.getMonthValue(), 
-    	    						tmp.getDayOfMonth()), newimg.getName()), SHA256.encrypt(pswField.getText()));
+    	    						tmp.getDayOfMonth()), newimg.getName().trim()), SHA256.encrypt(pswField.getText()));
     	    		return usernameField.getText();
     	    	}
     	    }	

@@ -2,6 +2,7 @@ package io.travelook.view;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import io.travelook.controller.annuncio.ListaAnnunciController;
 import io.travelook.controller.utente.UtenteController;
@@ -96,8 +97,10 @@ public class HomeListaAnnunci extends Application {
             	new Alert(AlertType.INFORMATION, "Logout effettuato con successo").show();
             });
             ListaAnnunciController controller = new ListaAnnunciController();
-            ObservableList<Viaggio> items = FXCollections.observableArrayList(controller.getAnnunci());
-            listView.setItems(items);
+            List<Viaggio> lista = controller.getAnnunci();
+            ObservableList<Viaggio> items = FXCollections.observableArrayList(lista);
+            if(lista != null || lista.size() > 0)
+            	listView.setItems(items);
             listView.setCellFactory(userCell -> new ViaggioCell());
             listView.setOnMouseClicked(event -> { 
             	MouseEvent me = (MouseEvent) event;
