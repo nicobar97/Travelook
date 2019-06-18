@@ -3,13 +3,13 @@ package io.travelook.broker;
 public class EndPointServer {
 	
 	 private String tiposerver;
-	 private String ipclient; 
+	 private String ipserver; 
 	 private int port ;
 	 
-	 public EndPointServer(String tiposerver, String ipclient, int port) {
+	 public EndPointServer(String tiposerver, String ips, int port) {
 			super();
 			this.tiposerver = tiposerver;
-			this.ipclient = ipclient;
+			this.ipserver = ips;
 			this.port = port;
 		}
 	 
@@ -26,12 +26,12 @@ public class EndPointServer {
 		this.tiposerver = tiposerver;
 	}
 
-	public String getIpclient() {
-		return ipclient;
+	public String getIpserver() {
+		return ipserver;
 	}
 
-	public void setIpclient(String ipclient) {
-		this.ipclient = ipclient;
+	public void setIpserver(String ips) {
+		this.ipserver = ips;
 	}
 
 	public int getPort() {
