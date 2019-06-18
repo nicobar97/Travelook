@@ -78,6 +78,8 @@
       <Pane prefHeight="451.0" prefWidth="432.0">
          <children>
             <ListView fx:id="listViaggio" layoutX="2.0" prefHeight="499.0" prefWidth="423.0" />
+            <ListView fx:id="listRichieste" layoutX="2.0" prefHeight="499.0" prefWidth="423.0" />
+            <ListView fx:id="listRecensioni" layoutX="2.0" prefHeight="499.0" prefWidth="423.0" />
          </children>
       </Pane>
    </children>

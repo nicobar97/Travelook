@@ -1,5 +1,4 @@
-package io.travelook.view;
-
+package io.travelook.view;		
 import java.io.File;
 import java.io.IOException;
 
@@ -11,6 +10,7 @@ import io.travelook.model.Viaggio;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -31,35 +31,57 @@ import javafx.stage.Stage;
 public class HomeUtente extends Application {
 	private Stage primaryStage;
     private FlowPane rootLayout;
+    @FXML
     private ListView<Viaggio> listViaggio;
+    @FXML
+    private ListView<Viaggio> listRecensioni;
+    @FXML
     private ListView<RichiestaDiPartecipazione> listRichieste;
+    @FXML
     private Button back;
+    @FXML
     private Button modifica;
+    @FXML
     private Text username;
+    @FXML
     private Text nomeCognome;
+    @FXML
     private Text email;
+    @FXML
     private Text interessi;
+    @FXML
     private SVGPath star1;
+    @FXML
     private SVGPath star2;
+    @FXML
     private SVGPath star3;
+    @FXML
     private SVGPath star4;
+    @FXML
     private SVGPath star5;
+    @FXML
     private Button showStorico;
+    @FXML
     private Button showRichieste;
+    @FXML
     private Button showViaggi;
+    @FXML
     private Button showRecensioni;
+    @FXML
     private ImageView userImage;
+    @FXML
     private Button refresh;
+    @FXML
     private Button creaAnnuncio;
     private Utente user;
-    private int count;
-    private UtenteController controlleru;
+    private UtenteController uc;
+    private RecensioneController rc;
+    
 	public HomeUtente(String username) {
-		controlleru = new UtenteController();
-		int iduser = controlleru.getIdUtenteFromUsername(username);
-		System.out.println("PORCODIO: " + username + "PORCODIO:" + iduser);
-        this.user = controlleru.getUtenteById(iduser);
-        controlleru.setU(user);
+		uc = new UtenteController();
+		int iduser = uc.getIdUtenteFromUsername(username);
+        this.user = uc.getUtenteById(iduser);
+        uc.setU(user);
 	}
 	public HomeUtente(Utente user) {
         this.user = user;
@@ -79,7 +101,6 @@ public class HomeUtente extends Application {
 	@SuppressWarnings("unchecked")
 	public void initRootLayout() {
         try {
-        	count = 0;
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(HomeUtente.class.getResource("HomeUtente.fxml"));
@@ -88,9 +109,9 @@ public class HomeUtente extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             
-            //listView = (ListView<Viaggio>) scene.lookup("#lista");
-            //userImg = (ImageView) scene.lookup("#imgUtente");
-         //   logout = (Button) scene.lookup("#logout");
+            back.setOnMouseClicked(event -> {
+            	new HomeListaAnnunci(user).start(primaryStage);
+            });
         
        
             primaryStage.show();
@@ -101,5 +122,8 @@ public class HomeUtente extends Application {
 	public Stage getPrimaryStage() {
         return primaryStage;
     }
+	public void initStars() {
+		
+	}
 }
 
