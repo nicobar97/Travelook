@@ -117,11 +117,9 @@ public class HomeUtente extends Application {
             loader.load();
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
-            listaRecensioni = uc.visualizzaRecensioni();
             back.setOnMouseClicked(event -> {
             	new HomeListaAnnunci(user).start(primaryStage);
             });
-            initStars();
             bio.setEditable(false);
             username.setText(user.getUsername());
             nomeCognome.setText(user.getNome() + " " + user.getCognome());
@@ -131,11 +129,11 @@ public class HomeUtente extends Application {
             bio.setText(user.getBio());
             if(user.getImmagineProfilo() != null && !user.getImmagineProfilo().trim().equals("") && new File("src/"+user.getImmagineProfilo().trim()).exists())
         		userImage.setImage(new Image(user.getImmagineProfilo().trim()));
-            
             refreshStorico();
             refreshViaggiAttivi();
             refreshRichieste();
             refreshRecensioni();
+            initStars();
             showViaggi.setOnMouseClicked(event -> {
             	listRichieste.setVisible(false);
             	listViaggio.setVisible(true);
