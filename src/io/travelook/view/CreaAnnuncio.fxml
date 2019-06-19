@@ -76,7 +76,7 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <TextArea fx:id="descrizione" layoutX="17.0" layoutY="274.0" prefHeight="210.0" prefWidth="496.0" />
+            <TextArea fx:id="descrizione" layoutX="17.0" layoutY="274.0" prefHeight="210.0" prefWidth="496.0" wrapText="true" />
             <Label layoutX="17.0" layoutY="242.0" prefHeight="27.0" prefWidth="111.0" text="Descrizione:">
                <font>
                   <Font size="15.0" />

@@ -83,7 +83,11 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		listaViaggiPartecipante = db.readViaggiAttiviByUtente(u);
 		return listaViaggiPartecipante;
 	}
-
+	public Utente attachInteressiToUser(Utente user) {
+		//user.setInteressi(interessi.readInteressiByUtente(user));
+		return user;
+		
+	}
 	@Override
 	public List<Viaggio> getViaggiInAttesaDiConferma() {
 		List<Viaggio> viaggiInAttesaDiConferma = new ArrayList<Viaggio>();
