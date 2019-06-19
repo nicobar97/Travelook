@@ -61,8 +61,16 @@ public class Logger implements ILogger{
 
 	@Override
 	public List<Entry> visualizzaLog(Filtro filtro) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Entry> filtrate=new ArrayList<Entry>();
+		List<Entry> totali=new ArrayList<Entry>();
+        List<Object> tot=new ArrayList<Object>();
+		totali=this.visualizzaLog();
+		for(Entry e :totali) {
+			Object o=(Object)e;
+			tot.add(o);
+		}
+		filtrate=this.convertToEntry(filtro.filtra(filtro.getFiltri(),tot));
+		return filtrate;
 	}
 
 	@Override
@@ -137,4 +145,16 @@ public class Logger implements ILogger{
        }
 	  return e;
    }
+   
+
+	public List<Entry> convertToEntry(List<Object> oggetti){
+			List<Entry> res= new ArrayList<Entry>();
+			for(Object o :oggetti) {
+				if(o instanceof Entry) {
+				Entry e=(Entry)o;
+				res.add(e);}
+			}
+			return res;
+		}
+	
 }
