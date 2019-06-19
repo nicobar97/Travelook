@@ -16,8 +16,10 @@ public class FiltraViaggioBudget implements Filtro  {
     public List<Viaggio> convertToViaggi(List<Object> oggetti){
 		List<Viaggio> res= new ArrayList<Viaggio>();
 		for(Object o :oggetti) {
+			if(o instanceof Viaggio) {
 			Viaggio v=(Viaggio)o;
 			res.add(v);
+			}
 		}
 		return res;
 	}
@@ -27,7 +29,7 @@ public class FiltraViaggioBudget implements Filtro  {
 	   Object[] res= new Object[size];
 	   int count=0;
 		for(Viaggio v : viaggi) {
-	        res[count]=(Object)v;
+	        res[count]=v;
 	        count++;
 		}
 		return res;
@@ -38,16 +40,20 @@ public class FiltraViaggioBudget implements Filtro  {
 	    List<Object> viaggif= new ArrayList<Object>();
 	    List<Integer> filtri=new ArrayList<Integer>();
 	    for(Object o : ogg) {
+	    	if( o instanceof Integer) {
 	    	filtri.add(Integer.parseInt(String.valueOf(o)));
+	    	}
 	    }
 	    for(Object o :viaggi) {
-	    	Viaggio v =(Viaggio)o;
-	    	for(Integer s:filtri) {
-	    		if(v.getBudget()==s) {
-	    			Object ob=(Object)v;
-	    			viaggif.add(ob);
-	    		}
-	    	}
+	    	 if (o instanceof Viaggio) {
+	    		 Viaggio v =(Viaggio)o;
+	    	       for(Integer s:filtri) {
+	    		        if(v.getBudget()==s) {
+	    			        Object ob=v;
+	    			        viaggif.add(ob);
+	    		        }
+	    	       }
+	    	 }      
 	    }
 		return viaggif;
 	}

@@ -16,8 +16,10 @@ public class FiltraViaggioData implements Filtro {
     public List<Viaggio> convertToViaggi(List<Object> oggetti){
 		List<Viaggio> res= new ArrayList<Viaggio>();
 		for(Object o :oggetti) {
+			if(o instanceof Viaggio) {
 			Viaggio v=(Viaggio)o;
 			res.add(v);
+			}
 		}
 		return res;
 	}
@@ -27,27 +29,32 @@ public class FiltraViaggioData implements Filtro {
 	   Object[] res= new Object[size];
 	   int count=0;
 		for(Viaggio v : viaggi) {
-	        res[count]=(Object)v;
+	        res[count]=v;
 	        count++;
 		}
 		return res;
    }
+   
 	@Override
 	public List<Object> filtra(Object[] ogg,List<Object> viaggi) {
 	    List<Object> viaggif= new ArrayList<Object>();
 	    List<Date> filtri=new ArrayList<Date>();
 	    for(Object o : ogg) {
+	    	if( o instanceof Date) {
             Date d1=(Date)o;
 	    	filtri.add(d1);
+	    	}
 	    }
 	    for(Object o :viaggi) {
-	    	Viaggio v =(Viaggio)o;
-	    	for(Date s:filtri) {
-	    		if(v.getDatainizio().before(s) && v.getDatafine().after(s)) {
-	    			Object ob=(Object)v;
-	    			viaggif.add(ob);
-	    		}
-	    	}
+	    	if(o instanceof Viaggio) {
+	    	  Viaggio v =(Viaggio)o;
+	    	     for(Date s:filtri) {
+	    		     if(v.getDatainizio().before(s) && v.getDatafine().after(s)) {
+	    			    Object ob=v;
+	    			    viaggif.add(ob);
+	    		     }
+	    	     }
+	    	}	     
 	    }
 		return viaggif;
 	}

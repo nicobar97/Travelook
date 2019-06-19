@@ -15,8 +15,10 @@ public class FiltraViaggioLingua implements Filtro  {
     public List<Viaggio> convertToViaggi(List<Object> oggetti){
 		List<Viaggio> res= new ArrayList<Viaggio>();
 		for(Object o :oggetti) {
+			if(o instanceof Viaggio) {
 			Viaggio v=(Viaggio)o;
 			res.add(v);
+			}
 		}
 		return res;
 	}
@@ -26,7 +28,7 @@ public class FiltraViaggioLingua implements Filtro  {
 	   Object[] res= new Object[size];
 	   int count=0;
 		for(Viaggio v : viaggi) {
-	        res[count]=(Object)v;
+	        res[count]=v;
 	        count++;
 		}
 		return res;
@@ -38,15 +40,19 @@ public class FiltraViaggioLingua implements Filtro  {
 		List<Object> viaggif= new ArrayList<Object>();
 	    List<String> filtri=new ArrayList<String>();
 	    for(Object o : ogg) {
+	    	if(o instanceof String) {
 	    	filtri.add(String.valueOf(o));
+	    	}
 	    }
 	    for(Object o :viaggi) {
+	    	if(o instanceof Viaggio) {
 	    	Viaggio v =(Viaggio)o;
-	    	for(String s:filtri) {
-	    		if(v.getLingua().equals(s)) {
-	    			Object ob=(Object)v;
-	    			viaggif.add(ob);
-	    		}
+	    	   for(String s:filtri) {
+	    		   if(v.getLingua().equals(s)) {
+	    			 Object ob=v;
+	    			  viaggif.add(ob);
+	    		   }
+	    	   }
 	    	}
 	    }
 		return viaggif;
