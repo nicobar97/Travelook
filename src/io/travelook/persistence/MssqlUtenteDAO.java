@@ -291,127 +291,186 @@ public class MssqlUtenteDAO implements UtenteDAO {
 		Storico storico = null;
 		int idUtente = u.getId();
 		List<Viaggio> viaggiPassati = new ArrayList<Viaggio>();
+		Utente c = null;
+		Viaggio v = null;
 		storico.setIdUtente(idUtente);
-		String query = "SELECT 	v.id " + 
+		String queryMEGLIO = "select 	v.id, v.titolo, v.destinazione, v.descrizione,v.lingua, v.budget, v.luogoPartenza, " +
+				"	v.stato,v.dataPartenza, v.dataFine,v.immagineProfilo,v.idCreatore, c.nickname," + 
+				" c.email, c.nome, c.cognome, c.bio, c.dataNascita, c.imgProfilo " +
 				"FROM Viaggio as v INNER JOIN Richiesta_Di_Partecipazione as rdp ON rdp.idViaggio=v.id " + 
-				"INNER JOIN Utente as u ON rdp.idUtente = u.id " + 
+				"INNER JOIN Utente as u ON rdp.idUtente = u.id " +
+				"INNER JOIN Utente as c ON rdp.idCreatore = c.id " + 
 				"WHERE rdp.stato=0 AND u.id=? AND v.dataFine<=?";
 		java.sql.Date dataCorrente = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 		try {
-			PreparedStatement prep_stmt = conn.prepareStatement(query);
+			PreparedStatement prep_stmt = conn.prepareStatement(queryMEGLIO);
 			prep_stmt.clearParameters();
 			prep_stmt.setInt(1, u.getId());
 			prep_stmt.setDate(2, dataCorrente);
 			ResultSet rs = prep_stmt.executeQuery();
 			while(rs.next()) {
-				viaggiPassati.add(readViaggio(rs.getInt("id")));
-				//
+				v = new Viaggio();
+				int i=1;
+				v.setIdViaggio(rs.getInt(i++));
+				v.setTitolo(rs.getString(i++));
+				v.setDestinazione(rs.getString(i++));
+				v.setDescrizione(rs.getString(i++));
+				v.setLingua(rs.getString(i++));
+				v.setBudget(rs.getInt(i++));
+				v.setLuogopartenza(rs.getString(i++));
+				v.setStato(Stato.values()[rs.getInt(i++)]);
+				v.setDatainizio(rs.getDate(i++));
+				v.setDatafine(rs.getDate(i++));
+				v.setImmaginiProfilo(rs.getString(i++));
+				c = new Utente();
+				c.setIdUtente(rs.getInt(i++));
+				c.setUsername(rs.getString(i++));
+				c.setEmail(rs.getString(i++));
+				c.setNome(rs.getString(i++));
+				c.setCognome(rs.getString(i++));
+				c.setBio(rs.getString(i++));
+				c.setDataNascita(rs.getDate(i++));
+				c.setImmagineProfilo(rs.getString(i++));
+				v.setCreatore(c);
+				viaggiPassati.add(v);
+			}
+			rs.close();
+			prep_stmt.close();
+		}
+		catch(Exception e) {	
+		}
+		finally {
+			try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			}
 		}
-		catch(SQLException sqle) {
-			return null;
-		}
-		
-		
 		storico.setStorico(viaggiPassati);
 		return storico;
-		
 	}
 
 	@Override
 	public List<Viaggio> readViaggiAttiviByUtente(Utente u) {
-		String query = "SELECT 	v.id " + 
-				"FROM Viaggio as v INNER JOIN Richiesta_Di_Partecipazione as rdp ON rdp.idViaggio=v.id " + 
+		String queryMEGLIO = "select v.id, v.titolo, v.destinazione, v.descrizione,v.lingua, v.budget, v.luogoPartenza, " +
+				"	v.stato,v.dataPartenza, v.dataFine,v.immagineProfilo,v.idCreatore, c.nickname," + 
+				" c.email, c.nome, c.cognome, c.bio, c.dataNascita, c.imgProfilo "
+				+ "FROM Viaggio v INNER JOIN Richiesta_Di_Partecipazione as rdp ON rdp.idViaggio=v.id " + 
 				"INNER JOIN Utente as u ON rdp.idUtente = u.id " + 
+				"INNER JOIN Utente as c ON rdp.idCreatore = c.id " + 
 				"WHERE rdp.stato=0 AND u.id=?";
+		List<Viaggio> listaViaggi = null;
+		Viaggio v = null;
+		Utente c =  null;
 		try {
 			System.out.println("Utente con id "+u.getId());
-			List<Viaggio> listaViaggi = new ArrayList<Viaggio>();
-			MssqlViaggioDAO viaggidb = new MssqlViaggioDAO();
-			PreparedStatement prep_stmt = conn.prepareStatement(query);
+			listaViaggi = new ArrayList<Viaggio>();
+			PreparedStatement prep_stmt = conn.prepareStatement(queryMEGLIO);
 			prep_stmt.clearParameters();
 			prep_stmt.setInt(1, u.getId());
 			ResultSet rs = prep_stmt.executeQuery();
 			while(rs.next()) {
-				System.out.println("trovato viaggio a cui partecipa");
-				listaViaggi.add(readViaggio(rs.getInt("id")));
-				
+				v = new Viaggio();
+				int i=1;
+				v.setIdViaggio(rs.getInt(i++));
+				v.setTitolo(rs.getString(i++));
+				v.setDestinazione(rs.getString(i++));
+				v.setDescrizione(rs.getString(i++));
+				v.setLingua(rs.getString(i++));
+				v.setBudget(rs.getInt(i++));
+				v.setLuogopartenza(rs.getString(i++));
+				v.setStato(Stato.values()[rs.getInt(i++)]);
+				v.setDatainizio(rs.getDate(i++));
+				v.setDatafine(rs.getDate(i++));
+				v.setImmaginiProfilo(rs.getString(i++));
+				c = new Utente();
+				c.setIdUtente(rs.getInt(i++));
+				c.setUsername(rs.getString(i++));
+				c.setEmail(rs.getString(i++));
+				c.setNome(rs.getString(i++));
+				c.setCognome(rs.getString(i++));
+				c.setBio(rs.getString(i++));
+				c.setDataNascita(rs.getDate(i++));
+				c.setImmagineProfilo(rs.getString(i++));
+				v.setCreatore(c);
+				System.out.println(v.getTitolo() + "   " + v.getCreatore().getUsername());
+				listaViaggi.add(v);
 			}
-			return listaViaggi;
+			
+			rs.close();
+			prep_stmt.close();
 		}
-		catch(SQLException sqle) {
-			sqle.printStackTrace();
+		catch(Exception e) {	
 		}
-		return null;
+		finally {
+			try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			}
+		}
+		return listaViaggi;
 	}
 
 	public List<Viaggio> readViaggiInAttesaDiConfermaUtente(Utente u) {
-		String query = "SELECT 	v.id " + 
+		String queryMEGLIO = "select 	v.id, v.titolo, v.destinazione, v.descrizione,v.lingua, v.budget, v.luogoPartenza, " +
+				"	v.stato,v.dataPartenza, v.dataFine,v.immagineProfilo,v.idCreatore, c.nickname," + 
+				" c.email, c.nome, c.cognome, c.bio, c.dataNascita, c.imgProfilo " +
 				"FROM Viaggio as v INNER JOIN Richiesta_Di_Partecipazione as rdp ON rdp.idViaggio=v.id " + 
 				"INNER JOIN Utente as u ON rdp.idUtente = u.id " + 
+				"INNER JOIN Utente as c ON rdp.idCreatore = c.id " + 
 				"WHERE rdp.stato=2 AND u.id=?";
+		List<Viaggio> listaViaggi = null;
+		Viaggio v = null;
+		Utente c =  null;
 		try {
 			System.out.println("Utente con id "+u.getId());
-			List<Viaggio> listaViaggi = new ArrayList<Viaggio>();
-			MssqlViaggioDAO viaggidb = new MssqlViaggioDAO();
-			PreparedStatement prep_stmt = conn.prepareStatement(query);
+			listaViaggi = new ArrayList<Viaggio>();
+			PreparedStatement prep_stmt = conn.prepareStatement(queryMEGLIO);
 			prep_stmt.clearParameters();
 			prep_stmt.setInt(1, u.getId());
 			ResultSet rs = prep_stmt.executeQuery();
 			while(rs.next()) {
-				System.out.println("trovato viaggio a cui partecipa");
-				listaViaggi.add(readViaggio(rs.getInt("id")));
-				
-			}
-			//
-			return listaViaggi;
-		}
-		catch(SQLException sqle) {
-			sqle.printStackTrace();
-		}
-		return null;
-	}
-	
-	
-	public Viaggio readViaggio(int id) {
-		Viaggio res=new Viaggio();
-		Utente c=new Utente();
-		try {
-			/*" (id,idCreatore,titolo,destinazione,descrizione,lingua,budget,dataPartenza,dataFine"+
-			",immagineProfilo,immaginiAlternative"+*/
-			PreparedStatement prep_stmt = conn.prepareStatement(MssqlViaggioDAO.read_by_id);
-			prep_stmt.setInt(1,id);
-			ResultSet rs = prep_stmt.executeQuery();
-			if ( rs.next() ) {
-				Viaggio v = new Viaggio();
-				v.setIdViaggio(rs.getInt(1));
-				c.setId(rs.getInt(13));
-				c.setUsername(rs.getString("nickname"));
-				c.setEmail(rs.getString("email"));
-				c.setNome(rs.getString("nome"));
-				c.setCognome(rs.getString("cognome"));
-				c.setBio(rs.getString("bio"));
-				c.setDataNascita(rs.getDate("dataNascita"));
-				c.setImmagineProfilo(rs.getString("imgProfilo"));
+				v = new Viaggio();
+				int i=1;
+				v.setIdViaggio(rs.getInt(i++));
+				v.setTitolo(rs.getString(i++));
+				v.setDestinazione(rs.getString(i++));
+				v.setDescrizione(rs.getString(i++));
+				v.setLingua(rs.getString(i++));
+				v.setBudget(rs.getInt(i++));
+				v.setLuogopartenza(rs.getString(i++));
+				v.setStato(Stato.values()[rs.getInt(i++)]);
+				v.setDatainizio(rs.getDate(i++));
+				v.setDatafine(rs.getDate(i++));
+				v.setImmaginiProfilo(rs.getString(i++));
+				c = new Utente();
+				c.setIdUtente(rs.getInt(i++));
+				c.setUsername(rs.getString(i++));
+				c.setEmail(rs.getString(i++));
+				c.setNome(rs.getString(i++));
+				c.setCognome(rs.getString(i++));
+				c.setBio(rs.getString(i++));
+				c.setDataNascita(rs.getDate(i++));
+				c.setImmagineProfilo(rs.getString(i++));
 				v.setCreatore(c);
-				v.setTitolo(rs.getString("titolo"));
-				v.setDestinazione(rs.getString("destinazione"));
-				v.setDescrizione(rs.getString("descrizione"));
-				v.setLingua(rs.getString("lingua"));
-				v.setBudget(rs.getInt("budget"));
-				v.setLuogopartenza(rs.getString("luogoPartenza"));
-				v.setDatainizio(rs.getDate("dataPartenza"));
-				v.setDatafine(rs.getDate("dataFine"));
-				v.setStato(Stato.values()[rs.getInt("stato")]);
-				res=v;
+				listaViaggi.add(v);
 			}
 			rs.close();
 			prep_stmt.close();
-		    
 		}
-		catch(Exception e) {
-			
+		catch(Exception e) {	
 		}
-		return res;
+		finally {
+			try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			}
+		}
+		return listaViaggi;
 	}
 }

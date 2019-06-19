@@ -124,6 +124,14 @@ public class HomeUtente extends Application {
             bio.setText(user.getBio());
             if(user.getImmagineProfilo() != null && !user.getImmagineProfilo().trim().equals("") && new File("src/"+user.getImmagineProfilo().trim()).exists())
         		userImage.setImage(new Image(user.getImmagineProfilo().trim()));
+            
+            
+            showViaggi.setOnMouseClicked(event -> {
+            	listRichieste.setVisible(false);
+            	listViaggio.setVisible(true);
+            	listRecensioni.setVisible(false);
+            	refreshViaggiAttivi();
+            });
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -132,7 +140,7 @@ public class HomeUtente extends Application {
 	public Stage getPrimaryStage() {
         return primaryStage;
     }
-	public void initStars() {
+	private void initStars() {
 		int sum = 0;
 		Double average = new Double(0);
 		for(Recensione r : listaRecensioni) {
@@ -171,9 +179,7 @@ public class HomeUtente extends Application {
 			 star5.setFill(Paint.valueOf("orange"));
 		}
 	}
-	public void initRecensioni() {
-		
-	}
+
 	private String formatInteressi(List<Interessi> inte) { 
 		String out = "";
 		boolean nl = false;
@@ -190,6 +196,14 @@ public class HomeUtente extends Application {
 		}
 		return out;
 	}
-	
+	private void refreshViaggiAttivi() {
+		List<Viaggio> viaggioList = uc.getViaggiInPartecipazione();
+        ObservableList<Viaggio> obsv = FXCollections.observableArrayList(viaggioList);
+        if(!viaggioList.isEmpty() && viaggioList != null) {
+        	listViaggio.setItems(obsv);
+        	listViaggio.setCellFactory(userCell -> new ViaggioCell());
+        	//listViaggio.scrollTo(chat.getChat().size());
+        }
+	}
 }
 

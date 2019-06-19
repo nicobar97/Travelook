@@ -63,10 +63,11 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			"inner join Utente AS c on c.id = v.idCreatore";
 	
 	// SELECT * FROM table WHERE idcolumn = ?;
-	final static String read_by_id = 
-		"SELECT * " +
-			"FROM " + table + " v " +
-			"inner join UTENTE AS C ON v."+IDC+"=c.id" 
+	final static String read_by_id =  "select 	v.id, v.titolo, v.destinazione, v.descrizione,v.lingua, v.budget, v.luogoPartenza, " + 
+			"	v.stato,v.dataPartenza, v.dataFine,v.immagineProfilo,v.idCreatore, c.nickname," + 
+			"		c.email, c.nome, c.cognome, c.bio, c.dataNascita, c.imgProfilo from Viaggio v" + 
+			"inner join Utente AS c on c.id = v.idCreatore" +
+			"where v.id=?";
 		;
 	final static String list_user_viaggio = "select rdp.idUtente, u.nickname, u.email, u.nome, u.cognome,u.bio, u.dataNascita, u.imgProfilo from Richiesta_Di_Partecipazione rdp\r\n" + 
 			"inner join Utente as u on u.id = rdp.idUtente\r\n" + 
@@ -135,45 +136,42 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 
 	@Override
 	public Viaggio read(int id) {
-		Viaggio res=null;
-		Utente c=new Utente();
+		Viaggio res = null;
+		Utente c = null;
 		try {
-			/*"SELECT * " +
-					"FROM " + table + " v " +
-					"inner join UTENTE AS C ON v."+IDC+"=c.id" */
 			PreparedStatement prep_stmt = conn.prepareStatement(MssqlViaggioDAO.read_by_id);
 			prep_stmt.setInt(1,id);
 			ResultSet rs = prep_stmt.executeQuery();
 			if ( rs.next() ) {
 				Viaggio v = new Viaggio();
-				v.setIdViaggio(rs.getInt(1));
-				c.setIdUtente(rs.getInt(13));
-				c.setUsername(rs.getString("nickname"));
-				c.setEmail(rs.getString("email"));
-				c.setNome(rs.getString("nome"));
-				c.setCognome(rs.getString("cognome"));
-				c.setBio(rs.getString("bio"));
-				c.setDataNascita(rs.getDate("dataNascita"));
-				c.setImmagineProfilo(rs.getString("imgProfilo"));
+				int i=1;
+				v.setIdViaggio(rs.getInt(i++));
+				v.setTitolo(rs.getString(i++));
+				v.setDestinazione(rs.getString(i++));
+				v.setDescrizione(rs.getString(i++));
+				v.setLingua(rs.getString(i++));
+				v.setBudget(rs.getInt(i++));
+				v.setLuogopartenza(rs.getString(i++));
+				v.setStato(Stato.values()[rs.getInt(i++)]);
+				v.setDatainizio(rs.getDate(i++));
+				v.setDatafine(rs.getDate(i++));
+				v.setImmaginiProfilo(rs.getString(i++));
+				c = new Utente();
+				c.setIdUtente(rs.getInt(i++));
+				c.setUsername(rs.getString(i++));
+				c.setEmail(rs.getString(i++));
+				c.setNome(rs.getString(i++));
+				c.setCognome(rs.getString(i++));
+				c.setBio(rs.getString(i++));
+				c.setDataNascita(rs.getDate(i++));
+				c.setImmagineProfilo(rs.getString(i++));
 				v.setCreatore(c);
-				v.setTitolo(rs.getString("titolo"));
-				v.setDestinazione(rs.getString("destinazione"));
-				v.setDescrizione(rs.getString("descrizione"));
-				v.setLingua(rs.getString("lingua"));
-				v.setBudget(rs.getInt("budget"));
-				v.setLuogopartenza(rs.getString("luogoPartenza"));
-				v.setDatainizio(rs.getDate("dataPartenza"));
-				v.setDatafine(rs.getDate("dataFine"));
-				v.setStato(Stato.values()[rs.getInt("stato")]);
 				res=v;
 			}
 			rs.close();
-			prep_stmt.close();
-		    
+			prep_stmt.close(); 
 		}
-		catch(Exception e) {
-			
-		}
+		catch(Exception e) {}
 		finally {
 			try {
 				conn.close();
