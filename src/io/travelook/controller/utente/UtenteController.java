@@ -84,7 +84,7 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		return listaViaggiPartecipante;
 	}
 	public Utente attachInteressiToUser(Utente user) {
-		//user.setInteressi(interessi.readInteressiByUtente(user));
+		user.setInteressi(interessi.readInteressiByUtente(user));
 		return user;
 		
 	}

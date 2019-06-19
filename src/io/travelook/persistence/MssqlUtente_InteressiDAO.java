@@ -4,13 +4,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.travelook.model.Interessi;
+import io.travelook.model.Stato;
 import io.travelook.model.Utente;
 
 public class MssqlUtente_InteressiDAO implements IUtente_InteressiDAO{
 	Connection conn;
-	
+	private String read_interessi_utente="SELECT i.idInteresse"
+			+ "FROM Utente_Interessi as i INNER JOIN Utente as u "
+			+ "WHERE i.idUtente=? ";
+	private String delete="DELETE FROM Utente_Interessi WHERE idInteresse=?,idUtente=?";
 	public MssqlUtente_InteressiDAO(Connection c) {
 		conn=c;
 	}
@@ -60,15 +66,60 @@ public class MssqlUtente_InteressiDAO implements IUtente_InteressiDAO{
 	}
 
 	@Override
-	public boolean readInteressiByUtente(Utente u) {
-		// TODO Auto-generated method stub
-		return false;
+	public List<Interessi> readInteressiByUtente(Utente u) {
+	   /*"SELECT i.idInteresse"
+			+ "FROM Utente_Interessi as i INNER JOIN Utente as u "
+			+ "WHERE i.idUtente=? ";*/
+		List<Interessi> res=new ArrayList<Interessi>();
+		if(u==null) {
+			System.out.println("l'utente non può essere nullo nella ricerca dei suoi interessi \n ");
+			return res;
+		}
+		try {
+			PreparedStatement ps=conn.prepareStatement(read_interessi_utente);
+			ps.setInt(1,u.getId());
+			ResultSet rs=ps.executeQuery();
+			  while(rs.next()) {
+				   Interessi i =Interessi.values()[rs.getInt("idInteresse")];
+				   res.add(i);
+			       }
+		    }
+	    catch(SQLException e) {
+		e.printStackTrace();
+		return res;
+		}
+		return res;
 	}
 
 	@Override
 	public boolean delete(Utente u, Interessi i) {
-		// TODO Auto-generated method stub
-		return false;
+		/*"DELETE FROM Utente_Interessi WHERE idInteresse=?,idUtente=?";*/
+		boolean res=false;
+		if(u==null) {
+			System.out.println("l'utente non può essere nullo nella rimozione di un suo interesse \n ");
+			return res;
+		}
+		if(i==null) {
+			System.out.println("impossibile rimuovere un interesse nullo!");
+		}
+		try {
+			PreparedStatement ps=conn.prepareStatement(delete);
+			ps.setInt(1,i.ordinal());
+			ps.setInt(2,u.getId());
+			if(ps.executeUpdate()>0) {
+				ps.close();
+				System.out.println("Ho eliminato l'interesse "+i+"dall' utente con id :" +u.getId());
+				res= true;
+				}
+				else {
+					System.out.println("Non ho eliminato  l'interesse "+i+"dall' utente con id :" +u.getId());
+					res=false;
+				}
+		}
+		catch(SQLException e ) {
+			
+		}
+		return res;
 	}
 
 }
