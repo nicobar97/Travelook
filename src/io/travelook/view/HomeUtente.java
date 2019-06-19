@@ -107,7 +107,7 @@ public class HomeUtente extends Application {
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
-            
+            uc.get
             back.setOnMouseClicked(event -> {
             	new HomeListaAnnunci(user).start(primaryStage);
             });
