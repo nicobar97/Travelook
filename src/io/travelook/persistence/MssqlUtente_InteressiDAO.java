@@ -72,7 +72,7 @@ public class MssqlUtente_InteressiDAO implements IUtente_InteressiDAO{
 			+ "WHERE i.idUtente=? ";*/
 		List<Interessi> res=new ArrayList<Interessi>();
 		if(u==null) {
-			System.out.println("l'utente non può essere nullo nella ricerca dei suoi interessi \n ");
+			System.out.println("l'utente non puï¿½ essere nullo nella ricerca dei suoi interessi \n ");
 			return res;
 		}
 		try {
@@ -96,7 +96,7 @@ public class MssqlUtente_InteressiDAO implements IUtente_InteressiDAO{
 		/*"DELETE FROM Utente_Interessi WHERE idInteresse=?,idUtente=?";*/
 		boolean res=false;
 		if(u==null) {
-			System.out.println("l'utente non può essere nullo nella rimozione di un suo interesse \n ");
+			System.out.println("l'utente non puï¿½ essere nullo nella rimozione di un suo interesse \n ");
 			return res;
 		}
 		if(i==null) {
@@ -120,6 +120,9 @@ public class MssqlUtente_InteressiDAO implements IUtente_InteressiDAO{
 			
 		}
 		return res;
+	}
+	public void setConn(Connection conn) {
+		this.conn = conn;	
 	}
 
 }

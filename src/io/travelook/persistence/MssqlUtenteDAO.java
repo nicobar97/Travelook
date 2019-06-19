@@ -288,12 +288,10 @@ public class MssqlUtenteDAO implements UtenteDAO {
 	}
 	
 	public Storico getStorico(Utente u){
-		Storico storico = null;
-		int idUtente = u.getId();
+		Storico storico = new Storico(u.getId());
 		List<Viaggio> viaggiPassati = new ArrayList<Viaggio>();
 		Utente c = null;
 		Viaggio v = null;
-		storico.setIdUtente(idUtente);
 		String queryMEGLIO = "select 	v.id, v.titolo, v.destinazione, v.descrizione,v.lingua, v.budget, v.luogoPartenza, " +
 				"	v.stato,v.dataPartenza, v.dataFine,v.immagineProfilo,v.idCreatore, c.nickname," + 
 				" c.email, c.nome, c.cognome, c.bio, c.dataNascita, c.imgProfilo " +

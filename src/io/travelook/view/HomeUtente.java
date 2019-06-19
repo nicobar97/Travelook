@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.List;
 
 import io.travelook.controller.annuncio.ListaAnnunciController;
+import io.travelook.controller.rdp.RichiesteObservableController;
 import io.travelook.controller.utente.UtenteController;
 import io.travelook.model.Interessi;
 import io.travelook.model.Recensione;
 import io.travelook.model.RichiestaDiPartecipazione;
+import io.travelook.model.Storico;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 import javafx.application.Application;
@@ -40,7 +42,9 @@ public class HomeUtente extends Application {
     @FXML
     private ListView<Viaggio> listViaggio;
     @FXML
-    private ListView<Viaggio> listRecensioni;
+    private ListView<Viaggio> listStorico;
+    @FXML
+    private ListView<Recensione> listRecensioni;
     @FXML
     private ListView<RichiestaDiPartecipazione> listRichieste;
     @FXML
@@ -83,13 +87,16 @@ public class HomeUtente extends Application {
     private Button creaAnnuncio;
     private Utente user;
     private UtenteController uc;
+    private RichiesteObservableController rdpc;
     private List<Recensione> listaRecensioni;
     private List<Viaggio> listaViaggio;
+    private Storico storico;
     private List<RichiestaDiPartecipazione> listaRichieste;
     private FXMLLoader loader;
 	public HomeUtente(Utente user) {
         this.user = user;
         uc = new UtenteController(user);
+        rdpc = new RichiesteObservableController();
 	}
 	@Override
 	public void start(Stage primaryStage) {
@@ -125,12 +132,33 @@ public class HomeUtente extends Application {
             if(user.getImmagineProfilo() != null && !user.getImmagineProfilo().trim().equals("") && new File("src/"+user.getImmagineProfilo().trim()).exists())
         		userImage.setImage(new Image(user.getImmagineProfilo().trim()));
             
-            
+            refreshStorico();
+            refreshViaggiAttivi();
+            refreshRichieste();
+            refreshRecensioni();
             showViaggi.setOnMouseClicked(event -> {
             	listRichieste.setVisible(false);
             	listViaggio.setVisible(true);
             	listRecensioni.setVisible(false);
-            	refreshViaggiAttivi();
+            	listStorico.setVisible(false);
+            });
+            showRichieste.setOnMouseClicked(event -> {
+            	listRichieste.setVisible(true);
+            	listViaggio.setVisible(false);
+            	listRecensioni.setVisible(false);
+            	listStorico.setVisible(false);
+            });
+            showStorico.setOnMouseClicked(event -> {
+            	listRichieste.setVisible(false);
+            	listViaggio.setVisible(false);
+            	listRecensioni.setVisible(false);
+            	listStorico.setVisible(true);
+            });
+            showRecensioni.setOnMouseClicked(event -> {
+            	listRichieste.setVisible(false);
+            	listViaggio.setVisible(false);
+            	listRecensioni.setVisible(true);
+            	listStorico.setVisible(false);
             });
             primaryStage.show();
         } catch (IOException e) {
@@ -197,12 +225,35 @@ public class HomeUtente extends Application {
 		return out;
 	}
 	private void refreshViaggiAttivi() {
-		List<Viaggio> viaggioList = uc.getViaggiInPartecipazione();
-        ObservableList<Viaggio> obsv = FXCollections.observableArrayList(viaggioList);
-        if(!viaggioList.isEmpty() && viaggioList != null) {
+		listaViaggio = uc.getViaggiInPartecipazione();
+        ObservableList<Viaggio> obsv = FXCollections.observableArrayList(listaViaggio);
+        if(!listaViaggio.isEmpty() && listaViaggio != null) {
         	listViaggio.setItems(obsv);
         	listViaggio.setCellFactory(userCell -> new ViaggioCell());
-        	//listViaggio.scrollTo(chat.getChat().size());
+        }
+	}
+	private void refreshStorico() {
+		storico = uc.visualizzaStorico();
+        ObservableList<Viaggio> obsv = FXCollections.observableArrayList(storico.getStorico());
+        if(!storico.getStorico().isEmpty() && storico.getStorico() != null) {
+        	listStorico.setItems(obsv);
+        	listStorico.setCellFactory(userCell -> new ViaggioCell());
+        }
+	}
+	private void refreshRecensioni() {
+		listaRecensioni = uc.visualizzaRecensioni();
+        ObservableList<Recensione> obsv = FXCollections.observableArrayList(listaRecensioni);
+        if(!listaRecensioni.isEmpty() && listaRecensioni != null) {
+        	listRecensioni.setItems(obsv);
+        	//listRecensioni.setCellFactory(userCell -> new RecensioniCell());
+        }
+	}
+	private void refreshRichieste() {
+        listaRichieste = rdpc.getRichiesteForCreatore(user);
+        ObservableList<RichiestaDiPartecipazione> obsrdp = FXCollections.observableArrayList(listaRichieste);
+        if(!listaRichieste.isEmpty() && listaRichieste != null) {
+        	listRichieste.setItems(obsrdp);
+        	listRichieste.setCellFactory(userCell -> new RDPCell(rdpc, listRichieste));
         }
 	}
 }

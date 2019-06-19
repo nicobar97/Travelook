@@ -43,6 +43,7 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		}
 		if(!trovatoInteresse) {
 			u.getInteressi().add(interesse);
+			interessi.setConn(super.getDbConnection());
 			interessi.create(u, interesse);
 			return true;
 		}
@@ -57,7 +58,7 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 
 	@Override
 	public Storico visualizzaStorico() {
-		//
+		db.setConn(this.getDbConnection());
 		return db.getStorico(u);
 	}
 
@@ -72,6 +73,7 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 	@Override
 	public void modificaProfilo(Utente u) {
 		if(u!=null) {
+			db.setConn(super.getDbConnection());
 			db.update(u);
 		}
 	}
@@ -84,6 +86,7 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		return listaViaggiPartecipante;
 	}
 	public Utente attachInteressiToUser(Utente user) {
+		interessi.setConn(super.getDbConnection());
 		user.setInteressi(interessi.readInteressiByUtente(user));
 		return user;
 		
