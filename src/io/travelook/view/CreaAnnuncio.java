@@ -12,6 +12,7 @@ import org.apache.commons.io.FileUtils;
 
 import io.travelook.controller.annuncio.AnnuncioController;
 import io.travelook.controller.annuncio.ListaAnnunciController;
+import io.travelook.model.Stato;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 import javafx.application.Application;
@@ -166,9 +167,6 @@ public class CreaAnnuncio extends Application {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-//				if(type == 0) {
-//					controller.eliminaAnnuncio(viaggio.getIdViaggio());
-//				}
 				nv.setIdViaggio(viaggio.getIdViaggio());
 				if(type == 0) {
 					nv.setCreatore(viaggio.getCreatore());
@@ -176,6 +174,7 @@ public class CreaAnnuncio extends Application {
 					ac.modificaAnnuncio(nv);
 				}
 				else {
+					nv.setStato(Stato.INIZIO);
 					nv.setCreatore(user);
 					controller.creaAnnuncio(nv);
 				}
