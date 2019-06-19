@@ -13,7 +13,7 @@ public class Utente {
 	private String email; 
 	private String nome;
 	private String cognome;
-	private String Bio;
+	private String bio;
 	private Date dataNascita;
 	private String immagineProfilo;
 	private Storico storico;
@@ -48,7 +48,7 @@ public class Utente {
 			this.email = email;
 			this.nome = nome;
 			this.cognome = cognome;
-			Bio = bio;
+			this.bio = bio;
 			this.dataNascita = dataNascita;
 			this.immagineProfilo = immagineProfilo;
 			this.storico = storico;
@@ -159,10 +159,10 @@ public class Utente {
 		this.idUtente = idUtente;
 	}
 	public String getBio() {
-		return Bio;
+		return this.bio;
 	}
 	public void setBio(String bio) {
-		Bio = bio;
+		this.bio = bio;
 	}
 	
 	
