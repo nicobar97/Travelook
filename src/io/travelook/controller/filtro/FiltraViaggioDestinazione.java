@@ -47,10 +47,10 @@ public class FiltraViaggioDestinazione implements Filtro {
 		    }
 		    for(Object oggetto :o) {
 		    	if(oggetto instanceof Viaggio) {
-		    	   Viaggio v =(Viaggio)o;
+		    	   Viaggio v =(Viaggio)oggetto;
 		    	     for(String s:destinazioni) {
 		    		    if(v.getDestinazione().equals(s)) {
-		    			   Object ob=(Object)v;
+		    			   Object ob=v;
 		    			   viaggi.add(ob);
 		    		    }
 		    	     }
