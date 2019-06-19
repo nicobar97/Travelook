@@ -21,8 +21,8 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 			" (idUtente,idViaggio,idCreatore,messaggioRichiesta,messaggioRisposta,stato)" +
 			" VALUES (?,?,?,?,?,?)";
 	static final String read = "SELECT 	rdp.id, rdp.messaggioRichiesta, rdp.messaggioRisposta, rdp.stato, \n" + 
-			"		rdp.idCreatore, c.nickname, c.email, c.nome, c.cognome, c.dataNascita, c.imgProfilo,\n" + 
-			"		rdp.idUtente, u.nickname, u.email, u.nome, u.cognome, u.dataNascita, u.imgProfilo,\n" + 
+			"		rdp.idCreatore, c.nickname, c.email, c.nome, c.cognome,c.bio,c.dataNascita, c.imgProfilo,\n" + 
+			"		rdp.idUtente, u.nickname, u.email, u.nome, u.cognome,u.bio, u.dataNascita, u.imgProfilo,\n" + 
 			"		rdp.idViaggio, v.titolo, v.destinazione, v.descrizione, v.budget, v.luogoPartenza, v.dataPartenza, v.dataFine, v.immagineProfilo  FROM Richiesta_Di_Partecipazione AS rdp\n" + 
 			"INNER JOIN Utente AS c ON c.id = rdp.idCreatore\n" + 
 			"INNER JOIN Viaggio AS v ON v.id = rdp.idViaggio\n" + 
@@ -47,24 +47,24 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 	static final String update = "UPDATE Richiesta_Di_Partecipazione SET idUtente=?, idViaggio=?,"
 			+ "idCreatore=?, messaggioRichiesta=?, messaggioRisposta=?, stato=? WHERE id=?";
 	static final String rdp_creatore_viaggio = "SELECT 	rdp.id, rdp.messaggioRichiesta, rdp.messaggioRisposta, rdp.stato, \n" + 
-			"		rdp.idCreatore, c.nickname, c.email, c.nome, c.cognome, c.dataNascita, c.imgProfilo,\n" + 
-			"		rdp.idUtente, u.nickname, u.email, u.nome, u.cognome, u.dataNascita, u.imgProfilo,\n" + 
+			"		rdp.idCreatore, c.nickname, c.email, c.nome, c.cognome,c.bio, c.dataNascita, c.imgProfilo,\n" + 
+			"		rdp.idUtente, u.nickname, u.email, u.nome, u.cognome,u.bio,u.dataNascita, u.imgProfilo,\n" + 
 			"		rdp.idViaggio, v.titolo, v.destinazione, v.descrizione, v.budget, v.luogoPartenza, v.dataPartenza, v.dataFine, v.immagineProfilo  FROM Richiesta_Di_Partecipazione AS rdp\n" + 
 			"INNER JOIN Utente AS c ON c.id = rdp.idCreatore\n" + 
 			"INNER JOIN Viaggio AS v ON v.id = rdp.idViaggio\n" + 
 			"INNER JOIN Utente AS u ON u.id = rdp.idUtente\n" + 
 			"WHERE rdp.idCreatore=? AND rdp.idViaggio=?";
 	static final String rdp_creatore = "SELECT 	rdp.id, rdp.messaggioRichiesta, rdp.messaggioRisposta, rdp.stato, \n" + 
-			"		rdp.idCreatore, c.nickname, c.email, c.nome, c.cognome, c.dataNascita, c.imgProfilo,\n" + 
-			"		rdp.idUtente, u.nickname, u.email, u.nome, u.cognome, u.dataNascita, u.imgProfilo,\n" + 
+			"		rdp.idCreatore, c.nickname, c.email, c.nome, c.cognome,c.bio, c.dataNascita, c.imgProfilo,\n" + 
+			"		rdp.idUtente, u.nickname, u.email, u.nome, u.cognome,u.bio, u.dataNascita, u.imgProfilo,\n" + 
 			"		rdp.idViaggio, v.titolo, v.destinazione, v.descrizione, v.budget, v.luogoPartenza, v.dataPartenza, v.dataFine, v.immagineProfilo  FROM Richiesta_Di_Partecipazione AS rdp\n" + 
 			"INNER JOIN Utente AS c ON c.id = rdp.idCreatore\n" + 
 			"INNER JOIN Viaggio AS v ON v.id = rdp.idViaggio\n" + 
 			"INNER JOIN Utente AS u ON u.id = rdp.idUtente\n" + 
 			"WHERE rdp.idCreatore=?";
 	static final String rdp_all = "SELECT 	rdp.id, rdp.messaggioRichiesta, rdp.messaggioRisposta, rdp.stato, \n" + 
-			"		rdp.idCreatore, c.nickname, c.email, c.nome, c.cognome, c.dataNascita, c.imgProfilo,\n" + 
-			"		rdp.idUtente, u.nickname, u.email, u.nome, u.cognome, u.dataNascita, u.imgProfilo,\n" + 
+			"		rdp.idCreatore, c.nickname, c.email, c.nome, c.cognome,c.bio, c.dataNascita, c.imgProfilo,\n" + 
+			"		rdp.idUtente, u.nickname, u.email, u.nome, u.cognome,u.bio, u.dataNascita, u.imgProfilo,\n" + 
 			"		rdp.idViaggio, v.titolo, v.destinazione, v.descrizione, v.budget, v.luogoPartenza, v.dataPartenza, v.dataFine, v.immagineProfilo  FROM Richiesta_Di_Partecipazione AS rdp\n" + 
 			"INNER JOIN Utente AS c ON c.id = rdp.idCreatore\n" + 
 			"INNER JOIN Viaggio AS v ON v.id = rdp.idViaggio\n" + 
@@ -112,7 +112,7 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 			/*
 			 * 	rdp.id, rdp.messaggioRichiesta, rdp.messaggioRisposta, rdp.stato, \n" + 
 			"	rdp.idCreatore, c.nickname, c.email, c.nome, c.cognome, c.dataNascita, c.imgProfilo,\n" + 
-			"	rdp.idUtente, u.nickname, u.email, u.nome, u.cognome, u.dataNascita, u.imgProfilo,\n" + 
+			"	rdp.idUtente, u.nickname, u.email, u.nome, u.cognome,u.bio, u.dataNascita, u.imgProfilo,\n" + 
 			"	rdp.idViaggio, v.titolo, v.destinazione, v.descrizione, v.budget, v.luogoPartenza, 
 				v.dataPartenza, v.dataFine, v.immagineProfilo 
 			 */
@@ -130,6 +130,7 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 				c.setEmail(rs.getString(i++));
 				c.setNome(rs.getString(i++));
 				c.setCognome(rs.getString(i++));
+				c.setBio(rs.getString(i++));
 				c.setDataNascita(rs.getDate(i++));
 				c.setImmagineProfilo(rs.getString(i++));
 				Utente u = new Utente();
@@ -138,6 +139,7 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 				u.setEmail(rs.getString(i++));
 				u.setNome(rs.getString(i++));
 				u.setCognome(rs.getString(i++));
+				u.setBio(rs.getString(i++));
 				u.setDataNascita(rs.getDate(i++));
 				u.setImmagineProfilo(rs.getString(i++));
 				rdp.setUtente(u);
@@ -262,6 +264,7 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 				c.setEmail(rs.getString(i++));
 				c.setNome(rs.getString(i++));
 				c.setCognome(rs.getString(i++));
+				c.setBio(rs.getString(i++));
 				c.setDataNascita(rs.getDate(i++));
 				c.setImmagineProfilo(rs.getString(i++));
 				Utente u = new Utente();
@@ -270,6 +273,7 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 				u.setEmail(rs.getString(i++));
 				u.setNome(rs.getString(i++));
 				u.setCognome(rs.getString(i++));
+				u.setBio(rs.getString(i++));
 				u.setDataNascita(rs.getDate(i++));
 				u.setImmagineProfilo(rs.getString(i++));
 				rdp.setUtente(u);
@@ -326,6 +330,7 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 				c.setEmail(rs.getString(i++));
 				c.setNome(rs.getString(i++));
 				c.setCognome(rs.getString(i++));
+				c.setBio(rs.getString(i++));
 				c.setDataNascita(rs.getDate(i++));
 				c.setImmagineProfilo(rs.getString(i++));
 				Utente u = new Utente();
@@ -334,6 +339,7 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 				u.setEmail(rs.getString(i++));
 				u.setNome(rs.getString(i++));
 				u.setCognome(rs.getString(i++));
+				u.setBio(rs.getString(i++));
 				u.setDataNascita(rs.getDate(i++));
 				u.setImmagineProfilo(rs.getString(i++));
 				rdp.setUtente(u);
@@ -389,6 +395,7 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 				c.setEmail(rs.getString(i++));
 				c.setNome(rs.getString(i++));
 				c.setCognome(rs.getString(i++));
+				c.setBio(rs.getString(i++));
 				c.setDataNascita(rs.getDate(i++));
 				c.setImmagineProfilo(rs.getString(i++));
 				Utente u = new Utente();
@@ -397,6 +404,7 @@ public class MssqlRichiestaDiPartecipazioneDAO implements RichiestaDiPartecipazi
 				u.setEmail(rs.getString(i++));
 				u.setNome(rs.getString(i++));
 				u.setCognome(rs.getString(i++));
+				u.setBio(rs.getString(i++));
 				u.setDataNascita(rs.getDate(i++));
 				u.setImmagineProfilo(rs.getString(i++));
 				rdp.setUtente(u);

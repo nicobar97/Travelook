@@ -143,7 +143,7 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 	}
 	
 	public Utente readUtente(int id) {
-		String readUtenteById = "select id,nickname,email,nome,cognome,dataNascita,"
+		String readUtenteById = "select id,nickname,email,nome,cognome,bio,dataNascita,"
 				+ "imgProfilo from Utente where id=?";
 		Utente result = null;
 		if ( id < 0 )  {

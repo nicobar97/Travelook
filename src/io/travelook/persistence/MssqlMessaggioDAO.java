@@ -17,8 +17,8 @@ import io.travelook.model.Viaggio;
 public class MssqlMessaggioDAO implements MessaggioDAO {
 	private Connection conn = null;
 	public static String insert = "insert into Messaggio (idUtente, idViaggio, timestamp, body) values (?,?,?,?)";
-	public static String readChatForViaggio = "select m.id, m.body, m.timestamp,  m.idUtente, u.nickname, u.email, u.nome, u.cognome, u.dataNascita, u.imgProfilo from Messaggio m inner join Utente as u on u.id = m.idUtente where idViaggio=?";
-	public static String readAll = " select m.id, m.body, m.timestamp,  m.idUtente, u.nickname, u.email, u.nome, u.cognome, u.dataNascita, u.imgProfilo,\n" + 
+	public static String readChatForViaggio = "select m.id, m.body, m.timestamp,  m.idUtente, u.nickname, u.email, u.nome, u.cognome,u.bio, u.dataNascita, u.imgProfilo from Messaggio m inner join Utente as u on u.id = m.idUtente where idViaggio=?";
+	public static String readAll = " select m.id, m.body, m.timestamp,  m.idUtente, u.nickname, u.email, u.nome, u.cognome,u.bio, u.dataNascita, u.imgProfilo,\n" + 
 			"    m.idViaggio,   v.titolo, v.destinazione, v.descrizione, v.budget, v.luogoPartenza, v.dataPartenza, v.dataFine, v.lingua, v.stato, v.immagineProfilo\n" + 
 			"    from Messaggio m \n" + 
 			"    inner join Utente as u on u.id= m.idUtente\n" + 
@@ -82,6 +82,7 @@ public class MssqlMessaggioDAO implements MessaggioDAO {
 				u.setEmail(rs.getString(i++));
 				u.setNome(rs.getString(i++));
 				u.setCognome(rs.getString(i++));
+				u.setBio(rs.getString(i++));
 				u.setDataNascita(rs.getDate(i++));
 				u.setImmagineProfilo(rs.getString(i++));
 				m.setUtente(u);
@@ -131,6 +132,7 @@ public class MssqlMessaggioDAO implements MessaggioDAO {
 				u.setEmail(rs.getString(i++));
 				u.setNome(rs.getString(i++));
 				u.setCognome(rs.getString(i++));
+				u.setBio(rs.getString(i++));
 				u.setDataNascita(rs.getDate(i++));
 				u.setImmagineProfilo(rs.getString(i++));
 				m.setUtente(u);

@@ -7,12 +7,13 @@ import io.travelook.model.Interessi;
 import  io.travelook.model.Recensione;
 
 public class Utente {
-   
+
 	private int idUtente;
 	private String username;
 	private String email; 
 	private String nome;
 	private String cognome;
+	private String Bio;
 	private Date dataNascita;
 	private String immagineProfilo;
 	private Storico storico;
@@ -35,6 +36,25 @@ public class Utente {
 		this.recensioni = new ArrayList<Recensione>();
 		this.storico = new Storico(idUtente);
 	}
+	
+	
+	  //costruttore con anche il campo Bio
+     public Utente(int idUtente, String username, String email, String nome, String cognome, String bio,
+				Date dataNascita, String immagineProfilo, Storico storico, List<Interessi> interessi,
+				List<Recensione> recensioni) {
+			super();
+			this.idUtente = idUtente;
+			this.username = username;
+			this.email = email;
+			this.nome = nome;
+			this.cognome = cognome;
+			Bio = bio;
+			this.dataNascita = dataNascita;
+			this.immagineProfilo = immagineProfilo;
+			this.storico = storico;
+			this.interessi = interessi;
+			this.recensioni = recensioni;
+		}
 	public Utente(String username, String email, String nome, String cognome, Date dataNascita, String immagineProfilo) 
 			throws IllegalArgumentException {
 		if(email == null || nome == null || cognome == null || dataNascita == null)
@@ -131,6 +151,18 @@ public class Utente {
 	@Override
 	public String toString() {
 		return this.username.trim() + ": " + this.nome.trim() + " " + this.cognome.trim();
+	}
+	public int getIdUtente() {
+		return idUtente;
+	}
+	public void setIdUtente(int idUtente) {
+		this.idUtente = idUtente;
+	}
+	public String getBio() {
+		return Bio;
+	}
+	public void setBio(String bio) {
+		Bio = bio;
 	}
 	
 	
