@@ -137,8 +137,10 @@ public class HomeUtente extends Application {
 		for(Recensione r : listaRecensioni) {
 			sum += r.getVoto();
 		}
-		average = (double) (sum/listaRecensioni.size());
-		average.intValue();
+		if(listaRecensioni.size() > 0)
+			average = (double) (sum/listaRecensioni.size());
+		
+		average = 4.6;
 		if(average < 0.5) {
 			
 		}

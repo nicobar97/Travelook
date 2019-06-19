@@ -1,10 +1,9 @@
 create table Messaggio (
-     id int not null,
+     id int not null identity primary key,
      idUtente int not null,
      idViaggio int not null,
-     Timestamp Date not null,
+     Timestamp varchar(50) not null,
      Body varchar(1000) not null,
-     primary key(id),
      foreign key (idUtente) references Utente(id),
      foreign key (idViaggio) references Viaggio(id)
      );
@@ -44,26 +43,25 @@ create table Interesse (
      );
 
 create table Segnalazione (
-     id int not null,
+     id int not null identity primary key,
      idSegnalato int not null,
      idSegnalante int not null,
      messaggio varchar(100) not null,
      stato int,
-     primary key(id),
      foreign key (idSegnalato) references Utente(id),
      foreign key (idSegnalante) references Utente(id),
      unique(id, idSegnalante, idSegnalato)
     );
 
 create table Recensione (
-     id int not null primary key,
+     id int not null identity primary key,
      idRecensito int not null,
      idRecensore int not null,
      voto int not null,
      titolo varchar(20) not null,
-     body varchar(500) not null,
+     corpo varchar(500) not null,
      foreign key (idRecensito) references Utente(id),
-     foreign key (idRecensitore) references Utente(id),
+     foreign key (idRecensore) references Utente(id),
      );
 
 create table Richiesta_Di_Partecipazione (

@@ -51,15 +51,13 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="titolo" layoutX="153.0" layoutY="9.0" prefHeight="36.0" prefWidth="262.0" text="Titolo">
+            <TextField fx:id="titolo" layoutX="75.0" layoutY="9.0" prefHeight="36.0" prefWidth="430.0" text="Titolo">
                <font>
                   <Font size="15.0" />
                </font>
             </TextField>
-            <TextField fx:id="destinazione" layoutX="153.0" layoutY="67.0" />
-            <TextField fx:id="datainizio" layoutX="153.0" layoutY="103.0" />
-            <TextField fx:id="datafine" layoutX="153.0" layoutY="139.0" />
-            <TextField fx:id="lingua" layoutX="153.0" layoutY="174.0" />
+            <TextField fx:id="destinazione" layoutX="126.0" layoutY="67.0" prefHeight="27.0" prefWidth="194.0" />
+            <TextField fx:id="lingua" layoutX="82.0" layoutY="174.0" prefHeight="27.0" prefWidth="238.0" />
             <TextField fx:id="luogopartenza" layoutX="153.0" layoutY="208.0" />
             <Label layoutX="17.0" layoutY="14.0" prefHeight="27.0" prefWidth="111.0" text="Titolo:">
                <font>
@@ -83,7 +81,9 @@
                </font>
             </Label>
             <ImageView fx:id="immagine" fitHeight="111.0" fitWidth="117.0" layoutX="342.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="load" layoutX="468.0" layoutY="62.0" mnemonicParsing="false" prefHeight="105.0" prefWidth="33.0" text="C" />
+            <Button fx:id="load" layoutX="468.0" layoutY="62.0" mnemonicParsing="false" prefHeight="105.0" prefWidth="33.0" text="&lt;" />
+            <DatePicker fx:id="dateInizio" layoutX="109.0" layoutY="103.0" />
+            <DatePicker fx:id="dateFine" layoutX="109.0" layoutY="139.0" />
          </children></Pane>
       <Pane prefHeight="505.0" prefWidth="279.0">
          <children>

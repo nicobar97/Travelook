@@ -28,7 +28,7 @@
       <Pane prefHeight="506.0" prefWidth="530.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="506.0" layoutX="6.0" layoutY="-5.0" stroke="BLACK" strokeType="INSIDE" width="521.0" />
-            <Text fx:id="titolo" layoutX="17.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Titolo Annuncio" wrappingWidth="416.0">
+            <Text fx:id="titolo" layoutX="17.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Titolo Annuncio" wrappingWidth="416.0">
                <font>
                   <Font size="30.0" />
                </font>
@@ -102,6 +102,11 @@
             <Text fx:id="descrizione" layoutX="17.0" layoutY="277.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="500.2060546875">
                <font>
                   <Font size="15.0" />
+               </font>
+            </Text>
+            <Text fx:id="creatoDaText" fill="#f50000" layoutX="420.0" layoutY="488.0" strokeType="OUTSIDE" strokeWidth="0.0" text="creato da nicobar">
+               <font>
+                  <Font name="Arial Bold Italic" size="10.0" />
                </font>
             </Text>
          </children></Pane>

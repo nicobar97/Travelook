@@ -69,6 +69,7 @@ public class HomeAnnuncio extends Application {
     private TextArea textrdp;
     private boolean initUser = false;
     private Text rdplabel;
+    private Text creatoDaText;
     private ListView<Utente> utentiView;
 	@Override
 	public void start(Stage primaryStage) {
@@ -104,6 +105,10 @@ public class HomeAnnuncio extends Application {
            	if(viaggio.getImmaginiProfilo() != null && !viaggio.getImmaginiProfilo().trim().equals("") && new File("src/"+viaggio.getImmaginiProfilo().trim()).exists())
             	immagine.setImage(new Image(viaggio.getImmaginiProfilo().trim()));
             titolo.setText(viaggio.getTitolo().trim());
+            if(viaggio.getTitolo().length() > 30)
+            	titolo.setStyle("-fx-font: 20 arial;");
+            else
+            	titolo.setStyle("-fx-font: 30 arial;");
             destinazione = (Text) scene.lookup("#destinazione");
             destinazione.setText(viaggio.getDestinazione().trim());
             lingua = (Text) scene.lookup("#lingua");
@@ -127,6 +132,8 @@ public class HomeAnnuncio extends Application {
             textrdp = (TextArea) scene.lookup("#textrdp");
             rdplabel = (Text) scene.lookup("#labelrdp");
             utentiView = (ListView) scene.lookup("#utentiView");
+            creatoDaText = (Text) scene.lookup("#creatoDaText");
+            creatoDaText.setText("creato da " + viaggio.getCreatore().getUsername());
             rdpc = new RichiesteObservableController();
             listUserViaggio = viaggio.getPartecipanti();
             backButton.setOnMouseClicked(event -> {
@@ -279,8 +286,10 @@ public class HomeAnnuncio extends Application {
 	}
 	private void refreshUser() {
 		if(!initUser) {
-			listUserViaggio.add(viaggio.getCreatore());
-			initUser = true;
+			if(listUserViaggio != null) {
+				listUserViaggio.add(viaggio.getCreatore());
+				initUser = true;
+			}
 		}
 		ObservableList<Utente> userPart = FXCollections.observableArrayList(listUserViaggio);
         if(!userPart.isEmpty() && userPart != null) {

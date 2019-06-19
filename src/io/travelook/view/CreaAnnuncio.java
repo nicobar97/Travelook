@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.sql.Date;
 
 import javax.swing.text.DateFormatter;
@@ -12,13 +13,16 @@ import org.apache.commons.io.FileUtils;
 
 import io.travelook.controller.annuncio.AnnuncioController;
 import io.travelook.controller.annuncio.ListaAnnunciController;
+import io.travelook.controller.autenticazione.RegistrazioneController;
 import io.travelook.model.Stato;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
+import io.travelook.utils.SHA256;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -38,8 +42,8 @@ public class CreaAnnuncio extends Application {
     private FlowPane rootLayout;
     private TextField destinazione;
     private TextField lingua;
-    private TextField dataInizio;
-    private TextField dataFine;
+    private DatePicker dataInizio;
+    private DatePicker dataFine;
     private Label windowtitle;
     private TextField luogoPartenza;
     private TextField budget;
@@ -71,7 +75,7 @@ public class CreaAnnuncio extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-	public CreaAnnuncio(Viaggio viaggio, int type, Utente user) {
+	public CreaAnnuncio(Viaggio viaggio, int type, Utente user) { // TYPE = 0 ? MODIFICA ANNUNCIO
 		if(viaggio != null)
 			this.viaggio = viaggio;
 		else
@@ -79,6 +83,7 @@ public class CreaAnnuncio extends Application {
 		this.type = type;
 		this.user = user;
 	}
+	@SuppressWarnings("deprecation")
 	public void initRootLayout() {
         try {
             // Load root layout from fxml file.
@@ -94,8 +99,8 @@ public class CreaAnnuncio extends Application {
             windowtitle = (Label) scene.lookup("#windowtitle");         
             destinazione = (TextField) scene.lookup("#destinazione");
             lingua = (TextField) scene.lookup("#lingua");
-            dataInizio = (TextField) scene.lookup("#datainizio");
-            dataFine = (TextField) scene.lookup("#datafine");
+            dataInizio = (DatePicker) scene.lookup("#dateInizio");
+            dataFine = (DatePicker) scene.lookup("#dateFine");
             luogoPartenza = (TextField) scene.lookup("#luogopartenza");
             budget = (TextField) scene.lookup("#budget");
             backButton = (Button) scene.lookup("#back");
@@ -112,8 +117,8 @@ public class CreaAnnuncio extends Application {
             if(type == 0) {
             	titolo.setText(viaggio.getTitolo().trim());
             	destinazione.setText(viaggio.getDestinazione().trim());
-            	dataInizio.setText(formatter.format(viaggio.getDatainizio()));
-            	dataFine.setText(formatter.format(viaggio.getDatafine()));
+            	dataInizio.setValue(viaggio.getDatainizio().toLocalDate());
+            	dataFine.setValue(viaggio.getDatafine().toLocalDate());
             	luogoPartenza.setText(viaggio.getLuogopartenza().trim());
             	budget.setText(budgetFormat(viaggio.getBudget()));
             	descrizione.setText(viaggio.getDescrizione().trim());
@@ -126,8 +131,6 @@ public class CreaAnnuncio extends Application {
             	budget.setText("$..$");
             	titolo.setText("");
             	destinazione.setText("");
-            	dataInizio.setText("");
-            	dataFine.setText("");
             	luogoPartenza.setText("");
             	budget.setText("");
             	descrizione.setText("");
@@ -137,8 +140,9 @@ public class CreaAnnuncio extends Application {
             load.setOnMouseClicked(event -> {
             	newImg = imgChooser.showOpenDialog(primaryStage);
             	//copyImage(newImg);
+            	if(newImg != null)
             	//immagine.setImage(new Image("viaggio"+viaggio.getIdViaggio()+newImg.getName().substring(newImg.getName().length()-4, newImg.getName().length())));
-            	immagine.setImage(new Image(newImg.getName()));
+            		immagine.setImage(new Image(newImg.getName()));
             });
             backButton.setOnMouseClicked(event -> {
             		if(type==0)
@@ -161,12 +165,11 @@ public class CreaAnnuncio extends Application {
 				}
 				else
 					nv.setImmaginiProfilo(immagine.getImage() == null ? "" : immagine.getImage().toString().trim());
-				try {
-					nv.setDatainizio(new Date(formatter.parse(dataInizio.getText()).getTime()));
-					nv.setDatafine(new Date(formatter.parse(dataFine.getText()).getTime()));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
+
+				LocalDate tmp = dataInizio.getValue();
+				nv.setDatainizio(new java.sql.Date(tmp.getYear(), tmp.getMonthValue(), tmp.getDayOfMonth()));
+				tmp = dataFine.getValue();
+				nv.setDatafine(new java.sql.Date(tmp.getYear(), tmp.getMonthValue(), tmp.getDayOfMonth()));
 				nv.setIdViaggio(viaggio.getIdViaggio());
 				if(type == 0) {
 					nv.setCreatore(viaggio.getCreatore());
@@ -178,7 +181,6 @@ public class CreaAnnuncio extends Application {
 					nv.setCreatore(user);
 					controller.creaAnnuncio(nv);
 				}
-				
 				if(type==0)
         			new HomeAnnuncio(nv, user).start(primaryStage);
         		else
