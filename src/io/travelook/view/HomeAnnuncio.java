@@ -94,7 +94,7 @@ public class HomeAnnuncio extends Application {
             rootLayout = (FlowPane) loader.load();
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
-            formatter = new SimpleDateFormat("yyyy-mm-dd");
+            formatter = new SimpleDateFormat("yyyy-MM-dd");
             chatView = (ListView) scene.lookup("#chatView");
             newMessage = (TextField) scene.lookup("#messageBox");
             sendButton = (Button) scene.lookup("#send");
@@ -286,10 +286,15 @@ public class HomeAnnuncio extends Application {
 	}
 	private void refreshUser() {
 		if(!initUser) {
-			if(listUserViaggio != null) {
-				listUserViaggio.add(viaggio.getCreatore());
-				initUser = true;
+			boolean trovato = false;
+			for(Utente u : listUserViaggio) {
+				if(u.getId() == viaggio.getCreatore().getId())
+					trovato = true;
 			}
+			if(!trovato) {
+				listUserViaggio.add(viaggio.getCreatore());
+			}
+			initUser = true;
 		}
 		ObservableList<Utente> userPart = FXCollections.observableArrayList(listUserViaggio);
         if(!userPart.isEmpty() && userPart != null) {

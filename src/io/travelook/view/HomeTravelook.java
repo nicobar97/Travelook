@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -205,8 +206,7 @@ public class HomeTravelook extends Application {
     	    		LocalDate tmp = ddnPicker.getValue();
     	    		RegistrazioneController reg = new RegistrazioneController();
     	    		reg.registraUtente(new Utente(usernameField.getText(), emailField.getText(), nomeField.getText(), 
-    	    				cognomeField.getText(),new java.sql.Date(tmp.getYear(), tmp.getMonthValue(), 
-    	    						tmp.getDayOfMonth()), newimg.getName().trim()), SHA256.encrypt(pswField.getText()));
+    	    				cognomeField.getText(),Date.valueOf(tmp), newimg.getName().trim()), SHA256.encrypt(pswField.getText()));
     	    		return usernameField.getText();
     	    	}
     	    }	

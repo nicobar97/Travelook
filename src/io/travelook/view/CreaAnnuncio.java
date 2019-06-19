@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.sql.Date;
 
 import javax.swing.text.DateFormatter;
@@ -167,9 +168,10 @@ public class CreaAnnuncio extends Application {
 					nv.setImmaginiProfilo(immagine.getImage() == null ? "" : immagine.getImage().toString().trim());
 
 				LocalDate tmp = dataInizio.getValue();
-				nv.setDatainizio(new java.sql.Date(tmp.getYear(), tmp.getMonthValue(), tmp.getDayOfMonth()));
+				
+				nv.setDatainizio(Date.valueOf(tmp));
 				tmp = dataFine.getValue();
-				nv.setDatafine(new java.sql.Date(tmp.getYear(), tmp.getMonthValue(), tmp.getDayOfMonth()));
+				nv.setDatafine(Date.valueOf(tmp));
 				nv.setIdViaggio(viaggio.getIdViaggio());
 				if(type == 0) {
 					nv.setCreatore(viaggio.getCreatore());

@@ -119,7 +119,8 @@ public class HomeUtente extends Application {
             username.setText(user.getUsername());
             nomeCognome.setText(user.getNome() + " " + user.getCognome());
             email.setText(user.getEmail());
-            interessi.setText(/*formatInteressi(user.getInteressi())*/"FIGA TROIE\nPATATINE PORCODDIO");
+            if(user.getInteressi() != null)
+            	interessi.setText(formatInteressi(user.getInteressi()));
             bio.setText(user.getBio());
             if(user.getImmagineProfilo() != null && !user.getImmagineProfilo().trim().equals("") && new File("src/"+user.getImmagineProfilo().trim()).exists())
         		userImage.setImage(new Image(user.getImmagineProfilo().trim()));
