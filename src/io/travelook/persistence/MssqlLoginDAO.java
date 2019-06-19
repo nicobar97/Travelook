@@ -14,7 +14,7 @@ import io.travelook.model.Utente;
 public class MssqlLoginDAO extends Controller implements LoginDAO {
 	
 	private Connection dbCredenziali;
-	private final String JDBC_URL = "jdbc:sqlserver://travelook.database.windows.net:1433;database=tl_cred;"
+	private final String JDBC_URL = "jdbc:sqlserver://travelook.database.windows.net:1433;database=travelook;"
 			+ "user=travelook@travelook;password=travel_2019;encrypt=true;trustServerCertificate=false;"
 			+ "hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
 	public static String insert = "INSERT INTO Credenziali(Username, Hash) VALUES(?,?)";
