@@ -25,6 +25,10 @@ public class MssqlRecensioniDAO implements RecensioniDAO {
 		this.conn=c;
 	}
 
+	public MssqlRecensioniDAO() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public boolean create(Recensione r) {
 		try {

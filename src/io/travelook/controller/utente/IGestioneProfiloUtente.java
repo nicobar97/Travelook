@@ -10,7 +10,6 @@ import io.travelook.model.Viaggio;
 
 public interface IGestioneProfiloUtente {
 	boolean aggiungiInteressi(Interessi interesse);
-	Utente visualizzaProfilo();
 	Storico visualizzaStorico();
 	List<Recensione> visualizzaRecensioni();
 	void modificaProfilo(Utente u);
