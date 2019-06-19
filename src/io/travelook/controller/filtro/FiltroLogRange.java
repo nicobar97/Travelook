@@ -47,12 +47,14 @@ public class FiltroLogRange implements Filtro {
 		else {
 		Date[] filtri= new Date[2];
 		filtri[0]=(Date)ogg[0];
-		filtri[1]=(Date)ogg[1];	
+		filtri[1]=(Date)ogg[1];
+		if(filtri[0].after(filtri[1])) {
+			System.out.println("ricerca di range impossibile: la prima data deve essere quella più piccola ");
+		}
 		   for(Object o :entry) {
 			    Entry e =(Entry)o;
 			        if(e.getTimestamp().after(filtri[0]) && e.getTimestamp().before(filtri[1])) {
-				         Object res=(Object)e;
-				         entryf.add(res);
+				         entryf.add(e);
 			        }
 		    }
 		}

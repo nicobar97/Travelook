@@ -11,8 +11,9 @@ public class FiltroLogGiorno implements Filtro{
 	public List<Entry> convertToEntry(List<Object> oggetti){
 		List<Entry> res= new ArrayList<Entry>();
 		for(Object o :oggetti) {
+			if(o instanceof Entry) {
 			Entry e=(Entry)o;
-			res.add(e);
+			res.add(e);}
 		}
 		return res;
 	}
@@ -28,7 +29,6 @@ public class FiltroLogGiorno implements Filtro{
 		}
 		return res;
    }
-	
 	public FiltroLogGiorno() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -39,16 +39,18 @@ public class FiltroLogGiorno implements Filtro{
 		List<Object> entryf = new ArrayList<Object>();
 		List<Date> filtri=new ArrayList<Date>(); 
 		for(Object obj : ogg) {
+			if(obj instanceof Date) {
 			Date d=(Date)obj;
-			filtri.add(d);
+			filtri.add(d);}
 		}
 		for(Object o : entry ) {
-			Entry e =(Entry)o;
-			for(Date data: filtri) {
-				if(e.getTimestamp().getDay()==data.getDay()) {
-					Object res=(Object)e;
-					entryf.add(res);
-				}
+			if(o instanceof Entry) {
+			  Entry e =(Entry)o;
+			  for(Date data: filtri) {
+				   if(e.getTimestamp().getDate()==data.getDate()) {
+					entryf.add(e);
+				    }
+			   }
 			}
 		}
 		return entryf;

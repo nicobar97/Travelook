@@ -17,8 +17,9 @@ public class FiltroLogTipo implements Filtro {
 	public List<Entry> convertToEntry(List<Object> oggetti){
 			List<Entry> res= new ArrayList<Entry>();
 			for(Object o :oggetti) {
+				if(o instanceof Entry) {
 				Entry e=(Entry)o;
-				res.add(e);
+				res.add(e);}
 			}
 			return res;
 		}
@@ -40,15 +41,20 @@ public class FiltroLogTipo implements Filtro {
 		List<Object> entryfiltr= new ArrayList<Object>();
 		List<String> filtri=new ArrayList<String>();
 		for(Object obj : ogg ) {
-			filtri.add(String.valueOf(ogg));
+			if(obj instanceof String)
+			filtri.add((String)obj);
 		}
 		for(Object o:entry) {
+			if(o instanceof Entry) {
 			Entry e = (Entry)o;
 			for(String s : filtri) {
 				if(e.getTipo().equals(s)) {
-					Object entr=(Object)e;
-					entryfiltr.add(entr);
+					entryfiltr.add(e);
 				}
+			}
+			}
+			else {
+				System.out.println("l'oggetto non è di tipo Entry !");
 			}
 		}
 		return entryfiltr;
