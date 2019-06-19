@@ -7,6 +7,8 @@ import java.util.List;
 import io.travelook.model.Viaggio;
 
 public class FiltraViaggioData implements Filtro {
+	private Object[] filtri=null;
+	
     public FiltraViaggioData() {
 		super();
 	}
@@ -49,4 +51,15 @@ public class FiltraViaggioData implements Filtro {
 	    }
 		return viaggif;
 	}
+
+	@Override
+	public Object[] getFiltri() {
+		return this.filtri;
+	}
+
+	public void setFiltri(Object[] filtri) {
+		this.filtri = filtri;
+	}
+	
+	
 }

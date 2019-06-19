@@ -6,6 +6,7 @@ import io.travelook.controller.filtro.Filtro;
 import io.travelook.model.Viaggio;
 
 public class FiltraViaggioLingua implements Filtro  {
+	private Object[] filtri=null;
 	
     public FiltraViaggioLingua() {
 		super();
@@ -33,7 +34,8 @@ public class FiltraViaggioLingua implements Filtro  {
    
 	@Override
 	public List<Object> filtra(Object[] ogg,List<Object> viaggi) {
-	    List<Object> viaggif= new ArrayList<Object>();
+	    this.filtri=ogg;
+		List<Object> viaggif= new ArrayList<Object>();
 	    List<String> filtri=new ArrayList<String>();
 	    for(Object o : ogg) {
 	    	filtri.add(String.valueOf(o));
@@ -48,6 +50,15 @@ public class FiltraViaggioLingua implements Filtro  {
 	    	}
 	    }
 		return viaggif;
+	}
+
+	@Override
+	public Object[] getFiltri() {
+		return this.filtri;
+	}
+
+	public void setFiltri(Object[] filtri) {
+		this.filtri = filtri;
 	}
 
 }

@@ -8,6 +8,8 @@ import io.travelook.model.Viaggio;
 
 public class FiltroLogTipo implements Filtro {
      
+	 private Object[] filtri=null;
+	
 	  public FiltroLogTipo() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -38,6 +40,7 @@ public class FiltroLogTipo implements Filtro {
 	
 	@Override
 	public List<Object> filtra(Object[] ogg, List<Object> entry) {
+		this.filtri=ogg;
 		List<Object> entryfiltr= new ArrayList<Object>();
 		List<String> filtri=new ArrayList<String>();
 		for(Object obj : ogg ) {
@@ -58,6 +61,17 @@ public class FiltroLogTipo implements Filtro {
 			}
 		}
 		return entryfiltr;
+	}
+
+
+	@Override
+	public Object[] getFiltri() {
+		return this.filtri;
+	}
+
+
+	public void setFiltri(Object[] filtri) {
+		this.filtri = filtri;
 	}
 
 }

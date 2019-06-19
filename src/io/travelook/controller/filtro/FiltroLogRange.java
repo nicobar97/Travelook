@@ -8,7 +8,7 @@ import io.travelook.model.Entry;
 
 public class FiltroLogRange implements Filtro {
     
-	
+	private Object[] filtri;
 	
 	public FiltroLogRange() {
 		super();
@@ -39,6 +39,7 @@ public class FiltroLogRange implements Filtro {
 	
 	@Override
 	public List<Object> filtra(Object[] ogg, List<Object> entry) {
+		this.filtri=ogg;
 		List<Object> entryf= new ArrayList<Object>();
 		int size=ogg.length;
 		if(size!=2) {
@@ -59,6 +60,17 @@ public class FiltroLogRange implements Filtro {
 		    }
 		}
 		return entryf;
+	}
+
+
+	@Override
+	public Object[] getFiltri() {
+		return this.filtri;
+	}
+
+
+	public void setFiltri(Object[] filtri) {
+		this.filtri = filtri;
 	}
 
 }

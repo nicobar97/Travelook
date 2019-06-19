@@ -6,7 +6,9 @@ import java.util.List;
 import io.travelook.model.Viaggio;
 
 public class FiltraViaggioDestinazione implements Filtro {
-    
+     
+	 private Object[] filtri=null;
+	
 	 public FiltraViaggioDestinazione() {
 		 super();
 	 }
@@ -33,6 +35,7 @@ public class FiltraViaggioDestinazione implements Filtro {
 	   
 	@Override
 	public List<Object> filtra(Object[] ogg, List<Object> o) {
+		this.filtri=ogg;
 		List<Object> viaggi= new ArrayList<Object>();
 		List<String> destinazioni= new ArrayList<String>();
 		 for(Object oggetto : ogg) {
@@ -49,5 +52,15 @@ public class FiltraViaggioDestinazione implements Filtro {
 		    }
 			return viaggi;
 	}
+
+	@Override
+	public Object[] getFiltri() {
+		return this.filtri;
+	}
+
+	public void setFiltri(Object[] filtri) {
+		this.filtri = filtri;
+	}
+	
 
 }

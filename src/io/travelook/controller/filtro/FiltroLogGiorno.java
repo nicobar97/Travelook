@@ -7,7 +7,9 @@ import java.util.List;
 import io.travelook.model.Entry;
 
 public class FiltroLogGiorno implements Filtro{
- 
+	
+	private Object[] filtri=null;
+	
 	public List<Entry> convertToEntry(List<Object> oggetti){
 		List<Entry> res= new ArrayList<Entry>();
 		for(Object o :oggetti) {
@@ -36,6 +38,7 @@ public class FiltroLogGiorno implements Filtro{
 
 	@Override
 	public List<Object> filtra(Object[] ogg, List<Object> entry) {
+		this.filtri=ogg;
 		List<Object> entryf = new ArrayList<Object>();
 		List<Date> filtri=new ArrayList<Date>(); 
 		for(Object obj : ogg) {
@@ -56,4 +59,15 @@ public class FiltroLogGiorno implements Filtro{
 		return entryf;
 	}
 
+
+	@Override
+	public Object[] getFiltri() {
+		return this.filtri;
+	}
+
+
+	public void setFiltri(Object[] filtri) {
+		this.filtri = filtri;
+	}
+  
 }
