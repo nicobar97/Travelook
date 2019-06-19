@@ -167,6 +167,7 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 				u.setEmail(rs.getString(i++));
 				u.setNome(rs.getString(i++));
 				u.setCognome(rs.getString(i++));
+				u.setBio(rs.getString(i++));
 				u.setDataNascita(rs.getDate(i++));
 				u.setImmagineProfilo(rs.getString(i++));
 				result = u;

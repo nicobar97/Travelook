@@ -35,9 +35,9 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 	
 	//Query per inserire un viaggio nel DB//
 	static final String insert = "INSERT INTO " + table + 
-			" (idCreatore,titolo,destinazione,descrizione,lingua,budget,luogoPartenza,dataPartenza,dataFine"+
+			" (idCreatore,titolo,destinazione,descrizione,lingua,budget,luogoPartenza,stato,dataPartenza,dataFine"+
 			",immagineProfilo)"+
-			" VALUES (?,?,?,?,?,?,?,?,?,?)";
+			" VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 	//Query per creare la table viaggio nel DB//
 	static final String create="create table " + table + " (" + 
 			"id int not null IDENTITY PRIMARY KEY," +
@@ -48,6 +48,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			"lingua char(20) not null,"+
 			"budget int not null,"+
 			"luogoPartenza char(20) not null,"+
+			"stato int not null" +
 			"dataPartenza Date not null,"+
 			"dataFine Date not null,"+
 			"immagineProfilo char(1000),"+
@@ -56,9 +57,9 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			"foreign key(idPartecipante) references Utente(id),"+
 			"unique(id, idCreatore, idPartecipante)"+
 			")";
-	final static String read_all = "select 	v.id, v.titolo, v.destinazione, v.descrizione, v.budget, v.luogoPartenza, \r\n" + 
-			"		v.dataPartenza, v.dataFine, v.lingua, v.stato, v.immagineProfilo, v.idCreatore, c.nickname,\r\n" + 
-			"		c.email, c.nome, c.cognome, c.dataNascita, c.imgProfilo from Viaggio v\r\n" + 
+	final static String read_all = "select 	v.id,v.idCreatore, v.titolo, v.destinazione, v.descrizione,v.lingua, v.budget, v.luogoPartenza, \r\n" + 
+			"	v.stato,v.dataPartenza, v.dataFine,v.immagineProfilo, c.nickname,\r\n" + 
+			"		c.email, c.nome, c.cognome,c.bio, c.dataNascita, c.imgProfilo from Viaggio v\r\n" + 
 			"inner join Utente AS c on c.id = v.idCreatore";
 	
 	// SELECT * FROM table WHERE idcolumn = ?;
@@ -67,7 +68,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			"FROM " + table + " v " +
 			"inner join UTENTE AS C ON v."+IDC+"=c.id" 
 		;
-	final static String list_user_viaggio = "select rdp.idUtente, u.nickname, u.email, u.nome, u.cognome, u.dataNascita, u.imgProfilo from Richiesta_Di_Partecipazione rdp\r\n" + 
+	final static String list_user_viaggio = "select rdp.idUtente, u.nickname, u.email, u.nome, u.cognome,u.bio, u.dataNascita, u.imgProfilo from Richiesta_Di_Partecipazione rdp\r\n" + 
 			"inner join Utente as u on u.id = rdp.idUtente\r\n" + 
 			"where stato = 0;";
 	// DELETE FROM table WHERE idcolumn = ?;
@@ -78,8 +79,8 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			;
 		// UPDATE  a Table 
 	final static String update = "UPDATE " + table + " SET idCreatore=?, titolo=?, destinazione=?, descrizione=?, lingua=?, "
-				+ "budget=?, dataPartenza=?, dataFine=?, "
-				+ "immagineProfilo=?, immaginiAlternative=?, luogoPartenza=?, stato=? "
+				+ "budget=?, luogoPartenza=?, stato=?, dataPartenza=?, dataFine=?, "
+				+ "immagineProfilo=? "
 				+ " WHERE id=?";
 
 	public MssqlViaggioDAO(Connection conn) {
@@ -92,12 +93,13 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 
 	@Override //inserisce un viaggio nel db // 
 	public void create(Viaggio viaggio) {
+		/*"INSERT INTO " + table + 
+			" (idCreatore,titolo,destinazione,descrizione,lingua,budget,luogoPartenza,stato,dataPartenza,dataFine"+
+			",immagineProfilo)"+
+			" VALUES (?,?,?,?,?,?,?,?,?,?,?)";*/
 		if(viaggio==null) {
 			System.out.println( "insert(): failed to insert a null entry");
 			}
-		// TODO Auto-generated method stub
-		/*" (id,idCreatore,titolo,destinazione,descrizione,lingua,budget,dataPartenza,dataFine"+
-		",immagineProfilo,immaginiAlternative"+*/
 		try {
 			PreparedStatement prep_stmt = conn.prepareStatement(MssqlViaggioDAO.insert);
 			prep_stmt.clearParameters();
@@ -110,6 +112,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			prep_stmt.setString(i++,viaggio.getLingua());
 			prep_stmt.setInt(i++,viaggio.getBudget());
 			prep_stmt.setString(i++,viaggio.getLuogopartenza());
+			prep_stmt.setInt(i++,viaggio.getStato().ordinal());
 			prep_stmt.setDate(i++,viaggio.getDatainizio());
 			prep_stmt.setDate(i++,viaggio.getDatafine());
 			prep_stmt.setString(i++,viaggio.getImmaginiProfilo());		
@@ -133,23 +136,25 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 	@Override
 	public Viaggio read(int id) {
 		Viaggio res=null;
+		Utente c=new Utente();
 		try {
-			/*" (id,idCreatore,titolo,destinazione,descrizione,lingua,budget,dataPartenza,dataFine"+
-			",immagineProfilo,immaginiAlternative"+*/
+			/*"SELECT * " +
+					"FROM " + table + " v " +
+					"inner join UTENTE AS C ON v."+IDC+"=c.id" */
 			PreparedStatement prep_stmt = conn.prepareStatement(MssqlViaggioDAO.read_by_id);
 			prep_stmt.setInt(1,id);
 			ResultSet rs = prep_stmt.executeQuery();
 			if ( rs.next() ) {
 				Viaggio v = new Viaggio();
 				v.setIdViaggio(rs.getInt(1));
-				int idU=rs.getInt(13);
-				String user=rs.getString("nickname");
-				String mail=rs.getString("email");
-				String nome=rs.getString("nome");
-				String cgnome=rs.getString("cognome");
-				Date datan=rs.getDate("dataNascita");
-				String imgP=rs.getString("imgProfilo");
-				Utente c = new Utente(idU,user,mail,nome,cgnome,datan,imgP);
+				c.setIdUtente(rs.getInt(13));
+				c.setUsername(rs.getString("nickname"));
+				c.setEmail(rs.getString("email"));
+				c.setNome(rs.getString("nome"));
+				c.setCognome(rs.getString("cognome"));
+				c.setBio(rs.getString("bio"));
+				c.setDataNascita(rs.getDate("dataNascita"));
+				c.setImmagineProfilo(rs.getString("imgProfilo"));
 				v.setCreatore(c);
 				v.setTitolo(rs.getString("titolo"));
 				v.setDestinazione(rs.getString("destinazione"));
@@ -182,17 +187,17 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 
 	@Override
 	public boolean update(Viaggio viaggio) {
+		/* "UPDATE " + table + " SET idCreatore=?, titolo=?, destinazione=?, descrizione=?, lingua=?, "
+				+ "budget=?, luogoPartenza=?, stato=?, dataPartenza=?, dataFine=?, "
+				+ "immagineProfilo=? "
+				+ " WHERE id=?";*/
 		boolean result = false;
 		if ( viaggio == null )  {
 			System.out.println( "update(): failed to update a null entry");
 			return result;
 		}
 		try {
-			String query = "UPDATE " + table + " SET idCreatore=?, titolo=?, destinazione=?, descrizione=?, lingua=?, "
-					+ "budget=?, dataPartenza=?, dataFine=?, "
-					+ "immagineProfilo=?, immaginiAlternative=?, luogoPartenza=?, stato=? "
-					+ " WHERE id=?";
-			PreparedStatement prep_stmt = conn.prepareStatement(query);
+			PreparedStatement prep_stmt = conn.prepareStatement(update);
 			prep_stmt.clearParameters();
 			prep_stmt.setInt(1, viaggio.getCreatore().getId());
 			prep_stmt.setString(2, viaggio.getTitolo());
@@ -200,13 +205,12 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			prep_stmt.setString(4, viaggio.getDescrizione());
 			prep_stmt.setString(5, viaggio.getLingua());
 			prep_stmt.setInt(6, viaggio.getBudget());
-			prep_stmt.setDate(7, viaggio.getDatainizio());
-			prep_stmt.setDate(8, viaggio.getDatafine());
-			prep_stmt.setString(9, viaggio.getImmaginiProfilo());
-			prep_stmt.setString(10, ""); // nella classe viaggio non c'� immagini alternative?
-			prep_stmt.setString(11, viaggio.getLuogopartenza());
-			prep_stmt.setInt(12, viaggio.getStato().ordinal());
-			prep_stmt.setInt(13, viaggio.getIdViaggio());
+			prep_stmt.setString(7, viaggio.getLuogopartenza());
+			prep_stmt.setInt(8, viaggio.getStato().ordinal());
+			prep_stmt.setDate(9, viaggio.getDatainizio());
+			prep_stmt.setDate(10, viaggio.getDatafine());
+			prep_stmt.setString(11, viaggio.getImmaginiProfilo());			
+			prep_stmt.setInt(12, viaggio.getIdViaggio());
 			int esito;
 			esito=prep_stmt.executeUpdate();
 			prep_stmt.close();
@@ -237,6 +241,9 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 
 	@Override
 	public boolean delete(int id) {
+		/*	"DELETE " +
+				"FROM " + table + " " +
+				"WHERE " + ID + " = ? "*/
 		boolean res=false;
 		try {
 			PreparedStatement prep_stmt = conn.prepareStatement(MssqlViaggioDAO.delete);
@@ -260,6 +267,16 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 
 	@Override
 	public List<Viaggio> readViaggiListFromDb() {
+		/*read_all:
+		 * "select 	v.id,v.titolo, v.destinazione, v.descrizione,v.lingua, v.budget, v.luogoPartenza, \r\n" + 
+			"	v.stato,v.dataPartenza, v.dataFine,v.immagineProfilo, c.nickname,\r\n" + 
+			"		c.email, c.nome, c.cognome,c.bio, c.dataNascita, c.imgProfilo from Viaggio v\r\n" + 
+			"inner join Utente AS c on c.id = v.idCreatore";
+			list_user_id:
+			"select rdp.idUtente, u.nickname, u.email, u.nome, u.cognome,u.bio, u.dataNascita, u.imgProfilo from Richiesta_Di_Partecipazione rdp\r\n" + 
+			"inner join Utente as u on u.id = rdp.idUtente\r\n" + 
+			"where stato = 0;";
+	*/
 		
 		List<Viaggio> listaViaggi = new ArrayList<Viaggio>();
 		
@@ -275,12 +292,12 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 				v.setTitolo(rs.getString(i++));
 				v.setDestinazione(rs.getString(i++));
 				v.setDescrizione(rs.getString(i++));
+				v.setLingua(rs.getString(i++));
 				v.setBudget(rs.getInt(i++));
 				v.setLuogopartenza(rs.getString(i++));
-				v.setDatainizio(rs.getDate(i++));
-				v.setDatafine(rs.getDate(i++));
-				v.setLingua(rs.getString(i++));
 				v.setStato(Stato.values()[rs.getInt(i++)]);
+				v.setDatainizio(rs.getDate(i++));
+				v.setDatafine(rs.getDate(i++));				
 				v.setImmaginiProfilo(rs.getString(i++));
 				Utente c = new Utente();
 				c.setId(rs.getInt(i++));
@@ -288,6 +305,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 				c.setEmail(rs.getString(i++));
 				c.setNome(rs.getString(i++));
 				c.setCognome(rs.getString(i++));
+				c.setBio(rs.getString(i++));
 				c.setDataNascita(rs.getDate(i++));
 				c.setImmagineProfilo(rs.getString(i++));
 				v.setCreatore(c);
@@ -304,6 +322,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 					u.setEmail(rs2.getString(k++));
 					u.setNome(rs2.getString(k++));
 					u.setCognome(rs2.getString(k++));
+					u.setBio(rs2.getString(k++));
 					u.setDataNascita(rs2.getDate(k++));
 					u.setImmagineProfilo(rs2.getString(k++));
 					listaPartecipanti.add(u);

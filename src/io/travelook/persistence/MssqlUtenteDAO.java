@@ -19,22 +19,22 @@ import io.travelook.model.Viaggio;
 
 public class MssqlUtenteDAO implements UtenteDAO {
 	
-	private static String read = "select id,nickname,email,nome,cognome,dataNascita,"
+	private static String read = "select id,nickname,email,nome,cognome,bio,dataNascita,"
 			+ "imgProfilo from Utente where id=?";
 	private Connection conn;
 	static String table = "Utente";
 	
 	static String insert = "INSERT INTO " + table + "(nickname, email, nome,"
-			+ " cognome, dataNascita, imgProfilo) " + "VALUES(?,?,?,?,?,?)";
+			+ " cognome, bio,dataNascita, imgProfilo) " + "VALUES(?,?,?,?,?,?,?)";
 	
-	static String inserisci_hobby="INSERT INTO Utente_Hobby" + "(idUtente,idHobby) "
+	static String inserisci_hobby="INSERT INTO Utente_Interessi" + "(idUtente,idinteresse) "
 			+ "VALUES(?,?)";
-	static String getlist = "select id,nickname,email,nome,cognome,dataNascita,imgProfilo from Utente";
+	static String getlist = "select id,nickname,email,nome,cognome,bio,dataNascita,imgProfilo from Utente";
 	
 	static String delete = "delete from Utente where id=?";
 	//static final String deletePartecipante = "delete from Viaggio where idPartecipante=?";
 	
-	static String update = "UPDATE Utente SET nickname=?, email=?, nome=?, cognome=?,dataNascita=?,"
+	static String update = "UPDATE Utente SET nickname=?, email=?, nome=?, cognome=?,bio=?,dataNascita=?,"
 			+ "imgProfilo=? WHERE id=?";
 	
 	static String getIdUtente = "SELECT * FROM Utente WHERE nickname=?";
@@ -67,8 +67,9 @@ public class MssqlUtenteDAO implements UtenteDAO {
 			prep_stmt.setString(2, u.getEmail());
 			prep_stmt.setString(3, u.getNome());
 			prep_stmt.setString(4, u.getCognome());
-			prep_stmt.setDate(5, u.getDataNascita());
-			prep_stmt.setString(6, u.getImmagineProfilo());
+			prep_stmt.setString(5, u.getBio());
+			prep_stmt.setDate(6, u.getDataNascita());
+			prep_stmt.setString(7, u.getImmagineProfilo());
 			if(prep_stmt.executeUpdate()>0) esito=true;
 			prep_stmt.close();
 			
@@ -99,6 +100,8 @@ public class MssqlUtenteDAO implements UtenteDAO {
 
 	@Override
 	public Utente read(int id) {
+		/*"select id,nickname,email,nome,cognome,bio,dataNascita,"
+			+ "imgProfilo from Utente where id=?";*/
 		Utente result = null;
 		if ( id < 0 )  {
 			System.out.println("read(): cannot read an entry with a negative id");
@@ -108,10 +111,6 @@ public class MssqlUtenteDAO implements UtenteDAO {
 			PreparedStatement prep_stmt = conn.prepareStatement(MssqlUtenteDAO.read );
 			prep_stmt.clearParameters();
 			prep_stmt.setInt(1, id);
-			/*
-			select id,nickname,email,nome,cognome,dataNascita,"
-			+ "imgProfilo from Utente where id=? 
-			 */
 			ResultSet rs = prep_stmt.executeQuery();
 			if ( rs.next() ) {
 				Utente u = new Utente(); 
@@ -121,6 +120,7 @@ public class MssqlUtenteDAO implements UtenteDAO {
 				u.setEmail(rs.getString(i++));
 				u.setNome(rs.getString(i++));
 				u.setCognome(rs.getString(i++));
+				u.setBio(rs.getString(i++));
 				u.setDataNascita(rs.getDate(i++));
 				u.setImmagineProfilo(rs.getString(i++));
 				result = u;
@@ -149,7 +149,7 @@ public class MssqlUtenteDAO implements UtenteDAO {
 			return false;
 		try {
 			/**
-			 * update = "UPDATE Utente SET nickname=?, email=?, nome=?, cognome=?,dataNascita=?,"
+			 * update = "UPDATE Utente SET nickname=?, email=?, nome=?, cognome=?,bio=?,dataNascita=?,"
 			+ "imgProfilo=? WHERE id=?";
 			 */
 			PreparedStatement prep_stmt = conn.prepareStatement(update);
@@ -157,9 +157,10 @@ public class MssqlUtenteDAO implements UtenteDAO {
 			prep_stmt.setString(2, u.getEmail());
 			prep_stmt.setString(3, u.getNome());
 			prep_stmt.setString(4, u.getCognome());
-			prep_stmt.setDate(5, u.getDataNascita());
-			prep_stmt.setString(6, u.getImmagineProfilo());
-			prep_stmt.setInt(7, u.getId());
+			prep_stmt.setString(5, u.getBio());
+			prep_stmt.setDate(6, u.getDataNascita());
+			prep_stmt.setString(7, u.getImmagineProfilo());
+			prep_stmt.setInt(8, u.getId());
 			if(prep_stmt.executeUpdate()>0) {
 				System.out.println("Aggiornato utente con id " + u.getId());
 				return true;
@@ -196,11 +197,11 @@ public class MssqlUtenteDAO implements UtenteDAO {
 			prep_stmt.setInt(1, id);
 			if(prep_stmt.executeUpdate()>0) {
 			prep_stmt.close();
-			System.out.println("Ho eliminato id " +id);
+			System.out.println("Ho eliminato utente con id :" +id);
 			return true;
 			}
 			else {
-				System.out.println("Non ho eliminato id "+id);
+				System.out.println("Non ho eliminato utente con id : "+id);
 				return false;
 			}
 		}
@@ -221,7 +222,7 @@ public class MssqlUtenteDAO implements UtenteDAO {
 	public int getIdUtenteByUsername(String username) {
 		System.out.println("cerco id dell'utente "+username);
 		int id=-1;
-	   
+		 /*"SELECT * FROM Utente WHERE nickname=?";*/
 	   try {
 		   PreparedStatement prep_stmt = conn.prepareStatement(MssqlUtenteDAO.getIdUtente);
 		   prep_stmt.clearParameters();
@@ -248,6 +249,7 @@ public class MssqlUtenteDAO implements UtenteDAO {
 
 	@Override
 	public List<Utente> readUtentiFromDB() {
+		/* "select id,nickname,email,nome,cognome,bio,dataNascita,imgProfilo from Utente";*/
 		List<Utente> result = new ArrayList<Utente>();
 		try {
 			PreparedStatement prep_stmt = conn.prepareStatement(MssqlUtenteDAO.getlist);
@@ -261,6 +263,7 @@ public class MssqlUtenteDAO implements UtenteDAO {
 				entry.setEmail(rs.getString(i++));
 				entry.setNome(rs.getString(i++));
 				entry.setCognome(rs.getString(i++));
+                entry.setBio(rs.getString(i++));
 				entry.setDataNascita(rs.getDate(i++));
 				entry.setImmagineProfilo(rs.getString(i++));
 				result.add( entry );
@@ -371,7 +374,8 @@ public class MssqlUtenteDAO implements UtenteDAO {
 	
 	
 	public Viaggio readViaggio(int id) {
-		Viaggio res=null;
+		Viaggio res=new Viaggio();
+		Utente c=new Utente();
 		try {
 			/*" (id,idCreatore,titolo,destinazione,descrizione,lingua,budget,dataPartenza,dataFine"+
 			",immagineProfilo,immaginiAlternative"+*/
@@ -381,14 +385,14 @@ public class MssqlUtenteDAO implements UtenteDAO {
 			if ( rs.next() ) {
 				Viaggio v = new Viaggio();
 				v.setIdViaggio(rs.getInt(1));
-				int idU=rs.getInt(13);
-				String user=rs.getString("nickname");
-				String mail=rs.getString("email");
-				String nome=rs.getString("nome");
-				String cgnome=rs.getString("cognome");
-				Date datan=rs.getDate("dataNascita");
-				String imgP=rs.getString("imgProfilo");
-				Utente c = new Utente(idU,user,mail,nome,cgnome,datan,imgP);
+				c.setId(rs.getInt(13));
+				c.setUsername(rs.getString("nickname"));
+				c.setEmail(rs.getString("email"));
+				c.setNome(rs.getString("nome"));
+				c.setCognome(rs.getString("cognome"));
+				c.setBio(rs.getString("bio"));
+				c.setDataNascita(rs.getDate("dataNascita"));
+				c.setImmagineProfilo(rs.getString("imgProfilo"));
 				v.setCreatore(c);
 				v.setTitolo(rs.getString("titolo"));
 				v.setDestinazione(rs.getString("destinazione"));
