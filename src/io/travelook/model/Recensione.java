@@ -10,7 +10,6 @@ public class Recensione {
 	private int voto;
 	private String titolo;
 	private String corpo;
-	private String foto;
 	private String risposta;
 	private int idUtenteRecensore; //relazione
 	private int id;
@@ -67,12 +66,6 @@ public class Recensione {
 	}
 	public void setCorpo(String corpo) {
 		this.corpo = corpo;
-	}
-	public String getFoto() {
-		return foto;
-	}
-	public void setFoto(String foto) {
-		this.foto = foto;
 	}
 	public String getRisposta() {
 		return risposta;

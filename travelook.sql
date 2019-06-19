@@ -58,7 +58,7 @@ create table Segnalazione (
 create table Recensione (
      id int not null primary key,
      idRecensito int not null,
-     idRecensitore int not null,
+     idRecensore int not null,
      voto int not null,
      titolo varchar(20) not null,
      body varchar(500) not null,

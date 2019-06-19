@@ -64,7 +64,7 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 	@Override
 	public List<Recensione> visualizzaRecensioni() {
 		List<Recensione> lista = null;
-		db.setConn(super.getDbConnection());
+		dbrec.setConn(super.getDbConnection());
 		lista = dbrec.readRecensioniUtente(u);
 		return lista;
 	}

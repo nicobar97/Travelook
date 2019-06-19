@@ -57,9 +57,9 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			"foreign key(idPartecipante) references Utente(id),"+
 			"unique(id, idCreatore, idPartecipante)"+
 			")";
-	final static String read_all = "select 	v.id,v.idCreatore, v.titolo, v.destinazione, v.descrizione,v.lingua, v.budget, v.luogoPartenza, \r\n" + 
-			"	v.stato,v.dataPartenza, v.dataFine,v.immagineProfilo, c.nickname,\r\n" + 
-			"		c.email, c.nome, c.cognome,c.bio, c.dataNascita, c.imgProfilo from Viaggio v\r\n" + 
+	final static String read_all = "select 	v.id, v.titolo, v.destinazione, v.descrizione,v.lingua, v.budget, v.luogoPartenza, \r\n" + 
+			"	v.stato,v.dataPartenza, v.dataFine,v.immagineProfilo,v.idCreatore, c.nickname,\r\n" + 
+			"		c.email, c.nome, c.cognome, c.bio, c.dataNascita, c.imgProfilo from Viaggio v\r\n" + 
 			"inner join Utente AS c on c.id = v.idCreatore";
 	
 	// SELECT * FROM table WHERE idcolumn = ?;
@@ -267,17 +267,6 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 
 	@Override
 	public List<Viaggio> readViaggiListFromDb() {
-		/*read_all:
-		 * "select 	v.id,v.titolo, v.destinazione, v.descrizione,v.lingua, v.budget, v.luogoPartenza, \r\n" + 
-			"	v.stato,v.dataPartenza, v.dataFine,v.immagineProfilo, c.nickname,\r\n" + 
-			"		c.email, c.nome, c.cognome,c.bio, c.dataNascita, c.imgProfilo from Viaggio v\r\n" + 
-			"inner join Utente AS c on c.id = v.idCreatore";
-			list_user_id:
-			"select rdp.idUtente, u.nickname, u.email, u.nome, u.cognome,u.bio, u.dataNascita, u.imgProfilo from Richiesta_Di_Partecipazione rdp\r\n" + 
-			"inner join Utente as u on u.id = rdp.idUtente\r\n" + 
-			"where stato = 0;";
-	*/
-		
 		List<Viaggio> listaViaggi = new ArrayList<Viaggio>();
 		
 		try {
@@ -285,7 +274,10 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			prep_stmt.clearParameters();
 			ResultSet rs = prep_stmt.executeQuery();
 			while(rs.next()) {
-				
+				/*"select 	v.id, v.titolo, v.destinazione, v.descrizione,v.lingua, v.budget, v.luogoPartenza, \r\n" + 
+			"	v.stato,v.dataPartenza, v.dataFine,v.immagineProfilo, c.id,  c.nickname,\r\n" + 
+			"		c.email, c.nome, c.cognome, c.bio, c.dataNascita, c.imgProfilo from Viaggio v\r\n" + 
+			"inner join Utente AS c on c.id = v.idCreatore";*/
 				int i=1;
 				Viaggio v = new Viaggio();
 				v.setIdViaggio(rs.getInt(i++));
