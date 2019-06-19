@@ -6,7 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -72,11 +74,9 @@ public class Logger implements ILogger{
 			BufferedReader buff= new BufferedReader(fr);
 			String line=null;
 			while((line=buff.readLine())!=null) {
-				StringTokenizer st = new StringTokenizer(line,"]=,");
-				int tokens=st.countTokens();
-								
-				
-			}
+						Entry e =getEntry(line);
+						res.add(e);
+					}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -91,5 +91,50 @@ public class Logger implements ILogger{
 	public void setPath(String path) {
 		this.path = path;
 	}
-
+	
+	
+	public Date getDate(String data,int id ) {
+		StringTokenizer st = new StringTokenizer(data,"/");
+		Calendar c =Calendar.getInstance();
+		Date res = new Date();
+		int num=st.countTokens();
+		if(num!=6) {
+			System.out.println("errore nel parsing nel timpestamp dell'entry: "+id);
+		}
+		else {
+			int day = Integer.parseInt(st.nextToken());
+			int month = Integer.parseInt(st.nextToken());
+			int year = Integer.parseInt(st.nextToken());
+			int hour = Integer.parseInt(st.nextToken());
+			int minute= Integer.parseInt(st.nextToken());
+			int second = Integer.parseInt(st.nextToken());
+			c.set(year, month, day, hour, minute, second);	
+			res = c.getTime();
+		}
+		return res;
+	}
+	
+	
+   public Entry getEntry(String line) {
+	   Entry e = new Entry();
+	   StringTokenizer stentry = new StringTokenizer(line,";");
+	   int count=stentry.countTokens();
+		if(count!=5) {
+			System.out.println("errore nel formato della entry \n ");
+		}
+		else {
+		int id=Integer.parseInt(stentry.nextToken());
+	    int	idutente=Integer.parseInt(stentry.nextToken());
+	    String datacompl=stentry.nextToken();
+	    Date ts= getDate(datacompl,id);
+	    String tipo=stentry.nextToken();
+	    String operazione=stentry.nextToken();
+	    e.setIdEntry(id);
+	    e.setIdUtente(idutente);
+	    e.setTimestamp(ts);
+	    e.setTipo(tipo);
+	    e.setOperazione(operazione);	    
+       }
+	  return e;
+   }
 }

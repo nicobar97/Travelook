@@ -12,5 +12,6 @@ public class LogsFormatTest {
 	Date ent=new Date(d.getTime());
 	Entry e = new Entry (1,5,ent,"utente","aggiunta tubla nel db utente" );
 	System.out.println("Formato Entry \n"+e.toString());
+	System.out.println("Formato Entry display \n "+e.toStringDisplay());
 	}
 }

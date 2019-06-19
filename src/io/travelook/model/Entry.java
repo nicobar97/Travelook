@@ -4,6 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Entry {
+	public Entry() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	private int idEntry;
 	private int idUtente;
 	private Date timestamp;
@@ -60,7 +64,11 @@ public class Entry {
 
 	@Override
 	public String toString() {
-		return "[idEntry=" + idEntry + "] --> idUtente=" + idUtente + ", timestamp=" + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp) + ", tipo=" + tipo
+		return idEntry + ";" + idUtente + ";" + new SimpleDateFormat("dd/MM/yyyy/HH/mm/ss").format(timestamp) + ";" + tipo
+				+ ";" + operazione ;
+	}
+	public String toStringDisplay() {
+		return "idEntry " + idEntry + " --> [idUtente=" + idUtente + ", timestamp=" + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp) + ", tipo=" + tipo
 				+ ", operazione=" + operazione + "]";
 	}
 	
