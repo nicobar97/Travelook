@@ -1,8 +1,7 @@
 package io.travelook.controller.filtro;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import io.travelook.model.Viaggio;
@@ -36,9 +35,8 @@ public class FiltraViaggioData implements Filtro {
 	    List<Object> viaggif= new ArrayList<Object>();
 	    List<Date> filtri=new ArrayList<Date>();
 	    for(Object o : ogg) {
-	    	Calendar c1 = Calendar.getInstance();
-	    	c1.setTime((Date)o);
-	    	filtri.add(c1.getTime());
+            Date d1=(Date)o;
+	    	filtri.add(d1);
 	    }
 	    for(Object o :viaggi) {
 	    	Viaggio v =(Viaggio)o;
