@@ -1,6 +1,7 @@
 package io.travelook.controller.logger;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -30,7 +31,20 @@ public class Logger implements ILogger {
     
 	public Logger(String path) {
 		super();
-		this.path = path;	
+		this.path = path;
+		file= new File(path);
+		if(file.exists()) {
+			System.out.println("il file "+path+" esiste\n");
+		}
+		else {
+			try {
+				file.createNewFile();
+				System.out.println("Creato il file "+path+" \n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	
@@ -41,8 +55,9 @@ public class Logger implements ILogger {
 	public void scriviEntry(Entry e) {
 		try {
 			FileWriter fw= new FileWriter(path,true);
-			PrintWriter pw = new PrintWriter(fw);
-			pw.append(e.toString());
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.append(e.toString());
+			bw.close();
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
