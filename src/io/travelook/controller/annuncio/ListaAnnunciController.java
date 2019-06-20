@@ -33,16 +33,17 @@ public class ListaAnnunciController extends Controller {
 
 	public boolean creaAnnuncio(Viaggio v) {
 		boolean res=false;
+		boolean resdb=false;
 		if(v==null) {
 			res=false;
 			System.out.println("viaggio nullo !");
 		}else {
 			db.setConn(super.getDbConnection());
-			db.create(v);
-			annunci.add(v);
+			resdb=db.create(v);
+			res=annunci.add(v);
 			res=true;
 		}
-		return res;
+		return res&resdb;
 	}
 	
 	public boolean eliminaAnnuncio(int idannuncio) {

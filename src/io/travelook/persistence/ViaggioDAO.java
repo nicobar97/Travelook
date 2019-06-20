@@ -7,7 +7,7 @@ import io.travelook.model.Viaggio;
 
 public interface ViaggioDAO {
 	  //PROSCIUTTO CRUD
-		public void create(Viaggio viaggio);
+		public boolean create(Viaggio viaggio);
 
 		public Viaggio read(int id);
 		

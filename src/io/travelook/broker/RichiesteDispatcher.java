@@ -82,7 +82,7 @@ public class RichiesteDispatcher implements IBroker {
 		return false; 
 	}
 	@Override
-	public boolean inoltraRisposta(RispostaViaggi r, EndPointClient c) {
+	public boolean inoltraRisposta(Risposta r, EndPointClient c) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -93,11 +93,12 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 	}
 
 	@Override //inserisce un viaggio nel db // 
-	public void create(Viaggio viaggio) {
+	public boolean create(Viaggio viaggio) {
 		/*"INSERT INTO " + table + 
 			" (idCreatore,titolo,destinazione,descrizione,lingua,budget,luogoPartenza,stato,dataPartenza,dataFine"+
 			",immagineProfilo)"+
 			" VALUES (?,?,?,?,?,?,?,?,?,?,?)";*/
+		boolean esito=false;
 		if(viaggio==null) {
 			System.out.println( "insert(): failed to insert a null entry");
 			}
@@ -117,19 +118,23 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 			prep_stmt.setDate(i++,viaggio.getDatainizio());
 			prep_stmt.setDate(i++,viaggio.getDatafine());
 			prep_stmt.setString(i++,viaggio.getImmaginiProfilo());		
-			prep_stmt.executeUpdate();
+			if(prep_stmt.executeUpdate()>0) esito= true;
+			else esito= false;
 			prep_stmt.close();
 		}
 		catch (Exception e) {
 			System.out.println("create(): failed to insert entry: " + e.getMessage());
 			e.printStackTrace();
+			return false;
 		}
 		finally {
 			try {
 				conn.close();
+				return esito;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 			}
 		}
 	}

@@ -5,7 +5,7 @@ import java.util.List;
 
 import io.travelook.model.Viaggio;
 
-public class RispostaViaggi<T> implements Serializable{
+public class Risposta<T> implements Serializable{
 	
 
 	private String ipDestinatario;
@@ -13,12 +13,12 @@ public class RispostaViaggi<T> implements Serializable{
 	private List<T> listaViaggi;
 	private int numero_valori;
 	
-	public RispostaViaggi() {
+	public Risposta() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public RispostaViaggi(String ipDestinatario, Integer portaDest, List<T> valori) {
+	public Risposta(String ipDestinatario, Integer portaDest, List<T> valori) {
 		super();
 		this.ipDestinatario = ipDestinatario;
 		this.portaDest = portaDest;

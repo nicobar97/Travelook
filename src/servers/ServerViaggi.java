@@ -16,7 +16,8 @@ import java.util.List;
 import com.google.gson.Gson;
 
 import io.travelook.broker.Richiesta;
-import io.travelook.broker.RispostaViaggi;
+import io.travelook.broker.Risposta;
+import io.travelook.broker.Risposta;
 import io.travelook.controller.annuncio.AnnuncioController;
 import io.travelook.controller.annuncio.ListaAnnunciController;
 import io.travelook.model.Viaggio;
@@ -44,20 +45,17 @@ public class ServerViaggi extends Thread {
 		switch(servizio) {
 		case "getListaAnnunci":
 			List<Viaggio> listaViaggi = lac.getAnnunci();
-			RispostaViaggi<Viaggio> reply = new RispostaViaggi<Viaggio>(clientSocket.getInetAddress().toString(),clientSocket.getPort(),listaViaggi);
+			Risposta<Viaggio> reply = new Risposta<Viaggio>(clientSocket.getInetAddress().toString(),clientSocket.getPort(),listaViaggi);
 			oos.writeObject(reply);
 			break;
-		/*case "creaAnnuncio":
-			Richiesta<Viaggio> rich = gson.fromJson(stringRichiesta,Richiesta.class);
-			Viaggio daCreare = rich.getArgomenti().get(0);
-			boolean esito = lac.creaAnnuncio(daCreare);
-			List<Boolean> listaB = new ArrayList<Boolean>();
-			listaB.add(esito);
-			RispostaViaggi<Boolean> replycrea = new RispostaViaggi<Boolean>(clientSocket.getInetAddress().toString(), clientSocket.getPort(),listaB);
-			String replyJson2 = gson.toJson(replycrea);
-			System.out.println(replyJson2);
-			dos.writeUTF(replyJson2);
-			break;*/
+		case "creaAnnuncio":
+			Viaggio v =(Viaggio) r.getArgomenti().get(0);
+			boolean esito = lac.creaAnnuncio(v);
+			List<Boolean> esiti = new ArrayList<Boolean>();
+			esiti.add(esito);
+			Risposta reply2 = new Risposta<Boolean>(clientSocket.getInetAddress().toString(),clientSocket.getPort(),esiti);
+			oos.writeObject(reply2);
+			break;
 			
 			
 		}

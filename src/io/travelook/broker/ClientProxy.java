@@ -26,7 +26,8 @@ public class ClientProxy {
 	
 	public static void main(String args[]) throws UnknownHostException, IOException, JSONException, ClassNotFoundException {
 		ClientProxy c = new ClientProxy();
-		c.getListaAnnunci();
+		Viaggio v = new Viaggio();
+		c.creaAnnuncio(v);
 		
 		/*
 		 * qua non ci vuole il main, i metodi vanno invocati da client
@@ -45,28 +46,26 @@ public class ClientProxy {
 		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 		
 		oos.writeObject(r);
-		RispostaViaggi<Viaggio> replyFromServer = (RispostaViaggi<Viaggio>) ois.readObject();
+		Risposta<Viaggio> replyFromServer = (Risposta<Viaggio>) ois.readObject();
 		for(Viaggio v : replyFromServer.getValori())
 			System.out.println(v.getTitolo());
 		return replyFromServer.getValori();
 	}
 	
-	public boolean creaAnnuncio(Viaggio v) throws UnknownHostException, IOException {
+	public boolean creaAnnuncio(Viaggio v) throws UnknownHostException, IOException, ClassNotFoundException {
 		s= new Socket(INDIRIZZO_BROKER,PORTA_BROKER);
 		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
 		DataInputStream dis = new DataInputStream(s.getInputStream());
+		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 		List<Viaggio> viaggi = new ArrayList<Viaggio>();
 		viaggi.add(v);
 		Richiesta r = new Richiesta<Viaggio>(s.getLocalSocketAddress().toString(),s.getLocalPort(),viaggi,"creaAnnuncio");
-		Gson gson = new Gson();
-		String stringaRichiesta = gson.toJson(r).toString();
-		System.out.println(stringaRichiesta);
-		DataOutputStream dos = new DataOutputStream(s.getOutputStream());
-		dos.writeUTF(stringaRichiesta);
-		String stringaRisposta = dis.readUTF();
-		RispostaViaggi<Boolean> risposta = gson.fromJson(stringaRisposta, RispostaViaggi.class);
-		System.out.println(risposta.getValori().get(0));
-		return risposta.getValori().get(0);
+		oos.writeObject(r);
+		
+		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
+		System.out.println(reply.getValori().get(0));
+		return reply.getValori().get(0);
 	}
 	
 
