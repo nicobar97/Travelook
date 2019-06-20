@@ -21,11 +21,13 @@ public class ServerListaAnnunci extends Thread {
 		
 	}
 	
-	public static void main() {
+	public static void main(String[] args) {
 		try {
 			serverSocket = new ServerSocket(4001);
 			while(true) {
+				System.out.println("Il ServerListaAnnunci è in attesa sulla porta " + serverSocket.getLocalPort());
 				brokerSocket = serverSocket.accept();
+				System.out.println("Richiesta arrivata, lancio thread!");
 				ServerListaAnnunci thread = new ServerListaAnnunci(brokerSocket);
 				thread.start();
 			}
@@ -37,10 +39,15 @@ public class ServerListaAnnunci extends Thread {
 	}
 	public void run() {
 		try {
+	    System.out.println("Sono connesso ad "+brokerSocket.toString());
+	    ObjectOutputStream ous = new ObjectOutputStream(brokerSocket.getOutputStream());
 		ObjectInputStream ois = new ObjectInputStream(brokerSocket.getInputStream());
-		ObjectOutputStream ous = new ObjectOutputStream(brokerSocket.getOutputStream());
+		System.out.println("Attendo la richiesta di un servizio da "+brokerSocket.toString());
+		
 		Richiesta<Object> richiestaDaBroker = (Richiesta<Object>) ois.readObject();
+		System.out.println("Richiesta di servizio ricevuta da broker " + brokerSocket.toString());
 		String servizioRichiesto = richiestaDaBroker.getServizio();
+		System.out.println("ServerListaAnnunci: servizio richiesto: "+servizioRichiesto);
 		if(servizioRichiesto.equals("getListaAnnunci")) {
 			List<Viaggio> listaAnnunci = listaAnnunciController.getAnnunci();
 			Risposta<Viaggio> replyAnnunci = new Risposta<Viaggio>(brokerSocket.getInetAddress().toString(),brokerSocket.getPort(),listaAnnunci);
