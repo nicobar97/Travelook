@@ -1,10 +1,11 @@
 package io.travelook.model;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Viaggio {
+public class Viaggio implements Serializable{
 
 	public Viaggio() {
 		super();

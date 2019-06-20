@@ -1,12 +1,10 @@
 package io.travelook.model;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-import io.travelook.model.Interessi;
-import  io.travelook.model.Recensione;
-
-public class Utente {
+public class Utente implements Serializable {
 
 	private int idUtente;
 	private String username;

@@ -1,15 +1,16 @@
 package io.travelook.broker;
 
+import java.io.Serializable;
 import java.util.List;
 
 import io.travelook.model.Viaggio;
 
-public class RispostaViaggi {
+public class RispostaViaggi<T> implements Serializable{
 	
 
 	private String ipDestinatario;
 	private Integer portaDest;
-	private List<Viaggio> listaViaggi;
+	private List<T> listaViaggi;
 	private int numero_valori;
 	
 	public RispostaViaggi() {
@@ -17,7 +18,7 @@ public class RispostaViaggi {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public RispostaViaggi(String ipDestinatario, Integer portaDest, List<Viaggio> valori) {
+	public RispostaViaggi(String ipDestinatario, Integer portaDest, List<T> valori) {
 		super();
 		this.ipDestinatario = ipDestinatario;
 		this.portaDest = portaDest;
@@ -37,10 +38,10 @@ public class RispostaViaggi {
 	public void setPortaDest(Integer portaDest) {
 		this.portaDest = portaDest;
 	}
-	public List<Viaggio> getValori() {
+	public List<T> getValori() {
 		return listaViaggi;
 	}
-	public void setValori(List<Viaggio> valori) {
+	public void setValori(List<T> valori) {
 		this.listaViaggi = valori;
 	} 
 	

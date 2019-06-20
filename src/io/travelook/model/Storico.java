@@ -1,11 +1,10 @@
 package io.travelook.model;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import  io.travelook.model.Viaggio;
-
-public class Storico {
+public class Storico implements Serializable{
 	private int idUtente;
 	private List<Viaggio> viaggiPassati;
 	

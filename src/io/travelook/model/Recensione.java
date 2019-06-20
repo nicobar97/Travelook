@@ -1,6 +1,8 @@
 package io.travelook.model;
 
-public class Recensione {
+import java.io.Serializable;
+
+public class Recensione implements Serializable{
 	
 	public Recensione() {
 		super();

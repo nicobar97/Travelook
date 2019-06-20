@@ -5,9 +5,12 @@ import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -32,22 +35,31 @@ public class ServerViaggi extends Thread {
 		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 		BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		DataOutputStream dos = new DataOutputStream(clientSocket.getOutputStream());
+		ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+		ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
 		
-		DataInputStream dis = new DataInputStream(clientSocket.getInputStream());
-		String stringRichiesta = dis.readUTF();
-		System.out.println("Ho ricevuto la richiesta");
-		System.out.println(stringRichiesta);
-		Gson gson = new Gson();
-		Richiesta r = gson.fromJson(stringRichiesta, Richiesta.class);
+		Richiesta<Object> r = (Richiesta<Object>)ois.readObject();
 		String servizio = r.getServizio();
 		System.out.println("Ricevuta Richiesta da " + clientSocket.getInetAddress() + " per il servizio "+ servizio);
 		switch(servizio) {
 		case "getListaAnnunci":
 			List<Viaggio> listaViaggi = lac.getAnnunci();
-			RispostaViaggi reply = new RispostaViaggi(clientSocket.getInetAddress().toString(),clientSocket.getPort(), listaViaggi);
-			String replyJSON = gson.toJson(reply);
-			System.out.println(replyJSON);
-			dos.writeUTF(replyJSON);
+			RispostaViaggi<Viaggio> reply = new RispostaViaggi<Viaggio>(clientSocket.getInetAddress().toString(),clientSocket.getPort(),listaViaggi);
+			oos.writeObject(reply);
+			break;
+		/*case "creaAnnuncio":
+			Richiesta<Viaggio> rich = gson.fromJson(stringRichiesta,Richiesta.class);
+			Viaggio daCreare = rich.getArgomenti().get(0);
+			boolean esito = lac.creaAnnuncio(daCreare);
+			List<Boolean> listaB = new ArrayList<Boolean>();
+			listaB.add(esito);
+			RispostaViaggi<Boolean> replycrea = new RispostaViaggi<Boolean>(clientSocket.getInetAddress().toString(), clientSocket.getPort(),listaB);
+			String replyJson2 = gson.toJson(replycrea);
+			System.out.println(replyJson2);
+			dos.writeUTF(replyJson2);
+			break;*/
+			
+			
 		}
 		}
 		catch(Exception e) {
@@ -58,7 +70,6 @@ public class ServerViaggi extends Thread {
 		}
 		
 		
-	
 	
 	
 	public static void main(String[] args) throws Exception {

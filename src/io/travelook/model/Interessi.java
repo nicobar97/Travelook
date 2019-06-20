@@ -1,6 +1,8 @@
 package io.travelook.model;
 
-public enum Interessi {
+import java.io.Serializable;
+
+public enum Interessi implements Serializable {
    CINEMA,
    SPORT,
    CUCINA,

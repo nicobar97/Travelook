@@ -1,11 +1,14 @@
 package io.travelook.broker;
 
-public class Richiesta {
+import java.io.Serializable;
+import java.util.List;
+
+public class Richiesta<T> implements Serializable {
 
 	
 	private String ipMittente;
 	private Integer portaMittente;
-	private Object[] argomenti;
+	private List<T> argomenti;
 	private String servizio;
 	
 	public Richiesta() {
@@ -14,7 +17,7 @@ public class Richiesta {
 	}
 
 	
-	public Richiesta(String ipMittente, Integer portaMittente, Object[] argomenti, String servizio) {
+	public Richiesta(String ipMittente, Integer portaMittente, List<T> argomenti, String servizio) {
 		super();
 		this.ipMittente = ipMittente;
 		this.portaMittente = portaMittente;
@@ -38,11 +41,11 @@ public class Richiesta {
 		this.portaMittente = portaMittente;
 	}
 
-	public Object[] getArgomenti() {
+	public List<T> getArgomenti() {
 		return argomenti;
 	}
 
-	public void setArgomenti(Object[] argomenti) {
+	public void setArgomenti(List<T> argomenti) {
 		this.argomenti = argomenti;
 	}
 
