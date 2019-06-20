@@ -16,7 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
-public class ViaggioCell extends ListCell<Viaggio> {
+public class ViaggioCellUtente extends ListCell<Viaggio> {
 	@FXML
     private Label lblTitle;
 	@FXML
@@ -35,7 +35,7 @@ protected void updateItem(Viaggio v, boolean empty) {
         setGraphic(null);
     } else {
         if (mLLoader == null) {
-            mLLoader = new FXMLLoader(getClass().getResource("ViaggioCell.fxml"));
+            mLLoader = new FXMLLoader(getClass().getResource("ViaggioCellUtente.fxml"));
             mLLoader.setController(this);
             try {
                 mLLoader.load();

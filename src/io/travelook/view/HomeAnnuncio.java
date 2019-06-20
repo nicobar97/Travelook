@@ -71,6 +71,7 @@ public class HomeAnnuncio extends Application {
     private Text rdplabel;
     private Text creatoDaText;
     private ListView<Utente> utentiView;
+    private String code;
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -82,9 +83,10 @@ public class HomeAnnuncio extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-	public HomeAnnuncio(Viaggio viaggio, Utente user) {
+	public HomeAnnuncio(Viaggio viaggio, Utente user, String code) {
 		this.viaggio = viaggio;
 		this.user= user;
+		this.code = code;
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void initRootLayout() {
@@ -137,7 +139,10 @@ public class HomeAnnuncio extends Application {
             rdpc = new RichiesteObservableController();
             listUserViaggio = viaggio.getPartecipanti();
             backButton.setOnMouseClicked(event -> {
-        		new HomeListaAnnunci(user).start(primaryStage);
+            	if(code == "lista")
+            		new HomeListaAnnunci(user).start(primaryStage);
+            	else if(code == "utente")
+            		new HomeUtente(user).start(primaryStage);
             });
             
             if(user.getId() == viaggio.getCreatore().getId()) {

@@ -67,6 +67,8 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		List<Recensione> lista = null;
 		dbrec.setConn(super.getDbConnection());
 		lista = dbrec.readRecensioniUtente(u);
+		for(Recensione r : lista)
+			System.out.println(r.getCorpo());
 		return lista;
 	}
 

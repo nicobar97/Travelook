@@ -30,9 +30,9 @@
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="390.0" layoutX="9.0" stroke="BLACK" strokeType="INSIDE" width="363.0" />
            
-            <Text fx:id="username" layoutX="192.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\@nicobar" textAlignment="RIGHT" wrappingWidth="160.2060546875">
+            <Text fx:id="username" layoutX="177.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\@nicobar" textAlignment="RIGHT" wrappingWidth="186.0">
                <font>
-                  <Font name="Arial" size="25.0" />
+                  <Font name="Arial" size="21.0" />
                </font>
                <fill>
                   <RadialGradient centerX="0.12921348314606743" centerY="0.7932692307692308" radius="0.5">

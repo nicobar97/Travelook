@@ -171,6 +171,27 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 				c.setDataNascita(rs.getDate(i++));
 				c.setImmagineProfilo(rs.getString(i++));
 				v.setCreatore(c);
+				List<Utente> listaPartecipanti = new ArrayList<Utente>();
+				PreparedStatement prep_stmt2 = conn.prepareStatement(MssqlViaggioDAO.list_user_viaggio);
+				prep_stmt2.clearParameters();
+				ResultSet rs2=prep_stmt2.executeQuery();
+				int k=1;
+				while(rs2.next()) {
+					Utente u = new Utente();
+					k=1;
+					u.setId(rs2.getInt(k++));
+					u.setUsername(rs2.getString(k++));
+					u.setEmail(rs2.getString(k++));
+					u.setNome(rs2.getString(k++));
+					u.setCognome(rs2.getString(k++));
+					u.setBio(rs2.getString(k++));
+					u.setDataNascita(rs2.getDate(k++));
+					u.setImmagineProfilo(rs2.getString(k++));
+					listaPartecipanti.add(u);
+				}
+				prep_stmt2.close();
+				rs2.close();
+				v.setPartecipanti(listaPartecipanti);
 				res=v;
 			}
 			rs.close();

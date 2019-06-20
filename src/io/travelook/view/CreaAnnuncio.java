@@ -147,7 +147,7 @@ public class CreaAnnuncio extends Application {
             });
             backButton.setOnMouseClicked(event -> {
             		if(type==0)
-            			new HomeAnnuncio(viaggio, user).start(primaryStage);
+            			new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
             		else
             			new HomeListaAnnunci(user).start(primaryStage);
             });
@@ -184,19 +184,19 @@ public class CreaAnnuncio extends Application {
 					controller.creaAnnuncio(nv);
 				}
 				if(type==0)
-        			new HomeAnnuncio(nv, user).start(primaryStage);
+        			new HomeAnnuncio(nv, user, "lista").start(primaryStage);
         		else
         			new HomeListaAnnunci(user).start(primaryStage);
             });
             annullaButton.setOnMouseClicked(event -> {
             	if(type==0)
-        			new HomeAnnuncio(viaggio, user).start(primaryStage);
+        			new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
         		else
         			new HomeListaAnnunci(user).start(primaryStage);
             });
             backButton.setOnMouseClicked(event -> {
             	if(type==0)
-        			new HomeAnnuncio(viaggio, user).start(primaryStage);
+        			new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
         		else
         			new HomeListaAnnunci(user).start(primaryStage);
             });

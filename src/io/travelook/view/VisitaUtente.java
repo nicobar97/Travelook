@@ -121,7 +121,7 @@ public class VisitaUtente extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             back.setOnMouseClicked(event -> {
-            	new HomeAnnuncio(viaggio, userOspite).start(primaryStage);
+            	new HomeAnnuncio(viaggio, userOspite, "lista").start(primaryStage);
             });
             bio.setEditable(false);
             username.setText("@"+user.getUsername());
@@ -212,7 +212,7 @@ public class VisitaUtente extends Application {
             	else {
             		Optional<String> mexRec = new TextInputDialog("Titolo Recensione").showAndWait();
     	        	if(mexRec.isPresent()) {
-    	        		uc.lasciaRecensione(new Recensione(user.getId(), votoRec, mexRec.get(), recArea.getText(), userOspite.getId()));
+    	        		uc.lasciaRecensione(new Recensione(user.getId(), votoRec, mexRec.get(), recArea.getText() + " - @" + userOspite.getUsername(), userOspite.getId()));
     	        		new Alert(AlertType.INFORMATION, "Utente " + user.getUsername() + " recensito!").show();
     	        	}
     	        	else {
@@ -292,7 +292,7 @@ public class VisitaUtente extends Application {
         ObservableList<Recensione> obsv = FXCollections.observableArrayList(listaRecensioni);
         if(!listaRecensioni.isEmpty() && listaRecensioni != null) {
         	listRecensioni.setItems(obsv);
-        	listRecensioni.setCellFactory(userCell -> new RecensioniCell());
+        	listRecensioni.setCellFactory(userCell -> new RecensioneCell());
         }
 	}
 }

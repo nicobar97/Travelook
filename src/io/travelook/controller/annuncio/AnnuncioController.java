@@ -16,7 +16,7 @@ public class AnnuncioController extends Controller implements IAnnuncio {
     	this.db = new MssqlViaggioDAO();
     }
 	public AnnuncioController() {
-		// TODO Auto-generated constructor stub
+		this.db = new MssqlViaggioDAO();
 	}
 	@Override
 	public Utente[] visuallizzaUtentiPartecipanti(Integer idAnnuncio) {
@@ -27,7 +27,10 @@ public class AnnuncioController extends Controller implements IAnnuncio {
 		res=(Utente[]) viaggio.getPartecipanti().toArray();
 		return res;
 	}
-
+	public Viaggio getViaggioById(int id) {
+		db.setConn(super.getDbConnection());
+		return db.read(id);
+	}
 	@Override
 	public boolean modificaAnnuncio(Viaggio modificato) {
 		/* questo metodo tramite un insert a livello db andr� a modificare i dati del viaggio passato come argomento */

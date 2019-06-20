@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.travelook.controller.annuncio.AnnuncioController;
 import io.travelook.controller.annuncio.ListaAnnunciController;
 import io.travelook.controller.rdp.RichiesteObservableController;
 import io.travelook.controller.utente.UtenteController;
@@ -86,6 +87,7 @@ public class HomeUtente extends Application {
     private UtenteController uc;
     private RichiesteObservableController rdpc;
     private List<Recensione> listaRecensioni;
+    private AnnuncioController ac;
     private List<Viaggio> listaViaggio;
     private Storico storico;
     private Double average;
@@ -119,6 +121,7 @@ public class HomeUtente extends Application {
             average = new Double(0);
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
+            ac = new AnnuncioController();
             back.setOnMouseClicked(event -> {
             	new HomeListaAnnunci(user).start(primaryStage);
             });
@@ -137,6 +140,10 @@ public class HomeUtente extends Application {
             refreshRichieste();
             refreshRecensioni();
             initStars();
+            listRichieste.setVisible(false);
+        	listViaggio.setVisible(false);
+        	listRecensioni.setVisible(true);
+        	listStorico.setVisible(false);
             showViaggi.setOnMouseClicked(event -> {
             	listRichieste.setVisible(false);
             	listViaggio.setVisible(true);
@@ -160,6 +167,13 @@ public class HomeUtente extends Application {
             	listViaggio.setVisible(false);
             	listRecensioni.setVisible(true);
             	listStorico.setVisible(false);
+            });
+            listViaggio.setOnMouseClicked(event ->{
+            	MouseEvent me = (MouseEvent) event;
+            	if(me.getClickCount() == 2) {
+            		Viaggio open = ac.getViaggioById(listViaggio.getSelectionModel().getSelectedItem().getIdViaggio());
+            		new HomeAnnuncio(open, user, "utente").start(primaryStage);
+            	}
             });
             modifica.setOnMouseClicked(event -> {
             	new ModificaUtente(user, average, user.getInteressi()).start(primaryStage);
@@ -232,7 +246,7 @@ public class HomeUtente extends Application {
         ObservableList<Viaggio> obsv = FXCollections.observableArrayList(listaViaggio);
         if(!listaViaggio.isEmpty() && listaViaggio != null) {
         	listViaggio.setItems(obsv);
-        	listViaggio.setCellFactory(userCell -> new ViaggioCell());
+        	listViaggio.setCellFactory(userCell -> new ViaggioCellUtente());
         }
 	}
 	private void refreshStorico() {
@@ -240,7 +254,7 @@ public class HomeUtente extends Application {
         ObservableList<Viaggio> obsv = FXCollections.observableArrayList(storico.getStorico());
         if(!storico.getStorico().isEmpty() && storico.getStorico() != null) {
         	listStorico.setItems(obsv);
-        	listStorico.setCellFactory(userCell -> new ViaggioCell());
+        	listStorico.setCellFactory(userCell -> new ViaggioCellUtente());
         }
 	}
 	private void refreshRecensioni() {
@@ -248,7 +262,7 @@ public class HomeUtente extends Application {
         ObservableList<Recensione> obsv = FXCollections.observableArrayList(listaRecensioni);
         if(!listaRecensioni.isEmpty() && listaRecensioni != null) {
         	listRecensioni.setItems(obsv);
-        	listRecensioni.setCellFactory(userCell -> new RecensioniCell());
+        	listRecensioni.setCellFactory(recensioneCell -> new RecensioneCell());
         }
 	}
 	private void refreshRichieste() {
@@ -256,7 +270,7 @@ public class HomeUtente extends Application {
         ObservableList<RichiestaDiPartecipazione> obsrdp = FXCollections.observableArrayList(listaRichieste);
         if(!listaRichieste.isEmpty() && listaRichieste != null) {
         	listRichieste.setItems(obsrdp);
-        	listRichieste.setCellFactory(userCell -> new RDPCell(rdpc, listRichieste));
+        	listRichieste.setCellFactory(userCell -> new RDPCellUtente(rdpc, listRichieste));
         }
 	}
 }
