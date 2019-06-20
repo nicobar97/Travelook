@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.travelook.controller.annuncio.ListaAnnunciController;
@@ -53,6 +54,26 @@ public class ServerListaAnnunci extends Thread {
 			Risposta<Viaggio> replyAnnunci = new Risposta<Viaggio>(brokerSocket.getInetAddress().toString(),brokerSocket.getPort(),listaAnnunci);
 			ous.writeObject(replyAnnunci);
 			//
+		}
+		if(servizioRichiesto.equals("creaAnnuncio")) {
+			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
+			Viaggio daCreare = (Viaggio) listaArgomenti.get(0);
+			boolean esito = listaAnnunciController.creaAnnuncio(daCreare);
+			List<Boolean> listaEsiti = new ArrayList<Boolean>();
+			listaEsiti.add(esito);
+			Risposta<Boolean> replyCreaAnnuncio = new Risposta<Boolean>(brokerSocket.getInetAddress().toString(),
+					brokerSocket.getPort(),listaEsiti);
+			ous.writeObject(replyCreaAnnuncio);
+		}
+		if(servizioRichiesto.equals("eliminaAnnuncio")) {
+			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
+			Integer idDaEliminare = (Integer) listaArgomenti.get(0);
+			boolean esito = listaAnnunciController.eliminaAnnuncio(idDaEliminare);
+			List<Boolean> listaEsiti = new ArrayList<Boolean>();
+			listaEsiti.add(esito);
+			Risposta<Boolean> replyCreaAnnuncio = new Risposta<Boolean>(brokerSocket.getInetAddress().toString(),
+					brokerSocket.getPort(),listaEsiti);
+			ous.writeObject(replyCreaAnnuncio);
 		}
 		brokerSocket.close();
 		}

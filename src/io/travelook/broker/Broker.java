@@ -36,6 +36,8 @@ public class Broker extends Thread {
 		EndPointServer eps = new EndPointServer("serverListaAnnunci", "localhost", 4001);
 		serviziServer = new HashMap<String,EndPointServer>();
 		serviziServer.put("getListaAnnunci",eps);
+		serviziServer.put("creaAnnuncio",eps);
+		serviziServer.put("eliminaAnnuncio",eps);
 	}
 	
 	public void run() {

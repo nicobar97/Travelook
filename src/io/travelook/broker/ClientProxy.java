@@ -28,6 +28,11 @@ public class ClientProxy {
 	private ObjectInputStream ois;
 	
 	public ClientProxy() throws UnknownHostException, IOException {
+		
+		
+	}
+	
+	private void initSocket() throws IOException {
 		s= new Socket(INDIRIZZO_BROKER, PORTA_BROKER);
 		out = new DataOutputStream(s.getOutputStream());
 		in = new DataInputStream(s.getInputStream());
@@ -39,8 +44,8 @@ public class ClientProxy {
 	public static void main(String args[]) throws UnknownHostException, IOException, JSONException, ClassNotFoundException {
 		ClientProxy c = new ClientProxy();
 		Viaggio v = new Viaggio();
-		c.getListaAnnunci();
-		
+		c.creaAnnuncio(v);
+		c.eliminaAnnuncio(18458);
 		/*
 		 * qua non ci vuole il main, i metodi vanno invocati da client
 		 */
@@ -49,23 +54,40 @@ public class ClientProxy {
 	}
 	
 	public List<Viaggio> getListaAnnunci() throws UnknownHostException, IOException, ClassNotFoundException{
+		initSocket();
 		List <Viaggio> listaViaggi = new ArrayList<Viaggio>();
 		Richiesta r = new Richiesta<Viaggio>("local",123,new ArrayList<Viaggio>(),"getListaAnnunci");		
 		oos.writeObject(r);
 		Risposta<Viaggio> replyFromServer = (Risposta<Viaggio>) ois.readObject();
 		for(Viaggio v : replyFromServer.getValori())
 			System.out.println(v.getTitolo());
+		s.close();
 		return replyFromServer.getValori();
 	}
 	
 	public boolean creaAnnuncio(Viaggio v) throws UnknownHostException, IOException, ClassNotFoundException {
+		initSocket();
 		List<Viaggio> viaggi = new ArrayList<Viaggio>();
 		viaggi.add(v);
 		Richiesta r = new Richiesta<Viaggio>(s.getLocalSocketAddress().toString(),s.getLocalPort(),viaggi,"creaAnnuncio");
 		oos.writeObject(r);	
 		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
 		System.out.println(reply.getValori().get(0));
+		s.close();
 		return reply.getValori().get(0);
+	}
+	
+	public boolean eliminaAnnuncio(int idAnnuncio) throws IOException, ClassNotFoundException {
+		initSocket();
+		List<Integer> argomentiRichiesta = new ArrayList<Integer>();
+		argomentiRichiesta.add(idAnnuncio);
+		Richiesta r = new Richiesta<Integer>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "eliminaAnnuncio");
+		oos.writeObject(r);
+		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
+		System.out.println(reply.getValori().get(0));
+		s.close();
+		return reply.getValori().get(0);	
 	}
 	
 
