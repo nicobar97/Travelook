@@ -65,7 +65,7 @@ public class Entry {
 	@Override
 	public String toString() {
 		return idEntry + ";" + idUtente + ";" + new SimpleDateFormat("dd/MM/yyyy/HH/mm/ss").format(timestamp) + ";" + tipo
-				+ ";" + operazione ;
+				+ ";" + operazione +"\n";
 	}
 	public String toStringDisplay() {
 		return "idEntry " + idEntry + " --> [idUtente=" + idUtente + ", timestamp=" + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp) + ", tipo=" + tipo
