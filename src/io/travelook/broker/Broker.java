@@ -1,4 +1,4 @@
-package servers;
+package io.travelook.broker;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,21 +10,24 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.server.SocketSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.sun.javafx.collections.MappingChange.Map;
 
-import io.travelook.broker.Richiesta;
-import io.travelook.broker.Risposta;
-import io.travelook.broker.Risposta;
 import io.travelook.controller.annuncio.AnnuncioController;
 import io.travelook.controller.annuncio.ListaAnnunciController;
 import io.travelook.model.Viaggio;
-public class ServerViaggi extends Thread {
-	Socket clientSocket;
+public class Broker extends Thread {
+	private Socket clientSocket;
+	private Socket serverListaAnnunciSocket;
+	private final static String IP_SERVER_LISTA_ANNUNCI = "localhost";
+	private final int PORTA_SERVER_LISTA_ANNUNCI = 4001;
 	
-	public ServerViaggi(Socket s) {
+	
+	public Broker(Socket s) {
 		this.clientSocket = s;
 	}
 	
@@ -39,17 +42,20 @@ public class ServerViaggi extends Thread {
 		ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
 		ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
 		
-		Richiesta<Object> r = (Richiesta<Object>)ois.readObject();
-		String servizio = r.getServizio();
+		Richiesta<Object> richiesta = (Richiesta<Object>)ois.readObject();
+		String servizio = richiesta.getServizio();
 		System.out.println("Ricevuta Richiesta da " + clientSocket.getInetAddress() + " per il servizio "+ servizio);
 		switch(servizio) {
 		case "getListaAnnunci":
-			List<Viaggio> listaViaggi = lac.getAnnunci();
-			Risposta<Viaggio> reply = new Risposta<Viaggio>(clientSocket.getInetAddress().toString(),clientSocket.getPort(),listaViaggi);
-			oos.writeObject(reply);
+			this.serverListaAnnunciSocket = new Socket(IP_SERVER_LISTA_ANNUNCI,PORTA_SERVER_LISTA_ANNUNCI);
+			ObjectInputStream oisListaAnnunci = new ObjectInputStream(serverListaAnnunciSocket.getInputStream());
+			ObjectOutputStream ousListaAnnunci = new ObjectOutputStream(serverListaAnnunciSocket.getOutputStream());
+			ousListaAnnunci.writeObject(richiesta);
+			Risposta<Viaggio> listaViaggiRisposta = (Risposta<Viaggio>) oisListaAnnunci.readObject();
+			oos.writeObject(listaViaggiRisposta);
 			break;
 		case "creaAnnuncio":
-			Viaggio v =(Viaggio) r.getArgomenti().get(0);
+			Viaggio v =(Viaggio) richiesta.getArgomenti().get(0);
 			boolean esito = lac.creaAnnuncio(v);
 			List<Boolean> esiti = new ArrayList<Boolean>();
 			esiti.add(esito);
@@ -80,7 +86,7 @@ public class ServerViaggi extends Thread {
 			System.out.println("Il Server è in attesa sulla porta 4000.");
 			while(true) {
 			Socket socket = sSock.accept();
-			ServerViaggi thread = new ServerViaggi(socket);
+			Broker thread = new Broker(socket);
 			thread.start();
 			}
 			
