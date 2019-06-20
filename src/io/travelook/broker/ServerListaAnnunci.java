@@ -45,7 +45,7 @@ public class ServerListaAnnunci extends Thread {
 			List<Viaggio> listaAnnunci = listaAnnunciController.getAnnunci();
 			Risposta<Viaggio> replyAnnunci = new Risposta<Viaggio>(brokerSocket.getInetAddress().toString(),brokerSocket.getPort(),listaAnnunci);
 			ous.writeObject(replyAnnunci);
-			
+			//
 		}
 		brokerSocket.close();
 		}
