@@ -42,7 +42,7 @@ public class UserCell extends ListCell<Utente> {
 	                alert.setContentText("error");
 	                alert.show();
 	            }
-	        }
+	        }//
 	        
 	        user.setText(utente.toString());
 	        
