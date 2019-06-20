@@ -94,7 +94,7 @@ public class HomeAnnuncio extends Application {
             rootLayout = (FlowPane) loader.load();
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
-            formatter = new SimpleDateFormat("yyyy-MM-dd");
+            formatter = new SimpleDateFormat("dd-MM-yyyy");
             chatView = (ListView) scene.lookup("#chatView");
             newMessage = (TextField) scene.lookup("#messageBox");
             sendButton = (Button) scene.lookup("#send");
@@ -300,6 +300,11 @@ public class HomeAnnuncio extends Application {
         if(!userPart.isEmpty() && userPart != null) {
         	utentiView.setItems(userPart);
         }
+        utentiView.setOnMouseClicked(event -> {
+        	MouseEvent me = (MouseEvent) event;
+        	if(me.getClickCount() == 2)
+        		new VisitaUtente(utentiView.getSelectionModel().getSelectedItem(), user, viaggio).start(primaryStage);
+        });
 	}
 	public Stage getPrimaryStage() {
         return primaryStage;

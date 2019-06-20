@@ -113,7 +113,7 @@ public class CreaAnnuncio extends Application {
             imgChooser = new FileChooser();
             newImg = null;
             Viaggio nv = new Viaggio();
-            load.setText("C\nA\nR\nI\nC\nA");
+            load.setText("L\nO\nA\nD");
             load.setTextAlignment(TextAlignment.CENTER);
             if(type == 0) {
             	titolo.setText(viaggio.getTitolo().trim());

@@ -34,22 +34,22 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 
 	@Override
 	public boolean aggiungiInteressi(Interessi interesse) {
-		boolean trovatoInteresse=false;
-		for(Interessi i: u.getInteressi()) {
-			if(i.equals(interesse)) {
-				trovatoInteresse=true;
-				break;
-			}
-		}
-		if(!trovatoInteresse) {
-			u.getInteressi().add(interesse);
+//		boolean trovatoInteresse=false;
+//		for(Interessi i: u.getInteressi()) {
+//			if(i.equals(interesse)) {
+//				trovatoInteresse=true;
+//				break;
+//			}
+//		}
+//		if(!trovatoInteresse) {
+			//u.getInteressi().add(interesse);
 			interessi.setConn(super.getDbConnection());
 			interessi.create(u, interesse);
 			return true;
-		}
-		else {
-			return false;
-		}
+//		}
+//		else {
+//			return false;
+//		}
 	}
 	public int getIdUtenteFromUsername(String username) {
 		db.setConn(super.getDbConnection());
@@ -129,5 +129,12 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 	public void setU(Utente u) {
 		this.u = u;
 	}
-	
+	public boolean lasciaRecensione(Recensione r) {
+		dbrec.setConn(super.getDbConnection());
+		return dbrec.create(r);
+	}
+	public boolean aggiornaRecensione(Recensione r) {
+		dbrec.setConn(super.getDbConnection());
+		return dbrec.update(r);	
+	}
 }

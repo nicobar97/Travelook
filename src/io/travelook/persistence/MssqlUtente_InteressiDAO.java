@@ -13,9 +13,8 @@ import io.travelook.model.Utente;
 
 public class MssqlUtente_InteressiDAO implements IUtente_InteressiDAO{
 	Connection conn;
-	private String read_interessi_utente="SELECT i.idInteresse"
-			+ "FROM Utente_Interessi as i INNER JOIN Utente as u "
-			+ "WHERE i.idUtente=? ";
+	private String read_interessi_utente="SELECT idInteresse FROM Utente_Interessi "
+			+ "WHERE idUtente=?";
 	private String delete="DELETE FROM Utente_Interessi WHERE idInteresse=?,idUtente=?";
 	public MssqlUtente_InteressiDAO(Connection c) {
 		conn=c;
@@ -26,51 +25,34 @@ public class MssqlUtente_InteressiDAO implements IUtente_InteressiDAO{
 	//
 	@Override
 	public boolean create(Utente u, Interessi i) {
-		/*Aggiunge un interesse all'utente e quindi aggiunge una tupla
-		 * alla tabella che mappa gli interessi
-		 */
-		boolean esito = false;
-		String query1 = "SELECT id from Utente WHERE nickname= ?";
-		int id = -1;
-		
-		try {
-			PreparedStatement prep_stmt = conn.prepareStatement(query1);
-			prep_stmt.setString(1, u.getUsername());
-			System.out.println(u.getUsername());
-			ResultSet rs = prep_stmt.executeQuery();
-			if(rs.next()) {
-				id= rs.getInt(1);
+		String queryAdd = "INSERT INTO Utente_Interessi(idUtente,idInteresse) VALUES(?,?)";
+		int idint=-1;
+		for(int k=0; k<Interessi.values().length; k++) {
+			if(Interessi.values()[k].compareTo(i) == 0)
+				idint = k;
+		}
+		if(idint > 0) {
+			try {
+				PreparedStatement prep_stmt = conn.prepareStatement(queryAdd);
+				prep_stmt.setInt(1, u.getId());
+				prep_stmt.setInt(2, idint);
+				int righeAggiunte = prep_stmt.executeUpdate();
+				if(righeAggiunte==0) return false;
+				else return true;
 			}
-			else return false;
+			catch(SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
 		}
-		catch(SQLException e) {
-			e.printStackTrace();
+		else 
 			return false;
-		}
-		if(id<0) return false;
-		int idInteresse = i.ordinal()+1;
-		
-		String queryAdd = "INSERT INTO Utente_Interesse(idUtente,idInteresse) VALUES(?,?)";
-		try {
-			PreparedStatement prep_stmt = conn.prepareStatement(queryAdd);
-			prep_stmt.setInt(1, id);
-			prep_stmt.setInt(2, idInteresse);
-			int righeAggiunte = prep_stmt.executeUpdate();
-			if(righeAggiunte==0) return false;
-			else return true;
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
 	}
 
 	@Override
 	public List<Interessi> readInteressiByUtente(Utente u) {
-	   /*"SELECT i.idInteresse"
-			+ "FROM Utente_Interessi as i INNER JOIN Utente as u "
-			+ "WHERE i.idUtente=? ";*/
 		List<Interessi> res=new ArrayList<Interessi>();
+		Interessi[] i = Interessi.values();
 		if(u==null) {
 			System.out.println("l'utente non pu� essere nullo nella ricerca dei suoi interessi \n ");
 			return res;
@@ -79,9 +61,8 @@ public class MssqlUtente_InteressiDAO implements IUtente_InteressiDAO{
 			PreparedStatement ps=conn.prepareStatement(read_interessi_utente);
 			ps.setInt(1,u.getId());
 			ResultSet rs=ps.executeQuery();
-			  while(rs.next()) {
-				   Interessi i =Interessi.values()[rs.getInt("idInteresse")];
-				   res.add(i);
+			  while(rs.next()) {	   
+				   res.add(i[rs.getInt(1)]);
 			       }
 		    }
 	    catch(SQLException e) {
