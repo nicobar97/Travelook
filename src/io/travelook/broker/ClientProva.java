@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONException;
 
@@ -34,7 +36,18 @@ public class ClientProva {
 		Risposta risposta = gson.fromJson(stringaRisposta, Risposta.class);
 		System.out.println("Risposta ricevuta dal server: " + stringaRisposta);
 		System.out.println(risposta.getIpDestinatario());
-		Viaggio[] arrayViaggi = (Viaggio[]) risposta.getValori();
+		//Viaggio[] arrayViaggi = (Viaggio[]) risposta.getValori();
+		//Viaggio v = null;
+		List<Viaggio> vl = new ArrayList<>();
+		for(int i=0; i<risposta.getValori().length; i++) {
+			if(risposta.getValori()[i] instanceof Viaggio)
+				vl.add((Viaggio) risposta.getValori()[i]);
+			else
+				System.out.println("DC");
+		}
+		for(Viaggio v : vl) {
+			System.out.println(v.getTitolo());
+		}
 		s.close();
 	}
 	
