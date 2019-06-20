@@ -1,29 +1,28 @@
 package io.travelook.broker;
 
+import java.util.List;
 
-public class Risposta {
+import io.travelook.model.Viaggio;
+
+public class RispostaViaggi {
 	
 
 	private String ipDestinatario;
 	private Integer portaDest;
-	private Object[] valori;
+	private List<Viaggio> listaViaggi;
 	private int numero_valori;
 	
-	public Risposta() {
+	public RispostaViaggi() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Risposta(Object[] valori) {
-		this.valori=valori;
-	}
 	
-	
-	public Risposta(String ipDestinatario, Integer portaDest, Object[] valori, int numero_valori) {
+	public RispostaViaggi(String ipDestinatario, Integer portaDest, List<Viaggio> valori) {
 		super();
 		this.ipDestinatario = ipDestinatario;
 		this.portaDest = portaDest;
-		this.valori = valori;
-		this.numero_valori = numero_valori;
+		this.listaViaggi = valori;
+		this.numero_valori = valori.size();
 	}
 	
 	public String getIpDestinatario() {
@@ -38,11 +37,11 @@ public class Risposta {
 	public void setPortaDest(Integer portaDest) {
 		this.portaDest = portaDest;
 	}
-	public Object[] getValori() {
-		return valori;
+	public List<Viaggio> getValori() {
+		return listaViaggi;
 	}
-	public void setValori(Object[] valori) {
-		this.valori = valori;
+	public void setValori(List<Viaggio> valori) {
+		this.listaViaggi = valori;
 	} 
 	
 	public int getNumeroValori() {return numero_valori;}

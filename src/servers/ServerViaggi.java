@@ -13,7 +13,7 @@ import java.util.List;
 import com.google.gson.Gson;
 
 import io.travelook.broker.Richiesta;
-import io.travelook.broker.Risposta;
+import io.travelook.broker.RispostaViaggi;
 import io.travelook.controller.annuncio.AnnuncioController;
 import io.travelook.controller.annuncio.ListaAnnunciController;
 import io.travelook.model.Viaggio;
@@ -44,14 +44,7 @@ public class ServerViaggi extends Thread {
 		switch(servizio) {
 		case "getListaAnnunci":
 			List<Viaggio> listaViaggi = lac.getAnnunci();
-			int size = listaViaggi.size();
-			Object[] valori = new Object[size];
-			int i = 0;
-			for( Viaggio v : listaViaggi) {
-				System.out.println("viaggio"+i);
-				valori[i++]=v;
-			}
-			Risposta reply = new Risposta(clientSocket.getInetAddress().toString(),clientSocket.getPort(), valori,size);
+			RispostaViaggi reply = new RispostaViaggi(clientSocket.getInetAddress().toString(),clientSocket.getPort(), listaViaggi);
 			String replyJSON = gson.toJson(reply);
 			System.out.println(replyJSON);
 			dos.writeUTF(replyJSON);

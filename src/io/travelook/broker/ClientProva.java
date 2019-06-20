@@ -13,6 +13,7 @@ import java.util.List;
 import org.json.JSONException;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 
 import io.travelook.model.Viaggio;
 
@@ -33,21 +34,14 @@ public class ClientProva {
 		DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 		dos.writeUTF(stringaRichiesta);
 		String stringaRisposta = dis.readUTF();
-		Risposta risposta = gson.fromJson(stringaRisposta, Risposta.class);
+		RispostaViaggi risposta = gson.fromJson(stringaRisposta, RispostaViaggi.class);
 		System.out.println("Risposta ricevuta dal server: " + stringaRisposta);
 		System.out.println(risposta.getIpDestinatario());
 		//Viaggio[] arrayViaggi = (Viaggio[]) risposta.getValori();
 		//Viaggio v = null;
-		List<Viaggio> vl = new ArrayList<>();
-		for(int i=0; i<risposta.getValori().length; i++) {
-			if(risposta.getValori()[i] instanceof Viaggio)
-				vl.add((Viaggio) risposta.getValori()[i]);
-			else
-				System.out.println("DC");
-		}
-		for(Viaggio v : vl) {
-			System.out.println(v.getTitolo());
-		}
+		List<Viaggio> arrayViaggiObject = risposta.getValori();
+		
+		
 		s.close();
 	}
 	
