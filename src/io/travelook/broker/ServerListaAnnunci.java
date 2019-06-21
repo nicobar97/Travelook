@@ -8,17 +8,22 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.travelook.controller.annuncio.AnnuncioController;
 import io.travelook.controller.annuncio.ListaAnnunciController;
+import io.travelook.model.Recensione;
+import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 
 public class ServerListaAnnunci extends Thread {
 	private ListaAnnunciController listaAnnunciController;
+	private AnnuncioController annuncioController;
 	private static ServerSocket serverSocket;
 	private static Socket brokerSocket;
 	
 	public ServerListaAnnunci(Socket brokerSocket) {
 		this.listaAnnunciController = new ListaAnnunciController();
 		this.brokerSocket=brokerSocket;
+		this.annuncioController = new AnnuncioController();
 		
 	}
 	
@@ -88,6 +93,76 @@ public class ServerListaAnnunci extends Thread {
 			Risposta<Viaggio> replyVisualizzaAnnuncio = new Risposta<Viaggio>(brokerSocket.getInetAddress().toString(),
 					brokerSocket.getPort(),listaViaggio);
 			ous.writeObject(replyVisualizzaAnnuncio);
+		}
+		//da registrare sul broker
+		if(servizioRichiesto.equals("modificaAnnuncio")) {
+			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
+			Viaggio viaggioModificato = (Viaggio) listaArgomenti.get(0);
+			boolean esito = annuncioController.modificaAnnuncio(viaggioModificato);
+			List<Boolean> listaEsiti = new ArrayList<Boolean>();
+			listaEsiti.add(esito);
+			Risposta<Boolean> replyModificaAnnuncio = new Risposta<Boolean>(brokerSocket.getInetAddress().toString(),
+					brokerSocket.getPort(),listaEsiti);
+			ous.writeObject(replyModificaAnnuncio);
+		}
+		//da registrare sul broker
+		if(servizioRichiesto.equals("lasciaRecensione")) {
+			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
+			Recensione daLasciare = (Recensione) listaArgomenti.get(0);
+			boolean esito = annuncioController.lasciaRecensione(daLasciare);
+			List<Boolean> listaEsiti = new ArrayList<Boolean>();
+			listaEsiti.add(esito);
+			Risposta<Boolean> replyLasciaRecensione = new Risposta<Boolean>(brokerSocket.getInetAddress().toString(),
+					brokerSocket.getPort(),listaEsiti);
+			ous.writeObject(replyLasciaRecensione);
+		}
+		//da registrare sul broker
+		if(servizioRichiesto.equals("setViaggio")) {
+			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
+			Viaggio daSettare = (Viaggio) listaArgomenti.get(0);
+			boolean esito = true;
+			annuncioController.setViaggio(daSettare);
+			List<Boolean> listaEsiti = new ArrayList<Boolean>();
+			listaEsiti.add(esito);
+			Risposta<Boolean> replySetViaggio = new Risposta<Boolean>(brokerSocket.getInetAddress().toString(),
+					brokerSocket.getPort(),listaEsiti);
+			ous.writeObject(replySetViaggio);
+		}
+		//da registrare sul broker
+		if(servizioRichiesto.equals("abbandonaAnnuncio")) {
+			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
+			Utente daEliminare = (Utente) listaArgomenti.get(0);
+			boolean esito = annuncioController.abbandonaAnnuncio(daEliminare);
+			List<Boolean> listaEsiti = new ArrayList<Boolean>();
+			listaEsiti.add(esito);
+			Risposta<Boolean> replyAbbandonaAnnuncio = new Risposta<Boolean>(brokerSocket.getInetAddress().toString(),
+					brokerSocket.getPort(),listaEsiti);
+			ous.writeObject(replyAbbandonaAnnuncio);
+			
+		}
+		//da registrare sul broker
+		if(servizioRichiesto.equals("getViaggioById")) {
+			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
+			Integer idViaggio = (Integer) listaArgomenti.get(0);
+			Viaggio v = annuncioController.getViaggioById(idViaggio);
+			List<Viaggio> listaViaggio = new ArrayList<Viaggio>();
+			listaViaggio.add(v);
+			Risposta<Viaggio> replyGetViaggioById = new Risposta<Viaggio>(brokerSocket.getInetAddress().toString(),
+					brokerSocket.getPort(),listaViaggio);
+			ous.writeObject(replyGetViaggioById);
+		}
+		//da registrare sul broker e da convertire da List a array nel proxy
+		if(servizioRichiesto.equals("visualizzaUtentiPartecipanti")) {
+			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
+			Integer idViaggio = (Integer) listaArgomenti.get(0);
+			Utente[] partecipanti = annuncioController.visuallizzaUtentiPartecipanti(idViaggio);
+			List<Utente> listaDaRestituire = new ArrayList<Utente>();
+			for(Utente u : partecipanti) {
+				listaDaRestituire.add(u);
+			}
+			Risposta<Utente> replyVisualizzaUtentiPartecipanti = new Risposta<Utente>(brokerSocket.getInetAddress().toString(),
+					brokerSocket.getPort(),listaDaRestituire);
+			ous.writeObject(replyVisualizzaUtentiPartecipanti);
 		}
 		brokerSocket.close();
 		}
