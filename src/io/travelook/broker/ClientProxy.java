@@ -55,6 +55,8 @@ public class ClientProxy {
 		
 	}
 	
+	
+	
 	public List<Viaggio> getListaAnnunci() throws UnknownHostException, IOException, ClassNotFoundException{
 		initSocket();
 		List <Viaggio> listaViaggi = new ArrayList<Viaggio>();
@@ -90,6 +92,20 @@ public class ClientProxy {
 		System.out.println(reply.getValori().get(0));
 		s.close();
 		return reply.getValori().get(0);	
+	}
+	public Viaggio visualizzaAnnuncio(int idAnnuncio) throws IOException, ClassNotFoundException {
+		Viaggio v;
+		initSocket();
+		List<Integer> argomentiRichiesta = new ArrayList<Integer>();
+		argomentiRichiesta.add(idAnnuncio);
+		Richiesta r = new Richiesta<Integer>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "eliminaAnnuncio");
+		oos.writeObject(r);
+		Risposta<Viaggio> reply = (Risposta<Viaggio>) ois.readObject();
+		System.out.println(reply.getValori().get(0));
+		s.close();
+		return reply.getValori().get(0);
+		
 	}
 	
 	public boolean verificaCredenziali(String username, String hashPassword) throws IOException, ClassNotFoundException {

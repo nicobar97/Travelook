@@ -49,6 +49,10 @@ public class ServerListaAnnunci extends Thread {
 		System.out.println("Richiesta di servizio ricevuta da broker " + brokerSocket.toString());
 		String servizioRichiesto = richiestaDaBroker.getServizio();
 		System.out.println("ServerListaAnnunci: servizio richiesto: "+servizioRichiesto);
+		
+		/*
+		 * SERVIZI
+		 */
 		if(servizioRichiesto.equals("getListaAnnunci")) {
 			List<Viaggio> listaAnnunci = listaAnnunciController.getAnnunci();
 			Risposta<Viaggio> replyAnnunci = new Risposta<Viaggio>(brokerSocket.getInetAddress().toString(),brokerSocket.getPort(),listaAnnunci);
@@ -74,6 +78,16 @@ public class ServerListaAnnunci extends Thread {
 			Risposta<Boolean> replyCreaAnnuncio = new Risposta<Boolean>(brokerSocket.getInetAddress().toString(),
 					brokerSocket.getPort(),listaEsiti);
 			ous.writeObject(replyCreaAnnuncio);
+		}
+		if(servizioRichiesto.equals("visualizzaAnnuncio")) {
+			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
+			Integer idAnnuncioDaVisualizzare = (Integer) listaArgomenti.get(0);
+			Viaggio v = listaAnnunciController.visualizzaAnnuncio(idAnnuncioDaVisualizzare);
+			List<Viaggio> listaViaggio = new ArrayList<Viaggio>();
+			listaViaggio.add(v);
+			Risposta<Viaggio> replyVisualizzaAnnuncio = new Risposta<Viaggio>(brokerSocket.getInetAddress().toString(),
+					brokerSocket.getPort(),listaViaggio);
+			ous.writeObject(replyVisualizzaAnnuncio);
 		}
 		brokerSocket.close();
 		}
