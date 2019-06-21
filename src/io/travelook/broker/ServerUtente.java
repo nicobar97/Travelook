@@ -17,12 +17,11 @@ import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 
 public class ServerUtente extends Thread {
-	private UtenteController utentec;
+	private UtenteController utentec  = new UtenteController();
 	private static ServerSocket serverSocket;
 	private static Socket brokerSocket;
 	
 	public ServerUtente(Socket brokerSocket) {
-		this.utentec = new UtenteController();
 		this.brokerSocket=brokerSocket;
 		
 	}
@@ -146,7 +145,9 @@ public class ServerUtente extends Thread {
 			ous.writeObject(replyGetutenteById);
 		}
 		if(servizioRichiesto.equals("getUtente")) {
+			System.out.println("sto per fare la getUtente");
 			Utente u = utentec.getU();
+			System.out.println("preso l'utente :"+u.getId()+" di nome: "+u.getNome());
 			List<Utente> listautenti = new ArrayList<Utente>();
 			listautenti.add(u);
 			Risposta<Utente> replyGetutente = new Risposta<Utente>(brokerSocket.getInetAddress().toString(),
@@ -157,6 +158,7 @@ public class ServerUtente extends Thread {
 			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
 			Utente  u = (Utente)listaArgomenti.get(0);
 			utentec.setU(u);
+			System.out.println("Settato con successo l'utente"+u.getId()+"di nome :"+u.getNome());
 			boolean res=true;
 			List<Boolean> listaset = new ArrayList<Boolean>();
 			listaset.add(res);
