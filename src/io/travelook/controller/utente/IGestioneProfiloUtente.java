@@ -12,7 +12,7 @@ public interface IGestioneProfiloUtente {
 	boolean aggiungiInteressi(Interessi interesse);
 	Storico visualizzaStorico();
 	List<Recensione> visualizzaRecensioni();
-	void modificaProfilo(Utente u);
+	boolean modificaProfilo(Utente u);
 	List<Viaggio> getViaggiInPartecipazione();
 	List<Viaggio> getViaggiInAttesaDiConferma();
 	boolean eliminaUtente();

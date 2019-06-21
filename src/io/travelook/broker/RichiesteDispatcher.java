@@ -69,11 +69,11 @@ public class RichiesteDispatcher implements IBroker {
 		 	    //out.write(json.toString());
 		 	}*/
 		 	//cerco di serializzare la richiesta per inviarla all server s; 
-		 	Object[] tosend=r.getArgomenti();
+		 	/*Object[] tosend=r.getArgomenti();
 		 	for (Object o : tosend) {
 		 		//outputStream.write();
 		 	}
-		 	
+		 	*/
 		 	return res; 
 		     
 	}

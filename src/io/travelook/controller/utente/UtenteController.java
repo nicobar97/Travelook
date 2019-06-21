@@ -73,11 +73,17 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 	}
 
 	@Override
-	public void modificaProfilo(Utente u) {
+	public boolean modificaProfilo(Utente u) {
+		boolean res=false;
 		if(u!=null) {
 			db.setConn(super.getDbConnection());
 			db.update(u);
+			res=true;
 		}
+		else{
+			res=false;
+		}
+		return res;
 	}
 
 	@Override
