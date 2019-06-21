@@ -44,6 +44,13 @@ public class Broker extends Thread {
 		serviziServer.put("getListaAnnunci",serverListaAnnunci);
 		serviziServer.put("creaAnnuncio",serverListaAnnunci);
 		serviziServer.put("eliminaAnnuncio",serverListaAnnunci);
+		serviziServer.put("visualizzaAnnuncio",serverListaAnnunci);
+		serviziServer.put("modificaAnnuncio",serverListaAnnunci);
+		serviziServer.put("lasciaRecensione",serverListaAnnunci);
+		serviziServer.put("setViaggio",serverListaAnnunci);
+		serviziServer.put("abbandonaAnnuncio",serverListaAnnunci);
+		serviziServer.put("getViaggioById",serverListaAnnunci);
+		serviziServer.put("visualizzaUtentiPartecipanti",serverListaAnnunci);
 		serviziServer.put("verificaCredenziali", serverLogin);
 		serviziServer.put("getListaUtenti", epsutente);
 
