@@ -16,6 +16,7 @@ import org.json.JSONException;
 
 import com.google.gson.Gson;
 
+import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 import io.travelook.utils.SHA256;
 
@@ -120,6 +121,21 @@ public class ClientProxy {
 		System.out.println(reply.getValori().get(0));
 		return reply.getValori().get(0);
 	}
+	
+	public List<Utente> getListaUtenti() throws UnknownHostException, IOException, ClassNotFoundException{
+		initSocket();
+		List<Utente> listutenti=new ArrayList<Utente>();
+		Richiesta r= new Richiesta<Utente>(s.getLocalSocketAddress().toString(),s.getLocalPort(),listutenti,"getListaUtenti");
+		oos.writeObject(r);
+		Risposta<Utente> reply=(Risposta<Utente>)ois.readObject();
+		for(Utente u : reply.getValori()) {
+			System.out.println("Utente "+u.getId()+" nome:"+u.getNome());
+		    }
+		s.close();
+		return reply.getValori();
+		}
+	
+
 		
 	
 

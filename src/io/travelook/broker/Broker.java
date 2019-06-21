@@ -28,18 +28,25 @@ public class Broker extends Thread {
 	private Socket clientSocket;
 	private Socket serverSocket;
 	private final static String IP_SERVER_LISTA_ANNUNCI = "localhost";
+	private final static String IP_SERVER_UTENTE = "localhost";
 	private final int PORTA_SERVER_LISTA_ANNUNCI = 4001;
+	private final int PORTA_SERVER_UTENTE=4003;
+	
+
 	
 	
 	public Broker(Socket s) {
 		this.clientSocket = s;
 		EndPointServer serverListaAnnunci = new EndPointServer("serverListaAnnunci", "localhost", 4001);
 		EndPointServer serverLogin = new EndPointServer("serverLogin", "localhost", 4002);
+		EndPointServer epsutente=new EndPointServer("serverUtente",IP_SERVER_UTENTE,PORTA_SERVER_UTENTE);
 		serviziServer = new HashMap<String,EndPointServer>();
 		serviziServer.put("getListaAnnunci",serverListaAnnunci);
 		serviziServer.put("creaAnnuncio",serverListaAnnunci);
 		serviziServer.put("eliminaAnnuncio",serverListaAnnunci);
 		serviziServer.put("verificaCredenziali", serverLogin);
+		serviziServer.put("getListaUtenti", epsutente);
+
 	}
 	
 	public void run() {
