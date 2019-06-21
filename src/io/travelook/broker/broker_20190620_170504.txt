@@ -1,0 +1,15 @@
+WARNING - 17:05:05: First conversion pass
+ERROR - 17:05:05: java.net.MalformedURLException: unknown protocol: pathmap
+WARNING - 17:05:21: First conversion pass
+ERROR - 17:05:21: org.xml.sax.SAXParseExceptionpublicId: /Travelook/src/io/travelook/broker/Broker.java; systemId: file:///Travelook/src/io/travelook/broker/Broker.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+ERROR - 17:05:21: org.xml.sax.SAXParseExceptionpublicId: /Travelook/src/io/travelook/broker/Broker.java; systemId: file:///Travelook/src/io/travelook/broker/Broker.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+WARNING - 17:05:37: First conversion pass
+ERROR - 17:05:37: org.xml.sax.SAXParseExceptionpublicId: /Travelook/src/io/travelook/broker/Broker.java; systemId: file:///Travelook/src/io/travelook/broker/Broker.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+ERROR - 17:05:38: org.xml.sax.SAXParseExceptionpublicId: /Travelook/src/io/travelook/broker/Broker.java; systemId: file:///Travelook/src/io/travelook/broker/Broker.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+WARNING - 17:06:02: Convert io.travelook.broker
+WARNING - 17:06:02: First conversion pass
+ERROR - 17:06:02: java.net.MalformedURLException: unknown protocol: pathmap
+WARNING - 17:06:11: Convert io.travelook.broker
+WARNING - 17:06:11: First conversion pass
+ERROR - 17:06:12: org.xml.sax.SAXParseExceptionpublicId: /Travelook/src/io/travelook/broker/Broker.java; systemId: file:///Travelook/src/io/travelook/broker/Broker.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.
+ERROR - 17:06:12: org.xml.sax.SAXParseExceptionpublicId: /Travelook/src/io/travelook/broker/Broker.java; systemId: file:///Travelook/src/io/travelook/broker/Broker.java; lineNumber: 1; columnNumber: 1; Il contenuto non è consentito nel prologo.

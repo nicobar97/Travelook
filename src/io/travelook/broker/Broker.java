@@ -33,11 +33,13 @@ public class Broker extends Thread {
 	
 	public Broker(Socket s) {
 		this.clientSocket = s;
-		EndPointServer eps = new EndPointServer("serverListaAnnunci", "localhost", 4001);
+		EndPointServer serverListaAnnunci = new EndPointServer("serverListaAnnunci", "localhost", 4001);
+		EndPointServer serverLogin = new EndPointServer("serverLogin", "localhost", 4002);
 		serviziServer = new HashMap<String,EndPointServer>();
-		serviziServer.put("getListaAnnunci",eps);
-		serviziServer.put("creaAnnuncio",eps);
-		serviziServer.put("eliminaAnnuncio",eps);
+		serviziServer.put("getListaAnnunci",serverListaAnnunci);
+		serviziServer.put("creaAnnuncio",serverListaAnnunci);
+		serviziServer.put("eliminaAnnuncio",serverListaAnnunci);
+		serviziServer.put("verificaCredenziali", serverLogin);
 	}
 	
 	public void run() {
@@ -56,9 +58,11 @@ public class Broker extends Thread {
 		System.out.println("Ricevuta Richiesta da " + clientSocket.getInetAddress() + " per il servizio "+ servizio);
 		
 		Socket servizioSocket = new Socket(serviziServer.get(servizio).getIpserver(),serviziServer.get(servizio).getPort());
-		
+		System.out.println("Broker: Invio la richiesta al server...");
 		Risposta<Object> replyFromBroker = dispatch(richiesta, servizioSocket); //questa è la risposta che torna AL broker DAL server
+		System.out.println("Broker: Ricevuta Risposta dal Server!");
 		oos.writeObject(replyFromBroker); // questa è la risposta che torna al cliente tramite la sua socket
+		System.out.println("Broker: risposta inviata al Cliente!");
 		
 		}
 		catch(Exception e) {

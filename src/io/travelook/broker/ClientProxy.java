@@ -17,6 +17,7 @@ import org.json.JSONException;
 import com.google.gson.Gson;
 
 import io.travelook.model.Viaggio;
+import io.travelook.utils.SHA256;
 
 public class ClientProxy {
 	private static Socket s;
@@ -49,6 +50,7 @@ public class ClientProxy {
 		/*
 		 * qua non ci vuole il main, i metodi vanno invocati da client
 		 */
+		
 		
 		
 	}
@@ -89,6 +91,20 @@ public class ClientProxy {
 		s.close();
 		return reply.getValori().get(0);	
 	}
+	
+	public boolean verificaCredenziali(String username, String hashPassword) throws IOException, ClassNotFoundException {
+		initSocket();
+		List<String> argomentiRichiesta = new ArrayList<String>();
+		argomentiRichiesta.add(username);
+		argomentiRichiesta.add(hashPassword);
+		Richiesta<String> r = new Richiesta<String>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "verificaCredenziali");
+		oos.writeObject(r);
+		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
+		System.out.println(reply.getValori().get(0));
+		return reply.getValori().get(0);
+	}
+		
 	
 
 }
