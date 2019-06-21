@@ -98,6 +98,15 @@ public class ServerUtente extends Thread {
 			Risposta<Storico> replystorico = new Risposta<Storico>(brokerSocket.getInetAddress().toString(),brokerSocket.getPort(),listastorici);
 			ous.writeObject(replystorico);
 		}
+		if(servizioRichiesto.equals("lasciaRecensione")) {
+			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
+			Recensione r = (Recensione) listaArgomenti.get(0);
+			boolean esito =utentec.lasciaRecensione(r);
+			List<Boolean> listarec = new ArrayList<Boolean>();
+			listarec.add(esito);
+			Risposta<Boolean> replyrec = new Risposta<Boolean>(brokerSocket.getInetAddress().toString(),brokerSocket.getPort(),listarec);
+			ous.writeObject(replyrec);
+		}
 		if(servizioRichiesto.equals("aggiornaRecensione")) {
 			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
 			Recensione r = (Recensione) listaArgomenti.get(0);
