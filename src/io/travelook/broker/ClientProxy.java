@@ -27,6 +27,7 @@ public class ClientProxy {
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
 	
+	
 	public ClientProxy() throws UnknownHostException, IOException {
 		
 		
@@ -43,9 +44,10 @@ public class ClientProxy {
 	
 	public static void main(String args[]) throws UnknownHostException, IOException, JSONException, ClassNotFoundException {
 		ClientProxy c = new ClientProxy();
-		Viaggio v = new Viaggio();
-		c.creaAnnuncio(v);
-		c.eliminaAnnuncio(18458);
+		//Viaggio v = new Viaggio();
+		//c.creaAnnuncio(v);
+		//c.eliminaAnnuncio(18458);
+		c.visualizzaUtentiPartecipanti(3);
 		/*
 		 * qua non ci vuole il main, i metodi vanno invocati da client
 		 */
@@ -185,6 +187,7 @@ public class ClientProxy {
 		int i = 0;
 		for(Utente u : reply.getValori()) {
 			arrayUtentiPartecipanti[i++] = u;
+			System.out.println("utente");
 		}
 		s.close();
 		return arrayUtentiPartecipanti;
