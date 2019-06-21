@@ -53,7 +53,20 @@ public class Broker extends Thread {
 		serviziServer.put("visualizzaUtentiPartecipanti",serverListaAnnunci);
 		serviziServer.put("verificaCredenziali", serverLogin);
 		serviziServer.put("getListaUtenti", epsutente);
-
+		serviziServer.put("visualizzaRecensioni", epsutente);
+		serviziServer.put("getViaggiinPartecipazione", epsutente);
+		serviziServer.put("getViaggiinAttesadiConferma", epsutente);
+		serviziServer.put("aggiungiInteresse", epsutente);
+		serviziServer.put("eliminaUtente", epsutente);
+		serviziServer.put("visualizzaStorico", epsutente);
+		serviziServer.put("lasciaRecensione", epsutente);
+		serviziServer.put("aggiornaRecensione", epsutente);
+		serviziServer.put("modificaProfilo", epsutente);
+		serviziServer.put("attachInteressitoUser", epsutente);
+		serviziServer.put("getUtenteById", epsutente);
+		serviziServer.put("getUtente", epsutente);
+		serviziServer.put("setUtente", epsutente);
+		serviziServer.put("getIdUtenteFromUsername", epsutente);		
 	}
 	
 	public void run() {
