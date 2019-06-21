@@ -14,7 +14,9 @@ import org.json.JSONException;
 
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
 
+import io.travelook.model.Interessi;
 import io.travelook.model.Recensione;
+import io.travelook.model.Storico;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 
@@ -220,7 +222,158 @@ public class ClientProxy {
 		return reply.getValori();
 		}
 	
-
+	public boolean aggiungiInteressi(Interessi interesse) throws UnknownHostException, IOException, ClassNotFoundException{
+	  initSocket();
+	  List<Interessi> argomentiRichiesta = new ArrayList<Interessi>();
+		argomentiRichiesta.add(interesse);
+		Richiesta r = new Richiesta<Interessi>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "aggiungiInteresse");
+		oos.writeObject(r);
+		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
+		System.out.println(reply.getValori().get(0));
+		s.close();
+		return reply.getValori().get(0);
+	}
+	public int getIdUtenteFromUsername(String user) throws UnknownHostException, IOException, ClassNotFoundException{
+		  initSocket();
+		  List<String> argomentiRichiesta = new ArrayList<String>();
+			argomentiRichiesta.add(user);
+			Richiesta r = new Richiesta<String>(s.getLocalSocketAddress().toString(),
+					s.getLocalPort(),argomentiRichiesta, "getIdUtenteFromUsername");
+			oos.writeObject(r);
+			Risposta<Integer> reply = (Risposta<Integer>) ois.readObject();
+			System.out.println(reply.getValori().get(0));
+			s.close();
+			return reply.getValori().get(0);
+	}
+	public Storico visualizzaStorico() throws UnknownHostException, IOException, ClassNotFoundException{
+		  initSocket();
+		  List<Storico> argomentiRichiesta = new ArrayList<Storico>();
+		  Richiesta r = new Richiesta<Storico>(s.getLocalSocketAddress().toString(),
+					s.getLocalPort(),argomentiRichiesta, "visualizzaStorico");
+			oos.writeObject(r);
+			Risposta<Storico> reply = (Risposta<Storico>) ois.readObject();
+			System.out.println(reply.getValori().get(0));
+			s.close();
+			return reply.getValori().get(0);
+	}
+	public List<Recensione> visualizzaRecensioni() throws UnknownHostException, IOException, ClassNotFoundException{
+		initSocket();
+		List<Recensione> listutenti=new ArrayList<Recensione>();
+		Richiesta r= new Richiesta<Recensione>(s.getLocalSocketAddress().toString(),s.getLocalPort(),listutenti,"visualizzaRecensioni");
+		oos.writeObject(r);
+		Risposta<Recensione> reply=(Risposta<Recensione>)ois.readObject();
+		for(Recensione rec : reply.getValori()) {
+			System.out.println("Recensione "+rec.getId());
+		    }
+		s.close();
+		return reply.getValori();
+	}
+	public boolean modificaProfilo(Utente u) throws IOException, ClassNotFoundException {
+		initSocket();
+		List<Utente> argomentiRichiesta = new ArrayList<Utente>();
+		argomentiRichiesta.add(u);
+		Richiesta r = new Richiesta<Utente>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "modificaProfilo");
+		oos.writeObject(r);
+		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
+		System.out.println(reply.getValori().get(0));
+		s.close();
+		return reply.getValori().get(0);
+	}
+	public List<Viaggio> getViaggiInPartecipazione() throws UnknownHostException, IOException, ClassNotFoundException{
+		initSocket();
+		List <Viaggio> listaViaggi = new ArrayList<Viaggio>();
+		Richiesta r = new Richiesta<Viaggio>(s.getLocalSocketAddress().toString(),s.getLocalPort(),listaViaggi,"getViaggiInPartecipazione");		
+		oos.writeObject(r);
+		Risposta<Viaggio> replyFromServer = (Risposta<Viaggio>) ois.readObject();
+		for(Viaggio v : replyFromServer.getValori())
+			System.out.println(v.getTitolo());
+		s.close();
+		return replyFromServer.getValori();
+	}
+	public Utente attachInteressiToUser(Utente u) throws IOException, ClassNotFoundException {
+		initSocket();
+		List<Utente> argomentiRichiesta = new ArrayList<Utente>();
+		argomentiRichiesta.add(u);
+		Richiesta r = new Richiesta<Utente>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "attachInteressiToUser");
+		oos.writeObject(r);
+		Risposta<Utente> reply = (Risposta<Utente>) ois.readObject();
+		System.out.println("Utente "+reply.getValori().get(0).getId()+ " nome :"+reply.getValori().get(0).getNome());
+		s.close();
+		return reply.getValori().get(0);
+	}
+	public List<Viaggio> getViaggiInAttesadiConferma() throws UnknownHostException, IOException, ClassNotFoundException{
+		initSocket();
+		List <Viaggio> listaViaggi = new ArrayList<Viaggio>();
+		Richiesta r = new Richiesta<Viaggio>(s.getLocalSocketAddress().toString(),s.getLocalPort(),listaViaggi,"getViaggiinAttesadiConferma");		
+		oos.writeObject(r);
+		Risposta<Viaggio> replyFromServer = (Risposta<Viaggio>) ois.readObject();
+		for(Viaggio v : replyFromServer.getValori())
+			System.out.println(v.getTitolo());
+		s.close();
+		return replyFromServer.getValori();
+	}
+	public boolean eliminaUtente() throws IOException, ClassNotFoundException {
+		initSocket();
+		List<Boolean> argomentiRichiesta = new ArrayList<Boolean>();
+		Richiesta r = new Richiesta<Boolean>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "eliminaUtente");
+		oos.writeObject(r);
+		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
+		System.out.println(reply.getValori().get(0));
+		s.close();
+		return reply.getValori().get(0);	
+	}
+	public Utente getUtenteById(int id) throws IOException, ClassNotFoundException {
+		initSocket();
+		List<Integer> argomentiRichiesta = new ArrayList<Integer>();
+		argomentiRichiesta.add(id);
+		Richiesta r = new Richiesta<Integer>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "getUtenteById");
+		oos.writeObject(r);
+		Risposta<Utente> reply = (Risposta<Utente>) ois.readObject();
+		System.out.println("Utente "+reply.getValori().get(0).getId()+ " nome :"+reply.getValori().get(0).getNome());
+		s.close();
+		return reply.getValori().get(0);
+	}
+	public Utente getUtente() throws IOException, ClassNotFoundException {
+		initSocket();
+		List<Utente> argomentiRichiesta = new ArrayList<Utente>();
+		Richiesta r = new Richiesta<Utente>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "getUtente");
+		oos.writeObject(r);
+		Risposta<Utente> reply = (Risposta<Utente>) ois.readObject();
+		System.out.println("Utente "+reply.getValori().get(0).getId()+ " nome :"+reply.getValori().get(0).getNome());
+		s.close();
+		return reply.getValori().get(0);
+	}
+	public boolean setUtente(Utente u) throws IOException, ClassNotFoundException {
+		initSocket();
+		List<Utente> argomentiRichiesta = new ArrayList<Utente>();
+		argomentiRichiesta.add(u);
+		Richiesta r = new Richiesta<Utente>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "setUtente");
+		oos.writeObject(r);
+		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
+		System.out.println(reply.getValori().get(0));
+		s.close();
+		return reply.getValori().get(0);
+	}
+	public boolean aggiornaRecensione(Recensione r) throws IOException, ClassNotFoundException {
+		initSocket();
+		List<Recensione> argomentiRichiesta = new ArrayList<Recensione>();
+		argomentiRichiesta.add(r);
+		Richiesta ric = new Richiesta<Recensione>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "aggiornaRecensione");
+		oos.writeObject(ric);
+		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
+		System.out.println(reply.getValori().get(0));
+		s.close();
+		return reply.getValori().get(0);
+	}
 	
-
+	
+	
 }

@@ -59,7 +59,6 @@ public class Broker extends Thread {
 		serviziServer.put("aggiungiInteresse", epsutente);
 		serviziServer.put("eliminaUtente", epsutente);
 		serviziServer.put("visualizzaStorico", epsutente);
-		serviziServer.put("lasciaRecensione", epsutente);
 		serviziServer.put("aggiornaRecensione", epsutente);
 		serviziServer.put("modificaProfilo", epsutente);
 		serviziServer.put("attachInteressitoUser", epsutente);
