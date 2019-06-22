@@ -25,7 +25,7 @@ import io.travelook.model.Viaggio;
 public class ClientProxy {
 	private static Socket s;
 	private final static String INDIRIZZO_BROKER = "localhost";
-	private final static int PORTA_BROKER = 4000;
+	private final static int PORTA_BROKER = 3999;
 	private DataOutputStream out;
 	private DataInputStream in; 
 	private ObjectOutputStream oos;

@@ -16,7 +16,7 @@
    <children>
       <ImageView fx:id="logo" fitHeight="303.0" fitWidth="294.0" layoutX="364.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../logo.png" />
+            <Image url="@../../../../logo.png" />
          </image>
       </ImageView>
       <Label alignment="CENTER" layoutX="43.0" layoutY="-52.0" prefHeight="240.0" prefWidth="615.0" style="&#10;" text="Benvenuto su Travelook!" textAlignment="CENTER" wrapText="false">

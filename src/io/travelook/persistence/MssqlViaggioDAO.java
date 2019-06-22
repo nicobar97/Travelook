@@ -71,7 +71,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 		;
 	final static String list_user_viaggio = "select rdp.idUtente, u.nickname, u.email, u.nome, u.cognome,u.bio, u.dataNascita, u.imgProfilo from Richiesta_Di_Partecipazione rdp\r\n" + 
 			"inner join Utente as u on u.id = rdp.idUtente\r\n" + 
-			"where stato = 0;";
+			"where stato = 0 and rdp.idViaggio=?;";
 	// DELETE FROM table WHERE idcolumn = ?;
 		static String delete = 
 			"DELETE " +
@@ -328,6 +328,7 @@ public class MssqlViaggioDAO implements ViaggioDAO {
 				List<Utente> listaPartecipanti = new ArrayList<Utente>();
 				PreparedStatement prep_stmt2 = conn.prepareStatement(MssqlViaggioDAO.list_user_viaggio);
 				prep_stmt2.clearParameters();
+				prep_stmt2.setInt(1, v.getIdViaggio());
 				ResultSet rs2=prep_stmt2.executeQuery();
 				int k=1;
 				while(rs2.next()) {

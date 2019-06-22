@@ -101,9 +101,9 @@ public class Broker extends Thread {
 		
 		Socket servizioSocket = new Socket(serviziServer.get(servizio).getIpserver(),serviziServer.get(servizio).getPort());
 		System.out.println("Broker: Invio la richiesta al server...");
-		Risposta<Object> replyFromBroker = dispatch(richiesta, servizioSocket); //questa è la risposta che torna AL broker DAL server
+		Risposta<Object> replyFromBroker = dispatch(richiesta, servizioSocket); //questa ï¿½ la risposta che torna AL broker DAL server
 		System.out.println("Broker: Ricevuta Risposta dal Server!");
-		oos.writeObject(replyFromBroker); // questa è la risposta che torna al cliente tramite la sua socket
+		oos.writeObject(replyFromBroker); // questa ï¿½ la risposta che torna al cliente tramite la sua socket
 		System.out.println("Broker: risposta inviata al Cliente!");
 		
 		}
@@ -131,8 +131,8 @@ public class Broker extends Thread {
 			//AnnuncioController ac = new AnnuncioController();
 			//ListaAnnunciController lac = new ListaAnnunciController();
 		
-			ServerSocket sSock = new ServerSocket(4000);
-			System.out.println("Il Broker è in attesa sulla porta 4000.");
+			ServerSocket sSock = new ServerSocket(3999);
+			System.out.println("Il Broker ï¿½ in attesa sulla porta 4000.");
 			while(true) {
 			Socket socket = sSock.accept();
 			System.out.println("Arrivata richiesta, lancio thread");

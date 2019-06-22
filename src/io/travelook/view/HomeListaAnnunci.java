@@ -79,7 +79,7 @@ public class HomeListaAnnunci extends Application {
             userImg = (ImageView) scene.lookup("#imgUtente");
             logout = (Button) scene.lookup("#logout");
             currentUser = (Text) scene.lookup("#currentUser");
-            if(user.getImmagineProfilo() != null && !user.getImmagineProfilo().trim().equals("") && new File("src/"+user.getImmagineProfilo().trim()).exists())
+            if(user.getImmagineProfilo() != null && !user.getImmagineProfilo().trim().equals(""))
         		userImg.setImage(new Image(user.getImmagineProfilo().trim()));
             currentUser.setText("Current user: " + user.getUsername());
             currentUser.setOnMouseClicked(event -> {

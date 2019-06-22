@@ -1,17 +1,21 @@
 package io.travelook.client.user;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.sql.Date;
 
 import javax.swing.text.DateFormatter;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
 
 import io.travelook.broker.ClientProxy;
 import io.travelook.controller.annuncio.AnnuncioController;
@@ -63,7 +67,7 @@ public class CreaAnnuncio extends Application {
     private ImageView immagine;
     private ListaAnnunciController controller;
     private FileChooser imgChooser;
-    private File newImg = null;
+    private String newImg = null;
     private Button load;
     private int type;
     private Utente user;
@@ -137,8 +141,8 @@ public class CreaAnnuncio extends Application {
             	budget.setText(budgetFormat(viaggio.getBudget()));
             	descrizione.setText(viaggio.getDescrizione().trim());
                 lingua.setText(viaggio.getLingua().trim());
-            	if(viaggio.getImmaginiProfilo() != null && !viaggio.getImmaginiProfilo().trim().equals("") && new File("src/"+viaggio.getImmaginiProfilo().trim()).exists())
-            		immagine.setImage(new Image(viaggio.getImmaginiProfilo().trim()));
+            	if(viaggio.getImmaginiProfilo() != null && !viaggio.getImmaginiProfilo().trim().equals(""))
+            		immagine.setImage(new Image(viaggio.getImmaginiProfilo()));
             }
             if(type == 1) {
             	windowtitle.setText("Travelook - Crea Annuncio");
@@ -152,11 +156,8 @@ public class CreaAnnuncio extends Application {
             }   
             controller = new ListaAnnunciController();
             load.setOnMouseClicked(event -> {
-            	newImg = imgChooser.showOpenDialog(primaryStage);
-            	//copyImage(newImg);
-            	if(newImg != null)
-            	//immagine.setImage(new Image("viaggio"+viaggio.getIdViaggio()+newImg.getName().substring(newImg.getName().length()-4, newImg.getName().length())));
-            		immagine.setImage(new Image(newImg.getName()));
+            	newImg = uploadFile(imgChooser.showOpenDialog(primaryStage), "Viaggio");
+            	immagine.setImage(new Image(newImg));
             });
             backButton.setOnMouseClicked(event -> {
             		if(type==0)
@@ -184,8 +185,7 @@ public class CreaAnnuncio extends Application {
 				nv.setLingua(lingua.getText());
 				nv.setStato(viaggio.getStato());
 				if(newImg != null) {
-					nv.setImmaginiProfilo(newImg.getName());
-					//nv.setImmaginiProfilo("viaggio"+viaggio.getIdViaggio()+newImg.getName().substring(newImg.getName().length()-4, newImg.getName().length()));
+					nv.setImmaginiProfilo(newImg);
 				}
 				else
 					nv.setImmaginiProfilo(immagine.getImage() == null ? "" : immagine.getImage().toString().trim());
@@ -196,14 +196,17 @@ public class CreaAnnuncio extends Application {
 				tmp = dataFine.getValue();
 				nv.setDatafine(Date.valueOf(tmp));
 				nv.setIdViaggio(viaggio.getIdViaggio());
+				
 				if(type == 0) {
 					nv.setCreatore(viaggio.getCreatore());
+					nv.setPartecipanti(viaggio.getPartecipanti());
 					AnnuncioController ac = new AnnuncioController(viaggio);
 					ac.modificaAnnuncio(nv);
 				}
 				else {
 					nv.setStato(Stato.INIZIO);
 					nv.setCreatore(user);
+					nv.setPartecipanti(new ArrayList<>());
 					try {
 						new ClientProxy().creaAnnuncio(nv);
 					} catch (UnknownHostException e) {
@@ -285,16 +288,32 @@ public class CreaAnnuncio extends Application {
 			return "$$$$";
 		return "";
 	}
-	private void copyImage(File newImg) {
-		try {
-    		if(new File("src/"+newImg.getName()).exists()) {
-    			FileUtils.copyFile(newImg, new File("src/viaggio"+viaggio.getIdViaggio()+newImg.getName().substring(newImg.getName().length()-4, newImg.getName().length())));
-    		}
-    		
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	private String uploadFile(File toUpload, String folder) {
+		FTPClient client = new FTPClient();
+		String addr = "travelook.altervista.org";
+		int id = -1;
+	    try {
+	      client.connect("ftp."+addr);
+	      client.login("travelook", "mBb6686QbHxk");
+	      client.enterLocalPassiveMode();
+	      client.setFileType(FTP.BINARY_FILE_TYPE);
+	      client.listFiles("Images/" + folder);
+	      id = client.listFiles("Images/" + folder).length;
+	      client.storeFile("Images/" + folder + "/" + folder + id + 
+	      toUpload.getName().substring(toUpload.getName().length()-4, toUpload.getName().length()), new FileInputStream(toUpload.getAbsoluteFile()));
+	    } catch(IOException ioe) {
+	      ioe.printStackTrace();
+	      System.out.println( "Error communicating with FTP server." );
+	    } finally {
+	      try {
+	        client.disconnect( );
+	      } catch (IOException e) {
+	        System.out.println( "Problem disconnecting from FTP server" );
+	      }
+	    }
+
+		return "http://" + addr + "/Images/" + folder + "/" + folder + id + 
+		toUpload.getName().substring(toUpload.getName().length()-4, toUpload.getName().length());
 	}
 
 }

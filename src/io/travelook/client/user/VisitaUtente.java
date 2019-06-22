@@ -181,7 +181,6 @@ public class VisitaUtente extends Application {
 				if(toggleRec) {
 					 star1.setFill(Paint.valueOf("orange"));
 					 star2.setFill(Paint.valueOf("orange"));
-					 star2.setFill(Paint.valueOf("transparent"));
 					 star3.setFill(Paint.valueOf("transparent"));
 				     star4.setFill(Paint.valueOf("transparent"));
 					 star5.setFill(Paint.valueOf("transparent"));

@@ -1,9 +1,13 @@
 package io.travelook.client.user;		
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
 
 import io.travelook.broker.ClientProxy;
 import io.travelook.controller.annuncio.ListaAnnunciController;
@@ -80,7 +84,7 @@ public class ModificaUtente extends Application {
     @FXML
     private ListView<Interessi> interessiView;
     private FileChooser imgChooser;
-    private File newImg = null;
+    private String newImg = null;
     private Utente user;
     private UtenteController uc;
     private FXMLLoader loader;
@@ -136,9 +140,8 @@ public class ModificaUtente extends Application {
             	
             });
             addImage.setOnMouseClicked(event -> {
-            	newImg = imgChooser.showOpenDialog(primaryStage);
-            	if(newImg != null)
-            		userImage.setImage(new Image(newImg.getName()));
+            	newImg = uploadFile(imgChooser.showOpenDialog(primaryStage), "User");
+            	userImage.setImage(new Image(newImg));
             });
             addInteresse.setOnMouseClicked(event -> {
             	Interessi selected = interessiView.getSelectionModel().getSelectedItem();
@@ -156,7 +159,7 @@ public class ModificaUtente extends Application {
             	user.setCognome(cognome.getText());
             	user.setBio(bio.getText());
             	if(newImg != null)
-            		user.setImmagineProfilo(newImg.getName());
+            		user.setImmagineProfilo(newImg);
             	try {
 					new ClientProxy().modificaProfilo(user);
 				} catch (ClassNotFoundException e) {
@@ -240,6 +243,33 @@ public class ModificaUtente extends Application {
 			}
 		}
 		return out;
+	}
+	private String uploadFile(File toUpload, String folder) {
+		FTPClient client = new FTPClient();
+		String addr = "travelook.altervista.org";
+		int id = -1;
+	    try {
+	      client.connect("ftp."+addr);
+	      client.login("travelook", "mBb6686QbHxk");
+	      client.enterLocalPassiveMode();
+	      client.setFileType(FTP.BINARY_FILE_TYPE);
+	      client.listFiles("Images/" + folder);
+	      id = client.listFiles("Images/" + folder).length;
+	      client.storeFile("Images/" + folder + "/" + folder + id + 
+	      toUpload.getName().substring(toUpload.getName().length()-4, toUpload.getName().length()), new FileInputStream(toUpload.getAbsoluteFile()));
+	    } catch(IOException ioe) {
+	      ioe.printStackTrace();
+	      System.out.println( "Error communicating with FTP server." );
+	    } finally {
+	      try {
+	        client.disconnect( );
+	      } catch (IOException e) {
+	        System.out.println( "Problem disconnecting from FTP server" );
+	      }
+	    }
+
+		return "http://" + addr + "/Images/" + folder + "/" + folder + id + 
+		toUpload.getName().substring(toUpload.getName().length()-4, toUpload.getName().length());
 	}
 }
 

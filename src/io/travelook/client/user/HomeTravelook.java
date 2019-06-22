@@ -1,11 +1,15 @@
 package io.travelook.client.user;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Optional;
+
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
 
 import io.travelook.broker.ClientProxy;
 import io.travelook.controller.autenticazione.LoginController;
@@ -19,6 +23,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.image.Image;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Dialog;
@@ -36,11 +41,12 @@ public class HomeTravelook extends Application {
 	private ClientProxy c;
 	private Stage primaryStage;
     private AnchorPane rootLayout;
-    private File newimg;
+    private String newimg;
     private Button login;
     private Button register;
     private Dialog<String> dialog;
     private Dialog<String> dialogRegister;
+	private String nametmp;
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -75,6 +81,7 @@ public class HomeTravelook extends Application {
             primaryStage.setScene(scene);
             initLoginDialog();
             initRegisterDialog();
+            nametmp = null;
             login = (Button) scene.lookup("#login");
             register = (Button) scene.lookup("#register");
             
@@ -202,8 +209,8 @@ public class HomeTravelook extends Application {
     	imgField.setSelectedExtensionFilter(new ExtensionFilter(".png", ".jpg"));
     	newimg = null;
     	openChooser.setOnMouseClicked(event -> {
-    		newimg = imgField.showOpenDialog(new Stage());
-    		label7.setText(label7.getText() + "\n(" + newimg.getName() + ")");
+    		newimg = uploadFile(imgField.showOpenDialog(primaryStage), "User");
+    		label7.setText(label7.getText() + "\n(" + nametmp + ")");
     		label7.setStyle("-fx-font-size: 8pt;");
     	});
     	dialogRegister.getDialogPane().setContent(grid);
@@ -225,7 +232,7 @@ public class HomeTravelook extends Application {
     	    		RegistrazioneController reg = new RegistrazioneController();
     	    		try {
 						new ClientProxy().registraUtente(new Utente(usernameField.getText(), emailField.getText(), nomeField.getText(), 
-								cognomeField.getText(),Date.valueOf(tmp), newimg.getName().trim()), SHA256.encrypt(pswField.getText()));
+								cognomeField.getText(),Date.valueOf(tmp), newimg.trim()), SHA256.encrypt(pswField.getText()));
 						System.out.println(pswField.getText());
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
@@ -241,6 +248,33 @@ public class HomeTravelook extends Application {
     	    	}
     	    }	
     	});
+	}
+	private String uploadFile(File toUpload, String folder) {
+		FTPClient client = new FTPClient();
+		String addr = "travelook.altervista.org";
+		int id = -1;
+	    try {
+	      client.connect("ftp."+addr);
+	      client.login("travelook", "mBb6686QbHxk");
+	      client.enterLocalPassiveMode();
+	      client.setFileType(FTP.BINARY_FILE_TYPE);
+	      client.listFiles("Images/" + folder);
+	      id = client.listFiles("Images/" + folder).length;
+	      client.storeFile("Images/" + folder + "/" + folder + id + 
+	      toUpload.getName().substring(toUpload.getName().length()-4, toUpload.getName().length()), new FileInputStream(toUpload.getAbsoluteFile()));
+	    } catch(IOException ioe) {
+	      ioe.printStackTrace();
+	      System.out.println( "Error communicating with FTP server." );
+	    } finally {
+	      try {
+	        client.disconnect( );
+	      } catch (IOException e) {
+	        System.out.println( "Problem disconnecting from FTP server" );
+	      }
+	    }
+	    nametmp = toUpload.getName();
+		return "http://" + addr + "/Images/" + folder + "/" + folder + id + 
+		toUpload.getName().substring(toUpload.getName().length()-4, toUpload.getName().length());
 	}
 }
 

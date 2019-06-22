@@ -106,7 +106,7 @@ public class HomeAnnuncio extends Application {
             titolo = (Text) scene.lookup("#titolo");
             immagine = (ImageView) scene.lookup("#immagine");
             chatShape = (Rectangle) scene.lookup("#chatShape");
-           	if(viaggio.getImmaginiProfilo() != null && !viaggio.getImmaginiProfilo().trim().equals("") && new File("src/"+viaggio.getImmaginiProfilo().trim()).exists())
+           	if(viaggio.getImmaginiProfilo() != null && !viaggio.getImmaginiProfilo().trim().equals(""))
             	immagine.setImage(new Image(viaggio.getImmaginiProfilo().trim()));
             titolo.setText(viaggio.getTitolo().trim());
             if(viaggio.getTitolo().length() > 30)
@@ -332,7 +332,7 @@ public class HomeAnnuncio extends Application {
         }
     }
 	private void refreshChat() throws ClassNotFoundException, UnknownHostException, IOException {
-		Chat chat = new ClientProxy().getChat(viaggio);
+		Chat chat = chatCont.getChat(viaggio);
         ObservableList<Messaggio> messaggi = FXCollections.observableArrayList(chat.getChat());
         if(!chat.getChat().isEmpty() && messaggi != null) {
         	chatView.setItems(messaggi);
@@ -341,7 +341,7 @@ public class HomeAnnuncio extends Application {
         }
 	}
 	private void refreshRdp() throws ClassNotFoundException, UnknownHostException, IOException {
-		List<RichiestaDiPartecipazione> rdpList = new ClientProxy().getRichiesteForCreatoreViaggio(user, viaggio);
+		List<RichiestaDiPartecipazione> rdpList = rdpc.getRichiesteForCreatoreViaggio(user, viaggio);
         ObservableList<RichiestaDiPartecipazione> obsrdp = FXCollections.observableArrayList(rdpList);
         if(!rdpList.isEmpty() && rdpList != null) {
         	rdpview.setItems(obsrdp);
