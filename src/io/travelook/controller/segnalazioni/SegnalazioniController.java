@@ -61,6 +61,7 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
     			torem=s;
     		}
     	}
+    	db.eliminaSegnalazione(segnalazioneid);
     	segnalazioni.remove(torem);
     	res=true;
     	}
@@ -69,6 +70,7 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
     }
 
 	public List<Segnalazione> getSegnalazioni() {
+		segnalazioni=db.readAll();
 		return segnalazioni;
 	}
 

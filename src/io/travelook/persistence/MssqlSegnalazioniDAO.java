@@ -22,7 +22,6 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 
 	final String create = "INSERT INTO Segnalazione(idSegnalato, idSegnalante, Messaggio, stato)"
 			+ " VALUES(?,?,?,?)";
-	final String read="SELECT * FROM SEGNALAZIONE WHERE id=?";
 	@Override
 	public boolean create(Segnalazione s) {
 		boolean esito=false;
@@ -111,6 +110,21 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 			return false;
 		}
 	}
+	public boolean eliminaSegnalazione(int idsegn) {
+		boolean res=false;
+		String q="DELETE FROM TABLE Segnalazione WHERE id=?";
+		try {
+			PreparedStatement p=conn.prepareStatement(q);
+			p.setInt(1,idsegn);
+			if(p.executeUpdate()>0) {
+				res=true;
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return res;
+		}
+		return res;
+	}
 	
 	public Utente readUtente(int id) {
 		String readUtenteById = "select id,nickname,email,nome,cognome,bio,dataNascita,"
@@ -158,6 +172,14 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 			}
 		}
 		return result;
+	}
+
+	public Connection getConn() {
+		return conn;
+	}
+
+	public void setConn(Connection conn) {
+		this.conn = conn;
 	}
 
 }
