@@ -66,8 +66,10 @@ public class ServerAutenticazione extends Thread{
 				ous.writeObject(rispostaAlBroker);
 			}
 			if(servizioRichiesto.equals("registraUtente")) {
+				System.out.println("Devo registrare un utente");
 				Utente daRegistrare = (Utente) richiestaDaBroker.getArgomenti().get(0);
-				String hashPwd = String.valueOf(richiestaDaBroker.getArgomenti().get(0));
+				System.out.println(daRegistrare.getUsername());
+				String hashPwd = String.valueOf(richiestaDaBroker.getArgomenti().get(1));
 				boolean esito = registrazioneController.registraUtente(daRegistrare, hashPwd);
 				List<Boolean> listaEsito = new ArrayList<Boolean>();
 				listaEsito.add(esito);

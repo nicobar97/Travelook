@@ -2,24 +2,17 @@ package io.travelook.view.copy;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.net.UnknownHostException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import io.travelook.controller.annuncio.ListaAnnunciController;
+import io.travelook.broker.ClientProxy;
 import io.travelook.controller.autenticazione.LoginController;
 import io.travelook.controller.autenticazione.RegistrazioneController;
-import io.travelook.controller.utente.UtenteController;
 import io.travelook.model.Utente;
-import io.travelook.model.Viaggio;
 import io.travelook.utils.SHA256;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -30,15 +23,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -46,6 +33,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class HomeTravelook extends Application {
+	private ClientProxy c;
 	private Stage primaryStage;
     private AnchorPane rootLayout;
     private File newimg;
@@ -57,12 +45,22 @@ public class HomeTravelook extends Application {
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Travelook");
+        try {
+			c = new ClientProxy();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         initRootLayout();
 	}
 
 	public static void main(String[] args) {
 		launch(args);
+		
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -132,12 +130,21 @@ public class HomeTravelook extends Application {
     	    public String call(ButtonType b) {
     	    	if(usernameField.getText() != null && !usernameField.getText().trim().contentEquals("") && 
     	    			pswField.getText() != null && !pswField.getText().trim().contentEquals("")) {
-    	    		if(new LoginController().verificaCredenziali(usernameField.getText(), SHA256.encrypt(pswField.getText())))
-    	    			return usernameField.getText();
-    	    		else
-    	    			return null;
+    	    		try {
+						if(c.verificaCredenziali(usernameField.getText(), SHA256.encrypt(pswField.getText())))
+							return usernameField.getText();
+						else
+							return null;
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
     	    	}
     	    	else return null;
+				return null;
     	    }
     	});
 	}
@@ -205,8 +212,20 @@ public class HomeTravelook extends Application {
     	    	else {
     	    		LocalDate tmp = ddnPicker.getValue();
     	    		RegistrazioneController reg = new RegistrazioneController();
-    	    		reg.registraUtente(new Utente(usernameField.getText(), emailField.getText(), nomeField.getText(), 
-    	    				cognomeField.getText(),Date.valueOf(tmp), newimg.getName().trim()), SHA256.encrypt(pswField.getText()));
+    	    		try {
+						new ClientProxy().registraUtente(new Utente(usernameField.getText(), emailField.getText(), nomeField.getText(), 
+								cognomeField.getText(),Date.valueOf(tmp), newimg.getName().trim()), SHA256.encrypt(pswField.getText()));
+						System.out.println(pswField.getText());
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
     	    		return usernameField.getText();
     	    	}
     	    }	

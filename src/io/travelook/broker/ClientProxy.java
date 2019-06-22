@@ -377,6 +377,20 @@ public class ClientProxy {
 		return reply.getValori().get(0);
 	}
 	
+	public boolean registraUtente(Utente u, String hash) throws IOException, ClassNotFoundException {
+		initSocket();
+		List<Object> argomentiRichiesta = new ArrayList<Object>();
+		argomentiRichiesta.add(u);
+		argomentiRichiesta.add(hash);
+		Richiesta ric = new Richiesta<Object>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "registraUtente");
+		oos.writeObject(ric);
+		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
+		System.out.println(reply.getValori().get(0));
+		s.close();
+		return reply.getValori().get(0);
+		
+	}
 	
 	
 }

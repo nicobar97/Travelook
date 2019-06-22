@@ -17,11 +17,11 @@ public class ServerListaAnnunci {
 	
 	public static void main(String[] args) {
 		try {
-			serverSocket = new ServerSocket(4003);
+			serverSocket = new ServerSocket(4001);
 			while(true) {
-				System.out.println("Il ServerUtente è in attesa sulla porta " + serverSocket.getLocalPort());
+				System.out.println("Il ServerListaAnnunci è in attesa sulla porta " + serverSocket.getLocalPort());
 				brokerSocket = serverSocket.accept();
-				System.out.println("ServerUtente:richiesta arrivata, lancio thread!");
+				System.out.println("ServerListaAnnunci:richiesta arrivata, lancio thread!");
 				ServerListaAnnunciThread thread = new ServerListaAnnunciThread(brokerSocket,
 						listaAnnunciController, annuncioController,
 						richiesteController);

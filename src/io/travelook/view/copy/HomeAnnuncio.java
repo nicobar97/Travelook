@@ -2,6 +2,7 @@ package io.travelook.view.copy;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import javax.swing.text.DateFormatter;
 
+import io.travelook.broker.ClientProxy;
 import io.travelook.controller.chat.ChatController;
 import io.travelook.controller.rdp.RichiesteObservableController;
 import io.travelook.model.Chat;
@@ -38,6 +40,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class HomeAnnuncio extends Application {
+	private ClientProxy c;
+
 	private Stage primaryStage;
     private FlowPane rootLayout;
     private Text destinazione;
@@ -87,6 +91,15 @@ public class HomeAnnuncio extends Application {
 		this.viaggio = viaggio;
 		this.user= user;
 		this.code = code;
+		try {
+			c = new ClientProxy();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void initRootLayout() {

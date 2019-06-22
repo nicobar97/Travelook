@@ -52,6 +52,7 @@ public class Broker extends Thread {
 		serviziServer.put("getViaggioById",serverListaAnnunci);
 		serviziServer.put("visualizzaUtentiPartecipanti",serverListaAnnunci);
 		serviziServer.put("verificaCredenziali", serverLogin);
+		serviziServer.put("registraUtente", serverLogin);
 		serviziServer.put("getListaUtenti", epsutente);
 		serviziServer.put("visualizzaRecensioni", epsutente);
 		serviziServer.put("getViaggiinPartecipazione", epsutente);
@@ -83,6 +84,7 @@ public class Broker extends Thread {
 		Richiesta<Object> richiesta = (Richiesta<Object>)ois.readObject();
 		String servizio = richiesta.getServizio();
 		System.out.println("Ricevuta Richiesta da " + clientSocket.getInetAddress() + " per il servizio "+ servizio);
+		System.out.println("Il server adatto e' " + serviziServer.get(servizio).getTiposerver());
 		
 		Socket servizioSocket = new Socket(serviziServer.get(servizio).getIpserver(),serviziServer.get(servizio).getPort());
 		System.out.println("Broker: Invio la richiesta al server...");

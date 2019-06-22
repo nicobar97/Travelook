@@ -2,6 +2,7 @@ package io.travelook.view.copy;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import javax.swing.text.DateFormatter;
 
 import org.apache.commons.io.FileUtils;
 
+import io.travelook.broker.ClientProxy;
 import io.travelook.controller.annuncio.AnnuncioController;
 import io.travelook.controller.annuncio.ListaAnnunciController;
 import io.travelook.controller.autenticazione.RegistrazioneController;
@@ -39,6 +41,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class CreaAnnuncio extends Application {
+	private ClientProxy c;
+	
 	private Stage primaryStage;
     private FlowPane rootLayout;
     private TextField destinazione;
@@ -70,6 +74,15 @@ public class CreaAnnuncio extends Application {
         	this.primaryStage.setTitle("Modifica Annuncio");
         else
         	this.primaryStage.setTitle("Crea Annuncio");
+        try {
+			c = new ClientProxy();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         initRootLayout();
 	}
 
@@ -181,7 +194,18 @@ public class CreaAnnuncio extends Application {
 				else {
 					nv.setStato(Stato.INIZIO);
 					nv.setCreatore(user);
-					controller.creaAnnuncio(nv);
+					try {
+						c.creaAnnuncio(nv);
+					} catch (UnknownHostException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				if(type==0)
         			new HomeAnnuncio(nv, user, "lista").start(primaryStage);
