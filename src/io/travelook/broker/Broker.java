@@ -41,6 +41,7 @@ public class Broker extends Thread {
 		EndPointServer serverLogin = new EndPointServer("serverLogin", "localhost", 4002);
 		EndPointServer serverUtente=new EndPointServer("serverUtente",IP_SERVER_UTENTE,PORTA_SERVER_UTENTE);
 		EndPointServer serverChat=new EndPointServer("serverChat","localhost",4004);
+		EndPointServer serverMod=new EndPointServer("serverModerazioneLog","localhost",4005);
 		serviziServer = new HashMap<String,EndPointServer>();
 		serviziServer.put("getListaAnnunci",serverListaAnnunci);
 		serviziServer.put("creaAnnuncio",serverListaAnnunci);
@@ -74,6 +75,12 @@ public class Broker extends Thread {
 		serviziServer.put("getIdUtenteFromUsername", serverUtente);		
 		serviziServer.put("inviaMessaggio", serverChat);	
 		serviziServer.put("getChat", serverChat);
+		serviziServer.put("segnalaUtente", serverMod);
+		serviziServer.put("getSegnalazioniUtente", serverMod);
+		serviziServer.put("leggiSegnalazione", serverMod);
+		serviziServer.put("rimuoviSegnalazione", serverMod);
+		serviziServer.put("getSegnalazioni", serverMod);
+		serviziServer.put("setSegnalazioni", serverMod);		
 	}
 	
 	public void run() {
