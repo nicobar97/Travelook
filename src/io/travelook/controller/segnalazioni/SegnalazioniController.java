@@ -6,7 +6,7 @@ import io.travelook.controller.Controller;
 import io.travelook.model.Segnalazione;
 import io.travelook.persistence.MssqlSegnalazioniDAO;
 
-public class SegnalazioniController extends Controller {
+public class SegnalazioniController extends Controller implements ISegnalazioni {
 	private List<Segnalazione> segnalazioni= new ArrayList<Segnalazione>();
 	private MssqlSegnalazioniDAO db;
     
@@ -17,9 +17,16 @@ public class SegnalazioniController extends Controller {
 	}
 
 	
-    public void segnalaUtente(Segnalazione s ) {
+    public boolean segnalaUtente(Segnalazione s ) {
+    	boolean res =false;
+        if(s==null) {
+        	return res;
+        }else {
     	segnalazioni.add(s);
     	db.create(s);
+    	res=true;
+        }
+        return res;
     }
     
     public List<Segnalazione> getSegnalazioniUtente (int id){
@@ -42,7 +49,12 @@ public class SegnalazioniController extends Controller {
     	return res;
     }
     
-    public void rimuoviSegnalazione(int segnalazioneid) {
+    public boolean rimuoviSegnalazione(int segnalazioneid) {
+    	boolean res=false;
+    	if(segnalazioneid<0) {
+    		return res;
+    	}
+    	else {
     	Segnalazione torem=null;
     	for(Segnalazione s:segnalazioni) {
     		if(s.getIdSegnalazione()==segnalazioneid) {
@@ -50,9 +62,12 @@ public class SegnalazioniController extends Controller {
     		}
     	}
     	segnalazioni.remove(torem);
+    	res=true;
+    	}
+    	return res;
     }
 
-	public List<Segnalazione> getTutteSegnalazioni() {
+	public List<Segnalazione> getSegnalazioni() {
 		return segnalazioni;
 	}
 
