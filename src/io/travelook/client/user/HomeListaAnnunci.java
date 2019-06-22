@@ -1,4 +1,4 @@
-package io.travelook.view.copy;
+package io.travelook.client.user;
 
 import java.io.File;
 import java.io.IOException;
