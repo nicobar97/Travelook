@@ -17,6 +17,7 @@ import io.travelook.model.Interessi;
 import io.travelook.model.Messaggio;
 import io.travelook.model.Recensione;
 import io.travelook.model.RichiestaDiPartecipazione;
+import io.travelook.model.Segnalazione;
 import io.travelook.model.Storico;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
@@ -463,6 +464,82 @@ public class ClientProxy {
 		s.close();
 		return reply.getValori().get(0);
 	}
+	public List<Segnalazione> getSegnalazioniUtente(int id) throws UnknownHostException, IOException, ClassNotFoundException{
+		initSocket();
+		List<Integer> listids=new ArrayList<Integer>();
+		listids.add(id);
+		Richiesta r= new Richiesta<Integer>(s.getLocalSocketAddress().toString(),s.getLocalPort(),listids,"getSegnalazioniUtente");
+		oos.writeObject(r);
+		Risposta<Segnalazione> reply=(Risposta<Segnalazione>)ois.readObject();
+		for(Segnalazione s : reply.getValori()) {
+			System.out.println("Segnalazione "+s.getIdSegnalazione());
+		    }
+		s.close();
+		return reply.getValori();
+	}
+	public boolean segnalaUtente(Segnalazione segn) throws IOException, ClassNotFoundException {
+		initSocket();
+		List<Segnalazione> argomentiRichiesta = new ArrayList<Segnalazione>();
+		argomentiRichiesta.add(segn);
+		Richiesta<Segnalazione> ric = new Richiesta<Segnalazione>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "segnalaUtente");
+		oos.writeObject(ric);
+		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
+		
+		System.out.println(reply.getValori().get(0));
+		s.close();
+		return reply.getValori().get(0);
+	}
+	public Segnalazione leggiSegnalazione(int id) throws UnknownHostException, IOException, ClassNotFoundException{
+		initSocket();
+		List<Integer> listids=new ArrayList<Integer>();
+		listids.add(id);
+		Richiesta r= new Richiesta<Integer>(s.getLocalSocketAddress().toString(),s.getLocalPort(),listids,"leggiSegnalazione");
+		oos.writeObject(r);
+		Risposta<Segnalazione> reply=(Risposta<Segnalazione>)ois.readObject();
+		System.out.println("Segnalazione "+reply.getValori().get(0).getIdSegnalazione());
+		s.close();
+		return reply.getValori().get(0);
+	}
+	public boolean rimuoviSegnalazione(int id) throws IOException, ClassNotFoundException {
+		initSocket();
+		List<Integer> listids=new ArrayList<Integer>();
+		listids.add(id);
+		Richiesta r= new Richiesta<Integer>(s.getLocalSocketAddress().toString(),s.getLocalPort(),listids,"rimuoviSegnalazione");
+		oos.writeObject(r);
+		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
+		System.out.println(reply.getValori().get(0));
+		s.close();
+		return reply.getValori().get(0);
+	}
+	public List<Segnalazione> getSegnalazioni() throws UnknownHostException, IOException, ClassNotFoundException{
+		initSocket();
+		List <Segnalazione> listaViaggi = new ArrayList<Segnalazione>();
+		Richiesta r = new Richiesta<Segnalazione>(s.getLocalSocketAddress().toString(),s.getLocalPort(),listaViaggi,"getSegnalazioni");		
+		oos.writeObject(r);
+		Risposta<Segnalazione> replyFromServer = (Risposta<Segnalazione>) ois.readObject();
+		for(Segnalazione sg : replyFromServer.getValori())
+			System.out.println("Segnalazione :"+sg.getIdSegnalazione());
+		s.close();
+		return replyFromServer.getValori();
+	}
+	public boolean setSegnalazioni(List<Segnalazione> segnalazioni) throws IOException, ClassNotFoundException {
+		initSocket();
+		List <Segnalazione> listasegn = new ArrayList<Segnalazione>();
+		listasegn=segnalazioni;
+		Richiesta r = new Richiesta<Segnalazione>(s.getLocalSocketAddress().toString(),s.getLocalPort(),listasegn,"setSegnalazioni");		
+		oos.writeObject(r);
+		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
+		System.out.println(reply.getValori().get(0));
+		s.close();
+		return reply.getValori().get(0);
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 }
