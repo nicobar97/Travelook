@@ -87,7 +87,7 @@ public class HomeAnnuncio extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-	public HomeAnnuncio(Viaggio viaggio, Utente user, String code) {
+	public HomeAnnuncio(Viaggio viaggio, Utente user, String code) throws ClassNotFoundException, UnknownHostException, IOException {
 		this.viaggio = viaggio;
 		this.user= user;
 		this.code = code;
@@ -204,7 +204,7 @@ public class HomeAnnuncio extends Application {
                 	m.setTimestamp(new Timestamp(System.currentTimeMillis()));
                 	m.setUtente(user);
                 	try {
-						c.inviaMessaggio(m, viaggio);
+						new ClientProxy().inviaMessaggio(m, viaggio);
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -257,7 +257,7 @@ public class HomeAnnuncio extends Application {
                     	m.setTimestamp(new Timestamp(System.currentTimeMillis()));
                     	m.setUtente(user);
                     	try {
-							c.inviaMessaggio(m, viaggio);
+							new ClientProxy().inviaMessaggio(m, viaggio);
 						} catch (ClassNotFoundException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -297,7 +297,7 @@ public class HomeAnnuncio extends Application {
             		});
             		sendrdp.setOnMouseClicked(event -> {
             			try {
-							c.nuovaRichiesta(new RichiestaDiPartecipazione(user, viaggio, textrdp.getText()));
+							new ClientProxy().nuovaRichiesta(new RichiestaDiPartecipazione(user, viaggio, textrdp.getText()));
 						} catch (ClassNotFoundException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -319,7 +319,7 @@ public class HomeAnnuncio extends Application {
 	private void refreshChat() {
 		Chat chat= new Chat();
 		try {
-			chat = c.getChat(viaggio);
+			chat = new ClientProxy().getChat(viaggio);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

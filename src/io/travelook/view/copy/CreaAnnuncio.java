@@ -162,7 +162,7 @@ public class CreaAnnuncio extends Application {
             		if(type==0)
 						try {
 							new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
-						} catch (ClassNotFoundException e) {
+						} catch (ClassNotFoundException | IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
@@ -220,7 +220,7 @@ public class CreaAnnuncio extends Application {
 				if(type==0)
 					try {
 						new HomeAnnuncio(nv, user, "lista").start(primaryStage);
-					} catch (ClassNotFoundException e) {
+					} catch (ClassNotFoundException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -236,7 +236,7 @@ public class CreaAnnuncio extends Application {
             	if(type==0)
 					try {
 						new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
-					} catch (ClassNotFoundException e) {
+					} catch (ClassNotFoundException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -252,7 +252,7 @@ public class CreaAnnuncio extends Application {
             	if(type==0)
 					try {
 						new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
-					} catch (ClassNotFoundException e) {
+					} catch (ClassNotFoundException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}

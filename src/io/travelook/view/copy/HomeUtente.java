@@ -179,7 +179,7 @@ public class HomeUtente extends Application {
             		Viaggio open = ac.getViaggioById(listViaggio.getSelectionModel().getSelectedItem().getIdViaggio());
             		try {
 						new HomeAnnuncio(open, user, "utente").start(primaryStage);
-					} catch (ClassNotFoundException e) {
+					} catch (ClassNotFoundException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}

@@ -109,7 +109,7 @@ public class HomeListaAnnunci extends Application {
             	if(me.getClickCount() == 2)
 					try {
 						new HomeAnnuncio(listView.getSelectionModel().getSelectedItem(), user, "lista").start(primaryStage);
-					} catch (ClassNotFoundException e) {
+					} catch (ClassNotFoundException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}

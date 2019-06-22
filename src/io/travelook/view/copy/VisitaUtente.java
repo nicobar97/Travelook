@@ -136,7 +136,7 @@ public class VisitaUtente extends Application {
             back.setOnMouseClicked(event -> {
             	try {
 					new HomeAnnuncio(viaggio, userOspite, "lista").start(primaryStage);
-				} catch (ClassNotFoundException e) {
+				} catch (ClassNotFoundException | IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
