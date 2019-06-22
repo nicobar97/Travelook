@@ -22,15 +22,6 @@ public class ListaSegnalazioni { //DA RIMUOVERE
 		this.segnalazioni = segnalazioni;
 	}
     
-	public List<Segnalazione> getSegnalazioneByIdViaggio(int idviaggio){
-		List<Segnalazione> res=new ArrayList<Segnalazione>();
-		for(Segnalazione s : segnalazioni ) {
-			if(s.getViaggio().getIdViaggio() == idviaggio) {
-				res.add(s);
-			}
-		}
-		return res;		
-	}
 	public List<Segnalazione> getSegnalazioniByIdSegnalato(int idsegnalato){
 		List<Segnalazione> res=new ArrayList<Segnalazione>();
 		for(Segnalazione s : segnalazioni ) {
