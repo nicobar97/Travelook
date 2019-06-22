@@ -54,6 +54,7 @@ public class ServerListaAnnunciThread extends Thread {
 		if(servizioRichiesto.equals("creaAnnuncio")) {
 			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
 			Viaggio daCreare = (Viaggio) listaArgomenti.get(0);
+			System.out.println("Annuncio da creare: " + daCreare.getTitolo());
 			boolean esito = listaAnnunciController.creaAnnuncio(daCreare);
 			List<Boolean> listaEsiti = new ArrayList<Boolean>();
 			listaEsiti.add(esito);

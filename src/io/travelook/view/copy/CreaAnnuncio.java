@@ -205,7 +205,7 @@ public class CreaAnnuncio extends Application {
 					nv.setStato(Stato.INIZIO);
 					nv.setCreatore(user);
 					try {
-						c.creaAnnuncio(nv);
+						new ClientProxy().creaAnnuncio(nv);
 					} catch (UnknownHostException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
