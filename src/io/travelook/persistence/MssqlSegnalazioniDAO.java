@@ -20,18 +20,19 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 		conn=c;
 	}
 
-	final String create = "INSERT INTO Segnalazione(idSegnalato, idSegnalante, idViaggio, Messaggio, stato)"
-			+ " VALUES(?,?,?,?,'DALEGGERE')";
+	final String create = "INSERT INTO Segnalazione(idSegnalato, idSegnalante, Messaggio, stato)"
+			+ " VALUES(?,?,?,?)";
+	final String read="SELECT * FROM SEGNALAZIONE WHERE id=?";
 	@Override
 	public boolean create(Segnalazione s) {
 		boolean esito=false;
 		try {
-			PreparedStatement prep_stmt = conn.prepareStatement(this.create);
+			PreparedStatement prep_stmt = conn.prepareStatement(create);
 			prep_stmt.clearParameters();
 			prep_stmt.setInt(1, s.getSegnalato().getId());
 			prep_stmt.setInt(2, s.getSegnalante().getId());
-			prep_stmt.setInt(3, s.getViaggio().getIdViaggio());
-			prep_stmt.setString(4, s.getMessaggio());
+			prep_stmt.setString(3, s.getMessaggio());
+			prep_stmt.setInt(4, s.getStato().ordinal());
 			if(prep_stmt.executeUpdate()>0) {
 				return true;
 			}
@@ -51,16 +52,18 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 		List<Segnalazione> listaSegnalazioni = new ArrayList<Segnalazione>();
 		Segnalazione s=null;
 		
-		String query = "SELECT * FROM Segnalazione WHERE stato='DALEGGERE'";
+		String query = "SELECT * FROM Segnalazione";
 		try {
 			PreparedStatement prep_stmt = conn.prepareStatement(query);
 			ResultSet rs = prep_stmt.executeQuery();
 			while(rs.next()) {
-				s.setIdSegnalazione(rs.getInt("id"));
-				s.setMessaggio(rs.getString("messaggio"));
-				s.setSegnalante(readUtente(rs.getInt("idSegnalante")));
-				s.setSegnalato(readUtente(rs.getInt("idSegnalato")));
-				s.setViaggio(readViaggio(rs.getInt("idViaggio")));
+				int i=1;
+				s.setIdSegnalazione(rs.getInt(i));
+				s.setSegnalante(readUtente(rs.getInt(i++)));
+				s.setSegnalato(readUtente(rs.getInt(i++)));
+				s.setMessaggio(rs.getString(i++));
+				s.setStato(Stato.values()[rs.getInt(i++)]);
+				listaSegnalazioni.add(s);
 			}
 			
 		}
@@ -73,13 +76,29 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 
 	@Override
 	public boolean update(Segnalazione s) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean esito=false;
+		String query ="UPDATE Segnalazione SET idSegnalato=?,idSegnalante=?,messaggio=?,stato=? WHERE id=?";
+		try {
+			PreparedStatement prep_stmt = conn.prepareStatement(query);
+			prep_stmt.setInt(1, s.getSegnalato().getIdUtente());
+			prep_stmt.setInt(2, s.getSegnalante().getIdUtente());
+			prep_stmt.setString(3, s.getMessaggio());
+			prep_stmt.setInt(4,s.getStato().ordinal());
+			prep_stmt.setInt(5, s.getIdSegnalazione());
+			if(prep_stmt.executeUpdate()>0)
+				esito=true;
+			else return false;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return esito;
 	}
 	
 	public boolean marcaSegnalazioneComeLetta(Segnalazione s) {
 		boolean esito=false;
-		String query ="UPDATE Segnalazione (stato='LETTA') WHERE id=?";
+		String query ="UPDATE Segnalazione SET stato=7 WHERE id=?";
 		try {
 			PreparedStatement prep_stmt = conn.prepareStatement(query);
 			prep_stmt.setInt(1, s.getIdSegnalazione());
@@ -91,55 +110,6 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 			e.printStackTrace();
 			return false;
 		}
-	}
-	
-	public Viaggio readViaggio(int id) {
-		Viaggio res=null;
-		try {
-			/*" (id,idCreatore,titolo,destinazione,descrizione,lingua,budget,dataPartenza,dataFine"+
-			",immagineProfilo,immaginiAlternative"+*/
-			PreparedStatement prep_stmt = conn.prepareStatement(MssqlViaggioDAO.read_by_id);
-			prep_stmt.setInt(1,id);
-			ResultSet rs = prep_stmt.executeQuery();
-			if ( rs.next() ) {
-				Viaggio v = new Viaggio();
-				v.setIdViaggio(rs.getInt(1));
-				int idU=rs.getInt(13);
-				String user=rs.getString("nickname");
-				String mail=rs.getString("email");
-				String nome=rs.getString("nome");
-				String cgnome=rs.getString("cognome");
-				Date datan=rs.getDate("dataNascita");
-				String imgP=rs.getString("imgProfilo");
-				Utente c = new Utente(idU,user,mail,nome,cgnome,datan,imgP);
-				v.setCreatore(c);
-				v.setTitolo(rs.getString("titolo"));
-				v.setDestinazione(rs.getString("destinazione"));
-				v.setDescrizione(rs.getString("descrizione"));
-				v.setLingua(rs.getString("lingua"));
-				v.setBudget(rs.getInt("budget"));
-				v.setLuogopartenza(rs.getString("luogoPartenza"));
-				v.setDatainizio(rs.getDate("dataPartenza"));
-				v.setDatafine(rs.getDate("dataFine"));
-				v.setStato(Stato.values()[rs.getInt("stato")]);
-				res=v;
-			}
-			rs.close();
-			prep_stmt.close();
-		    
-		}
-		catch(Exception e) {
-			
-		}
-		finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return res;
 	}
 	
 	public Utente readUtente(int id) {

@@ -38,7 +38,7 @@ class SegnalazioniTest {
 		Utente segnalato = new Utente(1, "asalvucci", "andrea@gmail.com", "Andrea", "Salvucci", new Date(1997,11,14) ,"C:/");
 		Utente segnalante = new Utente(3, "nbartelucci", "nicolo1@gmail.com", "Nicolo", "Bartelucci", new Date(1997,11,14) ,"C:/");
 		Viaggio v = viaggi.get(3);
-		Segnalazione s = new Segnalazione(1, segnalato, segnalante, "Mi ha offeso ");
+		Segnalazione s = new Segnalazione(1, segnalato, segnalante, "Mi ha offeso ",Stato.NONVISTA);
 		boolean res=sc.segnalaUtente(s);
 		Assert.assertTrue(res);
 		System.out.println("test superato!");

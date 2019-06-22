@@ -6,5 +6,8 @@ public enum Stato {
 	NONVISTA,
 	INIZIO,
 	INCORSO,
-	FINE
+	FINE,
+	LETTA,
+	UTENTEELIMINATO,
+	IGNORATA
 }
