@@ -2,6 +2,11 @@ package io.travelook.model;
 
 public class Segnalazione {
 
+	public Segnalazione() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	private int idSegnalazione;
 	private Utente segnalato;
 	private Utente segnalante;

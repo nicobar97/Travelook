@@ -20,6 +20,10 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 		conn=c;
 	}
 
+	public MssqlSegnalazioniDAO() {
+		// TODO Auto-generated constructor stub
+	}
+
 	final String create = "INSERT INTO Segnalazione(idSegnalato, idSegnalante, Messaggio, stato)"
 			+ " VALUES(?,?,?,?)";
 	@Override
@@ -49,7 +53,7 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 	public List<Segnalazione> readAll() {
 		// TODO Auto-generated method stub
 		List<Segnalazione> listaSegnalazioni = new ArrayList<Segnalazione>();
-		Segnalazione s=null;
+		Segnalazione s=new Segnalazione();
 		
 		String query = "SELECT * FROM Segnalazione";
 		try {
@@ -57,7 +61,7 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 			ResultSet rs = prep_stmt.executeQuery();
 			while(rs.next()) {
 				int i=1;
-				s.setIdSegnalazione(rs.getInt(i));
+				s.setIdSegnalazione(rs.getInt(i++));
 				s.setSegnalato(readUtente(rs.getInt(i++)));
 				s.setSegnalante(readUtente(rs.getInt(i++)));
 				s.setMessaggio(rs.getString(i++));
@@ -75,7 +79,7 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 	public List<Segnalazione> readSegnalazioniUtente(int idUtente) {
 		// TODO Auto-generated method stub
 		List<Segnalazione> listaSegnalazioni = new ArrayList<Segnalazione>();
-		Segnalazione s=null;
+		Segnalazione s=new Segnalazione();
 		
 		String query = "SELECT * FROM Segnalazione WHERE idSegnalante=?";
 		try {
@@ -84,7 +88,7 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 			ResultSet rs = prep_stmt.executeQuery();
 			while(rs.next()) {
 				int i=1;
-				s.setIdSegnalazione(rs.getInt(i));
+				s.setIdSegnalazione(rs.getInt(i++));
 				s.setSegnalato(readUtente(rs.getInt(i++)));
 				s.setSegnalante(readUtente(rs.getInt(i++)));
 				s.setMessaggio(rs.getString(i++));
@@ -138,7 +142,7 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 	}
 	public boolean eliminaSegnalazione(int idsegn) {
 		boolean res=false;
-		String q="DELETE FROM TABLE Segnalazione WHERE id=?";
+		String q="DELETE FROM Segnalazione WHERE id=?";
 		try {
 			PreparedStatement p=conn.prepareStatement(q);
 			p.setInt(1,idsegn);
@@ -183,19 +187,10 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 				result = u;
 			}
 			rs.close();
-			prep_stmt.close();
 		}
 		catch (Exception e) {
 			System.out.println("read(): failed to retrieve entry with id = " + id+": "+e.getMessage());
 			e.printStackTrace();
-		}
-		finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 		return result;
 	}

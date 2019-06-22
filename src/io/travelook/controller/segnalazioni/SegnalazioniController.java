@@ -13,7 +13,7 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
     public SegnalazioniController() {
 		super();
 		// TODO Auto-generated constructor stub
-		db = new MssqlSegnalazioniDAO(super.getDbConnection());
+		db = new MssqlSegnalazioniDAO();
 	}
 
 	
@@ -23,6 +23,7 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
         	return res;
         }else {
     	segnalazioni.add(s);
+    	db.setConn(super.getDbConnection());
     	db.create(s);
     	res=true;
         }
@@ -36,6 +37,7 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
     			res.add(s);
     		}
     	}*/
+    	db.setConn(super.getDbConnection());
     	res=db.readSegnalazioniUtente(id);
     	return res;
     }
@@ -44,6 +46,7 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
     	for(Segnalazione s : segnalazioni) {
     		if(s.getIdSegnalazione()==segnalazioneid) {
     			res=s;
+    			db.setConn(super.getDbConnection());
     			db.marcaSegnalazioneComeLetta(s);
     		}
     	}
@@ -62,6 +65,7 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
     			torem=s;
     		}
     	}
+    	db.setConn(super.getDbConnection());
     	db.eliminaSegnalazione(segnalazioneid);
     	segnalazioni.remove(torem);
     	res=true;
@@ -71,7 +75,8 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
     }
 
 	public List<Segnalazione> getSegnalazioni() {
-		segnalazioni=db.readAll();
+		db.setConn(super.getDbConnection());
+		this.segnalazioni=db.readAll();
 		return segnalazioni;
 	}
 
