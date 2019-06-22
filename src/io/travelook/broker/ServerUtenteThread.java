@@ -104,7 +104,7 @@ public void run() {
 		Risposta<Boolean> replyrec = new Risposta<Boolean>(brokerSocket.getInetAddress().toString(),brokerSocket.getPort(),listarec);
 		ous.writeObject(replyrec);
 	}
-	if(servizioRichiesto.equals("attachInteressitoUser")) {
+	if(servizioRichiesto.equals("attachInteressiToUser")) {
 		List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
 		Utente  u = (Utente)listaArgomenti.get(0);
 		UtenteController ut= new UtenteController(u);

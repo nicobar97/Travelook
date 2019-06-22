@@ -172,7 +172,12 @@ public class HomeUtente extends Application {
             	MouseEvent me = (MouseEvent) event;
             	if(me.getClickCount() == 2) {
             		Viaggio open = ac.getViaggioById(listViaggio.getSelectionModel().getSelectedItem().getIdViaggio());
-            		new HomeAnnuncio(open, user, "utente").start(primaryStage);
+            		try {
+						new HomeAnnuncio(open, user, "utente").start(primaryStage);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
             	}
             });
             modifica.setOnMouseClicked(event -> {

@@ -1,9 +1,11 @@
 package io.travelook.view.copy;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Optional;
 
+import io.travelook.broker.ClientProxy;
 import io.travelook.controller.rdp.RichiesteObservableController;
 import io.travelook.model.Messaggio;
 import io.travelook.model.RichiestaDiPartecipazione;
@@ -80,8 +82,30 @@ public class RDPCell extends ListCell<RichiestaDiPartecipazione> {
 	        	Optional<String> mexRisp = new TextInputDialog("Inserisci il messaggio di risposta:").showAndWait();
 	        	if(mexRisp.isPresent()) {
 	        		rdp.setRisposta(Stato.ACCETTATA, mexRisp.get());
-	        		System.out.println(rdpc.rispondiRichiesta(rdp));
-	        		refreshRdp(rdp);
+	        		try {
+						System.out.println(new ClientProxy().rispondiRichiesta(rdp));
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (UnknownHostException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+	        		try {
+						refreshRdp(rdp);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (UnknownHostException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	        	}
 	        });
 	        
@@ -90,15 +114,26 @@ public class RDPCell extends ListCell<RichiestaDiPartecipazione> {
 	        	if(mexRisp.isPresent()) {
 	        		rdp.setRisposta(Stato.NONACCETTATA, mexRisp.get());
 	        		rdpc.rispondiRichiesta(rdp);
-	        		refreshRdp(rdp);
+	        		try {
+						refreshRdp(rdp);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (UnknownHostException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	        	}
 	        });
 	        setText(null);
 	        setGraphic(flowPane);
 	    }
 	}
-	private void refreshRdp(RichiestaDiPartecipazione rdp) {
-		List<RichiestaDiPartecipazione> rdpList = rdpc.getRichiesteForCreatoreViaggio(rdp.getViaggio().getCreatore(), rdp.getViaggio() );
+	private void refreshRdp(RichiestaDiPartecipazione rdp) throws ClassNotFoundException, UnknownHostException, IOException {
+		List<RichiestaDiPartecipazione> rdpList = new ClientProxy().getRichiesteForCreatoreViaggio(rdp.getViaggio().getCreatore(), rdp.getViaggio() );
         ObservableList<RichiestaDiPartecipazione> obsrdp = FXCollections.observableArrayList(rdpList);
         if(!rdpList.isEmpty() && rdpList != null) {
         	rdpview.setItems(obsrdp);

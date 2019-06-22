@@ -160,9 +160,19 @@ public class CreaAnnuncio extends Application {
             });
             backButton.setOnMouseClicked(event -> {
             		if(type==0)
-            			new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
-            		else
-            			new HomeListaAnnunci(user).start(primaryStage);
+						try {
+							new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					else
+						try {
+							new HomeListaAnnunci(user).start(primaryStage);
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
             });
            
             saveButton.setOnMouseClicked(event -> {
@@ -208,21 +218,51 @@ public class CreaAnnuncio extends Application {
 					}
 				}
 				if(type==0)
-        			new HomeAnnuncio(nv, user, "lista").start(primaryStage);
-        		else
-        			new HomeListaAnnunci(user).start(primaryStage);
+					try {
+						new HomeAnnuncio(nv, user, "lista").start(primaryStage);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				else
+					try {
+						new HomeListaAnnunci(user).start(primaryStage);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
             });
             annullaButton.setOnMouseClicked(event -> {
             	if(type==0)
-        			new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
-        		else
-        			new HomeListaAnnunci(user).start(primaryStage);
+					try {
+						new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				else
+					try {
+						new HomeListaAnnunci(user).start(primaryStage);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
             });
             backButton.setOnMouseClicked(event -> {
             	if(type==0)
-        			new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
-        		else
-        			new HomeListaAnnunci(user).start(primaryStage);
+					try {
+						new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				else
+					try {
+						new HomeListaAnnunci(user).start(primaryStage);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
             });
             primaryStage.show();
         } catch (IOException e) {

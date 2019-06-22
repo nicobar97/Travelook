@@ -1,6 +1,8 @@
 package io.travelook.model;
 
-public class RichiestaDiPartecipazione {
+import java.io.Serializable;
+
+public class RichiestaDiPartecipazione implements Serializable {
 	private int id;
 	private Utente utente;
 	private Viaggio viaggio;

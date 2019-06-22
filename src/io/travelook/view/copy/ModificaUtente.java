@@ -1,9 +1,11 @@
 package io.travelook.view.copy;		
 import java.io.File;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.travelook.broker.ClientProxy;
 import io.travelook.controller.annuncio.ListaAnnunciController;
 import io.travelook.controller.rdp.RichiesteObservableController;
 import io.travelook.controller.utente.UtenteController;
@@ -155,7 +157,18 @@ public class ModificaUtente extends Application {
             	user.setBio(bio.getText());
             	if(newImg != null)
             		user.setImmagineProfilo(newImg.getName());
-            	uc.modificaProfilo(user);
+            	try {
+					new ClientProxy().modificaProfilo(user);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             	new HomeUtente(user).start(primaryStage);
             });
             initInteressi();

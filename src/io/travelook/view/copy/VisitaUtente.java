@@ -1,10 +1,12 @@
 package io.travelook.view.copy;		
 import java.io.File;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import io.travelook.broker.ClientProxy;
 import io.travelook.controller.annuncio.ListaAnnunciController;
 import io.travelook.controller.rdp.RichiesteObservableController;
 import io.travelook.controller.utente.UtenteController;
@@ -92,7 +94,18 @@ public class VisitaUtente extends Application {
     private FXMLLoader loader;
 	public VisitaUtente(Utente user, Utente userOspite, Viaggio viaggio) {
         uc = new UtenteController(user);
-        this.user = uc.attachInteressiToUser(user);
+        try {
+			this.user = new ClientProxy().attachInteressiToUser(user);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         this.userOspite = userOspite;
         this.viaggio = viaggio;
         if(user.getInteressi() == null) {
@@ -100,7 +113,7 @@ public class VisitaUtente extends Application {
         }
 	}
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) throws ClassNotFoundException {
 		this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Travelook");
 
@@ -111,7 +124,7 @@ public class VisitaUtente extends Application {
 		launch(args);
 	}
 	
-	public void initRootLayout() {
+	public void initRootLayout() throws ClassNotFoundException {
         try {
             loader = new FXMLLoader(getClass().getResource("VisitaUtente.fxml"));
             loader.setController(this);
@@ -121,7 +134,12 @@ public class VisitaUtente extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             back.setOnMouseClicked(event -> {
-            	new HomeAnnuncio(viaggio, userOspite, "lista").start(primaryStage);
+            	try {
+					new HomeAnnuncio(viaggio, userOspite, "lista").start(primaryStage);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             });
             bio.setEditable(false);
             username.setText("@"+user.getUsername());
@@ -212,7 +230,21 @@ public class VisitaUtente extends Application {
             	else {
             		Optional<String> mexRec = new TextInputDialog("Titolo Recensione").showAndWait();
     	        	if(mexRec.isPresent()) {
-    	        		uc.lasciaRecensione(new Recensione(user.getId(), votoRec, mexRec.get(), recArea.getText() + " - @" + userOspite.getUsername(), userOspite.getId()));
+    	        		try {
+							new ClientProxy().lasciaRecensione(new Recensione(user.getId(), votoRec, mexRec.get(), recArea.getText() + " - @" + userOspite.getUsername(), userOspite.getId()));
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (UnknownHostException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IllegalArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
     	        		new Alert(AlertType.INFORMATION, "Utente " + user.getUsername() + " recensito!").show();
     	        	}
     	        	else {
@@ -287,8 +319,8 @@ public class VisitaUtente extends Application {
 		}
 		return out;
 	}
-	private void refreshRecensioni() {
-		listaRecensioni = uc.visualizzaRecensioni();
+	private void refreshRecensioni() throws UnknownHostException, ClassNotFoundException, IOException {
+		listaRecensioni = new ClientProxy().visualizzaRecensioni();
         ObservableList<Recensione> obsv = FXCollections.observableArrayList(listaRecensioni);
         if(!listaRecensioni.isEmpty() && listaRecensioni != null) {
         	listRecensioni.setItems(obsv);

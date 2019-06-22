@@ -2,6 +2,7 @@ package io.travelook.view;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import javax.swing.text.DateFormatter;
 
+import io.travelook.broker.ClientProxy;
 import io.travelook.controller.chat.ChatController;
 import io.travelook.controller.rdp.RichiesteObservableController;
 import io.travelook.model.Chat;
@@ -73,7 +75,7 @@ public class HomeAnnuncio extends Application {
     private ListView<Utente> utentiView;
     private String code;
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) throws ClassNotFoundException {
 		this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Annuncio");
 
@@ -89,7 +91,7 @@ public class HomeAnnuncio extends Application {
 		this.code = code;
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void initRootLayout() {
+	public void initRootLayout() throws ClassNotFoundException {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(HomeAnnuncio.class.getResource("HomeAnnuncio.fxml"));
@@ -185,8 +187,30 @@ public class HomeAnnuncio extends Application {
                 	m.setMessaggio(newMessage.getText());
                 	m.setTimestamp(new Timestamp(System.currentTimeMillis()));
                 	m.setUtente(user);
-                	chatCont.inviaMessaggio(m, viaggio);
-                	refreshChat();
+                	try {
+						new ClientProxy().inviaMessaggio(m, viaggio);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (UnknownHostException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+                	try {
+						refreshChat();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (UnknownHostException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                 	newMessage.setText("");
                 });
                 newMessage.setOnKeyReleased(event -> {
@@ -230,8 +254,30 @@ public class HomeAnnuncio extends Application {
                     	m.setMessaggio(newMessage.getText());
                     	m.setTimestamp(new Timestamp(System.currentTimeMillis()));
                     	m.setUtente(user);
-                    	chatCont.inviaMessaggio(m, viaggio);
-                    	refreshChat();
+                    	try {
+							new ClientProxy().inviaMessaggio(m, viaggio);
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (UnknownHostException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+                    	try {
+							refreshChat();
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (UnknownHostException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
                     	newMessage.setText("");
                     });
                     newMessage.setOnKeyReleased(event -> {
@@ -262,7 +308,21 @@ public class HomeAnnuncio extends Application {
             			textrdp.setText("");
             		});
             		sendrdp.setOnMouseClicked(event -> {
-            			rdpc.nuovaRichiesta(new RichiestaDiPartecipazione(user, viaggio, textrdp.getText()));
+            			try {
+							new ClientProxy().nuovaRichiesta(new RichiestaDiPartecipazione(user, viaggio, textrdp.getText()));
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (UnknownHostException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IllegalArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
             		});
             	}
             }
@@ -271,8 +331,8 @@ public class HomeAnnuncio extends Application {
             e.printStackTrace();
         }
     }
-	private void refreshChat() {
-		Chat chat = chatCont.getChat(viaggio);
+	private void refreshChat() throws ClassNotFoundException, UnknownHostException, IOException {
+		Chat chat = new ClientProxy().getChat(viaggio);
         ObservableList<Messaggio> messaggi = FXCollections.observableArrayList(chat.getChat());
         if(!chat.getChat().isEmpty() && messaggi != null) {
         	chatView.setItems(messaggi);
@@ -280,8 +340,8 @@ public class HomeAnnuncio extends Application {
         	chatView.scrollTo(chat.getChat().size());
         }
 	}
-	private void refreshRdp() {
-		List<RichiestaDiPartecipazione> rdpList = rdpc.getRichiesteForCreatoreViaggio(user, viaggio);
+	private void refreshRdp() throws ClassNotFoundException, UnknownHostException, IOException {
+		List<RichiestaDiPartecipazione> rdpList = new ClientProxy().getRichiesteForCreatoreViaggio(user, viaggio);
         ObservableList<RichiestaDiPartecipazione> obsrdp = FXCollections.observableArrayList(rdpList);
         if(!rdpList.isEmpty() && rdpList != null) {
         	rdpview.setItems(obsrdp);

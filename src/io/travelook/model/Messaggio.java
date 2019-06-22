@@ -1,10 +1,11 @@
 package io.travelook.model;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.sql.Timestamp;
 
-public class Messaggio {
+public class Messaggio implements Serializable{
 	private int id;
 	private Utente utente;
 	private String messaggio;

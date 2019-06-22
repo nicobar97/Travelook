@@ -12,12 +12,11 @@ import java.util.List;
 
 import org.json.JSONException;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
-
 import io.travelook.model.Chat;
 import io.travelook.model.Interessi;
 import io.travelook.model.Messaggio;
 import io.travelook.model.Recensione;
+import io.travelook.model.RichiestaDiPartecipazione;
 import io.travelook.model.Storico;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
@@ -415,6 +414,52 @@ public class ClientProxy {
 		oos.writeObject(ric);
 		Risposta<Chat> reply = (Risposta<Chat>) ois.readObject();
 		System.out.println("ricevuta la chat per il viaggio"+v.getIdViaggio());
+		s.close();
+		return reply.getValori().get(0);
+	}
+	
+	public boolean nuovaRichiesta(RichiestaDiPartecipazione nuova) throws IOException, ClassNotFoundException {
+		initSocket();
+		List<RichiestaDiPartecipazione> argomentiRichiesta = new ArrayList<RichiestaDiPartecipazione>();
+		argomentiRichiesta.add(nuova);
+		Richiesta ric = new Richiesta<RichiestaDiPartecipazione>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "nuovaRichiesta");
+		oos.writeObject(ric);
+		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
+		
+		System.out.println(reply.getValori().get(0));
+		s.close();
+		return reply.getValori().get(0);
+		
+	}
+	
+	public List<RichiestaDiPartecipazione> getRichiesteForCreatoreViaggio(Utente creatore,
+			Viaggio viaggio) throws IOException, ClassNotFoundException{
+		initSocket();
+		List<Object> argomentiRichiesta = new ArrayList<Object>();
+		argomentiRichiesta.add(creatore);
+		System.out.println("Creatore "+creatore.getUsername());
+		System.out.println("Viaggio "+viaggio.getTitolo());
+		argomentiRichiesta.add(viaggio);
+		Richiesta<Object> ric = new Richiesta<Object>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "getRichiesteForCreatoreViaggio");
+		oos.writeObject(ric);
+		Risposta<RichiestaDiPartecipazione> reply = (Risposta<RichiestaDiPartecipazione>) ois.readObject();
+		s.close();
+		return reply.getValori();
+		
+	}
+	
+	public boolean rispondiRichiesta(RichiestaDiPartecipazione risposta) throws IOException, ClassNotFoundException {
+		initSocket();
+		List<RichiestaDiPartecipazione> argomentiRichiesta = new ArrayList<RichiestaDiPartecipazione>();
+		argomentiRichiesta.add(risposta);
+		Richiesta<RichiestaDiPartecipazione> ric = new Richiesta<RichiestaDiPartecipazione>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "rispondiRichiesta");
+		oos.writeObject(ric);
+		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
+		
+		System.out.println(reply.getValori().get(0));
 		s.close();
 		return reply.getValori().get(0);
 	}

@@ -123,7 +123,12 @@ public class HomeUtente extends Application {
             primaryStage.setScene(scene);
             ac = new AnnuncioController();
             back.setOnMouseClicked(event -> {
-            	new HomeListaAnnunci(user).start(primaryStage);
+            	try {
+					new HomeListaAnnunci(user).start(primaryStage);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             });
             bio.setEditable(false);
             username.setText("@"+user.getUsername());
@@ -172,7 +177,12 @@ public class HomeUtente extends Application {
             	MouseEvent me = (MouseEvent) event;
             	if(me.getClickCount() == 2) {
             		Viaggio open = ac.getViaggioById(listViaggio.getSelectionModel().getSelectedItem().getIdViaggio());
-            		new HomeAnnuncio(open, user, "utente").start(primaryStage);
+            		try {
+						new HomeAnnuncio(open, user, "utente").start(primaryStage);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
             	}
             });
             modifica.setOnMouseClicked(event -> {

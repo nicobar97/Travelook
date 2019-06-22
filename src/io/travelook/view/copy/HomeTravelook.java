@@ -81,7 +81,18 @@ public class HomeTravelook extends Application {
             login.setOnMouseClicked(event -> {
             	Optional<String> username = dialog.showAndWait();
             	if(username.isPresent()) {
-            		new HomeListaAnnunci(username.get()).start(primaryStage);
+            		try {
+						new HomeListaAnnunci(username.get()).start(primaryStage);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (UnknownHostException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
             	}
             	else {
             		new Alert(AlertType.ERROR, "Username o password errati").showAndWait();

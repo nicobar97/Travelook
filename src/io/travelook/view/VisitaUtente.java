@@ -121,7 +121,12 @@ public class VisitaUtente extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             back.setOnMouseClicked(event -> {
-            	new HomeAnnuncio(viaggio, userOspite, "lista").start(primaryStage);
+            	try {
+					new HomeAnnuncio(viaggio, userOspite, "lista").start(primaryStage);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             });
             bio.setEditable(false);
             username.setText("@"+user.getUsername());

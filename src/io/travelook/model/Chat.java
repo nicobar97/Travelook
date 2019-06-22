@@ -1,10 +1,11 @@
 package io.travelook.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Chat {
+public class Chat implements Serializable {
 	private Viaggio viaggio;
 	private List<Messaggio> messaggi;
 	

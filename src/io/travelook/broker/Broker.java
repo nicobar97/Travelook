@@ -52,6 +52,9 @@ public class Broker extends Thread {
 		serviziServer.put("abbandonaAnnuncio",serverListaAnnunci);
 		serviziServer.put("getViaggioById",serverListaAnnunci);
 		serviziServer.put("visualizzaUtentiPartecipanti",serverListaAnnunci);
+		serviziServer.put("nuovaRichiesta",serverListaAnnunci);
+		serviziServer.put("rispondiRichiesta",serverListaAnnunci);
+		serviziServer.put("getRichiesteForCreatoreViaggio",serverListaAnnunci);
 		serviziServer.put("verificaCredenziali", serverLogin);
 		serviziServer.put("registraUtente", serverLogin);
 		serviziServer.put("getListaUtenti", serverUtente);
@@ -64,7 +67,7 @@ public class Broker extends Thread {
 		serviziServer.put("lasciaRecensione", serverUtente);
 		serviziServer.put("aggiornaRecensione", serverUtente);
 		serviziServer.put("modificaProfilo", serverUtente);
-		serviziServer.put("attachInteressitoUser", serverUtente);
+		serviziServer.put("attachInteressiToUser", serverUtente);
 		serviziServer.put("getUtenteById", serverUtente);
 		serviziServer.put("getUtente", serverUtente);
 		serviziServer.put("setUtente", serverUtente);

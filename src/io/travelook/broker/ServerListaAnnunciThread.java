@@ -1,6 +1,5 @@
 package io.travelook.broker;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -187,7 +186,8 @@ public class ServerListaAnnunciThread extends Thread {
 			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
 			Utente utente = (Utente) listaArgomenti.get(0);
 			Viaggio v = (Viaggio) listaArgomenti.get(1);
-			List<RichiestaDiPartecipazione> listaRichieste = richiesteController.getRichiesteForCreatore(utente);
+			List<RichiestaDiPartecipazione> listaRichieste = richiesteController.getRichiesteForCreatoreViaggio(utente,v);
+			System.out.println("Numero richieste: "+listaRichieste.size());
 			Risposta<RichiestaDiPartecipazione> replyRichiesteForCreatore =
 					new Risposta<RichiestaDiPartecipazione>(brokerSocket.getInetAddress().toString(),
 					brokerSocket.getPort(),listaRichieste);

@@ -2,8 +2,10 @@ package io.travelook.view.copy;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.List;
 
+import io.travelook.broker.ClientProxy;
 import io.travelook.controller.annuncio.ListaAnnunciController;
 import io.travelook.controller.utente.UtenteController;
 import io.travelook.model.Utente;
@@ -41,18 +43,18 @@ public class HomeListaAnnunci extends Application {
     private Utente user;
     private int count;
     private UtenteController controlleru;
-	public HomeListaAnnunci(String username) {
+	public HomeListaAnnunci(String username) throws UnknownHostException, ClassNotFoundException, IOException {
 		controlleru = new UtenteController();
-		int iduser = controlleru.getIdUtenteFromUsername(username);
+		int iduser = new ClientProxy().getIdUtenteFromUsername(username);
 		System.out.println("PORCODIO: " + username + "PORCODIO:" + iduser);
-        this.user = controlleru.getUtenteById(iduser);
-        controlleru.setU(user);
+        this.user = new ClientProxy().getUtenteById(iduser);
+        new ClientProxy().setUtente(user);
 	}
 	public HomeListaAnnunci(Utente user) {
         this.user = user;
 	}
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) throws ClassNotFoundException {
 		this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Travelook");
 
@@ -64,7 +66,7 @@ public class HomeListaAnnunci extends Application {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void initRootLayout() {
+	public void initRootLayout() throws ClassNotFoundException {
         try {
         	count = 0;
             // Load root layout from fxml file.
@@ -97,7 +99,7 @@ public class HomeListaAnnunci extends Application {
             	new Alert(AlertType.INFORMATION, "Logout effettuato con successo").show();
             });
             ListaAnnunciController controller = new ListaAnnunciController();
-            List<Viaggio> lista = controller.getAnnunci();
+            List<Viaggio> lista = new ClientProxy().getListaAnnunci();
             ObservableList<Viaggio> items = FXCollections.observableArrayList(lista);
             if(lista != null || lista.size() > 0)
             	listView.setItems(items);
@@ -105,7 +107,12 @@ public class HomeListaAnnunci extends Application {
             listView.setOnMouseClicked(event -> { 
             	MouseEvent me = (MouseEvent) event;
             	if(me.getClickCount() == 2)
-            		new HomeAnnuncio(listView.getSelectionModel().getSelectedItem(), user, "lista").start(primaryStage);
+					try {
+						new HomeAnnuncio(listView.getSelectionModel().getSelectedItem(), user, "lista").start(primaryStage);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
             });
             creaAnnuncio = (Button) scene.lookup("#crea");
             creaAnnuncio.setOnAction(event -> {
@@ -113,7 +120,13 @@ public class HomeListaAnnunci extends Application {
             });
             refresh = (Button) scene.lookup("#refresh");
             refresh.setOnAction(event -> {
-            	ObservableList<Viaggio> refresh = FXCollections.observableArrayList(controller.getAnnunci());
+            	ObservableList<Viaggio> refresh = null;
+				try {
+					refresh = FXCollections.observableArrayList(new ClientProxy().getListaAnnunci());
+				} catch (ClassNotFoundException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
                 listView.setItems(refresh);
             });
             primaryStage.show();

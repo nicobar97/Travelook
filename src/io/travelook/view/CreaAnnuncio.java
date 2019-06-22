@@ -147,8 +147,13 @@ public class CreaAnnuncio extends Application {
             });
             backButton.setOnMouseClicked(event -> {
             		if(type==0)
-            			new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
-            		else
+						try {
+							new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					else
             			new HomeListaAnnunci(user).start(primaryStage);
             });
            
@@ -184,20 +189,35 @@ public class CreaAnnuncio extends Application {
 					controller.creaAnnuncio(nv);
 				}
 				if(type==0)
-        			new HomeAnnuncio(nv, user, "lista").start(primaryStage);
-        		else
+					try {
+						new HomeAnnuncio(nv, user, "lista").start(primaryStage);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				else
         			new HomeListaAnnunci(user).start(primaryStage);
             });
             annullaButton.setOnMouseClicked(event -> {
             	if(type==0)
-        			new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
-        		else
+					try {
+						new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				else
         			new HomeListaAnnunci(user).start(primaryStage);
             });
             backButton.setOnMouseClicked(event -> {
             	if(type==0)
-        			new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
-        		else
+					try {
+						new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				else
         			new HomeListaAnnunci(user).start(primaryStage);
             });
             primaryStage.show();
