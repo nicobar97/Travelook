@@ -58,8 +58,8 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 			while(rs.next()) {
 				int i=1;
 				s.setIdSegnalazione(rs.getInt(i));
-				s.setSegnalante(readUtente(rs.getInt(i++)));
 				s.setSegnalato(readUtente(rs.getInt(i++)));
+				s.setSegnalante(readUtente(rs.getInt(i++)));
 				s.setMessaggio(rs.getString(i++));
 				s.setStato(Stato.values()[rs.getInt(i++)]);
 				listaSegnalazioni.add(s);
@@ -72,7 +72,33 @@ public class MssqlSegnalazioniDAO implements ISegnalazioniDAO {
 		
 		return listaSegnalazioni;
 	}
-
+	public List<Segnalazione> readSegnalazioniUtente(int idUtente) {
+		// TODO Auto-generated method stub
+		List<Segnalazione> listaSegnalazioni = new ArrayList<Segnalazione>();
+		Segnalazione s=null;
+		
+		String query = "SELECT * FROM Segnalazione WHERE idSegnalante=?";
+		try {
+			PreparedStatement prep_stmt = conn.prepareStatement(query);
+			prep_stmt.setInt(1,idUtente);
+			ResultSet rs = prep_stmt.executeQuery();
+			while(rs.next()) {
+				int i=1;
+				s.setIdSegnalazione(rs.getInt(i));
+				s.setSegnalato(readUtente(rs.getInt(i++)));
+				s.setSegnalante(readUtente(rs.getInt(i++)));
+				s.setMessaggio(rs.getString(i++));
+				s.setStato(Stato.values()[rs.getInt(i++)]);
+				listaSegnalazioni.add(s);
+			}
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return listaSegnalazioni;
+	}
 	@Override
 	public boolean update(Segnalazione s) {
 		boolean esito=false;

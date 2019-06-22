@@ -31,11 +31,12 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
     
     public List<Segnalazione> getSegnalazioniUtente (int id){
     	List<Segnalazione> res = new ArrayList<Segnalazione>();
-    	for(Segnalazione s :segnalazioni) {
+    	/*for(Segnalazione s :segnalazioni) {
     		if(s.getSegnalante().getId()==id) {
     			res.add(s);
     		}
-    	}
+    	}*/
+    	res=db.readSegnalazioniUtente(id);
     	return res;
     }
     public Segnalazione leggiSegnalazione(int segnalazioneid ) {
