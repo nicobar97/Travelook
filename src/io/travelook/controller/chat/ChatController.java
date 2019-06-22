@@ -17,14 +17,21 @@ public class ChatController extends Controller implements IChat{
 	}
 	
 	@Override
-	public void inviaMessaggio(Messaggio newMessaggio, Viaggio v) {
+	public boolean inviaMessaggio(Messaggio newMessaggio, Viaggio v) {
+		boolean res=false;
 		db.setConn(super.getDbConnection());
 		db.create(newMessaggio, v.getIdViaggio());
-		if(chats != null)
+		if(chats != null) {
 			for(Chat c : chats) {
 				if(c.getViaggio().getIdViaggio() == v.getIdViaggio()) 
 					c.getChat().add(newMessaggio);
 			}
+			res=true;
+		}
+		else {
+			res=false;
+		}
+		return false;
 	}
 
 	@Override
