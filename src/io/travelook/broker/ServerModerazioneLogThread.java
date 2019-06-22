@@ -96,6 +96,7 @@ public class ServerModerazioneLogThread extends Thread{
 			Risposta<Boolean> replysegn = new Risposta<Boolean>(bsock.getInetAddress().toString(),bsock.getPort(),listares);
 			ous.writeObject(replysegn);
 		}
+		
 		}catch(Exception e ) {
 			e.printStackTrace();
 		}

@@ -65,6 +65,7 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
     	res=true;
     	}
     	return res;
+    	
     }
 
 	public List<Segnalazione> getSegnalazioni() {

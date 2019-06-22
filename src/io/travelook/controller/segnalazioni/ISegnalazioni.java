@@ -7,5 +7,5 @@ import io.travelook.model.Segnalazione;
 public interface ISegnalazioni {
 	boolean segnalaUtente(Segnalazione s);
 	List<Segnalazione> getSegnalazioni();
-	List<Segnalazione> getSegnalazioniUtente(int idUtente);
+	List<Segnalazione> getSegnalazioniUtente(int idUtente); 
 }

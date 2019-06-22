@@ -14,7 +14,7 @@ public class ServerModerazioneLog {
 	private static Socket brokerSocket;
 	
 	public ServerModerazioneLog() {
-		
+		  
 	}
 	
 	public static void main(String[] args) {
