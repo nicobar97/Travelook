@@ -49,7 +49,10 @@ public class ClientProxy {
 		//Viaggio v = new Viaggio();
 		//c.creaAnnuncio(v);
 		//c.eliminaAnnuncio(18458);
-		c.visualizzaUtentiPartecipanti(3);
+		Utente[]listaUtenti=c.visualizzaUtentiPartecipanti(3);
+		for(Utente u : listaUtenti) {
+			System.out.println(u.getUsername());
+		}
 		/*
 		 * qua non ci vuole il main, i metodi vanno invocati da client
 		 */

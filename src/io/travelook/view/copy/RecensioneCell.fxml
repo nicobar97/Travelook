@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<FlowPane fx:id="flowPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="227.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane prefHeight="55.0" prefWidth="485.0">
+         <children>
+            <SVGPath fx:id="star5" content="M 133.000 153.000L 156.511 165.361L 152.021 139.180L 171.042 120.639L 144.756 116.820L 133.000 93.000L 121.244 116.820L 94.958 120.639L 113.979 139.180L 109.489 165.361L 133.000 153.000" fill="WHITE" fillRule="EVEN_ODD" layoutX="27.0" layoutY="-100.0" stroke="BLACK" strokeType="INSIDE" style="-fx-scale-x: 0.4; -fx-scale-y: 0.4;" />
+            <SVGPath fx:id="star4" content="M 133.000 153.000L 156.511 165.361L 152.021 139.180L 171.042 120.639L 144.756 116.820L 133.000 93.000L 121.244 116.820L 94.958 120.639L 113.979 139.180L 109.489 165.361L 133.000 153.000" fill="WHITE" fillRule="EVEN_ODD" layoutX="-6.0" layoutY="-100.0" stroke="BLACK" strokeType="INSIDE" style="-fx-scale-x: 0.4; -fx-scale-y: 0.4;" />
+            <SVGPath fx:id="star3" content="M 133.000 153.000L 156.511 165.361L 152.021 139.180L 171.042 120.639L 144.756 116.820L 133.000 93.000L 121.244 116.820L 94.958 120.639L 113.979 139.180L 109.489 165.361L 133.000 153.000" fill="WHITE" fillRule="EVEN_ODD" layoutX="-39.0" layoutY="-100.0" stroke="BLACK" strokeType="INSIDE" style="-fx-scale-x: 0.4; -fx-scale-y: 0.4;" />
+            <SVGPath fx:id="star2" content="M 133.000 153.000L 156.511 165.361L 152.021 139.180L 171.042 120.639L 144.756 116.820L 133.000 93.000L 121.244 116.820L 94.958 120.639L 113.979 139.180L 109.489 165.361L 133.000 153.000" fill="WHITE" fillRule="EVEN_ODD" layoutX="-72.0" layoutY="-100.0" stroke="BLACK" strokeType="INSIDE" style="-fx-scale-x: 0.4; -fx-scale-y: 0.4;" />
+            <SVGPath fx:id="star1" content="M 133.000 153.000L 156.511 165.361L 152.021 139.180L 171.042 120.639L 144.756 116.820L 133.000 93.000L 121.244 116.820L 94.958 120.639L 113.979 139.180L 109.489 165.361L 133.000 153.000" fill="WHITE" fillRule="EVEN_ODD" layoutX="-105.0" layoutY="-100.0" stroke="BLACK" strokeType="INSIDE" style="-fx-scale-x: 0.4; -fx-scale-y: 0.4;" />
+         </children>
+      </Pane>
+      <Pane prefHeight="26.0" prefWidth="12.0" />
+      <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" text="Titolo di una recensione di prova" wrappingWidth="357.5704822540283">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Text>
+      <Pane prefHeight="130.0" prefWidth="16.0" />
+      <Text fx:id="body" strokeType="OUTSIDE" strokeWidth="0.0" text="Il lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ipIl lorem ip" wrappingWidth="364.8959140777588">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+   </children>
+</FlowPane>

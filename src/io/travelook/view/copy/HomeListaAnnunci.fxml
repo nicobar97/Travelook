@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="809.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane prefHeight="54.0" prefWidth="809.0">
+         <children>
+            <Label layoutX="75.0" layoutY="5.0" prefHeight="43.0" prefWidth="333.0" text="Travelook - Home">
+               <font>
+                  <Font name="Arial" size="25.0" />
+               </font></Label>
+            <ImageView fitHeight="72.0" fitWidth="70.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image fx:id="logo" url="@../../../logo.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="imgUtente" fitHeight="43.0" fitWidth="47.0" layoutX="757.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
+            <Text fx:id="currentUser" fill="RED" layoutX="600.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="RIGHT" wrappingWidth="156.2060546875">
+               <font>
+                  <Font name="Arial Italic" size="12.0" />
+               </font></Text>
+         </children>
+      </Pane>
+      <Pane prefHeight="526.0" prefWidth="710.0">
+         <children>
+            <ListView fx:id="lista" layoutY="-4.0" prefHeight="510.0" prefWidth="710.0" />
+            <Button fx:id="refresh" layoutX="613.0" layoutY="466.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="72.0" text="Ricarica" />
+         </children>
+      </Pane>
+      <Pane prefHeight="500.0" prefWidth="99.0">
+         <children>
+            <Button fx:id="crea" layoutX="14.0" layoutY="-4.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="72.0" text="Crea Annuncio" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="logout" layoutX="15.0" layoutY="465.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="72.0" text="Logout" />
+            <Button layoutX="16.0" layoutY="74.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" text="Filtra" />
+         </children>
+      </Pane>
+   </children>
+</FlowPane>

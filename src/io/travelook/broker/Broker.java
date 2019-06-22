@@ -71,8 +71,8 @@ public class Broker extends Thread {
 	
 	public void run() {
 		System.out.println("Thread Lanciato per il cliente " + clientSocket.toString());
-		AnnuncioController ac = new AnnuncioController();
-		ListaAnnunciController lac = new ListaAnnunciController();
+		//AnnuncioController ac = new AnnuncioController();
+		//ListaAnnunciController lac = new ListaAnnunciController();
 		try {
 		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 		BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -113,8 +113,8 @@ public class Broker extends Thread {
 	public static void main(String[] args) throws Exception {
 		
 		
-			AnnuncioController ac = new AnnuncioController();
-			ListaAnnunciController lac = new ListaAnnunciController();
+			//AnnuncioController ac = new AnnuncioController();
+			//ListaAnnunciController lac = new ListaAnnunciController();
 		
 			ServerSocket sSock = new ServerSocket(4000);
 			System.out.println("Il Broker è in attesa sulla porta 4000.");

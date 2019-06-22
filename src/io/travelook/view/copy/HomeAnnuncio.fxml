@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="809.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane prefHeight="54.0" prefWidth="809.0">
+         <children>
+            <Label layoutX="75.0" layoutY="5.0" prefHeight="43.0" prefWidth="333.0" text="Travelook - Annuncio">
+               <font>
+                  <Font name="Arial" size="25.0" />
+               </font></Label>
+            <ImageView fitHeight="72.0" fitWidth="70.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image fx:id="logo" url="@../../../logo.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="back" layoutX="749.0" layoutY="9.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="50.0" text="Back" />
+            <Button fx:id="modifica" layoutX="663.0" layoutY="9.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="78.0" text="Modifica" />
+            <Button fx:id="rdpbutton" layoutX="537.0" layoutY="9.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="117.0" text="Visualizza RDP" visible="false" />
+         </children>
+      </Pane>
+      <Pane prefHeight="506.0" prefWidth="530.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="506.0" layoutX="6.0" layoutY="-5.0" stroke="BLACK" strokeType="INSIDE" width="521.0" />
+            <Text fx:id="titolo" layoutX="17.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Titolo Annuncio" wrappingWidth="416.0">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Text>
+            <Text fx:id="destinazione" layoutX="121.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="123.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+            <Label layoutX="16.0" layoutY="67.0" prefHeight="27.0" prefWidth="111.0" text="Destinazione:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="17.0" layoutY="200.0" prefHeight="27.0" prefWidth="117.0" text="Luogo Partenza:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="16.0" layoutY="101.0" prefHeight="27.0" prefWidth="111.0" text="Data Inizio:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="16.0" layoutY="136.0" prefHeight="27.0" prefWidth="111.0" text="Data fine:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="17.0" layoutY="169.0" prefHeight="27.0" prefWidth="111.0" text="Lingua:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Text layoutX="109.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="123.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+            <Text fx:id="datafine" layoutX="156.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="111.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+            <Text fx:id="datainizio" layoutX="105.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="133.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+            <Text fx:id="lingua" layoutX="104.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="190.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+            <Text fx:id="luogopartenza" layoutX="109.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="123.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+            <Text fx:id="budget" layoutX="433.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$$$$$" textAlignment="CENTER" wrappingWidth="78.328125">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+            <Label layoutX="17.0" layoutY="235.0" prefHeight="27.0" prefWidth="117.0" text="Descrizione:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="immagine" fitHeight="150.0" fitWidth="200.0" layoutX="304.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true" />
+            <Text fx:id="descrizione" layoutX="17.0" layoutY="277.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="500.2060546875">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+            <Text fx:id="creatoDaText" fill="#f50000" layoutX="420.0" layoutY="488.0" strokeType="OUTSIDE" strokeWidth="0.0" text="creato da nicobar">
+               <font>
+                  <Font name="Arial Bold Italic" size="10.0" />
+               </font>
+            </Text>
+         </children></Pane>
+      <Pane prefHeight="505.0" prefWidth="279.0">
+         <children>
+            <Pane layoutX="-1.0" prefHeight="249.0" prefWidth="279.0">
+               <children>
+                  <TextArea fx:id="textrdp" layoutX="9.0" layoutY="-5.0" prefHeight="83.0" prefWidth="262.0" />
+                  <Button fx:id="sendrdp" layoutX="22.0" layoutY="85.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Invia Richiesta" />
+                  <Button fx:id="cancrdp" layoutX="146.0" layoutY="85.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Cancella" />
+                  <Text fx:id="labelrdp" layoutX="-7.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="La richiesta verrà inviata via email a:" textAlignment="CENTER" wrappingWidth="290.2060546875">
+                     <font>
+                        <Font name="Arial" size="8.0" />
+                     </font>
+                  </Text>
+                  <ListView fx:id="utentiView" layoutX="1.0" layoutY="-5.0" prefHeight="243.0" prefWidth="273.0" visible="false" />
+                  <ListView fx:id="rdpview" layoutX="1.0" layoutY="-5.0" prefHeight="243.0" prefWidth="273.0" visible="false" />
+               </children></Pane>
+            <Pane layoutY="247.0" prefHeight="259.0" prefWidth="279.0">
+               <children>
+                  <Rectangle fx:id="chatShape" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="259.0" layoutY="-5.0" stroke="BLACK" strokeType="INSIDE" width="273.0" />
+                  <ListView fx:id="chatView" layoutX="6.0" layoutY="3.0" prefHeight="209.0" prefWidth="262.0" />
+                  <TextField fx:id="messageBox" layoutX="6.0" layoutY="219.0" prefHeight="27.0" prefWidth="228.0" />
+                  <Button fx:id="send" layoutX="238.0" layoutY="218.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="23.0" text="&gt;" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </children>
+</FlowPane>

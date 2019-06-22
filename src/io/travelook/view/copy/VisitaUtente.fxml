@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<FlowPane fx:id="rootLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="809.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane prefHeight="54.0" prefWidth="809.0">
+         <children>
+            <Label layoutX="75.0" layoutY="5.0" prefHeight="43.0" prefWidth="333.0" text="Travelook - Profilo Utente">
+               <font>
+                  <Font name="Arial" size="25.0" />
+               </font></Label>
+            <ImageView fitHeight="72.0" fitWidth="70.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image fx:id="logo" url="@../../../logo.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="back" layoutX="750.0" layoutY="7.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="50.0" text="Back" />
+            <Button fx:id="segnala" layoutX="661.0" layoutY="8.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="78.0" text="Segnala" />
+         </children>
+      </Pane>
+      <Pane prefHeight="508.0" prefWidth="377.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="499.0" layoutX="9.0" stroke="BLACK" strokeType="INSIDE" width="363.0" />
+           
+            <Text fx:id="username" layoutX="192.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\@nicobar" textAlignment="RIGHT" wrappingWidth="160.2060546875">
+               <font>
+                  <Font name="Arial" size="25.0" />
+               </font>
+               <fill>
+                  <RadialGradient centerX="0.12921348314606743" centerY="0.7932692307692308" radius="0.5">
+                     <stops>
+                        <Stop color="#0d0d0d" />
+                        <Stop color="BLACK" offset="1.0" />
+                     </stops>
+                  </RadialGradient>
+               </fill>
+            </Text>
+            <Text fx:id="nomeCognome" layoutX="25.0" layoutY="53.0" lineSpacing="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Nicolò Bartelucci" wrappingWidth="157.5340576171875">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Text>
+            <Text fx:id="email" layoutX="129.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email: nicobar97@gmail.com" textAlignment="RIGHT" wrappingWidth="224.7432098388672" />
+            <SVGPath fx:id="star1" content="M 133.000 153.000L 156.511 165.361L 152.021 139.180L 171.042 120.639L 144.756 116.820L 133.000 93.000L 121.244 116.820L 94.958 120.639L 113.979 139.180L 109.489 165.361L 133.000 153.000" fill="WHITE" fillRule="EVEN_ODD" layoutX="-97.0" layoutY="55.0" stroke="BLACK" strokeType="INSIDE" style="-fx-scale-x: 0.4; -fx-scale-y: 0.4;" />
+            <SVGPath fx:id="star2" content="M 133.000 153.000L 156.511 165.361L 152.021 139.180L 171.042 120.639L 144.756 116.820L 133.000 93.000L 121.244 116.820L 94.958 120.639L 113.979 139.180L 109.489 165.361L 133.000 153.000" fill="WHITE" fillRule="EVEN_ODD" layoutX="-66.0" layoutY="55.0" stroke="BLACK" strokeType="INSIDE" style="-fx-scale-x: 0.4; -fx-scale-y: 0.4;" />
+            <SVGPath fx:id="star3" content="M 133.000 153.000L 156.511 165.361L 152.021 139.180L 171.042 120.639L 144.756 116.820L 133.000 93.000L 121.244 116.820L 94.958 120.639L 113.979 139.180L 109.489 165.361L 133.000 153.000" fill="WHITE" fillRule="EVEN_ODD" layoutX="-35.0" layoutY="55.0" stroke="BLACK" strokeType="INSIDE" style="-fx-scale-x: 0.4; -fx-scale-y: 0.4;" />
+            <SVGPath fx:id="star4" content="M 133.000 153.000L 156.511 165.361L 152.021 139.180L 171.042 120.639L 144.756 116.820L 133.000 93.000L 121.244 116.820L 94.958 120.639L 113.979 139.180L 109.489 165.361L 133.000 153.000" fill="WHITE" fillRule="EVEN_ODD" layoutX="-3.0" layoutY="55.0" stroke="BLACK" strokeType="INSIDE" style="-fx-scale-x: 0.4; -fx-scale-y: 0.4;" />
+            <SVGPath fx:id="star5" content="M 133.000 153.000L 156.511 165.361L 152.021 139.180L 171.042 120.639L 144.756 116.820L 133.000 93.000L 121.244 116.820L 94.958 120.639L 113.979 139.180L 109.489 165.361L 133.000 153.000" fill="WHITE" fillRule="EVEN_ODD" layoutX="29.0" layoutY="55.0" stroke="BLACK" strokeType="INSIDE" style="-fx-scale-x: 0.4; -fx-scale-y: 0.4;" />
+            <Text layoutX="26.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Interessi:">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+            <Text fx:id="interessi" layoutX="26.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Calcio Cucina" wrappingWidth="212.58428955078125" />
+            <ImageView fx:id="userImage" fitHeight="151.0" fitWidth="160.0" layoutX="203.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../logo.png" />
+               </image>
+            </ImageView>
+            <Text layoutX="23.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bio:">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+            <TextArea fx:id="bio" layoutX="21.0" layoutY="237.0" prefHeight="108.0" prefWidth="340.0" wrapText="true" />
+            <TextArea fx:id="recArea" layoutX="21.0" layoutY="354.0" prefHeight="100.0" prefWidth="340.0" promptText="Lascia una recensione, compila questa casella e seleziona il numero di stelle :)" />
+            <Button fx:id="recButton" layoutX="23.0" layoutY="462.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="213.0" text="Lascia Recensione">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="cancButton" layoutX="249.0" layoutY="463.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="107.0" text="Cancella">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane prefHeight="451.0" prefWidth="432.0">
+         <children>
+            <ListView fx:id="listRecensioni" layoutX="2.0" prefHeight="499.0" prefWidth="423.0" />
+         </children>
+      </Pane>
+   </children>
+</FlowPane>

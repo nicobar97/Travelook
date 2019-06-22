@@ -1,0 +1,216 @@
+package io.travelook.view.copy;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Optional;
+
+import io.travelook.controller.annuncio.ListaAnnunciController;
+import io.travelook.controller.autenticazione.LoginController;
+import io.travelook.controller.autenticazione.RegistrazioneController;
+import io.travelook.controller.utente.UtenteController;
+import io.travelook.model.Utente;
+import io.travelook.model.Viaggio;
+import io.travelook.utils.SHA256;
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
+import javafx.util.Callback;
+
+public class HomeTravelook extends Application {
+	private Stage primaryStage;
+    private AnchorPane rootLayout;
+    private File newimg;
+    private Button login;
+    private Button register;
+    private Dialog<String> dialog;
+    private Dialog<String> dialogRegister;
+	@Override
+	public void start(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("Travelook");
+
+        initRootLayout();
+	}
+
+	public static void main(String[] args) {
+		launch(args);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void initRootLayout() {
+        try {
+            // Load root layout from fxml file.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(HomeTravelook.class.getResource("HomeTravelook.fxml"));
+            rootLayout = (AnchorPane) loader.load();
+            // Show the scene containing the root layout.
+            Scene scene = new Scene(rootLayout);
+            primaryStage.setScene(scene);
+            initLoginDialog();
+            initRegisterDialog();
+            login = (Button) scene.lookup("#login");
+            register = (Button) scene.lookup("#register");
+            
+            login.setOnMouseClicked(event -> {
+            	Optional<String> username = dialog.showAndWait();
+            	if(username.isPresent()) {
+            		new HomeListaAnnunci(username.get()).start(primaryStage);
+            	}
+            	else {
+            		new Alert(AlertType.ERROR, "Username o password errati").showAndWait();
+            	}
+            });
+            register.setOnMouseClicked(event -> {
+            	Optional<String> username = dialogRegister.showAndWait();
+            	if(username.isPresent()) {
+            		new Alert(AlertType.INFORMATION, "Registrazione avvenuta con successo.").show();
+            	}
+            	else {
+            		new Alert(AlertType.ERROR, "Registrazione fallita, ricontrolla i campi inseriti.").show();
+            	}
+            });
+
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+	public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+	private void initLoginDialog() {
+		dialog = new Dialog<String>();
+    	dialog.setTitle("Login");
+    	dialog.setHeaderText("Inserisci le credenziali per autenticarti:\nNon rivelare la password a nessuno.");
+    	dialog.setResizable(false);
+    	 
+    	Label label1 = new Label("Username: ");
+    	Label label2 = new Label("Password: ");
+    	TextField usernameField = new TextField();
+    	PasswordField pswField = new PasswordField();
+    	GridPane grid = new GridPane();
+    	grid.add(label1, 1, 1);
+    	grid.add(usernameField, 2, 1);
+    	grid.add(label2, 1, 2);
+    	grid.add(pswField, 2, 2);
+    	dialog.getDialogPane().setContent(grid);
+    	         
+    	ButtonType buttonTypeOk = new ButtonType("Login", ButtonData.OK_DONE);
+    	dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
+    	 
+    	dialog.setResultConverter(new Callback<ButtonType, String>() {
+    	    @Override
+    	    public String call(ButtonType b) {
+    	    	if(usernameField.getText() != null && !usernameField.getText().trim().contentEquals("") && 
+    	    			pswField.getText() != null && !pswField.getText().trim().contentEquals("")) {
+    	    		if(new LoginController().verificaCredenziali(usernameField.getText(), SHA256.encrypt(pswField.getText())))
+    	    			return usernameField.getText();
+    	    		else
+    	    			return null;
+    	    	}
+    	    	else return null;
+    	    }
+    	});
+	}
+	private void initRegisterDialog() {
+		dialogRegister = new Dialog<String>();
+    	dialogRegister.setTitle("Registrazione");
+    	dialogRegister.setHeaderText("Username e password minimo 8 caratteri.\nNon riveleremo i tuoi dati a nessuno.");
+    	dialogRegister.setResizable(false);
+    	 
+    	Label label1 = new Label("Username: ");
+    	Label label2 = new Label("Password: ");
+    	Label label21 = new Label("Conferma psw: ");
+    	Label label3 = new Label("Email: ");
+    	Label label4 = new Label("Nome: ");
+    	Label label5 = new Label("Cognome: ");
+    	Label label6 = new Label("Data di nascita: ");
+    	Label label7 = new Label("Immagine Profilo: ");
+    	TextField usernameField = new TextField();
+    	PasswordField pswField = new PasswordField();
+    	PasswordField pswField2 = new PasswordField();
+    	TextField emailField = new TextField();
+    	TextField nomeField = new TextField();
+    	TextField cognomeField = new TextField();
+    	DatePicker ddnPicker = new DatePicker();
+    	FileChooser imgField = new FileChooser();
+    	Button openChooser = new Button("Carica..");
+    	GridPane grid = new GridPane();
+    	grid.add(label1, 1, 1);
+    	grid.add(label2, 1, 2);
+    	grid.add(label21, 1, 3);
+    	grid.add(label3, 1, 4);
+    	grid.add(label4, 1, 5);
+    	grid.add(label5, 1, 6);
+    	grid.add(label6, 1, 7);
+    	grid.add(label7, 1, 8);
+    	grid.add(usernameField, 2, 1);
+    	grid.add(pswField, 2, 2);
+    	grid.add(pswField2, 2, 3);
+    	grid.add(emailField, 2, 4);
+    	grid.add(nomeField, 2, 5);
+    	grid.add(cognomeField, 2, 6);
+    	grid.add(ddnPicker, 2, 7);
+    	grid.add(openChooser, 2, 8);
+    	imgField.setSelectedExtensionFilter(new ExtensionFilter(".png", ".jpg"));
+    	newimg = null;
+    	openChooser.setOnMouseClicked(event -> {
+    		newimg = imgField.showOpenDialog(new Stage());
+    		label7.setText(label7.getText() + "\n(" + newimg.getName() + ")");
+    		label7.setStyle("-fx-font-size: 8pt;");
+    	});
+    	dialogRegister.getDialogPane().setContent(grid);
+    	         
+    	ButtonType buttonTypeOk = new ButtonType("Registrati", ButtonData.OK_DONE);
+    	dialogRegister.getDialogPane().getButtonTypes().add(buttonTypeOk);
+    	
+    	dialogRegister.setResultConverter(new Callback<ButtonType, String>() {
+    	    @Override
+    	    public String call(ButtonType b) {
+    	    	if(	usernameField.getText().trim().equals("") || usernameField.getText().length() < 6 ||
+    	    		pswField.getText().trim().equals("") || pswField.getText().length() < 8 ||	
+    	    		nomeField.getText().trim().equals("") || cognomeField.getText().trim().equals("") ||
+    	    		emailField.getText().indexOf("@") == -1 || emailField.getText().indexOf(".") == -1 ||
+    	    		ddnPicker.getValue() == null || newimg == null || !pswField.getText().equals(pswField2.getText())) 
+    	    		return null;
+    	    	else {
+    	    		LocalDate tmp = ddnPicker.getValue();
+    	    		RegistrazioneController reg = new RegistrazioneController();
+    	    		reg.registraUtente(new Utente(usernameField.getText(), emailField.getText(), nomeField.getText(), 
+    	    				cognomeField.getText(),Date.valueOf(tmp), newimg.getName().trim()), SHA256.encrypt(pswField.getText()));
+    	    		return usernameField.getText();
+    	    	}
+    	    }	
+    	});
+	}
+}
+

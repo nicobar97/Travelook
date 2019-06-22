@@ -17,6 +17,7 @@ public class AnnuncioController extends Controller implements IAnnuncio {
     }
 	public AnnuncioController() {
 		this.db = new MssqlViaggioDAO();
+		System.out.println("NEW ANNUNCIO CONTROLLER!");
 	}
 	@Override
 	public Utente[] visuallizzaUtentiPartecipanti(Integer idAnnuncio) {
