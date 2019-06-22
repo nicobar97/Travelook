@@ -14,7 +14,9 @@ import org.json.JSONException;
 
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
 
+import io.travelook.model.Chat;
 import io.travelook.model.Interessi;
+import io.travelook.model.Messaggio;
 import io.travelook.model.Recensione;
 import io.travelook.model.Storico;
 import io.travelook.model.Utente;
@@ -389,7 +391,32 @@ public class ClientProxy {
 		System.out.println(reply.getValori().get(0));
 		s.close();
 		return reply.getValori().get(0);
-		
+	}
+	
+	public boolean inviaMessaggio(Messaggio m, Viaggio v ) throws IOException, ClassNotFoundException {
+		initSocket();
+		List<Object> argomentiRichiesta = new ArrayList<Object>();
+		argomentiRichiesta.add(m);
+		argomentiRichiesta.add(v);
+		Richiesta ric = new Richiesta<Object>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "inviaMessaggio");
+		oos.writeObject(ric);
+		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
+		System.out.println(reply.getValori().get(0));
+		s.close();
+		return reply.getValori().get(0);
+	}
+	public Chat getChat(Viaggio v ) throws IOException, ClassNotFoundException {
+		initSocket();
+		List<Viaggio> argomentiRichiesta = new ArrayList<Viaggio>();
+		argomentiRichiesta.add(v);
+		Richiesta ric = new Richiesta<Viaggio>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "getChat");
+		oos.writeObject(ric);
+		Risposta<Chat> reply = (Risposta<Chat>) ois.readObject();
+		System.out.println("ricevuta la chat per il viaggio"+v.getIdViaggio());
+		s.close();
+		return reply.getValori().get(0);
 	}
 	
 	

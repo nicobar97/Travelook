@@ -39,7 +39,8 @@ public class Broker extends Thread {
 		this.clientSocket = s;
 		EndPointServer serverListaAnnunci = new EndPointServer("serverListaAnnunci", "localhost", 4001);
 		EndPointServer serverLogin = new EndPointServer("serverLogin", "localhost", 4002);
-		EndPointServer epsutente=new EndPointServer("serverUtente",IP_SERVER_UTENTE,PORTA_SERVER_UTENTE);
+		EndPointServer serverUtente=new EndPointServer("serverUtente",IP_SERVER_UTENTE,PORTA_SERVER_UTENTE);
+		EndPointServer serverChat=new EndPointServer("serverChat","localhost",4004);
 		serviziServer = new HashMap<String,EndPointServer>();
 		serviziServer.put("getListaAnnunci",serverListaAnnunci);
 		serviziServer.put("creaAnnuncio",serverListaAnnunci);
@@ -53,21 +54,23 @@ public class Broker extends Thread {
 		serviziServer.put("visualizzaUtentiPartecipanti",serverListaAnnunci);
 		serviziServer.put("verificaCredenziali", serverLogin);
 		serviziServer.put("registraUtente", serverLogin);
-		serviziServer.put("getListaUtenti", epsutente);
-		serviziServer.put("visualizzaRecensioni", epsutente);
-		serviziServer.put("getViaggiinPartecipazione", epsutente);
-		serviziServer.put("getViaggiinAttesadiConferma", epsutente);
-		serviziServer.put("aggiungiInteresse", epsutente);
-		serviziServer.put("eliminaUtente", epsutente);
-		serviziServer.put("visualizzaStorico", epsutente);
-		serviziServer.put("lasciaRecensione", epsutente);
-		serviziServer.put("aggiornaRecensione", epsutente);
-		serviziServer.put("modificaProfilo", epsutente);
-		serviziServer.put("attachInteressitoUser", epsutente);
-		serviziServer.put("getUtenteById", epsutente);
-		serviziServer.put("getUtente", epsutente);
-		serviziServer.put("setUtente", epsutente);
-		serviziServer.put("getIdUtenteFromUsername", epsutente);		
+		serviziServer.put("getListaUtenti", serverUtente);
+		serviziServer.put("visualizzaRecensioni", serverUtente);
+		serviziServer.put("getViaggiinPartecipazione", serverUtente);
+		serviziServer.put("getViaggiinAttesadiConferma", serverUtente);
+		serviziServer.put("aggiungiInteresse", serverUtente);
+		serviziServer.put("eliminaUtente", serverUtente);
+		serviziServer.put("visualizzaStorico", serverUtente);
+		serviziServer.put("lasciaRecensione", serverUtente);
+		serviziServer.put("aggiornaRecensione", serverUtente);
+		serviziServer.put("modificaProfilo", serverUtente);
+		serviziServer.put("attachInteressitoUser", serverUtente);
+		serviziServer.put("getUtenteById", serverUtente);
+		serviziServer.put("getUtente", serverUtente);
+		serviziServer.put("setUtente", serverUtente);
+		serviziServer.put("getIdUtenteFromUsername", serverUtente);		
+		serviziServer.put("inviaMessaggio", serverChat);	
+		serviziServer.put("getChat", serverChat);
 	}
 	
 	public void run() {
