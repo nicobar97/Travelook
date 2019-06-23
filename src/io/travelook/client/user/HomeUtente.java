@@ -267,6 +267,7 @@ public class HomeUtente extends Application {
 	}
 	private void refreshStorico() {
 		try {
+			c.setUtente(user);
 			storico = c.visualizzaStorico();
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
@@ -280,6 +281,7 @@ public class HomeUtente extends Application {
 	}
 	private void refreshRecensioni() {
 		try {
+			c.setUtente(user);
 			listaRecensioni = c.visualizzaRecensioni();
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
