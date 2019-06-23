@@ -254,7 +254,7 @@ public class HomeUtente extends Application {
 	}
 	private void refreshViaggiAttivi() {
 		try {
-			listaViaggio = c.getViaggiInPartecipazione();
+			listaViaggio = c.getViaggiInPartecipazione(user);
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -282,7 +282,7 @@ public class HomeUtente extends Application {
 	private void refreshRecensioni() {
 		try {
 			//c.setUtente(user);
-			listaRecensioni = c.visualizzaRecensioni();
+			listaRecensioni = c.visualizzaRecensioni(user);
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

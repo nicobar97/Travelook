@@ -312,7 +312,7 @@ public class VisitaUtente extends Application {
 		return out;
 	}
 	private void refreshRecensioni() throws UnknownHostException, ClassNotFoundException, IOException {
-		listaRecensioni = c.visualizzaRecensioni();
+		listaRecensioni = c.visualizzaRecensioni(user);
         ObservableList<Recensione> obsv = FXCollections.observableArrayList(listaRecensioni);
         if(!listaRecensioni.isEmpty() && listaRecensioni != null) {
         	listRecensioni.setItems(obsv);

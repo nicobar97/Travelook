@@ -259,14 +259,16 @@ public class ClientProxy {
 					s.getLocalPort(),argomentiRichiesta, "visualizzaStorico");
 			oos.writeObject(r);
 			Risposta<Storico> reply = (Risposta<Storico>) ois.readObject();
-			System.out.println(reply.getValori().get(0));
+			for(Viaggio v: reply.getValori().get(0).getStorico())
+				System.out.println(v.getTitolo());
 			s.close();
 			return reply.getValori().get(0);
 	}
-	public List<Recensione> visualizzaRecensioni() throws UnknownHostException, IOException, ClassNotFoundException{
+	public List<Recensione> visualizzaRecensioni(Utente u) throws UnknownHostException, IOException, ClassNotFoundException{
 		initSocket();
-		List<Recensione> listutenti=new ArrayList<Recensione>();
-		Richiesta r= new Richiesta<Recensione>(s.getLocalSocketAddress().toString(),s.getLocalPort(),listutenti,"visualizzaRecensioni");
+		List<Utente> listutenti=new ArrayList<Utente>();
+		listutenti.add(u);
+		Richiesta r= new Richiesta<Utente>(s.getLocalSocketAddress().toString(),s.getLocalPort(),listutenti,"visualizzaRecensioni");
 		oos.writeObject(r);
 		Risposta<Recensione> reply=(Risposta<Recensione>)ois.readObject();
 		for(Recensione rec : reply.getValori()) {
@@ -287,10 +289,11 @@ public class ClientProxy {
 		s.close();
 		return reply.getValori().get(0);
 	}
-	public List<Viaggio> getViaggiInPartecipazione() throws UnknownHostException, IOException, ClassNotFoundException{
+	public List<Viaggio> getViaggiInPartecipazione(Utente u) throws UnknownHostException, IOException, ClassNotFoundException{
 		initSocket();
-		List <Viaggio> listaViaggi = new ArrayList<Viaggio>();
-		Richiesta r = new Richiesta<Viaggio>(s.getLocalSocketAddress().toString(),s.getLocalPort(),listaViaggi,"getViaggiInPartecipazione");		
+		List<Utente> listutenti=new ArrayList<Utente>();
+		listutenti.add(u);
+		Richiesta r = new Richiesta<Utente>(s.getLocalSocketAddress().toString(),s.getLocalPort(),listutenti,"getViaggiinPartecipazione");		
 		oos.writeObject(r);
 		Risposta<Viaggio> replyFromServer = (Risposta<Viaggio>) ois.readObject();
 		for(Viaggio v : replyFromServer.getValori())
@@ -310,10 +313,11 @@ public class ClientProxy {
 		s.close();
 		return reply.getValori().get(0);
 	}
-	public List<Viaggio> getViaggiInAttesadiConferma() throws UnknownHostException, IOException, ClassNotFoundException{
+	public List<Viaggio> getViaggiInAttesadiConferma(Utente u) throws UnknownHostException, IOException, ClassNotFoundException{
 		initSocket();
-		List <Viaggio> listaViaggi = new ArrayList<Viaggio>();
-		Richiesta r = new Richiesta<Viaggio>(s.getLocalSocketAddress().toString(),s.getLocalPort(),listaViaggi,"getViaggiinAttesadiConferma");		
+		List<Utente> listutenti=new ArrayList<Utente>();
+		listutenti.add(u);
+		Richiesta r = new Richiesta<Utente>(s.getLocalSocketAddress().toString(),s.getLocalPort(),listutenti,"getViaggiinAttesadiConferma");		
 		oos.writeObject(r);
 		Risposta<Viaggio> replyFromServer = (Risposta<Viaggio>) ois.readObject();
 		for(Viaggio v : replyFromServer.getValori())
