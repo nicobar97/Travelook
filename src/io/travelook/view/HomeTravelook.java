@@ -55,9 +55,10 @@ public class HomeTravelook extends Application {
     private String newimg;
     private Button login;
     private Button register;
+    private ImageView logo;
     private Dialog<String> dialog;
     private Dialog<String> dialogRegister;
-	private String nametmp;
+    private String nametmp;
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -81,11 +82,11 @@ public class HomeTravelook extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             initLoginDialog();
-            nametmp = null;
             initRegisterDialog();
             login = (Button) scene.lookup("#login");
             register = (Button) scene.lookup("#register");
-            
+            logo = (ImageView) scene.lookup("#logo");
+            logo.setImage(new Image("http://travelook.altervista.org/logo.png"));
             login.setOnMouseClicked(event -> {
             	Optional<String> username = dialog.showAndWait();
             	if(username.isPresent()) {
@@ -212,7 +213,7 @@ public class HomeTravelook extends Application {
     	    		LocalDate tmp = ddnPicker.getValue();
     	    		RegistrazioneController reg = new RegistrazioneController();
     	    		reg.registraUtente(new Utente(usernameField.getText(), emailField.getText(), nomeField.getText(), 
-    	    				cognomeField.getText(),Date.valueOf(tmp), newimg), SHA256.encrypt(pswField.getText()));
+    	    				cognomeField.getText(),Date.valueOf(tmp), newimg.trim()), SHA256.encrypt(pswField.getText()));
     	    		return usernameField.getText();
     	    	}
     	    }	

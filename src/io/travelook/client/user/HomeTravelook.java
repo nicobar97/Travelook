@@ -24,6 +24,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Dialog;
@@ -46,7 +47,8 @@ public class HomeTravelook extends Application {
     private Button register;
     private Dialog<String> dialog;
     private Dialog<String> dialogRegister;
-	private String nametmp;
+    private ImageView logo;
+    private String nametmp;
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -84,7 +86,8 @@ public class HomeTravelook extends Application {
             nametmp = null;
             login = (Button) scene.lookup("#login");
             register = (Button) scene.lookup("#register");
-            
+            logo = (ImageView) scene.lookup("#logo");
+            logo.setImage(new Image("http://travelook.altervista.org/logo.png"));
             login.setOnMouseClicked(event -> {
             	Optional<String> username = dialog.showAndWait();
             	if(username.isPresent()) {

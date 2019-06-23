@@ -40,7 +40,8 @@
                </font>
             </Button>
             <Button fx:id="logout" layoutX="15.0" layoutY="465.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="72.0" text="Logout" />
-            <Button layoutX="16.0" layoutY="74.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" text="Filtra" />
+            <Button fx:id="filtra" layoutX="16.0" layoutY="74.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" text="Filtra" />
+            <Button fx:id="rem" layoutX="16.0" layoutY="116.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="70.0" text="Rimuovi Filtro" textAlignment="CENTER" wrapText="true" />
          </children>
       </Pane>
    </children>

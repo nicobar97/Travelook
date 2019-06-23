@@ -48,7 +48,7 @@ public class FiltraViaggioLingua implements Filtro  {
 	    	if(o instanceof Viaggio) {
 	    	Viaggio v =(Viaggio)o;
 	    	   for(String s:filtri) {
-	    		   if(v.getLingua().equals(s)) {
+	    		   if(v.getLingua().toLowerCase().equals(s.toLowerCase()) || v.getLingua().toLowerCase().contains(s.toLowerCase())) {
 	    			 Object ob=v;
 	    			  viaggif.add(ob);
 	    		   }
