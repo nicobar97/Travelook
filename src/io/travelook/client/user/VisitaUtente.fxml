@@ -17,11 +17,7 @@
                <font>
                   <Font name="Arial" size="25.0" />
                </font></Label>
-            <ImageView fitHeight="72.0" fitWidth="70.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image fx:id="logo" url="@../../../logo.png" />
-               </image>
-            </ImageView>
+            <ImageView fx:id="logoi" fitHeight="72.0" fitWidth="70.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true" />
             <Button fx:id="back" layoutX="750.0" layoutY="7.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="50.0" text="Back" />
             <Button fx:id="segnala" layoutX="661.0" layoutY="8.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="78.0" text="Segnala" />
          </children>
@@ -60,18 +56,14 @@
                </font>
             </Text>
             <Text fx:id="interessi" layoutX="26.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Calcio Cucina" wrappingWidth="212.58428955078125" />
-            <ImageView fx:id="userImage" fitHeight="151.0" fitWidth="160.0" layoutX="203.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../logo.png" />
-               </image>
-            </ImageView>
+            <ImageView fx:id="userImage" fitHeight="151.0" fitWidth="160.0" layoutX="203.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
             <Text layoutX="23.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bio:">
                <font>
                   <Font size="10.0" />
                </font>
             </Text>
             <TextArea fx:id="bio" layoutX="21.0" layoutY="237.0" prefHeight="108.0" prefWidth="340.0" wrapText="true" />
-            <TextArea fx:id="recArea" layoutX="21.0" layoutY="354.0" prefHeight="100.0" prefWidth="340.0" promptText="Lascia una recensione, compila questa casella e seleziona il numero di stelle :)" />
+            <TextArea fx:id="recArea" layoutX="21.0" layoutY="354.0" prefHeight="100.0" prefWidth="340.0" promptText="Lascia una recensione, compila questa casella e seleziona il numero di stelle :)" wrapText="true" />
             <Button fx:id="recButton" layoutX="23.0" layoutY="462.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="213.0" text="Lascia Recensione">
                <font>
                   <Font size="12.0" />

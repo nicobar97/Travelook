@@ -50,6 +50,7 @@ public class HomeAnnuncio extends Application {
     private Text dataFine;
     private Text luogoPartenza;
     private Text budget;
+    private ImageView logo;
     private Text titolo;
     private ListView<Messaggio> chatView;
     private TextField newMessage;
@@ -148,6 +149,8 @@ public class HomeAnnuncio extends Application {
             rdplabel = (Text) scene.lookup("#labelrdp");
             utentiView = (ListView) scene.lookup("#utentiView");
             creatoDaText = (Text) scene.lookup("#creatoDaText");
+            logo = (ImageView) scene.lookup("#logoi");
+            logo.setImage(new Image("http://travelook.altervista.org/logo.png"));
             creatoDaText.setText("creato da " + viaggio.getCreatore().getUsername());
             rdpc = new RichiesteObservableController();
             listUserViaggio = viaggio.getPartecipanti();

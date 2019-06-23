@@ -83,6 +83,8 @@ public class VisitaUtente extends Application {
     private Button showRecensioni;
     @FXML
     private ImageView userImage;
+    @FXML
+    private ImageView logoi;
     private Utente user;
     private Utente userOspite;
     private boolean toggleRec;
@@ -167,6 +169,7 @@ public class VisitaUtente extends Application {
             	recArea.setText("");
             });
             initStars();
+            logoi.setImage(new Image("http://travelook.altervista.org/logo.png"));
             star1.setOnMouseClicked(event -> {
             	if(toggleRec) {
             		star1.setFill(Paint.valueOf("orange"));

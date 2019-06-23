@@ -68,6 +68,8 @@ public class HomeUtente extends Application {
     @FXML
     private SVGPath star2;
     @FXML
+    private ImageView logoi;
+    @FXML
     private SVGPath star3;
     @FXML
     private SVGPath star4;
@@ -127,6 +129,8 @@ public class HomeUtente extends Application {
             });
             bio.setEditable(false);
             username.setText("@"+user.getUsername());
+           
+            logoi.setImage(new Image("http://travelook.altervista.org/logo.png"));
             nomeCognome.setText(user.getNome() + " " + user.getCognome());
             email.setText(user.getEmail());
             

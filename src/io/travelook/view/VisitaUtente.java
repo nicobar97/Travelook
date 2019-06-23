@@ -81,6 +81,8 @@ public class VisitaUtente extends Application {
     private Button showRecensioni;
     @FXML
     private ImageView userImage;
+    @FXML
+    private ImageView logoi;
     private Utente user;
     private Utente userOspite;
     private boolean toggleRec;
@@ -129,6 +131,7 @@ public class VisitaUtente extends Application {
 				}
             });
             bio.setEditable(false);
+            logoi.setImage(new Image("http://travelook.altervista.org/logo.png"));
             username.setText("@"+user.getUsername());
             nomeCognome.setText(user.getNome() + " " + user.getCognome());
             email.setText(user.getEmail());  

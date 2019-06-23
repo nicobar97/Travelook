@@ -52,6 +52,8 @@ public class HomeUtente extends Application {
     @FXML
     private Button back;
     @FXML
+    private ImageView logoi;
+    @FXML
     private Button modifica;
     @FXML
     private Text username;
@@ -134,7 +136,7 @@ public class HomeUtente extends Application {
             username.setText("@"+user.getUsername());
             nomeCognome.setText(user.getNome() + " " + user.getCognome());
             email.setText(user.getEmail());
-            
+            logoi.setImage(new Image("http://travelook.altervista.org/logo.png"));
             if(user.getInteressi() != null)
             	interessi.setText(formatInteressi(user.getInteressi()));
             bio.setText(user.getBio());
