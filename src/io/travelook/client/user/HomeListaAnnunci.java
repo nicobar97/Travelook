@@ -180,6 +180,10 @@ public class HomeListaAnnunci extends Application {
     	f2.setToggleGroup(tg);
     	f3.setToggleGroup(tg);
     	f4.setToggleGroup(tg);
+    	tf1.setDisable(true);
+		tf2.setDisable(true);
+		tf3.setDisable(true);
+		tf4.setDisable(true);
     	f1.setOnMouseClicked(event -> {
     		tf1.setDisable(false);
     		tf2.setDisable(true);
