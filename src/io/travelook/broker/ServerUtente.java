@@ -91,6 +91,7 @@ public class ServerUtente extends Thread {
 			ous.writeObject(replyeliminau);
 		}
 		if(servizioRichiesto.equals("visualizzaStorico")) {
+			//MANCA LA SET UTENTE PENSO
 			Storico storico =utentec.visualizzaStorico();
 			List<Storico> listastorici = new ArrayList<Storico>();
 			listastorici.add(storico);
@@ -124,9 +125,10 @@ public class ServerUtente extends Thread {
 			Risposta<Boolean> replyrec = new Risposta<Boolean>(brokerSocket.getInetAddress().toString(),brokerSocket.getPort(),listarec);
 			ous.writeObject(replyrec);
 		}
-		if(servizioRichiesto.equals("attachInteressitoUser")) {
+		if(servizioRichiesto.equals("attachInteressiToUser")) {
 			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
 			Utente  u = (Utente)listaArgomenti.get(0);
+			System.out.println("Daje");
 			Utente user =utentec.attachInteressiToUser(u);
 			List<Utente> listautenti = new ArrayList<Utente>();
 			listautenti.add(user);

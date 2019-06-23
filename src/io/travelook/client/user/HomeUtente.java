@@ -88,7 +88,7 @@ public class HomeUtente extends Application {
 	public HomeUtente(ClientProxy c, Utente user) {
         this.c=c;
         try {
-			this.user = c.attachInteressiToUser(user);
+			this.user = new ClientProxy().attachInteressiToUser(user);
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
