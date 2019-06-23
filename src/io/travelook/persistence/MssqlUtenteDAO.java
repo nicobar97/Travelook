@@ -53,6 +53,13 @@ public class MssqlUtenteDAO implements UtenteDAO {
 	}
 
 	public void setConn(Connection conn) {
+		if(this.conn != null)
+			try {
+				this.conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		this.conn = conn;
 	}
 

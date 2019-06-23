@@ -190,18 +190,8 @@ public class HomeAnnuncio extends Application {
                 	m.setMessaggio(newMessage.getText());
                 	m.setTimestamp(new Timestamp(System.currentTimeMillis()));
                 	m.setUtente(user);
-                	try {
-						new ClientProxy().inviaMessaggio(m, viaggio);
-					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (UnknownHostException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					chatCont.inviaMessaggio(m, viaggio);
+				
                 	try {
 						refreshChat();
 					} catch (ClassNotFoundException e) {
