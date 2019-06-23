@@ -15,6 +15,7 @@ import io.travelook.controller.filtro.FiltraViaggioDestinazione;
 import io.travelook.controller.filtro.FiltraViaggioLingua;
 import io.travelook.controller.filtro.Filtro;
 import io.travelook.controller.utente.UtenteController;
+import io.travelook.model.Stato;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 import javafx.application.Application;
@@ -57,6 +58,7 @@ public class HomeListaAnnunci extends Application {
     private Dialog<List<Viaggio>> dialogFilter;
     private Button creaAnnuncio;
     private Utente user;
+    private List<Viaggio> listaTutti;
     private List<Viaggio> lista;
 	public HomeListaAnnunci(String username) throws UnknownHostException, ClassNotFoundException, IOException {
 		int iduser = new ClientProxy().getIdUtenteFromUsername(username);
@@ -112,7 +114,10 @@ public class HomeListaAnnunci extends Application {
             	new HomeTravelook().start(primaryStage);
             	new Alert(AlertType.INFORMATION, "Logout effettuato con successo").show();
             });
-            lista = new ClientProxy().getListaAnnunci();
+            listaTutti = new ClientProxy().getListaAnnunci();
+            for(Viaggio v: listaTutti)
+            	if(v.getStato().equals(Stato.INIZIO))
+            		lista.add(v);
             ObservableList<Viaggio> items = FXCollections.observableArrayList(lista);
             if(lista != null || lista.size() > 0)
             	listView.setItems(items);

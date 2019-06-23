@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import io.travelook.broker.ClientProxy;
 import io.travelook.controller.annuncio.ListaAnnunciController;
 import io.travelook.controller.autenticazione.RegistrazioneController;
 import io.travelook.controller.filtro.FiltraViaggioBudget;
@@ -16,6 +17,7 @@ import io.travelook.controller.filtro.FiltraViaggioDestinazione;
 import io.travelook.controller.filtro.FiltraViaggioLingua;
 import io.travelook.controller.filtro.Filtro;
 import io.travelook.controller.utente.UtenteController;
+import io.travelook.model.Stato;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 import io.travelook.utils.SHA256;
@@ -66,6 +68,7 @@ public class HomeListaAnnunci extends Application {
     private Dialog<List<Viaggio>> dialogFilter;
     private UtenteController controlleru;
     private List<Viaggio> lista;
+    private List<Viaggio> listaTutti;
 	public HomeListaAnnunci(String username) {
 		controlleru = new UtenteController();
 		int iduser = controlleru.getIdUtenteFromUsername(username);
@@ -124,7 +127,10 @@ public class HomeListaAnnunci extends Application {
             	new Alert(AlertType.INFORMATION, "Logout effettuato con successo").show();
             });
             ListaAnnunciController controller = new ListaAnnunciController();
-            lista = controller.getAnnunci();
+            listaTutti = controller.getAnnunci();
+            for(Viaggio v: listaTutti)
+            	if(v.getStato().equals(Stato.INIZIO))
+            		lista.add(v);
             ObservableList<Viaggio> items = FXCollections.observableArrayList(lista);
             if(lista != null || lista.size() > 0)
             	listView.setItems(items);

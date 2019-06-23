@@ -192,18 +192,9 @@ public class HomeAnnuncio extends Application {
                 	m.setUtente(user);
 					chatCont.inviaMessaggio(m, viaggio);
 				
-                	try {
+ 
 						refreshChat();
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (UnknownHostException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					
                 	newMessage.setText("");
                 });
                 newMessage.setOnKeyReleased(event -> {
@@ -247,30 +238,11 @@ public class HomeAnnuncio extends Application {
                     	m.setMessaggio(newMessage.getText());
                     	m.setTimestamp(new Timestamp(System.currentTimeMillis()));
                     	m.setUtente(user);
-                    	try {
-							new ClientProxy().inviaMessaggio(m, viaggio);
-						} catch (ClassNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (UnknownHostException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-                    	try {
-							refreshChat();
-						} catch (ClassNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (UnknownHostException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						chatCont.inviaMessaggio(m, viaggio);
+						
+                    	
+						refreshChat();
+					
                     	newMessage.setText("");
                     });
                     newMessage.setOnKeyReleased(event -> {
@@ -324,7 +296,7 @@ public class HomeAnnuncio extends Application {
             e.printStackTrace();
         }
     }
-	private void refreshChat() throws ClassNotFoundException, UnknownHostException, IOException {
+	private void refreshChat() {
 		Chat chat = chatCont.getChat(viaggio);
         ObservableList<Messaggio> messaggi = FXCollections.observableArrayList(chat.getChat());
         if(!chat.getChat().isEmpty() && messaggi != null) {
