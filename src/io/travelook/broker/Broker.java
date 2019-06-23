@@ -56,6 +56,7 @@ public class Broker extends Thread {
 		serviziServer.put("nuovaRichiesta",serverListaAnnunci);
 		serviziServer.put("rispondiRichiesta",serverListaAnnunci);
 		serviziServer.put("getRichiesteForCreatoreViaggio",serverListaAnnunci);
+		serviziServer.put("getRichiesteForCreatore",serverListaAnnunci);
 		serviziServer.put("verificaCredenziali", serverLogin);
 		serviziServer.put("registraUtente", serverLogin);
 		serviziServer.put("getListaUtenti", serverUtente);
