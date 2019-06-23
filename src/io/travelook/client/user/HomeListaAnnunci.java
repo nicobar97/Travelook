@@ -1,20 +1,16 @@
 package io.travelook.client.user;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import io.travelook.broker.ClientProxy;
-import io.travelook.controller.annuncio.ListaAnnunciController;
 import io.travelook.controller.filtro.FiltraViaggioBudget;
 import io.travelook.controller.filtro.FiltraViaggioData;
 import io.travelook.controller.filtro.FiltraViaggioDestinazione;
 import io.travelook.controller.filtro.FiltraViaggioLingua;
 import io.travelook.controller.filtro.Filtro;
-import io.travelook.controller.utente.UtenteController;
 import io.travelook.model.Stato;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
@@ -29,7 +25,6 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -37,7 +32,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -60,13 +54,15 @@ public class HomeListaAnnunci extends Application {
     private Utente user;
     private List<Viaggio> listaTutti;
     private List<Viaggio> lista;
-	public HomeListaAnnunci(String username) throws UnknownHostException, ClassNotFoundException, IOException {
-		int iduser = new ClientProxy().getIdUtenteFromUsername(username);
-		System.out.println("PORCODIO: " + username + "PORCODIO:" + iduser);
-        this.user = new ClientProxy().getUtenteById(iduser);
-        new ClientProxy().setUtente(user);
+    private ClientProxy c;
+	public HomeListaAnnunci(String username, ClientProxy c) throws UnknownHostException, ClassNotFoundException, IOException {
+		this.c = c;
+		int iduser = c.getIdUtenteFromUsername(username);
+        this.user = c.getUtenteById(iduser);
+        c.setUtente(user);
 	}
-	public HomeListaAnnunci(Utente user) {
+	public HomeListaAnnunci(Utente user, ClientProxy c) {
+		this.c = c;
         this.user = user;
 	}
 	@Override
@@ -105,15 +101,16 @@ public class HomeListaAnnunci extends Application {
         		userImg.setImage(new Image(user.getImmagineProfilo().trim()));
             currentUser.setText("Current user: " + user.getUsername());
             currentUser.setOnMouseClicked(event -> {
-            	new HomeUtente(user).start(primaryStage);
+            	new HomeUtente(c,user).start(primaryStage);
             });
             userImg.setOnMouseClicked(event -> {
-            	new HomeUtente(user).start(primaryStage);
+            	new HomeUtente(c,user).start(primaryStage);
             });
             logout.setOnMouseClicked(event -> {
             	new HomeTravelook().start(primaryStage);
             	new Alert(AlertType.INFORMATION, "Logout effettuato con successo").show();
             });
+            lista = new ArrayList<>();
             listaTutti = new ClientProxy().getListaAnnunci();
             for(Viaggio v: listaTutti)
             	if(v.getStato().equals(Stato.INIZIO))
@@ -126,7 +123,7 @@ public class HomeListaAnnunci extends Application {
             	MouseEvent me = (MouseEvent) event;
             	if(me.getClickCount() == 2)
 					try {
-						new HomeAnnuncio(listView.getSelectionModel().getSelectedItem(), user, "lista").start(primaryStage);
+						new HomeAnnuncio(c, listView.getSelectionModel().getSelectedItem(), user, "lista").start(primaryStage);
 					} catch (ClassNotFoundException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

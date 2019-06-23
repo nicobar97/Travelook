@@ -5,39 +5,28 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import io.travelook.broker.ClientProxy;
-import io.travelook.controller.annuncio.ListaAnnunciController;
-import io.travelook.controller.rdp.RichiesteObservableController;
-import io.travelook.controller.utente.UtenteController;
 import io.travelook.model.Interessi;
 import io.travelook.model.Recensione;
-import io.travelook.model.RichiestaDiPartecipazione;
+import io.travelook.model.Segnalazione;
 import io.travelook.model.Stato;
-import io.travelook.model.Storico;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
@@ -90,14 +79,14 @@ public class VisitaUtente extends Application {
     private boolean toggleRec;
     private Viaggio viaggio;
     private int votoRec;
-    private UtenteController uc;
+    private ClientProxy c;
     private List<Recensione> listaRecensioni;
     private Double average;
     private FXMLLoader loader;
-	public VisitaUtente(Utente user, Utente userOspite, Viaggio viaggio) {
-        uc = new UtenteController(user);
+	public VisitaUtente(ClientProxy c, Utente user, Utente userOspite, Viaggio viaggio) {
         try {
-			this.user = new ClientProxy().attachInteressiToUser(user);
+        	this.c = c;
+			this.user = c.attachInteressiToUser(user);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -137,7 +126,7 @@ public class VisitaUtente extends Application {
             primaryStage.setScene(scene);
             back.setOnMouseClicked(event -> {
             	try {
-					new HomeAnnuncio(viaggio, userOspite, "lista").start(primaryStage);
+					new HomeAnnuncio(c, viaggio, userOspite, "lista").start(primaryStage);
 				} catch (ClassNotFoundException | IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -223,8 +212,15 @@ public class VisitaUtente extends Application {
 
             listRecensioni.setVisible(true); 
             segnala.setOnMouseClicked(event -> {
-            	//TODO
-            	new Alert(AlertType.INFORMATION, "TODO").show();
+            	//new Alert(AlertType.INFORMATION, "TODO").show();
+            	Optional<String> segn = new TextInputDialog("Inserisci la causa della segnalazione").showAndWait();
+            	if(segn.isPresent() && !segn.get().trim().equals("")) {
+            		try {
+						c.segnalaUtente(new Segnalazione(user, userOspite, segn.get(), Stato.NONVISTA));
+					} catch (ClassNotFoundException | IOException e) {
+						e.printStackTrace();
+					}
+            	}
             });
             recButton.setOnMouseClicked(event -> {
             	if(recArea.getText().length() < 50)
@@ -233,7 +229,7 @@ public class VisitaUtente extends Application {
             		Optional<String> mexRec = new TextInputDialog("Titolo Recensione").showAndWait();
     	        	if(mexRec.isPresent()) {
     	        		try {
-							new ClientProxy().lasciaRecensione(new Recensione(user.getId(), votoRec, mexRec.get(), recArea.getText() + " - @" + userOspite.getUsername(), userOspite.getId()));
+							c.lasciaRecensione(new Recensione(user.getId(), votoRec, mexRec.get(), recArea.getText() + " - @" + userOspite.getUsername(), userOspite.getId()));
 						} catch (ClassNotFoundException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -251,10 +247,6 @@ public class VisitaUtente extends Application {
     	        	}
     	        	else {
     	        		new Alert(AlertType.ERROR, "Devi inserire un titolo.").show();
-//    	        		toggleRec = false;
-//    	            	initStars();
-//    	            	votoRec = 0;
-//    	            	recArea.setText("");
     	        	}
             	}
             });
@@ -273,8 +265,6 @@ public class VisitaUtente extends Application {
 		}
 		if(listaRecensioni.size() > 0)
 			average = (double) (sum/listaRecensioni.size());
-		
-		//average = 4.6;
 		if(average < 0.5) {
 			
 		}
@@ -322,7 +312,7 @@ public class VisitaUtente extends Application {
 		return out;
 	}
 	private void refreshRecensioni() throws UnknownHostException, ClassNotFoundException, IOException {
-		listaRecensioni = new ClientProxy().visualizzaRecensioni();
+		listaRecensioni = c.visualizzaRecensioni();
         ObservableList<Recensione> obsv = FXCollections.observableArrayList(listaRecensioni);
         if(!listaRecensioni.isEmpty() && listaRecensioni != null) {
         	listRecensioni.setItems(obsv);

@@ -6,11 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 import io.travelook.broker.ClientProxy;
-import io.travelook.controller.rdp.RichiesteObservableController;
-import io.travelook.model.Messaggio;
 import io.travelook.model.RichiestaDiPartecipazione;
 import io.travelook.model.Stato;
-import io.travelook.model.Utente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,17 +15,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 public class RDPCell extends ListCell<RichiestaDiPartecipazione> {
 	@FXML
@@ -43,12 +34,11 @@ public class RDPCell extends ListCell<RichiestaDiPartecipazione> {
 	private Button accept;
 	@FXML
 	private Button reject;
-	private Utente u;
     private FXMLLoader mLLoader;
-    private RichiesteObservableController rdpc;
+    private ClientProxy c;
     private ListView<RichiestaDiPartecipazione> rdpview;
-    public RDPCell(RichiesteObservableController rdpc, ListView<RichiestaDiPartecipazione> rdpview) {
-    	this.rdpc = rdpc;
+    public RDPCell(ClientProxy c, ListView<RichiestaDiPartecipazione> rdpview) {
+    	this.c=c;
     	this.rdpview = rdpview;
     }
 	protected void updateItem(RichiestaDiPartecipazione rdp, boolean empty) {
@@ -83,7 +73,7 @@ public class RDPCell extends ListCell<RichiestaDiPartecipazione> {
 	        	if(mexRisp.isPresent()) {
 	        		rdp.setRisposta(Stato.ACCETTATA, mexRisp.get());
 	        		try {
-						System.out.println(new ClientProxy().rispondiRichiesta(rdp));
+						System.out.println(c.rispondiRichiesta(rdp));
 					} catch (ClassNotFoundException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -94,18 +84,8 @@ public class RDPCell extends ListCell<RichiestaDiPartecipazione> {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-	        		try {
-						refreshRdp(rdp);
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (UnknownHostException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					refreshRdp(rdp);
+					
 	        	}
 	        });
 	        
@@ -113,27 +93,29 @@ public class RDPCell extends ListCell<RichiestaDiPartecipazione> {
 	        	Optional<String> mexRisp = new TextInputDialog("Inserisci il messaggio di risposta:").showAndWait();
 	        	if(mexRisp.isPresent()) {
 	        		rdp.setRisposta(Stato.NONACCETTATA, mexRisp.get());
-	        		rdpc.rispondiRichiesta(rdp);
 	        		try {
+						c.rispondiRichiesta(rdp);
 						refreshRdp(rdp);
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (UnknownHostException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
+					} catch (ClassNotFoundException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+	        		
+
 	        	}
 	        });
 	        setText(null);
 	        setGraphic(flowPane);
 	    }
 	}
-	private void refreshRdp(RichiestaDiPartecipazione rdp) throws ClassNotFoundException, UnknownHostException, IOException {
-		List<RichiestaDiPartecipazione> rdpList = new ClientProxy().getRichiesteForCreatoreViaggio(rdp.getViaggio().getCreatore(), rdp.getViaggio() );
+	private void refreshRdp(RichiestaDiPartecipazione rdp) {
+		List<RichiestaDiPartecipazione> rdpList = null;
+		try {
+			rdpList = c.getRichiesteForCreatoreViaggio(rdp.getViaggio().getCreatore(), rdp.getViaggio() );
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         ObservableList<RichiestaDiPartecipazione> obsrdp = FXCollections.observableArrayList(rdpList);
         if(!rdpList.isEmpty() && rdpList != null) {
         	rdpview.setItems(obsrdp);

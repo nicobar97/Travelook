@@ -4,42 +4,26 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.sql.Date;
-
-import javax.swing.text.DateFormatter;
-
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
-
 import io.travelook.broker.ClientProxy;
-import io.travelook.controller.annuncio.AnnuncioController;
-import io.travelook.controller.annuncio.ListaAnnunciController;
-import io.travelook.controller.autenticazione.RegistrazioneController;
 import io.travelook.model.Stato;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
-import io.travelook.utils.SHA256;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -58,15 +42,12 @@ public class CreaAnnuncio extends Application {
     private TextField budget;
     private TextField titolo;
     private Button backButton;
-    private Button sendButton;
     private Button annullaButton;
     private ImageView logo;
     private Button saveButton;
     private TextArea descrizione;
     private Viaggio viaggio;
-    private SimpleDateFormat formatter;
     private ImageView immagine;
-    private ListaAnnunciController controller;
     private FileChooser imgChooser;
     private String newImg = null;
     private Button load;
@@ -102,7 +83,7 @@ public class CreaAnnuncio extends Application {
 		this.type = type;
 		this.user = user;
 	}
-	@SuppressWarnings("deprecation")
+
 	public void initRootLayout() {
         try {
             // Load root layout from fxml file.
@@ -113,7 +94,6 @@ public class CreaAnnuncio extends Application {
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
-            formatter = new SimpleDateFormat("yyyy-mm-dd");
             titolo = (TextField) scene.lookup("#titolo");          
             windowtitle = (Label) scene.lookup("#windowtitle");         
             destinazione = (TextField) scene.lookup("#destinazione");
@@ -157,7 +137,6 @@ public class CreaAnnuncio extends Application {
             	descrizione.setText("");
                 lingua.setText("");
             }   
-            controller = new ListaAnnunciController();
             load.setOnMouseClicked(event -> {
             	newImg = uploadFile(imgChooser.showOpenDialog(primaryStage), "Viaggio");
             	immagine.setImage(new Image(newImg));
@@ -165,14 +144,14 @@ public class CreaAnnuncio extends Application {
             backButton.setOnMouseClicked(event -> {
             		if(type==0)
 						try {
-							new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
+							new HomeAnnuncio(c, viaggio, user, "lista").start(primaryStage);
 						} catch (ClassNotFoundException | IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					else
 						try {
-							new HomeListaAnnunci(user).start(primaryStage);
+							new HomeListaAnnunci(user, c).start(primaryStage);
 						} catch (ClassNotFoundException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -203,15 +182,19 @@ public class CreaAnnuncio extends Application {
 				if(type == 0) {
 					nv.setCreatore(viaggio.getCreatore());
 					nv.setPartecipanti(viaggio.getPartecipanti());
-					AnnuncioController ac = new AnnuncioController(viaggio);
-					ac.modificaAnnuncio(nv);
+					try {
+						c.modificaAnnuncio(nv);
+					} catch (ClassNotFoundException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				else {
 					nv.setStato(Stato.INIZIO);
 					nv.setCreatore(user);
 					nv.setPartecipanti(new ArrayList<>());
 					try {
-						new ClientProxy().creaAnnuncio(nv);
+						c.creaAnnuncio(nv);
 					} catch (UnknownHostException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -225,14 +208,14 @@ public class CreaAnnuncio extends Application {
 				}
 				if(type==0)
 					try {
-						new HomeAnnuncio(nv, user, "lista").start(primaryStage);
+						new HomeAnnuncio(c, nv, user, "lista").start(primaryStage);
 					} catch (ClassNotFoundException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				else
 					try {
-						new HomeListaAnnunci(user).start(primaryStage);
+						new HomeListaAnnunci(user, c).start(primaryStage);
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -241,14 +224,14 @@ public class CreaAnnuncio extends Application {
             annullaButton.setOnMouseClicked(event -> {
             	if(type==0)
 					try {
-						new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
+						new HomeAnnuncio(c, viaggio, user, "lista").start(primaryStage);
 					} catch (ClassNotFoundException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				else
 					try {
-						new HomeListaAnnunci(user).start(primaryStage);
+						new HomeListaAnnunci(user, c).start(primaryStage);
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -257,14 +240,14 @@ public class CreaAnnuncio extends Application {
             backButton.setOnMouseClicked(event -> {
             	if(type==0)
 					try {
-						new HomeAnnuncio(viaggio, user, "lista").start(primaryStage);
+						new HomeAnnuncio(c, viaggio, user, "lista").start(primaryStage);
 					} catch (ClassNotFoundException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				else
 					try {
-						new HomeListaAnnunci(user).start(primaryStage);
+						new HomeListaAnnunci(user,c).start(primaryStage);
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

@@ -7,13 +7,9 @@ import java.net.UnknownHostException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Optional;
-
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
-
 import io.travelook.broker.ClientProxy;
-import io.travelook.controller.autenticazione.LoginController;
-import io.travelook.controller.autenticazione.RegistrazioneController;
 import io.travelook.model.Utente;
 import io.travelook.utils.SHA256;
 import javafx.application.Application;
@@ -62,7 +58,12 @@ public class HomeTravelook extends Application {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+        try {
+			c = new ClientProxy();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         initRootLayout();
 	}
 
@@ -71,7 +72,6 @@ public class HomeTravelook extends Application {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void initRootLayout() {
         try {
             // Load root layout from fxml file.
@@ -92,7 +92,7 @@ public class HomeTravelook extends Application {
             	Optional<String> username = dialog.showAndWait();
             	if(username.isPresent()) {
             		try {
-						new HomeListaAnnunci(username.get()).start(primaryStage);
+						new HomeListaAnnunci(username.get(), c).start(primaryStage);
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -232,21 +232,15 @@ public class HomeTravelook extends Application {
     	    		return null;
     	    	else {
     	    		LocalDate tmp = ddnPicker.getValue();
-    	    		RegistrazioneController reg = new RegistrazioneController();
-    	    		try {
-						new ClientProxy().registraUtente(new Utente(usernameField.getText(), emailField.getText(), nomeField.getText(), 
+    	    	
+					try {
+						c.registraUtente(new Utente(usernameField.getText(), emailField.getText(), nomeField.getText(), 
 								cognomeField.getText(),Date.valueOf(tmp), newimg.trim()), SHA256.encrypt(pswField.getText()));
-						System.out.println(pswField.getText());
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
+					} catch (ClassNotFoundException | IllegalArgumentException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					System.out.println(pswField.getText());			
     	    		return usernameField.getText();
     	    	}
     	    }	

@@ -10,15 +10,8 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
 import io.travelook.broker.ClientProxy;
-import io.travelook.controller.annuncio.ListaAnnunciController;
-import io.travelook.controller.rdp.RichiesteObservableController;
-import io.travelook.controller.utente.UtenteController;
 import io.travelook.model.Interessi;
-import io.travelook.model.Recensione;
-import io.travelook.model.RichiestaDiPartecipazione;
-import io.travelook.model.Storico;
 import io.travelook.model.Utente;
-import io.travelook.model.Viaggio;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,14 +21,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.SVGPath;
@@ -88,19 +78,18 @@ public class ModificaUtente extends Application {
     private FileChooser imgChooser;
     private String newImg = null;
     private Utente user;
-    private UtenteController uc;
     private FXMLLoader loader;
+    private ClientProxy c;
     private double average;
-	public ModificaUtente(Utente user, double average, List<Interessi> interessi) {
-        this.user = user;
+	public ModificaUtente(ClientProxy c, Utente user, double average, List<Interessi> interessi) {
+        this.c = c;
+		this.user = user;
         this.average = average;
-        uc = new UtenteController(user);
 	}
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Travelook");
-
         initRootLayout();
 	}
 
@@ -116,10 +105,10 @@ public class ModificaUtente extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             back.setOnMouseClicked(event -> {
-            	new HomeUtente(user).start(primaryStage);
+            	new HomeUtente(c, user).start(primaryStage);
             });
             annulla.setOnMouseClicked(event -> {
-            	new ModificaUtente(user, average, user.getInteressi()).start(primaryStage);
+            	new ModificaUtente(c, user, average, user.getInteressi()).start(primaryStage);
             });
             imgChooser = new FileChooser();
             newImg = null;
@@ -152,7 +141,12 @@ public class ModificaUtente extends Application {
             		new Alert(AlertType.WARNING, "Nessun interesse selezionato").show();
             	}
             	else {
-            		uc.aggiungiInteressi(selected);
+            		try {
+						c.aggiungiInteressi(selected);
+					} catch (ClassNotFoundException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
             		user.getInteressi().add(selected);
             		initInteressi();
             	}
@@ -164,7 +158,7 @@ public class ModificaUtente extends Application {
             	if(newImg != null)
             		user.setImmagineProfilo(newImg);
             	try {
-					new ClientProxy().modificaProfilo(user);
+					c.modificaProfilo(user);
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -175,7 +169,7 @@ public class ModificaUtente extends Application {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-            	new HomeUtente(user).start(primaryStage);
+            	new HomeUtente(c, user).start(primaryStage);
             });
             initInteressi();
             primaryStage.show();

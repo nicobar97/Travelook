@@ -1,14 +1,13 @@
 package io.travelook.client.user;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Optional;
 
-import io.travelook.controller.rdp.RichiesteObservableController;
-import io.travelook.model.Messaggio;
+import io.travelook.broker.ClientProxy;
 import io.travelook.model.RichiestaDiPartecipazione;
 import io.travelook.model.Stato;
-import io.travelook.model.Utente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,17 +15,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 public class RDPCellUtente extends ListCell<RichiestaDiPartecipazione> {
 	@FXML
@@ -41,12 +34,11 @@ public class RDPCellUtente extends ListCell<RichiestaDiPartecipazione> {
 	private Button accept;
 	@FXML
 	private Button reject;
-	private Utente u;
     private FXMLLoader mLLoader;
-    private RichiesteObservableController rdpc;
+    private ClientProxy c;
     private ListView<RichiestaDiPartecipazione> rdpview;
-    public RDPCellUtente(RichiesteObservableController rdpc, ListView<RichiestaDiPartecipazione> rdpview) {
-    	this.rdpc = rdpc;
+    public RDPCellUtente(ClientProxy c, ListView<RichiestaDiPartecipazione> rdpview) {
+    	this.c=c;
     	this.rdpview = rdpview;
     }
 	protected void updateItem(RichiestaDiPartecipazione rdp, boolean empty) {
@@ -80,8 +72,20 @@ public class RDPCellUtente extends ListCell<RichiestaDiPartecipazione> {
 	        	Optional<String> mexRisp = new TextInputDialog("Inserisci il messaggio di risposta:").showAndWait();
 	        	if(mexRisp.isPresent()) {
 	        		rdp.setRisposta(Stato.ACCETTATA, mexRisp.get());
-	        		System.out.println(rdpc.rispondiRichiesta(rdp));
-	        		refreshRdp(rdp);
+	        		try {
+						System.out.println(c.rispondiRichiesta(rdp));
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (UnknownHostException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					refreshRdp(rdp);
+					
 	        	}
 	        });
 	        
@@ -89,8 +93,15 @@ public class RDPCellUtente extends ListCell<RichiestaDiPartecipazione> {
 	        	Optional<String> mexRisp = new TextInputDialog("Inserisci il messaggio di risposta:").showAndWait();
 	        	if(mexRisp.isPresent()) {
 	        		rdp.setRisposta(Stato.NONACCETTATA, mexRisp.get());
-	        		rdpc.rispondiRichiesta(rdp);
-	        		refreshRdp(rdp);
+	        		try {
+						c.rispondiRichiesta(rdp);
+						refreshRdp(rdp);
+					} catch (ClassNotFoundException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	        		
+
 	        	}
 	        });
 	        setText(null);
@@ -98,7 +109,13 @@ public class RDPCellUtente extends ListCell<RichiestaDiPartecipazione> {
 	    }
 	}
 	private void refreshRdp(RichiestaDiPartecipazione rdp) {
-		List<RichiestaDiPartecipazione> rdpList = rdpc.getRichiesteForCreatoreViaggio(rdp.getViaggio().getCreatore(), rdp.getViaggio() );
+		List<RichiestaDiPartecipazione> rdpList = null;
+		try {
+			rdpList = c.getRichiesteForCreatoreViaggio(rdp.getViaggio().getCreatore(), rdp.getViaggio() );
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         ObservableList<RichiestaDiPartecipazione> obsrdp = FXCollections.observableArrayList(rdpList);
         if(!rdpList.isEmpty() && rdpList != null) {
         	rdpview.setItems(obsrdp);

@@ -451,6 +451,19 @@ public class ClientProxy {
 		
 	}
 	
+	public List<RichiestaDiPartecipazione> getRichiesteForCreatore(Utente creatore) throws IOException, ClassNotFoundException{
+		initSocket();
+		List<Object> argomentiRichiesta = new ArrayList<Object>();
+		argomentiRichiesta.add(creatore);
+		System.out.println("Creatore "+creatore.getUsername());
+		Richiesta<Object> ric = new Richiesta<Object>(s.getLocalSocketAddress().toString(),
+				s.getLocalPort(),argomentiRichiesta, "getRichiesteForCreatore");
+		oos.writeObject(ric);
+		Risposta<RichiestaDiPartecipazione> reply = (Risposta<RichiestaDiPartecipazione>) ois.readObject();
+		s.close();
+		return reply.getValori();
+		
+	}
 	public boolean rispondiRichiesta(RichiestaDiPartecipazione risposta) throws IOException, ClassNotFoundException {
 		initSocket();
 		List<RichiestaDiPartecipazione> argomentiRichiesta = new ArrayList<RichiestaDiPartecipazione>();

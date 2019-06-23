@@ -1,39 +1,28 @@
 package io.travelook.client.user;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.text.DateFormatter;
-
 import io.travelook.broker.ClientProxy;
-import io.travelook.controller.chat.ChatController;
-import io.travelook.controller.rdp.RichiesteObservableController;
 import io.travelook.model.Chat;
 import io.travelook.model.Messaggio;
 import io.travelook.model.RichiestaDiPartecipazione;
-import io.travelook.model.Stato;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -60,11 +49,9 @@ public class HomeAnnuncio extends Application {
     private List<Utente> listUserViaggio;
     private Button modificaAnnuncio;
     private Text descrizione;
-    private ChatController chatCont;
     private Viaggio viaggio;
     private SimpleDateFormat formatter;
     private Rectangle chatShape;
-    private RichiesteObservableController rdpc;
     private Button rdpbutton;
     private ListView<RichiestaDiPartecipazione> rdpview;
     private Utente user;
@@ -88,19 +75,11 @@ public class HomeAnnuncio extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-	public HomeAnnuncio(Viaggio viaggio, Utente user, String code) throws ClassNotFoundException, UnknownHostException, IOException {
+	public HomeAnnuncio(ClientProxy c, Viaggio viaggio, Utente user, String code) throws ClassNotFoundException, UnknownHostException, IOException {
+		this.c = c;
 		this.viaggio = viaggio;
 		this.user= user;
 		this.code = code;
-		try {
-			c = new ClientProxy();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void initRootLayout() throws ClassNotFoundException {
@@ -152,18 +131,17 @@ public class HomeAnnuncio extends Application {
             logo = (ImageView) scene.lookup("#logoi");
             logo.setImage(new Image("http://travelook.altervista.org/logo.png"));
             creatoDaText.setText("creato da " + viaggio.getCreatore().getUsername());
-            rdpc = new RichiesteObservableController();
             listUserViaggio = viaggio.getPartecipanti();
             backButton.setOnMouseClicked(event -> {
             	if(code == "lista")
 					try {
-						new HomeListaAnnunci(user).start(primaryStage);
+						new HomeListaAnnunci(user, c).start(primaryStage);
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				else if(code == "utente")
-            		new HomeUtente(user).start(primaryStage);
+            		new HomeUtente(c,user).start(primaryStage);
             });
             
             if(user.getId() == viaggio.getCreatore().getId()) {
@@ -199,7 +177,6 @@ public class HomeAnnuncio extends Application {
             			new CreaAnnuncio(viaggio, 0, user).start(primaryStage);
                 });
               //CHAT
-                chatCont = new ChatController();
                 refreshChat();
                 sendButton.setOnMouseClicked(event -> {
                 	Messaggio m = new Messaggio();
@@ -207,7 +184,7 @@ public class HomeAnnuncio extends Application {
                 	m.setTimestamp(new Timestamp(System.currentTimeMillis()));
                 	m.setUtente(user);
                 	try {
-						new ClientProxy().inviaMessaggio(m, viaggio);
+						c.inviaMessaggio(m, viaggio);
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -252,7 +229,6 @@ public class HomeAnnuncio extends Application {
             		rdpbutton.setVisible(false);
             		modificaAnnuncio.setVisible(false);
             		//CHAT
-                    chatCont = new ChatController();
                     refreshChat();
                     sendButton.setOnMouseClicked(event -> {
                     	Messaggio m = new Messaggio();
@@ -260,7 +236,7 @@ public class HomeAnnuncio extends Application {
                     	m.setTimestamp(new Timestamp(System.currentTimeMillis()));
                     	m.setUtente(user);
                     	try {
-							new ClientProxy().inviaMessaggio(m, viaggio);
+							c.inviaMessaggio(m, viaggio);
 						} catch (ClassNotFoundException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -300,7 +276,7 @@ public class HomeAnnuncio extends Application {
             		});
             		sendrdp.setOnMouseClicked(event -> {
             			try {
-							new ClientProxy().nuovaRichiesta(new RichiestaDiPartecipazione(user, viaggio, textrdp.getText()));
+							c.nuovaRichiesta(new RichiestaDiPartecipazione(user, viaggio, textrdp.getText()));
 						} catch (ClassNotFoundException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -322,7 +298,7 @@ public class HomeAnnuncio extends Application {
 	private void refreshChat() {
 		Chat chat= new Chat();
 		try {
-			chat = new ClientProxy().getChat(viaggio);
+			chat = c.getChat(viaggio);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -343,7 +319,7 @@ public class HomeAnnuncio extends Application {
         ObservableList<RichiestaDiPartecipazione> obsrdp = FXCollections.observableArrayList(rdpList);
         if(!rdpList.isEmpty() && rdpList != null) {
         	rdpview.setItems(obsrdp);
-        	rdpview.setCellFactory(userCell -> new RDPCell(rdpc, rdpview));
+        	rdpview.setCellFactory(userCell -> new RDPCell(c, rdpview));
         	//rdpview.scrollTo(chat.getChat().size());
         }
 	}
@@ -367,7 +343,7 @@ public class HomeAnnuncio extends Application {
         	MouseEvent me = (MouseEvent) event;
         	if(me.getClickCount() == 2)
 				try {
-					new VisitaUtente(utentiView.getSelectionModel().getSelectedItem(), user, viaggio).start(primaryStage);
+					new VisitaUtente(c, utentiView.getSelectionModel().getSelectedItem(), user, viaggio).start(primaryStage);
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

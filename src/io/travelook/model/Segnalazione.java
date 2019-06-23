@@ -23,6 +23,16 @@ public class Segnalazione {
 		this.messaggio = messaggio;
 		this.stato=stato;
 	}
+  	public Segnalazione(Utente segnalato, Utente segnalante,
+  			String messaggio,Stato stato) throws IllegalArgumentException {
+		super();
+		if(segnalato== null || segnalante == null || messaggio == null)
+			throw new IllegalArgumentException();
+		this.segnalato = segnalato;
+		this.segnalante = segnalante;
+		this.messaggio = messaggio;
+		this.stato=stato;
+	}
   
 	public int getIdSegnalazione() {
 		return idSegnalazione;
