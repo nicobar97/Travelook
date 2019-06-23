@@ -72,7 +72,7 @@ public void run() {
 		ous.writeObject(replyeliminau);
 	}
 	if(servizioRichiesto.equals("visualizzaStorico")) {
-		//setUtenteInController(richiestaDaBroker.getArgomenti());
+		setUtenteInController(richiestaDaBroker.getArgomenti());
 		Storico storico =uc.visualizzaStorico();
 		List<Storico> listastorici = new ArrayList<Storico>();
 		listastorici.add(storico);
