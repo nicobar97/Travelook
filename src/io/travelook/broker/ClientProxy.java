@@ -251,10 +251,11 @@ public class ClientProxy {
 			s.close();
 			return reply.getValori().get(0);
 	}
-	public Storico visualizzaStorico() throws UnknownHostException, IOException, ClassNotFoundException{
+	public Storico visualizzaStorico(Utente u) throws UnknownHostException, IOException, ClassNotFoundException{
 		  initSocket();
-		  List<Storico> argomentiRichiesta = new ArrayList<Storico>();
-		  Richiesta r = new Richiesta<Storico>(s.getLocalSocketAddress().toString(),
+		  List<Object> argomentiRichiesta = new ArrayList<Object>();
+		  argomentiRichiesta.add(u);
+		  Richiesta r = new Richiesta<Object>(s.getLocalSocketAddress().toString(),
 					s.getLocalPort(),argomentiRichiesta, "visualizzaStorico");
 			oos.writeObject(r);
 			Risposta<Storico> reply = (Risposta<Storico>) ois.readObject();

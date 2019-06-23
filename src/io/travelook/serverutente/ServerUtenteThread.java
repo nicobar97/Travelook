@@ -72,6 +72,7 @@ public void run() {
 		ous.writeObject(replyeliminau);
 	}
 	if(servizioRichiesto.equals("visualizzaStorico")) {
+		//setUtenteInController(richiestaDaBroker.getArgomenti());
 		Storico storico =uc.visualizzaStorico();
 		List<Storico> listastorici = new ArrayList<Storico>();
 		listastorici.add(storico);
@@ -160,5 +161,10 @@ public void run() {
 	}catch(Exception e ) {
 		e.printStackTrace();
 	}
+}
+private void setUtenteInController(List<Object> listaArgomenti) {
+	int lastElement = listaArgomenti.size()-1;
+	Utente daSettare = (Utente) listaArgomenti.get(lastElement);
+	uc.setU(daSettare);	
 }
 }
