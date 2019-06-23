@@ -67,6 +67,7 @@ public class HomeAnnuncio extends Application {
     private Utente user;
     private boolean rdpon;
     private Button sendrdp;
+    private ImageView logo;
     private Button cancrdp;
     private TextArea textrdp;
     private boolean initUser = false;
@@ -106,6 +107,8 @@ public class HomeAnnuncio extends Application {
             titolo = (Text) scene.lookup("#titolo");
             immagine = (ImageView) scene.lookup("#immagine");
             chatShape = (Rectangle) scene.lookup("#chatShape");
+            logo = (ImageView) scene.lookup("#logoi");
+            logo.setImage(new Image("http://travelook.altervista.org/logo.png"));
            	if(viaggio.getImmaginiProfilo() != null && !viaggio.getImmaginiProfilo().trim().equals(""))
             	immagine.setImage(new Image(viaggio.getImmaginiProfilo().trim()));
             titolo.setText(viaggio.getTitolo().trim());

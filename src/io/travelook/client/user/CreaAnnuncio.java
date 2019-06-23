@@ -60,6 +60,7 @@ public class CreaAnnuncio extends Application {
     private Button backButton;
     private Button sendButton;
     private Button annullaButton;
+    private ImageView logo;
     private Button saveButton;
     private TextArea descrizione;
     private Viaggio viaggio;
@@ -127,6 +128,8 @@ public class CreaAnnuncio extends Application {
             saveButton = (Button) scene.lookup("#salva");
             annullaButton = (Button) scene.lookup("#annulla");
             load = (Button) scene.lookup("#load");
+            logo = (ImageView) scene.lookup("#logoi");
+            logo.setImage(new Image("http://travelook.altervista.org/logo.png"));
             imgChooser = new FileChooser();
             newImg = null;
             Viaggio nv = new Viaggio();

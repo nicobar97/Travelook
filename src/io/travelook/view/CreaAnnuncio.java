@@ -62,6 +62,7 @@ public class CreaAnnuncio extends Application {
     private Viaggio viaggio;
     private SimpleDateFormat formatter;
     private ImageView immagine;
+    private ImageView logo;
     private ListaAnnunciController controller;
     private FileChooser imgChooser;
     private String newImg = null;
@@ -115,6 +116,8 @@ public class CreaAnnuncio extends Application {
             saveButton = (Button) scene.lookup("#salva");
             annullaButton = (Button) scene.lookup("#annulla");
             load = (Button) scene.lookup("#load");
+            logo = (ImageView) scene.lookup("#logoi");
+            logo.setImage(new Image("http://travelook.altervista.org/logo.png"));
             imgChooser = new FileChooser();
             newImg = null;
             Viaggio nv = new Viaggio();

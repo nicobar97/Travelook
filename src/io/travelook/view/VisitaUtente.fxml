@@ -17,7 +17,7 @@
                <font>
                   <Font name="Arial" size="25.0" />
                </font></Label>
-            <ImageView fitHeight="72.0" fitWidth="70.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="#logoi" fitHeight="72.0" fitWidth="70.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image fx:id="logo" url="@../../../logo.png" />
                </image>
@@ -71,7 +71,7 @@
                </font>
             </Text>
             <TextArea fx:id="bio" layoutX="21.0" layoutY="237.0" prefHeight="108.0" prefWidth="340.0" wrapText="true" />
-            <TextArea fx:id="recArea" layoutX="21.0" layoutY="354.0" prefHeight="100.0" prefWidth="340.0" promptText="Lascia una recensione, compila questa casella e seleziona il numero di stelle :)" />
+            <TextArea fx:id="recArea" layoutX="21.0" layoutY="354.0" prefHeight="100.0" prefWidth="340.0" promptText="Lascia una recensione, compila questa casella e seleziona il numero di stelle :)" wrapText="true" />
             <Button fx:id="recButton" layoutX="23.0" layoutY="462.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="213.0" text="Lascia Recensione">
                <font>
                   <Font size="12.0" />

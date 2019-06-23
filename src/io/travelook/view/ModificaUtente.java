@@ -78,6 +78,8 @@ public class ModificaUtente extends Application {
     @FXML
     private Button addInteresse;
     @FXML
+    private ImageView logoi;
+    @FXML
     private ImageView userImage;
     @FXML
     private ListView<Interessi> interessiView;
@@ -119,6 +121,7 @@ public class ModificaUtente extends Application {
             });
             imgChooser = new FileChooser();
             newImg = null;
+            logoi.setImage(new Image("http://travelook.altervista.org/logo.png"));
             bio.setEditable(true);
             username.setText("@"+user.getUsername());
             nome.setText(user.getNome());

@@ -72,6 +72,8 @@ public class ModificaUtente extends Application {
     @FXML
     private Text email;
     @FXML
+    private ImageView logoi;
+    @FXML
     private TextArea bio;
     @FXML
     private Text interessi;
@@ -122,6 +124,7 @@ public class ModificaUtente extends Application {
             imgChooser = new FileChooser();
             newImg = null;
             bio.setEditable(true);
+            logoi.setImage(new Image("http://travelook.altervista.org/logo.png"));
             username.setText("@"+user.getUsername());
             nome.setText(user.getNome());
             cognome.setText(user.getCognome());

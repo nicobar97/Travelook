@@ -93,7 +93,7 @@ public class HomeListaAnnunci extends Application {
             listView = (ListView<Viaggio>) scene.lookup("#lista");
             userImg = (ImageView) scene.lookup("#imgUtente");
             logout = (Button) scene.lookup("#logout");
-            logo = (ImageView) scene.lookup("#logo");
+            logo = (ImageView) scene.lookup("#logoi");
             logo.setImage(new Image("http://travelook.altervista.org/logo.png"));
             logout = (Button) scene.lookup("#logout");
             filtra = (Button) scene.lookup("#filtra");
