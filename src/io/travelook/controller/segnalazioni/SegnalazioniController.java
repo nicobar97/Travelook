@@ -30,8 +30,9 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
     	res=true;
         }
         Date d=new Date();
-        Entry e=new Entry(1,s.getSegnalante().getId(),d,"segnalaUtente"," ");
         super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        Entry e=new Entry(ide,s.getSegnalante().getId(),d,"segnalaUtente"," ");
         super.scriviOperazioneLog(e);
         return res;
     }

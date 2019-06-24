@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -21,6 +23,7 @@ public abstract class Controller implements IController {
 	private DataSource dataSource =  null;
 	private ConnectionPool jdbcObj = null;
 	private Logger log=null;
+	private int logcount=0;
 	
 	public Controller() {
 			jdbcObj = new ConnectionPool();
@@ -62,7 +65,17 @@ public abstract class Controller implements IController {
 	public void scriviOperazioneLog(Entry entryLog) {
 		log.scriviEntry(entryLog);
 	}
-
+    
+	public int getLogcount() {
+		List<Entry> logs=new ArrayList<Entry>();
+		logs=this.log.visualizzaLog();
+		int lastarg=logs.size();
+		if(lastarg>0) {
+		Entry last=logs.get(lastarg-1);
+	    this.logcount=last.getIdEntry();}
+		return logcount;
+	}
+	
 }
 
 
