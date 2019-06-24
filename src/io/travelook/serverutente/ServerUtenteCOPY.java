@@ -17,12 +17,12 @@ import io.travelook.model.Storico;
 import io.travelook.model.Utente;
 import io.travelook.model.Viaggio;
 
-public class ServerUtente extends Thread {
+public class ServerUtenteCOPY extends Thread {
 	private UtenteController utentec  = new UtenteController();
 	private static ServerSocket serverSocket;
 	private static Socket brokerSocket;
 	
-	public ServerUtente(Socket brokerSocket) {
+	public ServerUtenteCOPY(Socket brokerSocket) {
 		this.brokerSocket=brokerSocket;
 		
 	}
@@ -34,7 +34,7 @@ public class ServerUtente extends Thread {
 				System.out.println("Il ServerUtente � in attesa sulla porta " + serverSocket.getLocalPort());
 				brokerSocket = serverSocket.accept();
 				System.out.println("Richiesta arrivata, lancio thread!");
-				ServerUtente thread = new ServerUtente(brokerSocket);
+				ServerUtenteCOPY thread = new ServerUtenteCOPY(brokerSocket);
 				thread.start();
 			}
 		} catch (IOException e) {
@@ -61,15 +61,11 @@ public class ServerUtente extends Thread {
 			//
 		   }
 		if(servizioRichiesto.equals("visualizzaRecensioni")){
-			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
-			utentec.setU((Utente)listaArgomenti.get(0));
 			List<Recensione> listarecensioni=utentec.visualizzaRecensioni();
 			Risposta<Recensione> replyrec= new Risposta<Recensione>(brokerSocket.getInetAddress().toString(),brokerSocket.getPort(),listarecensioni);
 			ous.writeObject(replyrec);
 		}
 		if(servizioRichiesto.equals("getViaggiinPartecipazione")){
-			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
-			utentec.setU((Utente)listaArgomenti.get(0));
 			List<Viaggio> listaviaggip=utentec.getViaggiInPartecipazione();
 			Risposta<Viaggio> replyviaggip= new Risposta<Viaggio>(brokerSocket.getInetAddress().toString(),brokerSocket.getPort(),listaviaggip);
 			ous.writeObject(replyviaggip);
@@ -96,8 +92,6 @@ public class ServerUtente extends Thread {
 			ous.writeObject(replyeliminau);
 		}
 		if(servizioRichiesto.equals("visualizzaStorico")) {
-			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
-			utentec.setU((Utente)listaArgomenti.get(0));
 			Storico storico =utentec.visualizzaStorico();
 			List<Storico> listastorici = new ArrayList<Storico>();
 			listastorici.add(storico);
@@ -131,10 +125,9 @@ public class ServerUtente extends Thread {
 			Risposta<Boolean> replyrec = new Risposta<Boolean>(brokerSocket.getInetAddress().toString(),brokerSocket.getPort(),listarec);
 			ous.writeObject(replyrec);
 		}
-		if(servizioRichiesto.equals("attachInteressiToUser")) {
+		if(servizioRichiesto.equals("attachInteressitoUser")) {
 			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
 			Utente  u = (Utente)listaArgomenti.get(0);
-			System.out.println("Daje");
 			Utente user =utentec.attachInteressiToUser(u);
 			List<Utente> listautenti = new ArrayList<Utente>();
 			listautenti.add(user);
