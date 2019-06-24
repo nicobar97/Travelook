@@ -32,7 +32,8 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
         Date d=new Date();
         super.openWriterLog("hello2.txt");
         int ide=super.getLogcount()+1;
-        Entry e=new Entry(ide,s.getSegnalante().getId(),d,"segnalaUtente"," ");
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,s.getSegnalante().getId(),d,nameofmeth," ");
         super.scriviOperazioneLog(e);
         return res;
     }
