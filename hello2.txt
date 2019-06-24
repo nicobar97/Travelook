@@ -6,3 +6,4 @@
 6;1;24/06/2019/14/48/06;segnalaUtente; 
 7;1;24/06/2019/14/48/08;getSegnalazioni; 
 8;2;24/06/2019/14/48/09;getSegnalazioniUtente; 
+9;1;24/06/2019/14/59/24;getViaggioById; 
