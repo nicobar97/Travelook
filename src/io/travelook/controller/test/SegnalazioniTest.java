@@ -46,7 +46,7 @@ class SegnalazioniTest {
 		Segnalazione s2 = new Segnalazione(2, u2, u1, "Mi ha insultato ",Stato.NONVISTA);
 		boolean res=sc.segnalaUtente(s);
 		boolean res2=sc.segnalaUtente(s2);
-		/*Assert.assertTrue(res);
+		Assert.assertTrue(res);
 		Assert.assertTrue(res2);
 		lists=sc.getSegnalazioni();
 		lists2=sc.getSegnalazioniUtente(u2.getId());
@@ -57,6 +57,6 @@ class SegnalazioniTest {
 			System.out.println("Segnalazione numero : "+segn.getIdSegnalazione());
 		}
 		Segnalazione sletta=sc.leggiSegnalazione(s.getIdSegnalazione());
-		System.out.println("test superato!");*/
+		System.out.println("test superato!");
 	}
 }

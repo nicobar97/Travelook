@@ -47,6 +47,12 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
     	}*/
     	db.setConn(super.getDbConnection());
     	res=db.readSegnalazioniUtente(id);
+    	 Date d=new Date();
+         super.openWriterLog("hello2.txt");
+         int ide=super.getLogcount()+1;
+         String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+         Entry e=new Entry(ide,id,d,nameofmeth," ");
+         super.scriviOperazioneLog(e);
     	return res;
     }
     public Segnalazione leggiSegnalazione(int segnalazioneid ) {
@@ -58,16 +64,22 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
     			db.marcaSegnalazioneComeLetta(s);
     		}
     	}
+    	 Date d=new Date();
+         super.openWriterLog("hello2.txt");
+         int ide=super.getLogcount()+1;
+         String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+         Entry e=new Entry(ide,res.getSegnalante().getId(),d,nameofmeth," ");
+         super.scriviOperazioneLog(e);
     	return res;
     }
     
     public boolean rimuoviSegnalazione(int segnalazioneid) {
     	boolean res=false;
+    	Segnalazione torem=null;
     	if(segnalazioneid<0) {
     		return res;
     	}
     	else {
-    	Segnalazione torem=null;
     	for(Segnalazione s:segnalazioni) {
     		if(s.getIdSegnalazione()==segnalazioneid) {
     			torem=s;
@@ -78,6 +90,12 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
     	segnalazioni.remove(torem);
     	res=true;
     	}
+    	 Date d=new Date();
+         super.openWriterLog("hello2.txt");
+         int ide=super.getLogcount()+1;
+         String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+         Entry e=new Entry(ide,torem.getSegnalante().getId(),d,nameofmeth," ");
+         super.scriviOperazioneLog(e);
     	return res;
     	
     }
@@ -85,11 +103,23 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
 	public List<Segnalazione> getSegnalazioni() {
 		db.setConn(super.getDbConnection());
 		this.segnalazioni=db.readAll();
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,1,d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return segnalazioni;
 	}
 
 	public void setSegnalazioni(List<Segnalazione> segnalazioni) {
 		this.segnalazioni = segnalazioni;
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,1,d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 	}
     
 }
