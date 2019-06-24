@@ -1,9 +1,11 @@
 package io.travelook.controller.rdp;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.travelook.controller.Controller;
+import io.travelook.model.Entry;
 import io.travelook.model.RichiestaDiPartecipazione;
 import io.travelook.model.Stato;
 import io.travelook.model.Utente;
@@ -27,6 +29,12 @@ public class RichiesteObservableController extends Controller implements IGestio
 	@Override
 	public boolean nuovaRichiesta(RichiestaDiPartecipazione richiesta) {
 		boolean continu = addRichiesta(richiesta);
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,richiesta.getUtente().getId(),d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		if(continu) {
 			addObserver((Observer) new NotificheVersoCreatore(richiesta.getUtente(), richiesta.getViaggio()));
 			notifyCreatore(richiesta.getViaggio(), richiesta.getMessaggioRichiesta(), richiesta.getUtente());
@@ -43,9 +51,15 @@ public class RichiesteObservableController extends Controller implements IGestio
 				if(esito)
 					notifyUtente(richiestaRisposta);
 				else
-					System.out.println("PORCODDIO");
+					System.out.println("impossibile rispondere alla richiesta "+richiestaRisposta.getId());
 			}
 		}
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,richiestaRisposta.getUtente().getId(),d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return true;
 	}
 	
@@ -102,7 +116,12 @@ public class RichiesteObservableController extends Controller implements IGestio
 				}
 			}
 		}
-		
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,sender.getId(),d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 	}
 	public void notifyUtente(RichiestaDiPartecipazione rdp) {
 		boolean trovato = false;
@@ -126,8 +145,20 @@ public class RichiesteObservableController extends Controller implements IGestio
 				}
 			}
 		}
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,rdp.getId(),d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 	}
 	public Observer getObserver(int idUtente) {
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,idUtente,d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		for(Observer o : this.observers) {
 			NotificheVerso n = (NotificheVerso) o;
 			if(n.getUtente().getId() == idUtente)
@@ -146,6 +177,12 @@ public class RichiesteObservableController extends Controller implements IGestio
 			this.db.create(richiesta);
 			this.listaRichieste.add(richiesta);
 		}
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,richiesta.getUtente().getId(),d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return true;
 	}
 	private boolean removeRichiesta(RichiestaDiPartecipazione richiesta) {
@@ -160,6 +197,12 @@ public class RichiesteObservableController extends Controller implements IGestio
 			this.db.setConn(super.getDbConnection());
 			this.db.delete(richiesta.getId());
 		}
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,richiesta.getId(),d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return esito;
 	}
 	private boolean updateRichiesta(RichiestaDiPartecipazione richiesta) {
@@ -173,6 +216,12 @@ public class RichiesteObservableController extends Controller implements IGestio
 		}
 		this.db.setConn(super.getDbConnection());
 		this.db.update(richiesta);
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,richiesta.getUtente().getId(),d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return esito;
 	}
 	private void initObservers() {
@@ -191,10 +240,22 @@ public class RichiesteObservableController extends Controller implements IGestio
 	}
 	public List<RichiestaDiPartecipazione> getRichiesteForCreatore(Utente c) {
 		this.db.setConn(super.getDbConnection());
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,c.getId(),d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return db.readRDPForCreatore(c);
 	}
 	public List<RichiestaDiPartecipazione> getRichiesteForCreatoreViaggio(Utente c, Viaggio v) {
 		this.db.setConn(super.getDbConnection());
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,c.getId(),d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return db.readRDPForCreatoreViaggio(c, v);
 	}
 }

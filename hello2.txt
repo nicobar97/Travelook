@@ -11,3 +11,10 @@
 11;1;24/06/2019/15/04/28;getViaggioById; 
 12;1;24/06/2019/15/07/39;verificaCredenziali; marco.rossi
 13;1;24/06/2019/15/07/40;getAnnunci; 
+14;1;24/06/2019/15/11/51;verificaCredenziali; marco.rossi
+15;1;24/06/2019/15/12/00;getAnnunci; 
+16;1;24/06/2019/15/12/15;getViaggioById; 
+17;1;24/06/2019/15/22/02;verificaCredenziali; marco.rossi
+18;1;24/06/2019/15/22/03;getAnnunci; 
+19;2;24/06/2019/15/22/13;getRichiesteForCreatore; 
+20;1;24/06/2019/15/22/33;getViaggioById; 
