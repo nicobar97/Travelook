@@ -18,3 +18,29 @@
 18;1;24/06/2019/15/22/03;getAnnunci; 
 19;2;24/06/2019/15/22/13;getRichiesteForCreatore; 
 20;1;24/06/2019/15/22/33;getViaggioById; 
+21;1;24/06/2019/15/27/38;verificaCredenziali; marco.rossi
+22;1;24/06/2019/15/27/58;verificaCredenziali; marco.rossi
+23;1;24/06/2019/15/29/09;verificaCredenziali; nicobar
+24;1;24/06/2019/15/30/33;verificaCredenziali; marco.rossi
+25;1;24/06/2019/15/32/06;verificaCredenziali; nicobar
+26;1;24/06/2019/15/32/06;getIdUtenteFromUsername; username nicobar
+27;1;24/06/2019/15/32/06;getUtenteById; 
+28;1;24/06/2019/15/32/06;setU; 
+29;1;24/06/2019/15/32/07;getAnnunci; 
+30;1;24/06/2019/15/32/11;attachInteressiToUser; 
+31;1;24/06/2019/15/32/12;visualizzaStorico; 
+32;1;24/06/2019/15/32/12;getViaggiInPartecipazione; 
+33;1;24/06/2019/15/32/12;getRichiesteForCreatore; 
+34;1;24/06/2019/15/32/12;visualizzaRecensioni; 
+35;1;24/06/2019/15/32/23;getViaggioById; 
+36;1;24/06/2019/15/35/04;verificaCredenziali; marco.rossi
+37;1;24/06/2019/15/35/04;getIdUtenteFromUsername; username marco.rossi
+38;2;24/06/2019/15/35/04;getUtenteById; 
+39;2;24/06/2019/15/35/04;setU; 
+40;1;24/06/2019/15/35/05;getAnnunci; 
+41;2;24/06/2019/15/35/08;attachInteressiToUser; 
+42;1;24/06/2019/15/35/09;visualizzaStorico; 
+43;1;24/06/2019/15/35/09;getViaggiInPartecipazione; 
+44;2;24/06/2019/15/35/09;getRichiesteForCreatore; 
+45;1;24/06/2019/15/35/10;visualizzaRecensioni; 
+46;1;24/06/2019/15/35/28;getViaggioById; 

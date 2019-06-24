@@ -1,9 +1,11 @@
 package io.travelook.controller.utente;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.travelook.controller.Controller;
+import io.travelook.model.Entry;
 import io.travelook.model.Interessi;
 import io.travelook.model.Recensione;
 import io.travelook.model.Storico;
@@ -45,6 +47,12 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 			//u.getInteressi().add(interesse);
 			interessi.setConn(super.getDbConnection());
 			interessi.create(u, interesse);
+			Date d=new Date();
+	        super.openWriterLog("hello2.txt");
+	        int ide=super.getLogcount()+1;
+	        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+	        Entry e=new Entry(ide,1,d,nameofmeth," ");
+	        super.scriviOperazioneLog(e);
 			return true;
 //		}
 //		else {
@@ -52,13 +60,25 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 //		}
 	}
 	public int getIdUtenteFromUsername(String username) {
-		db.setConn(super.getDbConnection());
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,1,d,nameofmeth," username "+username);
+        super.scriviOperazioneLog(e);
+        db.setConn(super.getDbConnection());
 		return db.getIdUtenteByUsername(username);
 	}
 
 	@Override
 	public Storico visualizzaStorico() {
 		db.setConn(this.getDbConnection());
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,1,d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return db.getStorico(u);
 	}
 
@@ -69,6 +89,12 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		lista = dbrec.readRecensioniUtente(u);
 		for(Recensione r : lista)
 			System.out.println(r.getCorpo());
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,1,d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return lista;
 	}
 
@@ -83,6 +109,12 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		else{
 			res=false;
 		}
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,u.getId(),d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return res;
 	}
 
@@ -91,11 +123,23 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		List<Viaggio> listaViaggiPartecipante = new ArrayList<Viaggio>();
 		db.setConn(super.getDbConnection());
 		listaViaggiPartecipante = db.readViaggiAttiviByUtente(u);
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,1,d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return listaViaggiPartecipante;
 	}
 	public Utente attachInteressiToUser(Utente user) {
 		interessi.setConn(super.getDbConnection());
 		user.setInteressi(interessi.readInteressiByUtente(user));
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,user.getId(),d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return user;
 		
 	}
@@ -104,6 +148,12 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 		List<Viaggio> viaggiInAttesaDiConferma = new ArrayList<Viaggio>();
 		db.setConn(super.getDbConnection());
 		viaggiInAttesaDiConferma = db.readViaggiInAttesaDiConfermaUtente(u);
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,1,d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return viaggiInAttesaDiConferma;
 	}
 
@@ -117,32 +167,74 @@ public class UtenteController extends Controller implements IGestioneProfiloUten
 			u = null;
 			ok = true;
 		}
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,1,d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return ok;
 	}
 
 	public List<Utente> getListaUtenti() {
 		db.setConn(super.getDbConnection());
 		List<Utente> listaUtenti = db.readUtentiFromDB();
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,1,d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return listaUtenti;
 	}
 	public Utente getUtenteById(int id ) {
 		db.setConn(super.getDbConnection());
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,id,d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return db.read(id);
 	}
 
 	public Utente getU() {
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,1,d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return u;
 	}
 
 	public void setU(Utente u) {
 		this.u = u;
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,u.getId(),d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 	}
 	public boolean lasciaRecensione(Recensione r) {
 		dbrec.setConn(super.getDbConnection());
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,r.getIdUtenteRecensitore(),d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return dbrec.create(r);
 	}
 	public boolean aggiornaRecensione(Recensione r) {
 		dbrec.setConn(super.getDbConnection());
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,r.getIdUtenteRecensitore(),d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return dbrec.update(r);	
 	}
 }
