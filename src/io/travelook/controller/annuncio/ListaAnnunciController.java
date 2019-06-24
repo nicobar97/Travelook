@@ -1,9 +1,11 @@
 package io.travelook.controller.annuncio;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.travelook.controller.Controller;
 import io.travelook.controller.filtro.Filtro;
+import io.travelook.model.Entry;
 import io.travelook.model.Viaggio;
 import io.travelook.persistence.MssqlViaggioDAO;
 
@@ -24,11 +26,23 @@ public class ListaAnnunciController extends Controller {
 		
 		db.setConn(super.getDbConnection());
 		this.annunci = db.readViaggiListFromDb();
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,1,d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return annunci;
 	}
 
 	public void setAnnunci(List<Viaggio> annunci) {
 		this.annunci = annunci;
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,1,d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 	}
 
 	public boolean creaAnnuncio(Viaggio v) {
@@ -43,6 +57,12 @@ public class ListaAnnunciController extends Controller {
 			res=annunci.add(v);
 			res=true;
 		}
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,v.getCreatore().getId(),d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return res&resdb;
 	}
 	
@@ -62,6 +82,12 @@ public class ListaAnnunciController extends Controller {
 				}
 			}
 		}
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,1,d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return res;
 	}
 	
@@ -90,6 +116,12 @@ public class ListaAnnunciController extends Controller {
 				res=v;
 			}
 		}
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,1,d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return res;
 	}
 
