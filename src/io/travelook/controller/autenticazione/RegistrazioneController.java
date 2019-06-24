@@ -3,6 +3,7 @@ package io.travelook.controller.autenticazione;
 import java.util.Date;
 
 import io.travelook.controller.Controller;
+import io.travelook.model.Entry;
 import io.travelook.model.Utente;
 import io.travelook.persistence.MssqlLoginDAO;
 import io.travelook.persistence.MssqlUtenteDAO;
@@ -25,6 +26,12 @@ public class RegistrazioneController extends Controller implements IRegistrazion
 			if(esito)
 				esito2=ud.create(u);
 		}
+		Date d=new Date();
+        super.openWriterLog("hello2.txt");
+        int ide=super.getLogcount()+1;
+        String nameofmeth=new Throwable().getStackTrace()[0].getMethodName();
+        Entry e=new Entry(ide,u.getId(),d,nameofmeth," ");
+        super.scriviOperazioneLog(e);
 		return esito2;
 	}
 
