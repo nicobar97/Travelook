@@ -133,7 +133,7 @@ public class HomeUtente extends Application {
             if(user.getInteressi() != null)
             	interessi.setText(formatInteressi(user.getInteressi()));
             bio.setText(user.getBio());
-            if(user.getImmagineProfilo() != null && !user.getImmagineProfilo().trim().equals("") && new File("src/"+user.getImmagineProfilo().trim()).exists())
+            if(user.getImmagineProfilo() != null && !user.getImmagineProfilo().trim().equals(""))
         		userImage.setImage(new Image(user.getImmagineProfilo().trim()));
             refreshStorico();
             refreshViaggiAttivi();

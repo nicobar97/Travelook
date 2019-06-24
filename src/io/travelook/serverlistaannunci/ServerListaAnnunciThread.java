@@ -168,6 +168,7 @@ public class ServerListaAnnunciThread extends Thread {
 		if(servizioRichiesto.equals("rispondiRichiesta")) {
 			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
 			RichiestaDiPartecipazione rispostaRichiesta = (RichiestaDiPartecipazione) listaArgomenti.get(0);
+			System.out.println(rispostaRichiesta.getStato() + "!!!!!!");
 			boolean esito = richiesteController.rispondiRichiesta(rispostaRichiesta);
 			List<Boolean> listaEsiti = new ArrayList<Boolean>();
 			listaEsiti.add(esito);

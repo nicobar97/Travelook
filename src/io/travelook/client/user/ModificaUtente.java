@@ -118,14 +118,14 @@ public class ModificaUtente extends Application {
             nome.setText(user.getNome());
             cognome.setText(user.getCognome());
             email.setText(user.getEmail());
-            if(user.getImmagineProfilo() != null && !user.getImmagineProfilo().trim().equals("") && new File("src/"+user.getImmagineProfilo().trim()).exists())
+            if(user.getImmagineProfilo() != null && !user.getImmagineProfilo().trim().equals(""))
         		userImage.setImage(new Image(user.getImmagineProfilo().trim()));
             if(user.getInteressi() != null && user.getInteressi().size() > 0)
             	interessi.setText(formatInteressi(user.getInteressi()));
             else 
             	interessi.setText("L'utente non ha interessi");
             bio.setText(user.getBio());
-            if(user.getImmagineProfilo() != null && !user.getImmagineProfilo().trim().equals("") && new File("src/"+user.getImmagineProfilo().trim()).exists())
+            if(user.getImmagineProfilo() != null && !user.getImmagineProfilo().trim().equals(""))
         		userImage.setImage(new Image(user.getImmagineProfilo().trim()));
             initStars();
             salva.setOnMouseClicked(event -> {
@@ -142,7 +142,7 @@ public class ModificaUtente extends Application {
             	}
             	else {
             		try {
-						c.aggiungiInteressi(selected);
+						c.aggiungiInteressi(selected, user);
 					} catch (ClassNotFoundException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -180,14 +180,14 @@ public class ModificaUtente extends Application {
 	private void initInteressi() {
 		List<Interessi> chenonha = new ArrayList<>();
 		boolean first = true;
-		for(Interessi i : Interessi.values()) {
+		for(int i=0; i<Interessi.values().length-1; i++) {
 			if(!first) {
 				boolean trovato = false;
 				for(Interessi u : user.getInteressi())
-					if(u.compareTo(i) == 0)
+					if(u.compareTo(Interessi.values()[i]) == 0)
 						trovato = true;
 				if(!trovato)
-					chenonha.add(i);
+					chenonha.add(Interessi.values()[i]);
 			}
 			first = false;
 		}

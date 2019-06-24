@@ -127,6 +127,7 @@ public class HomeListaAnnunci extends Application {
             	new Alert(AlertType.INFORMATION, "Logout effettuato con successo").show();
             });
             ListaAnnunciController controller = new ListaAnnunciController();
+            lista = new ArrayList<>();
             listaTutti = controller.getAnnunci();
             for(Viaggio v: listaTutti)
             	if(v.getStato().equals(Stato.INIZIO))

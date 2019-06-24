@@ -82,6 +82,8 @@ public class ServerUtente extends Thread {
 		if(servizioRichiesto.equals("aggiungiInteresse")) {
 			List<Object> listaArgomenti = richiestaDaBroker.getArgomenti();
 			Interessi interesse = (Interessi) listaArgomenti.get(0);
+			Utente u = (Utente) listaArgomenti.get(1);
+			utentec.setU(u);
 			boolean esito =utentec.aggiungiInteressi(interesse);
 			List<Boolean> listaEsiti = new ArrayList<Boolean>();
 			listaEsiti.add(esito);

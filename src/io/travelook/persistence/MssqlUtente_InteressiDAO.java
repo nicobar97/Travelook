@@ -25,7 +25,7 @@ public class MssqlUtente_InteressiDAO implements IUtente_InteressiDAO{
 	//
 	@Override
 	public boolean create(Utente u, Interessi i) {
-		String queryAdd = "INSERT INTO Utente_Interessi(idUtente,idInteresse) VALUES(?,?)";
+		String queryAdd = "INSERT INTO Utente_Interessi (idUtente,idInteresse) VALUES (?,?)";
 		int idint=-1;
 		for(int k=0; k<Interessi.values().length; k++) {
 			if(Interessi.values()[k].compareTo(i) == 0)

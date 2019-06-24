@@ -139,7 +139,11 @@ public class VisitaUtente extends Application {
             if(user.getInteressi() != null)
             	interessi.setText(formatInteressi(user.getInteressi()));
             bio.setText(user.getBio());
-            if(user.getImmagineProfilo() != null && !user.getImmagineProfilo().trim().equals("") && new File("src/"+user.getImmagineProfilo().trim()).exists())
+            if(user.getUsername().length() > 12)
+            	username.setStyle("-fx-font: 20 arial;");
+            else
+            	username.setStyle("-fx-font: 25 arial;");
+            if(user.getImmagineProfilo() != null && !user.getImmagineProfilo().trim().equals(""))
         		userImage.setImage(new Image(user.getImmagineProfilo().trim()));
             refreshRecensioni();
             recArea.setOnMouseClicked(event -> {

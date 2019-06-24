@@ -227,11 +227,12 @@ public class ClientProxy {
 		return reply.getValori();
 		}
 	
-	public boolean aggiungiInteressi(Interessi interesse) throws UnknownHostException, IOException, ClassNotFoundException{
+	public boolean aggiungiInteressi(Interessi interesse,Utente u) throws UnknownHostException, IOException, ClassNotFoundException{
 	  initSocket();
-	  List<Interessi> argomentiRichiesta = new ArrayList<Interessi>();
+	  List<Object> argomentiRichiesta = new ArrayList<Object>();
 		argomentiRichiesta.add(interesse);
-		Richiesta r = new Richiesta<Interessi>(s.getLocalSocketAddress().toString(),
+		argomentiRichiesta.add(u);
+		Richiesta r = new Richiesta<Object>(s.getLocalSocketAddress().toString(),
 				s.getLocalPort(),argomentiRichiesta, "aggiungiInteresse");
 		oos.writeObject(r);
 		Risposta<Boolean> reply = (Risposta<Boolean>) ois.readObject();
@@ -473,6 +474,7 @@ public class ClientProxy {
 		initSocket();
 		List<RichiestaDiPartecipazione> argomentiRichiesta = new ArrayList<RichiestaDiPartecipazione>();
 		argomentiRichiesta.add(risposta);
+		System.out.println(risposta.getStato() + "!!!!!!");
 		Richiesta<RichiestaDiPartecipazione> ric = new Richiesta<RichiestaDiPartecipazione>(s.getLocalSocketAddress().toString(),
 				s.getLocalPort(),argomentiRichiesta, "rispondiRichiesta");
 		oos.writeObject(ric);

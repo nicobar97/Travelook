@@ -10,5 +10,9 @@ public enum Interessi implements Serializable {
    ARTE,
    MUSICA,
    MODA,
-   ALTRO;
+   LIBRI, 
+   TV,
+   COLLEZIONISMO,
+   COMICS,
+   PLACEHOLDER2;
 }
