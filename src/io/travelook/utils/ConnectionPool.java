@@ -15,13 +15,11 @@ import org.apache.commons.pool.impl.GenericObjectPool;
 public class ConnectionPool {
  
     // JDBC Driver Name & Database URL
-    static final String JDBC_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";  
-    static final String JDBC_DB_URL = "jdbc:sqlserver://travelook.database.windows.net:1433;database=travelook;\"\n" + 
-    		"			+ \"user=travelook@travelook;password=travel_2019;encrypt=true;trustServerCertificate=false;\"\n" + 
-    		"			+ \"hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";  
+    static final String JDBC_DB_URL = "jdbc:mysql://localhost/travelook?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     // JDBC Database Credentials
-    static final String JDBC_USER = "travelook";
-    static final String JDBC_PASS = "travel_2019";
+    static final String JDBC_USER = "root";
+    static final String JDBC_PASS = "travelook";
  
     private static GenericObjectPool gPool = null;
  

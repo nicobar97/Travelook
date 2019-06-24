@@ -14,13 +14,12 @@ import io.travelook.model.Utente;
 public class MssqlLoginDAO extends Controller implements LoginDAO {
 	
 	private Connection dbCredenziali;
-	private final String JDBC_URL = "jdbc:sqlserver://travelook.database.windows.net:1433;database=travelook;"
-			+ "user=travelook@travelook;password=travel_2019;encrypt=true;trustServerCertificate=false;"
-			+ "hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+	private final String JDBC_URL = "jdbc:mysql://localhost/travelook?user=root&password=travelook&useUnicode=true"
+			+ "&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	public static String insert = "INSERT INTO Credenziali(Username, Hash) VALUES(?,?)";
 	public static String read_hash = "select Hash from Credenziali where Username = ?";
 
-	public MssqlLoginDAO() {
+	public MssqlLoginDAO() {jdbc:mysql://localhost/travelook?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
 		dbCredenziali = getDbConnection();
 	}
 	@Override
@@ -93,7 +92,7 @@ public class MssqlLoginDAO extends Controller implements LoginDAO {
 	}
 	public Connection getDbConnection() {
 		try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             if(dbCredenziali != null && dbCredenziali.isValid(0))
             	return dbCredenziali;
             dbCredenziali = DriverManager.getConnection(JDBC_URL);
