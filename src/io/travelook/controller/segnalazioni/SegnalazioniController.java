@@ -1,8 +1,10 @@
 package io.travelook.controller.segnalazioni;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.travelook.controller.Controller;
+import io.travelook.model.Entry;
 import io.travelook.model.Segnalazione;
 import io.travelook.persistence.MssqlSegnalazioniDAO;
 
@@ -27,6 +29,10 @@ public class SegnalazioniController extends Controller implements ISegnalazioni 
     	db.create(s);
     	res=true;
         }
+        Date d=new Date();
+        Entry e=new Entry(1,s.getSegnalante().getId(),d,"segnalaUtente"," ");
+        super.openWriterLog("hello2.txt");
+        super.scriviOperazioneLog(e);
         return res;
     }
     

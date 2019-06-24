@@ -1,5 +1,7 @@
 package io.travelook.controller;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Path;
 import java.sql.Connection;
@@ -9,6 +11,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import io.travelook.controller.logger.Logger;
 import io.travelook.model.Entry;
 import io.travelook.utils.ConnectionPool;
 
@@ -17,6 +20,7 @@ public abstract class Controller implements IController {
 	//private Connection connessione = null;
 	private DataSource dataSource =  null;
 	private ConnectionPool jdbcObj = null;
+	private Logger log=null;
 	
 	public Controller() {
 			jdbcObj = new ConnectionPool();
@@ -42,15 +46,21 @@ public abstract class Controller implements IController {
 	}
 
 	@Override
-	public Writer openWriterLog(Path logPath) {
-		// TODO Auto-generated method stub
-		return null;
+	public Writer openWriterLog(String logPath) {
+		this.log=new Logger(logPath);
+		FileWriter fw=null;
+		try {
+			 fw=new FileWriter(log.getFile(),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return fw;
 	}
 
 	@Override
 	public void scriviOperazioneLog(Entry entryLog) {
-		// TODO Auto-generated method stub
-
+		log.scriviEntry(entryLog);
 	}
 
 }
