@@ -133,7 +133,7 @@ public class Broker extends Thread {
 			//ListaAnnunciController lac = new ListaAnnunciController();
 		
 			ServerSocket sSock = new ServerSocket(3999);
-			System.out.println("Il Broker � in attesa sulla porta 4000.");
+			System.out.println("Il Broker � in attesa sulla porta 3999.");
 			while(true) {
 			Socket socket = sSock.accept();
 			System.out.println("Arrivata richiesta, lancio thread");

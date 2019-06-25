@@ -274,3 +274,74 @@
 274;2;24/06/2019/21/09/55;setU; 
 275;1;24/06/2019/21/09/55;visualizzaRecensioni; 
 276;1;24/06/2019/21/11/08;getAnnunci; 
+277;2;24/06/2019/21/15/42;creaAnnuncio; 
+278;1;24/06/2019/21/15/43;getAnnunci; 
+279;2;24/06/2019/21/16/05;attachInteressiToUser; 
+280;2;24/06/2019/21/16/05;setU; 
+281;1;24/06/2019/21/16/05;visualizzaStorico; 
+282;2;24/06/2019/21/16/05;setU; 
+283;1;24/06/2019/21/16/06;getViaggiInPartecipazione; 
+284;2;24/06/2019/21/16/06;getRichiesteForCreatore; 
+285;2;24/06/2019/21/16/06;setU; 
+286;1;24/06/2019/21/16/06;visualizzaRecensioni; 
+287;1;24/06/2019/21/16/12;getAnnunci; 
+288;2;24/06/2019/21/16/14;getRichiesteForCreatoreViaggio; 
+289;1;24/06/2019/21/16/14;getChat;per viaggio numero 2
+290;1;24/06/2019/21/16/15;getAnnunci; 
+291;1;24/06/2019/21/16/26;verificaCredenziali; mario.rossi
+292;1;24/06/2019/21/16/26;getIdUtenteFromUsername; username mario.rossi
+293;1;24/06/2019/21/16/27;getUtenteById; 
+294;1;24/06/2019/21/16/27;setU; 
+295;1;24/06/2019/21/16/27;getAnnunci; 
+296;1;24/06/2019/21/16/32;getAnnunci; 
+297;0;24/06/2019/21/18/15;registraUtente; 
+298;1;24/06/2019/21/18/28;verificaCredenziali; lorenzonesi
+299;1;24/06/2019/21/18/28;getIdUtenteFromUsername; username lorenzonesi
+300;3;24/06/2019/21/18/28;getUtenteById; 
+301;3;24/06/2019/21/18/28;setU; 
+302;1;24/06/2019/21/18/28;getAnnunci; 
+303;3;24/06/2019/21/18/45;addRichiesta; 
+304;3;24/06/2019/21/18/45;nuovaRichiesta; 
+305;3;24/06/2019/21/18/45;notifyCreatore; 
+306;1;24/06/2019/21/18/54;getAnnunci; 
+307;1;24/06/2019/21/19/10;verificaCredenziali; maria.bianchi
+308;1;24/06/2019/21/19/10;getIdUtenteFromUsername; username maria.bianchi
+309;2;24/06/2019/21/19/10;getUtenteById; 
+310;2;24/06/2019/21/19/10;setU; 
+311;1;24/06/2019/21/19/10;getAnnunci; 
+312;2;24/06/2019/21/19/14;getRichiesteForCreatoreViaggio; 
+313;1;24/06/2019/21/19/14;getChat;per viaggio numero 2
+314;3;24/06/2019/21/19/38;rispondiRichiesta; 
+315;2;24/06/2019/21/19/38;getRichiesteForCreatoreViaggio; 
+316;3;24/06/2019/21/20/03;rispondiRichiesta; 
+317;2;24/06/2019/21/20/03;getRichiesteForCreatoreViaggio; 
+318;3;24/06/2019/21/20/18;rispondiRichiesta; 
+319;2;24/06/2019/21/20/18;getRichiesteForCreatoreViaggio; 
+320;2;24/06/2019/21/20/24;getRichiesteForCreatoreViaggio; 
+321;1;24/06/2019/21/20/24;getChat;per viaggio numero 2
+322;1;24/06/2019/21/20/25;getAnnunci; 
+323;2;24/06/2019/21/20/27;getRichiesteForCreatoreViaggio; 
+324;1;24/06/2019/21/20/27;getChat;per viaggio numero 2
+325;3;24/06/2019/21/20/34;rispondiRichiesta; 
+326;2;24/06/2019/21/20/34;getRichiesteForCreatoreViaggio; 
+327;1;24/06/2019/21/21/23;verificaCredenziali; maria.bianchi
+328;1;24/06/2019/21/21/23;getIdUtenteFromUsername; username maria.bianchi
+329;2;24/06/2019/21/21/23;getUtenteById; 
+330;2;24/06/2019/21/21/23;setU; 
+331;1;24/06/2019/21/21/24;getAnnunci; 
+332;2;24/06/2019/21/21/28;getRichiesteForCreatoreViaggio; 
+333;1;24/06/2019/21/21/28;getChat;per viaggio numero 2
+334;1;24/06/2019/21/21/30;getAnnunci; 
+335;2;24/06/2019/21/21/31;attachInteressiToUser; 
+336;2;24/06/2019/21/21/31;setU; 
+337;1;24/06/2019/21/21/31;visualizzaStorico; 
+338;2;24/06/2019/21/21/31;setU; 
+339;1;24/06/2019/21/21/31;getViaggiInPartecipazione; 
+340;2;24/06/2019/21/21/31;getRichiesteForCreatore; 
+341;2;24/06/2019/21/21/31;setU; 
+342;1;24/06/2019/21/21/31;visualizzaRecensioni; 
+343;3;24/06/2019/21/21/43;updateRichiesta; 
+344;2;24/06/2019/21/21/43;notifyUtente; 
+345;3;24/06/2019/21/21/43;rispondiRichiesta; 
+346;2;24/06/2019/21/21/43;getRichiesteForCreatoreViaggio; 
+347;1;24/06/2019/21/21/46;getAnnunci; 
